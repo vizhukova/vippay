@@ -1,3 +1,5 @@
-/**
- * Created by sergey on 28.12.15.
- */
+var config = require('./config');
+
+var knex = require('knex')(config.get('db'));
+
+module.exports = require('bookshelf')(knex);
