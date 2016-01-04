@@ -10,8 +10,16 @@ class Login extends React.Component {
 
     render() {
         return <div>
-            Логин
-        </div>
+            <div className="row">
+			<div className="form-group">
+				<input type="text" name="email" id="email" className="form-control input-lg" placeholder="Email Address" tabIndex="1" />
+			</div>
+            <div className="form-group">
+				<input type="text" name="password" id="password" className="form-control input-lg" placeholder="Password" tabIndex="2" />
+			</div>
+            </div>
+            </div>
+
     }
 }
 

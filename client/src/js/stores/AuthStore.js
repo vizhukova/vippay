@@ -1,5 +1,5 @@
-var alt = require('../alt');
-var AppActions = require('../actions/AppActions');
+import alt from '../alt';
+import AuthActions from './../actions/AuthActions';
 
 class AuthStore {
 
@@ -7,11 +7,11 @@ class AuthStore {
         this.auth = false;
 
         this.bindListeners({
-            setAuth: AppActions.SET_AUTH
+            onCheck: AuthActions.CHECK
         });
     }
 
-    setAuth(auth){
+    onCheck(auth){
         this.auth = auth;
     }
 }
