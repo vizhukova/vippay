@@ -1,5 +1,4 @@
-var config = require('./config');
 
-var knex = require('knex')(config.get('db'));
+var knex = require('./knex')
 
 module.exports = require('bookshelf')(knex);

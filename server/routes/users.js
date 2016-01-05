@@ -3,23 +3,37 @@ var router = express.Router();
 var UserController = require('../controllers/User');
 
 
-router.post('/register', function(req, res){
-
+/*router.get('/register', function(req, res){
     UserController.register({
+        name: req.body.name,
         login: req.body.login,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
     }).then(function(user){
         res.send(user)
     }).catch(function(err){
         res.send(err)
     })
 
-});
+});*/
 
-router.get('/register', function(req, res){
+router.post('/register', function(req, res){
 
-    res.send('ok')
+    Object.keys(req.body).map((k) => {
+        if(req.body[k] === '') req.body[k] = null
+    })
+
+    UserController.register({
+        name: req.body.name,
+        login: req.body.login,
+        email: req.body.email,
+        password: req.body.password,
+        password_confirm: req.body.password_confirm
+    }).then(function(user){
+        res.send(user)
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
 
 });
 

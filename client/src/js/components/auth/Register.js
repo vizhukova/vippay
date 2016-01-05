@@ -1,45 +1,82 @@
 import React from 'react'
+import ApiActions from './../../actions/ApiActions'
 
 
 class Register extends React.Component {
 
     constructor() {
         super();
-        this.state = {};
+		this.onChange = this.onChange.bind(this);
+		this.register = this.register.bind(this);
+
+        /*this.state = {
+			errors: {
+				login: [
+					"Такой логин уже существует",
+					"Поле 'логин' не может быть пустым",
+					"Слишком длинный логин"
+				],
+				password: [
+					"Пароли не совпадают",
+					"Поле 'пароль' не может быть пустым",
+					"Слишком длинный пароль"
+				],
+				name: [
+					"Поле 'ФИО' не может быть пустым",
+					"Слишком длинное ФИО"
+				],
+				email: [
+					"Не верный формат email",
+					"Поле 'электронная почта' не может быть пустым",
+					"Слишком длинная электронная почта"
+				]
+			}
+		};*/
+    }
+
+	onChange(e){
+        console.log(e.target.name)
+		console.log(e.target.value)
+
+		var state = {};
+
+		state[e.target.name] = e.target.value;
+		this.setState(state);
+    }
+
+	register() {
+		debugger
+		console.log('!!!')
+		console.log(this.state)
+        ApiActions.post('register', this.state)
+			.then(function(data){console.log(data)})
+			.catch(function(err){console.log(err + 'error')})
     }
 
     render() {
         return <div>
-            <div className="row">
-				<div className="col-xs-6 col-sm-6 col-md-6">
-					<div className="form-group">
-                        <input type="text" name="first_name" id="first_name" className="form-control input-lg" placeholder="First Name" tabIndex="1" />
-					</div>
-				</div>
-				<div className="col-xs-6 col-sm-6 col-md-6">
-					<div className="form-group">
-						<input type="text" name="last_name" id="last_name" className="form-control input-lg" placeholder="Last Name" tabIndex="2" />
-					</div>
-				</div>
+            <div className="form-group">
+				<input type="text" name="login" id="login" className="form-control input-lg" onChange={this.onChange} placeholder="Логин" tabIndex="1"  required/>
 			</div>
 			<div className="form-group">
-				<input type="text" name="display_name" id="display_name" className="form-control input-lg" placeholder="Display Name" tabIndex="3" />
+				<input type="text" name="name" id="full_name" className="form-control input-lg" onChange={this.onChange} placeholder="ФИО" tabIndex="2" />
 			</div>
 			<div className="form-group">
-				<input type="email" name="email" id="email" className="form-control input-lg" placeholder="Email Address" tabIndex="4" />
+				<input type="email" name="email" id="email" className="form-control input-lg" onChange={this.onChange} placeholder="Электронная почта" tabIndex="3" required />
 			</div>
 			<div className="row">
 				<div className="col-xs-6 col-sm-6 col-md-6">
 					<div className="form-group">
-						<input type="password" name="password" id="password" className="form-control input-lg" placeholder="Password" tabIndex="5" />
+						<input type="password" name="password" id="password" className="form-control input-lg" onChange={this.onChange} placeholder="Пароль" tabIndex="4" />
 					</div>
 				</div>
 				<div className="col-xs-6 col-sm-6 col-md-6">
 					<div className="form-group">
-						<input type="password" name="password_confirmation" id="password_confirmation" className="form-control input-lg" placeholder="Confirm Password" tabIndex="6" />
+						<input type="password" name="password_confirm" id="password_confirm" className="form-control input-lg" onChange={this.onChange} placeholder="Подтвердите пароль" tabIndex="5" />
 					</div>
 				</div>
 			</div>
+			<div className="btn btn-primary btn-block" onClick={this.register}>Отправить</div>
             </div>
     }
 }

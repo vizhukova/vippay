@@ -2,6 +2,7 @@ var checkit = require('checkit');
 var Promise = require('bluebird');
 //var bcrypt = Promise.promisifyAll(require('bcrypt'));
 var bookshelf = require('../db');
+var knex = require('../knex');
 
 var User = bookshelf.Model.extend({
 
@@ -16,10 +17,30 @@ var User = bookshelf.Model.extend({
 
     validateSave: function () {
         return checkit({
-            email: {
+            email: ['email', function(val) {
+                return knex('users').where('email', '=', val).then(function(resp) {
+                    if (resp.length > 0) throw new Error('Такой электронный адрес уже существует')
+                })
+            }, {
                 rule: 'email',
                 message: 'Введите верный email'
-            }
+            }],
+            name: [{
+                rule: 'required',
+                message: 'Поле "ФИО" обязательно для заполнения'
+            }],
+            login: ['login', function(val) {
+                return knex('users').where('login', '=', val).then(function(resp) {
+                    if (resp.length > 0) throw new Error('Такой логин уже существует')
+                })
+            }, {
+                rule: 'required',
+                message: 'Поле "логин" обязательно для заполнения'
+            }],
+            password:[{
+                rule: 'required',
+                message: 'Поле "пароль" обязательно для заполнения'
+            }]
         }).run(this.attributes);
     }
 
@@ -37,7 +58,7 @@ var User = bookshelf.Model.extend({
     }),
 
     register: Promise.method(function (user) {
-        var record = new this({login: user.login.toLowerCase().trim(), email: user.email, password: user.password});
+        var record = new this({name: user.name, login: user.login, email: user.email, password: user.password});
         return record.save();
     })
 

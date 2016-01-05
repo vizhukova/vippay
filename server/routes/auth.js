@@ -3,8 +3,8 @@ var router = express.Router();
 
 router.get('/check', function(req, res){
 
-    //res.status(200).send('ok')
-    res.status(401).send('not ok')
+    res.status(200).send('ok')
+    //res.status(401).send('not ok')
 
 });
 
