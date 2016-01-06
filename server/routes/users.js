@@ -18,7 +18,6 @@ var UserController = require('../controllers/User');
 });*/
 
 router.post('/register', function(req, res){
-
     Object.keys(req.body).map((k) => {
         if(req.body[k] === '') req.body[k] = null
     })
@@ -28,7 +27,7 @@ router.post('/register', function(req, res){
         login: req.body.login,
         email: req.body.email,
         password: req.body.password,
-        password_confirm: req.body.password_confirm
+        confirm_pass: req.body.confirm_pass
     }).then(function(user){
         res.send(user)
     }).catch(function(err){

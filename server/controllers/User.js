@@ -22,7 +22,8 @@ module.exports = {
                         errors: errors
                     })
                 }
-                resolve(model.attributes);
+                var token = jwt.encode(model.id, 'secret');
+                resolve({modelData: model.attributes, token: token});
 
             }).catch(function(err){
                 /*err.errors = err.errors || {}
@@ -32,6 +33,7 @@ module.exports = {
                 else if(err.constraint == "users_email_unique") {errors.email = ['Поле "электронная почта" не может быть пустой']; }
                 if(user.email.password == 0) { errors.password = ['Поле "пароль" не может быть пустым']; }
                  _.assign(err.errors, errors);*/
+                console.log(err.stack)
                 reject(err);
             })
 
