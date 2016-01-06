@@ -54,12 +54,12 @@ class Register extends React.Component {
 		if(!this.state.password || this.state.password.length == 0) {this.state.errors.password = ["Поле 'пароль' должно быть заполнено"]; empty = true;}
 
 		if( empty ) {
-			alert('Все поля должны быть заполнены');
+			//alert('Все поля должны быть заполнены');
 			return false;
 		}
 
 		if(this.state.password !== this.state.confirm_pass) {
-			alert('Пароли не совпадают');
+			//alert('Пароли не совпадают');
 			return false;
 		}
 
@@ -68,6 +68,7 @@ class Register extends React.Component {
 
     render() {
 		var baseClass = "form-control input-lg";
+
         return <div>
             <div className="form-group">
 				<input type="text" name="login" id="login" className={this.state.errors.login ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Логин" tabIndex="1"  required/>

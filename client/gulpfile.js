@@ -19,6 +19,7 @@ var path = {
     OUT: 'build.js',
     CSS_OUT: 'styles.css',
     DEST: '../server/public',
+    VENDOR_ENTRY_POINT: './src/js/vendor.js',
     ENTRY_POINT: './src/js/app.js'
 };
 
@@ -42,8 +43,23 @@ gulp.task('js', function(){
         .pipe(gulp.dest(path.DEST));
 });
 
+gulp.task('vendor', function(){
+    var b = browserify();
+    b.transform("babelify", {presets: ["es2015", "react"]});
+    b.add(path.VENDOR_ENTRY_POINT);
+    return b.bundle()
+        .pipe(source('vendor.js'))
+        .pipe(buffer())
+        .pipe(uglify({
+            output: {
+                ascii_only: true
+            }
+        }))
+        .pipe(gulp.dest(path.DEST));
+});
+
 gulp.task('watch', function() {
-    gulp.watch('./src/js/**/*.js', ['js']);
+    gulp.watch('./src/js/**/*.js', ['js', 'vendor']);
     gulp.watch('./src/scss/**/*.scss', ['scss']);
     gulp.watch('./*.html', ['replaceHTML']);
 });
@@ -100,4 +116,4 @@ gulp.task('res', function () {
 //    app.listen(8000);
 //});
 
-gulp.task('default', ["watch", 'js', 'sass', 'res', 'replaceHTML']);
+gulp.task('default', ["watch", 'js', 'vendor', 'sass', 'res', 'replaceHTML']);

@@ -36,4 +36,20 @@ router.post('/register', function(req, res){
 
 });
 
+router.post('/login', function(req, res){
+    Object.keys(req.body).map((k) => {
+        if(req.body[k] === '') req.body[k] = null
+});
+
+    UserController.login({
+        email: req.body.email,
+        password: req.body.password
+    }).then(function(user){
+        res.send(user)
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
+
+});
+
 module.exports = router;

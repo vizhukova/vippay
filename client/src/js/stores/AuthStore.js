@@ -4,7 +4,7 @@ import AuthActions from './../actions/AuthActions';
 class AuthStore {
 
     constructor() {
-        this.auth = false;
+        this.auth = true;
 
         this.bindListeners({
             onCheck: AuthActions.CHECK
