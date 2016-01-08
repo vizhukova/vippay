@@ -2,7 +2,7 @@ var checkit = require('checkit');
 var Promise = require('bluebird');
 //var bcrypt = Promise.promisifyAll(require('bcrypt'));
 var bookshelf = require('../db');
-var knex = require('../knex');
+var knex = require('../knex_connection');
 
 var User = bookshelf.Model.extend({
 

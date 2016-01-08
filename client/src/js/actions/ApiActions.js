@@ -50,7 +50,6 @@ class ApiActions{
                     auth: token,
                 },
                 error(response){
-                    debugger
                     var error = new Error(response.responseText);
                     reject(error);
                 }

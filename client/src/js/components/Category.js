@@ -21,11 +21,13 @@ class Category extends React.Component {
     }
 
     update(state){
+        debugger
         console.log(state.categories)
-        this.setState(state);
+        /*this.state.categories.map(function(item, index){
+            console.log(item.category)
+        }*/
+        //this.setState(state);
     }
-
-
 
     render(){
 
@@ -33,10 +35,11 @@ class Category extends React.Component {
             <div className="row">
                 <div className="col-sm-3">
                     <ul className="nav nav-pills nav-stacked">
-                        { this.state.categories.map(function(i, index){
-                        return <li key={index}><Link className="list-group-item" to="/category/1">Категория {index}</Link></li>
+                        { this.state.categories.map(function(item, index){
+                        return <li key={index}><Link className="list-group-item" to="/category/1">{item.category}</Link></li>
                         })}
                     </ul>
+                    <Link to="/category/new"> <button type="button" className="btn btn-default btn-block">Добавить категорию</button></Link>
                 </div>
                 <div className="col-sm-9">
 

@@ -1,4 +1,4 @@
 
-var knex = require('./knex')
+var knex = require('./knex_connection')
 
 module.exports = require('bookshelf')(knex);
