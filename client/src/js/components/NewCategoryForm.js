@@ -11,10 +11,17 @@ class Category extends React.Component {
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
         this.addNewCategory = this.addNewCategory.bind(this);
+        this.getCurrentCategory = this.getCurrentCategory.bind(this);
     }
 
     componentDidMount() {
+        debugger
+        console.log(this.props.params.id)
+        if(this.props.params.id) {
+            this.getCurrentCategory(this.props.params.id);
+        }
         CategoriesStore.listen(this.update);
+
        // CategoriesAction.addNewCategory(this.state);
     }
 
@@ -22,7 +29,12 @@ class Category extends React.Component {
         CategoriesStore.unlisten(this.update);
     }
 
+    getCurrentCategory(id) {
+        CategoriesAction.getCurrentCategory(id);
+    }
+
     addNewCategory() {
+        debugger
         if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
         CategoriesAction.addNewCategory(this.state);
     }

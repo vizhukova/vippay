@@ -8,14 +8,13 @@ class CategoriesStore {
         this.category = "";
         this.bindListeners({
             onCheck: CategoriesAction.GET_ALL_CATEGORIES,
-            onAddNewCat: CategoriesAction.ADD_NEW_CATEGORY
+            onAddNewCat: CategoriesAction.ADD_NEW_CATEGORY,
+            onGetCurrentCat: CategoriesAction.GET_CURRENT_CATEGORY
         });
     }
 
     onCheck(categories){
-        categories.forEach(function(item){
-
-        })
+        this.categories = categories;
     }
 
     onAddNewCat(category){
@@ -26,6 +25,10 @@ class CategoriesStore {
             return
         }
         this.categories = categories;
+    }
+
+    onGetCurrentCat(category) {
+        this.currCategories = category;
     }
 
 }

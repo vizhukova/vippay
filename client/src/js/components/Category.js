@@ -7,6 +7,9 @@ class Category extends React.Component {
 
     constructor(){
         super();
+        /*this.state = {
+            edit: false
+        }*/
         this.state = CategoriesStore.getState();
         this.update = this.update.bind(this);
     }
@@ -20,13 +23,15 @@ class Category extends React.Component {
         CategoriesStore.unlisten(this.update);
     }
 
+    editCategories() {
+        this.setState({
+            edit: !this.state.edit
+        })
+    }
+
     update(state){
-        debugger
         console.log(state.categories)
-        /*this.state.categories.map(function(item, index){
-            console.log(item.category)
-        }*/
-        //this.setState(state);
+        this.setState(state);
     }
 
     render(){
@@ -36,10 +41,17 @@ class Category extends React.Component {
                 <div className="col-sm-3">
                     <ul className="nav nav-pills nav-stacked">
                         { this.state.categories.map(function(item, index){
-                        return <li key={index}><Link className="list-group-item" to="/category/1">{item.category}</Link></li>
+                        return <li key={index}><Link className="list-group-item" to={`/category/${item.id}`}>{item.category}
+                        </Link>
+                            <button type="button" className="btn btn-danger pull-right btn-xs">Х</button>
+                            <Link to={`/category/${item.id}/edit`}>
+                                <button type="button" className="btn btn-warning pull-right btn-xs">Редакт</button>
+                            </Link>
+                        </li>
                         })}
                     </ul>
                     <Link to="/category/new"> <button type="button" className="btn btn-default btn-block">Добавить категорию</button></Link>
+                   <button type="button" className="btn btn-default btn-block" onClick={this.editCategories}>Редактировать категории</button>
                 </div>
                 <div className="col-sm-9">
 

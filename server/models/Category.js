@@ -38,7 +38,7 @@ var Category = bookshelf.Model.extend({
     }),
 
     getAllCategories: Promise.method(function () {
-        return knex.select('category').from('categories')
+        return knex.select('id', 'category').from('categories')
     })
 })
 

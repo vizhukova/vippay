@@ -15,6 +15,16 @@ router.get('/category', function(req, res){
 
 });
 
+router.get('/category/:id', function(req, res){
+
+    CategoryController.getCurrentCategories().then(function(category){
+        res.send(category)
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
+
+});
+
 router.post('/category/new', function(req, res){
 
     /*var data = new Array(10).fill('1');
@@ -26,8 +36,8 @@ router.post('/category/new', function(req, res){
 
     CategoryController.newCategory({
         category: req.body.category,
-    }).then(function(user){
-        res.send(user)
+    }).then(function(category){
+        res.send(category)
     }).catch(function(err){
         res.status(400).send(err.errors)
     })
