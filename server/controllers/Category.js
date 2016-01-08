@@ -6,12 +6,12 @@ var _ = require('lodash');
 module.exports = {
 
     newCategory(category){
-        return new Promise(function(resolve, reject){
+        return new Promise(function (resolve, reject) {
 
-            Category.newCategory(category.category).then(function(model){
+            Category.newCategory(category.category).then(function (model) {
                 resolve(model);
 
-            }).catch(function(err){
+            }).catch(function (err) {
                 debugger
                 console.log(err.stack)
                 reject(err);
@@ -22,12 +22,12 @@ module.exports = {
     },
 
     getAllCategories() {
-        return new Promise(function(resolve, reject){
+        return new Promise(function (resolve, reject) {
 
-            Category.getAllCategories().then(function(model){
+            Category.getAllCategories().then(function (model) {
                 resolve(model);
 
-            }).catch(function(err){
+            }).catch(function (err) {
                 console.log(err.stack)
                 reject(err);
             })
@@ -36,5 +36,14 @@ module.exports = {
 
     },
 
-    getCurrentCategories(){}
+    getCurrentCategories(id){
+        return new Promise(function (resolve, reject) {
+            Category.getCurrentCategories(id).then(function (category) {
+                resolve(category);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+        })
+    }
 };

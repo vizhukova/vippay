@@ -6,6 +6,7 @@ class CategoriesStore {
     constructor() {
         this.categories = [];
         this.category = "";
+        this.edit = false;
         this.bindListeners({
             onCheck: CategoriesAction.GET_ALL_CATEGORIES,
             onAddNewCat: CategoriesAction.ADD_NEW_CATEGORY,

@@ -2,6 +2,17 @@ var CategoryController = require('../controllers/Category')
 var express = require('express');
 var router = express.Router();
 
+
+router.get('/category/:id', function(req, res){
+    console.log(req.params.id)
+    CategoryController.getCurrentCategories(req.params.id).then(function(category){
+        res.send(category)
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
+
+});
+
 router.get('/category', function(req, res){
 
     /*var data = new Array(10).fill('1');
@@ -15,15 +26,6 @@ router.get('/category', function(req, res){
 
 });
 
-router.get('/category/:id', function(req, res){
-
-    CategoryController.getCurrentCategories().then(function(category){
-        res.send(category)
-    }).catch(function(err){
-        res.status(400).send(err.errors)
-    })
-
-});
 
 router.post('/category/new', function(req, res){
 

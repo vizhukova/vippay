@@ -39,7 +39,11 @@ var Category = bookshelf.Model.extend({
 
     getAllCategories: Promise.method(function () {
         return knex.select('id', 'category').from('categories')
-    })
+    }),
+
+    getCurrentCategories: Promise.method(function (id) {
+    return knex.select('id', 'category').from('categories').where('id', id);
+})
 })
 
 module.exports = Category;

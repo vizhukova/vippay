@@ -23,7 +23,7 @@ import Products from './components/Products';
                 <Route path="/home" component={Home} />
                 <Route path="/category" component={Category}>
                     <Route path="new" component={NewCategoryForm} />
-                    <Route path=":id" component={Products} />
+                    <Route path=":id" component={NewCategoryForm} />
                     <Route path=":id/edit" component={NewCategoryForm} />
                     /*<Route path="product/new" component={Products} />
                     <Route path="product/:id/edit" component={Products} />
