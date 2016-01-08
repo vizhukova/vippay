@@ -37,6 +37,14 @@ var Category = bookshelf.Model.extend({
        return record.save();
     }),
 
+    editCategory: Promise.method(function (categoryObj) {
+       if (!categoryObj.category)
+           throw new Error('Поле "категория" обязательна');
+        /*var record = new this({category: category});
+       return record.save();*/
+        return knex('categories').where('id', categoryObj.id).update({category: categoryObj.category});
+    }),
+
     getAllCategories: Promise.method(function () {
         return knex.select('id', 'category').from('categories')
     }),

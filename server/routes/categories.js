@@ -46,5 +46,21 @@ router.post('/category/new', function(req, res){
 
 });
 
+router.post('/category/:id', function(req, res){
+
+    Object.keys(req.body).map((k) => {
+        if(req.body[k] === '') req.body[k] = null
+    })
+
+    CategoryController.editCategory({
+        category: req.body.category,
+    }).then(function(category){
+        res.send(category)
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
+
+});
+
 
 module.exports = router;

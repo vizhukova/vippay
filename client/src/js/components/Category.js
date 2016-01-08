@@ -7,9 +7,10 @@ class Category extends React.Component {
 
     constructor(){
         super();
-        debugger
         this.state = CategoriesStore.getState();
         this.update = this.update.bind(this);
+        this.onEditClick = this.onEditClick.bind(this);
+        this.deleteCategory = this.deleteCategory.bind(this);
     }
 
     componentDidMount() {
@@ -21,10 +22,14 @@ class Category extends React.Component {
         CategoriesStore.unlisten(this.update);
     }
 
-    editCategories() {
+    onEditClick() {
         this.setState({
             edit: !this.state.edit
         })
+    }
+
+    deleteCategory() {
+        console.log(this)
     }
 
     update(state){
@@ -40,19 +45,19 @@ class Category extends React.Component {
         return  <div>
             <div className="row">
                 <div className="col-sm-3">
-                    <ul className="nav nav-pills nav-stacked">
+                    <table className="table table-hover">
+                        <tbody>
                         { this.state.categories.map(function(item, index){
-                        return <li key={index}><Link className="list-group-item" /*to={`/category/${item.id}`}*/>{item.category}
-                        </Link>
-                            <button type="button" className={self.state.edit ? `${baseClass} btn-danger` : `${baseClass} btn-danger hidden`}>Х</button>
-                            <Link to={`/category/${item.id}/edit`}>
-                                <button type="button" className={self.state.edit ? `${baseClass} btn-warning` : `${baseClass} btn-warning hidden`}>Редакт</button>
-                            </Link>
-                        </li>
+                        return <tr key={index}>
+                            <td><Link className="list-group-item" to={`/products/${item.id}`}>{item.category}</Link></td>
+                            <td> <button type="button" className={self.state.edit ? `${baseClass} btn-danger` : `${baseClass} btn-danger hidden`} onClick={self.deleteCategory}>Х</button></td>
+                            <td> <Link to={`/category/${item.id}`}><button type="button" className={self.state.edit ? `${baseClass} btn-warning` : `${baseClass} btn-warning hidden`}>Редакт</button></Link></td>
+                        </tr>
                         })}
-                    </ul>
+                        </tbody>
+                    </table>
                     <Link to="/category/new"> <button type="button" className="btn btn-default btn-block">Добавить категорию</button></Link>
-                   <button type="button" className="btn btn-default btn-block" >Редактировать категории</button>
+                   <button type="button" className="btn btn-default btn-block" onClick={this.onEditClick}>{this.state.edit ? "Закончить редактирование" : "Редактировать категории"}</button>
                 </div>
                 <div className="col-sm-9">
 

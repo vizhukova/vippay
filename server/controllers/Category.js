@@ -21,6 +21,21 @@ module.exports = {
 
     },
 
+     editCategory(categoryObj){
+        return new Promise(function (resolve, reject) {
+
+            Category.editCategory(categoryObj.category).then(function (model) {
+                resolve(model);
+
+            }).catch(function (err) {
+                console.log(err.stack)
+                reject(err);
+            })
+
+        })
+
+    },
+
     getAllCategories() {
         return new Promise(function (resolve, reject) {
 

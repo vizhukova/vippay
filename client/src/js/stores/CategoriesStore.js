@@ -28,8 +28,9 @@ class CategoriesStore {
         this.categories = categories;
     }
 
-    onGetCurrentCat(category) {
-        this.currCategories = category;
+    onGetCurrentCat(categoryObj) {
+        this.currCategories = categoryObj;
+        this.category = categoryObj.category;
     }
 
 }

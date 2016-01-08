@@ -23,13 +23,21 @@ class CategoriesAction {
         })
     }
 
+    editCategory(state) {
+        var self = this;
+        ApiActions.post('category/id', {category: {category: state.category, id: state.currCategories[0].id}}).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
+    }
+
     getCurrentCategory(id) {
         var self = this;
         ApiActions.get(`category/${id}`).then(function(data){
             debugger
             self.dispatch(data);
         }).catch(function(err){
-            debugger
             self.dispatch(err);
         })
     }
