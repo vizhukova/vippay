@@ -50,7 +50,7 @@ class Category extends React.Component {
                         <tbody>
                         { this.state.categories.map(function(item, index){
                         return <tr key={index}>
-                            <td><Link className="list-group-item" to={`/products/${item.id}`}>{item.category}</Link></td>
+                            <td><Link className="list-group-item" to={`/category/${item.id}/products`}>{item.category}</Link></td>
                             <td> <Link to={`/category/${item.id}`}><button type="button" className={self.state.edit ? `${baseClass} btn-danger` : `${baseClass} btn-danger hidden`} onClick={self.deleteCategory}>Х</button></Link></td>
                             <td> <Link to={`/category/${item.id}`}><button type="button" className={self.state.edit ? `${baseClass} btn-warning` : `${baseClass} btn-warning hidden`}>Редакт</button></Link></td>
                         </tr>

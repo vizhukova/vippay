@@ -27,17 +27,21 @@ class Products extends React.Component {
 
 
     render(){
-        return <table className="table table-hover">
-            <tbody>
-            { this.state.products.map(function(i, index){
-            return <tr key={index}>
-                <td><img src="" alt="image"/></td>
-                <td>Продукт</td>
-                <td><button type="button" className="btn btn-default pull-right">X</button></td>
-            </tr>
-            })}
-            </tbody>
-        </table>
+        return <div>
+                <button type="button" className="btn btn-default btn-block">Добавить продукт</button>
+                <button type="button" className="btn btn-default btn-block">Редактировать продукты</button>
+                <table className="table table-hover">
+                <tbody>
+                { this.state.products.map(function(i, index){
+                return <tr key={index}>
+                    <td><img src="" alt="image"/></td>
+                    <td>Продукт</td>
+                    <td><button type="button" className="btn btn-default pull-right">X</button></td>
+                </tr>
+                })}
+                </tbody>
+            </table>
+            </div>
     }
 
 
