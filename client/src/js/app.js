@@ -25,6 +25,7 @@ import Products from './components/Products';
                     <Route path="new" component={NewCategoryForm} />
                     <Route path=":id" component={NewCategoryForm} />
                     <Route path=":id/edit" component={NewCategoryForm} />
+                    <Route path=":id/delete" component={NewCategoryForm} />
                     /*<Route path="product/new" component={Products} />
                     <Route path="product/:id/edit" component={Products} />
                     */

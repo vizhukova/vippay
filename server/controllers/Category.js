@@ -24,7 +24,7 @@ module.exports = {
      editCategory(categoryObj){
         return new Promise(function (resolve, reject) {
 
-            Category.editCategory(categoryObj.category).then(function (model) {
+            Category.editCategory(categoryObj).then(function (model) {
                 resolve(model);
 
             }).catch(function (err) {
@@ -60,5 +60,17 @@ module.exports = {
                 reject(err);
             })
         })
-    }
+    },
+
+     deleteCategory(id) {
+        return new Promise(function (resolve, reject) {
+            Category.deleteCategory(id).then(function (category) {
+                resolve(category);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+        })
+     }
+
 };

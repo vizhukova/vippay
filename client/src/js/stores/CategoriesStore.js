@@ -13,7 +13,8 @@ class CategoriesStore {
         this.bindListeners({
             onCheck: CategoriesAction.GET_ALL_CATEGORIES,
             onAddNewCat: CategoriesAction.ADD_NEW_CATEGORY,
-            onGetCurrentCat: CategoriesAction.GET_CURRENT_CATEGORY
+            onGetCurrentCat: CategoriesAction.GET_CURRENT_CATEGORY,
+            onDeleteCat: CategoriesAction.DELETE_CATEGORY
         });
     }
 
@@ -28,11 +29,16 @@ class CategoriesStore {
                 .forEach(function(i){alert(i)})
             return
         }
-        this.categories = categories;
     }
 
     onGetCurrentCat(categoryObj) {
+        debugger
         this.category = categoryObj;
+        console.log(categoryObj)
+    }
+
+    onDeleteCat() {
+
     }
 
 }

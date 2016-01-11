@@ -16,7 +16,8 @@ class CategoriesAction {
 
     addNewCategory(state) {
         var self = this;
-        ApiActions.put('category', {category: state.category}).then(function(data){
+        debugger
+        ApiActions.put('category', {category: state.category.name}).then(function(data){
             this.getAllCategories();
             self.dispatch(data);
         }).catch(function(err){
@@ -26,7 +27,9 @@ class CategoriesAction {
 
     editCategory(state) {
         var self = this;
-        ApiActions.post('category/id', {category: {category: state.category, id: state.currCategories[0].id}}).then(function(data){
+        debugger
+        console.log(state)
+        ApiActions.post('category/id', {categoryObj:  state.category}).then(function(data){
             this.getAllCategories();
             self.dispatch(data);
         }).catch(function(err){
@@ -35,8 +38,16 @@ class CategoriesAction {
     }
 
     getCurrentCategory(id) {
-        var self = this;
         ApiActions.get(`category/${id}`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
+    }
+
+    deleteCategory(id) {
+        debugger
+        ApiActions.remove(`category/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);

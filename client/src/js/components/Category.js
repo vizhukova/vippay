@@ -29,7 +29,8 @@ class Category extends React.Component {
     }
 
     deleteCategory() {
-        console.log(this)
+        debugger
+        CategoriesAction.deleteCategory(this.props.params.id);
     }
 
     update(state){
@@ -50,7 +51,7 @@ class Category extends React.Component {
                         { this.state.categories.map(function(item, index){
                         return <tr key={index}>
                             <td><Link className="list-group-item" to={`/products/${item.id}`}>{item.category}</Link></td>
-                            <td> <button type="button" className={self.state.edit ? `${baseClass} btn-danger` : `${baseClass} btn-danger hidden`} onClick={self.deleteCategory}>Х</button></td>
+                            <td> <Link to={`/category/${item.id}`}><button type="button" className={self.state.edit ? `${baseClass} btn-danger` : `${baseClass} btn-danger hidden`} onClick={self.deleteCategory}>Х</button></Link></td>
                             <td> <Link to={`/category/${item.id}`}><button type="button" className={self.state.edit ? `${baseClass} btn-warning` : `${baseClass} btn-warning hidden`}>Редакт</button></Link></td>
                         </tr>
                         })}

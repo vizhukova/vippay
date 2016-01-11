@@ -32,17 +32,17 @@ var Category = bookshelf.Model.extend({
 
     newCategory: Promise.method(function (categoryObj) {
 
-        if (!categoryObj.category) throw new Error('Поле "категория" обязательна');
-        var record = new this({category: categoryObj.category, user_id: categoryObj.iser_id});
+        if (!categoryObj.name) throw new Error('Поле "категория" обязательна');
+        var record = new this({category: categoryObj.name, user_id: categoryObj.user_id});
         return record.save();
     }),
 
     editCategory: Promise.method(function (categoryObj) {
-        if (!categoryObj.category)
+        if (!categoryObj.categoryObj.name)
             throw new Error('Поле "категория" обязательна');
         /*var record = new this({category: category});
          return record.save();*/
-        return knex('categories').where('id', categoryObj.id).update({category: categoryObj.category});
+        return knex('categories').where('id', categoryObj.categoryObj.id).update({category: categoryObj.categoryObj.name});
     }),
 
     getAllCategories: Promise.method(function () {
@@ -51,6 +51,10 @@ var Category = bookshelf.Model.extend({
 
     getCurrentCategories: Promise.method(function (id) {
         return knex.first('id', 'category').from('categories').where('id', id);
+    }),
+
+    deleteCategory: Promise.method(function (id) {
+        return knex.first('id', 'category').from('categories').where('id', id).del();
     })
 })
 

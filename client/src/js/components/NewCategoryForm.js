@@ -16,7 +16,6 @@ class Category extends React.Component {
     }
 
     componentDidMount() {
-        debugger
         console.log(this.props.params.id)
         if(this.props.params.id) {
             this.getCurrentCategory(this.props.params.id);
@@ -40,11 +39,13 @@ class Category extends React.Component {
     }
 
     addNewCategory() {
+         debugger
         if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
         CategoriesAction.addNewCategory(this.state);
     }
 
     editCategory() {
+         debugger
         if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
         CategoriesAction.editCategory(this.state);
     }
@@ -52,12 +53,13 @@ class Category extends React.Component {
     onChange(e) {
         console.log(e.target.value)
         var state = {};
-		state[e.target.name] = e.target.value;
+        if(this.state[e.target.name].id) state[e.target.name] = {id: this.state[e.target.name].id}
+        else state[e.target.name] = {}
+		state[e.target.name]["name"] =  e.target.value;
 		this.setState(state);
     }
 
     update(state){
-        debugger;
         this.setState(state);
     }
 
@@ -72,7 +74,7 @@ class Category extends React.Component {
                        placeholder="Введите название новой категории" />
               </fieldset>
                 <button type="button" className="btn btn-info pull-right"
-                        onClick={this.props.id  ? this.editCategory : this.addNewCategory}>{
+                        onClick={this.props.params.id  ? this.editCategory : this.addNewCategory}>{
                     this.props.id  ? "Редактировать" : "Добавить"}
                 </button>
             </form>
