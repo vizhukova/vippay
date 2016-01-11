@@ -5,7 +5,10 @@ class CategoriesStore {
 
     constructor() {
         this.categories = [];
-        this.category = "";
+        this.category = {
+            id: null,
+            name: ''
+        };
         this.edit = false;
         this.bindListeners({
             onCheck: CategoriesAction.GET_ALL_CATEGORIES,
@@ -29,8 +32,7 @@ class CategoriesStore {
     }
 
     onGetCurrentCat(categoryObj) {
-        this.currCategories = categoryObj;
-        this.category = categoryObj.category;
+        this.category = categoryObj;
     }
 
 }

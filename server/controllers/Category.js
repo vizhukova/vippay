@@ -5,10 +5,10 @@ var _ = require('lodash');
 
 module.exports = {
 
-    newCategory(category){
+    newCategory(categoryObj){
         return new Promise(function (resolve, reject) {
 
-            Category.newCategory(category.category).then(function (model) {
+            Category.newCategory(categoryObj).then(function (model) {
                 resolve(model);
 
             }).catch(function (err) {

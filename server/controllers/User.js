@@ -22,7 +22,7 @@ module.exports = {
                         errors: errors
                     })
                 }
-                var token = jwt.encode(model.id, 'secret');
+                var token = jwt.encode({id: model.id}, 'secret');
                 resolve({modelData: model.attributes, token: token});
 
             }).catch(function(err){

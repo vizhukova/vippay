@@ -17,11 +17,11 @@ var Category = bookshelf.Model.extend({
 
     validateSave: function () {
         return checkit({
-            'category': [function(val) {
-            return knex('categories').where('category', '=', val).then(function(resp) {
-              if (resp.length > 0) throw new Error('Такая категория уже существует')
-            })
-          }, {
+            'category': [function (val) {
+                return knex('categories').where('category', '=', val).then(function (resp) {
+                    if (resp.length > 0) throw new Error('Такая категория уже существует')
+                })
+            }, {
                 rule: 'required',
                 message: 'Поле "категория" обязательно для заполнения'
             }]
@@ -30,18 +30,18 @@ var Category = bookshelf.Model.extend({
 
 }, {
 
-   newCategory: Promise.method(function (category) {
+    newCategory: Promise.method(function (categoryObj) {
 
-       if (!category) throw new Error('Поле "категория" обязательна');
-        var record = new this({category: category});
-       return record.save();
+        if (!categoryObj.category) throw new Error('Поле "категория" обязательна');
+        var record = new this({category: categoryObj.category, user_id: categoryObj.iser_id});
+        return record.save();
     }),
 
     editCategory: Promise.method(function (categoryObj) {
-       if (!categoryObj.category)
-           throw new Error('Поле "категория" обязательна');
+        if (!categoryObj.category)
+            throw new Error('Поле "категория" обязательна');
         /*var record = new this({category: category});
-       return record.save();*/
+         return record.save();*/
         return knex('categories').where('id', categoryObj.id).update({category: categoryObj.category});
     }),
 
@@ -50,8 +50,8 @@ var Category = bookshelf.Model.extend({
     }),
 
     getCurrentCategories: Promise.method(function (id) {
-    return knex.select('id', 'category').from('categories').where('id', id);
-})
+        return knex.first('id', 'category').from('categories').where('id', id);
+    })
 })
 
 module.exports = Category;

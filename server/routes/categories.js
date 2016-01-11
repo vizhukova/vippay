@@ -15,9 +15,6 @@ router.get('/category/:id', function(req, res){
 
 router.get('/category', function(req, res){
 
-    /*var data = new Array(10).fill('1');
-    res.send(data);*/
-
     CategoryController.getAllCategories({}).then(function(categories){
         res.send(categories)
     }).catch(function(err){
@@ -27,10 +24,7 @@ router.get('/category', function(req, res){
 });
 
 
-router.post('/category/new', function(req, res){
-
-    /*var data = new Array(10).fill('1');
-    res.send(data);*/
+router.put('/category', function(req, res){
 
     Object.keys(req.body).map((k) => {
         if(req.body[k] === '') req.body[k] = null
@@ -38,6 +32,7 @@ router.post('/category/new', function(req, res){
 
     CategoryController.newCategory({
         category: req.body.category,
+        user_id: req.user.id
     }).then(function(category){
         res.send(category)
     }).catch(function(err){

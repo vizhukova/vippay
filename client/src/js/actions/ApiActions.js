@@ -20,8 +20,12 @@ class ApiActions{
                 method: 'GET',
                 url: BASE_URL + path,
                 data: data,
+                contentType: "application/json; charset=utf-8",
                 success(res){
                     resolve(res);
+                },
+                 headers: {
+                    auth: token,
                 },
                 error(response){
                     var error = new Error(response.responseJSON.msg);

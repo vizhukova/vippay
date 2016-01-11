@@ -21,9 +21,14 @@ class Category extends React.Component {
         if(this.props.params.id) {
             this.getCurrentCategory(this.props.params.id);
         }
-        CategoriesStore.listen(this.update);
 
-       // CategoriesAction.addNewCategory(this.state);
+        CategoriesStore.listen(this.update);
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.params.id) {
+            this.getCurrentCategory(this.props.params.id);
+        }
     }
 
     componentWillUnmount() {
@@ -41,7 +46,6 @@ class Category extends React.Component {
 
     editCategory() {
         if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
-        if(this.state.category == this.state.currCategories) {alert('Вы не изменили категорию'); return;}
         CategoriesAction.editCategory(this.state);
     }
 
@@ -53,6 +57,7 @@ class Category extends React.Component {
     }
 
     update(state){
+        debugger;
         this.setState(state);
     }
 
@@ -63,10 +68,13 @@ class Category extends React.Component {
               <fieldset className="form-group">
                 <label htmlFor="newCategory" className="text-primary">Новая категория</label>
                 <input type="text" name="category" className="form-control" id="newCategory" onChange={this.onChange}
-                       value={this.state.edit || this.state.currCategories ? this.state.category : ""}
+                       value={this.state.category.category}
                        placeholder="Введите название новой категории" />
               </fieldset>
-                <button type="button" className="btn btn-info pull-right" onClick={this.state.currCategories ? this.editCategory : this.addNewCategory}>{this.state.currCategories ? "Редактировать" : "Добавить"}</button>
+                <button type="button" className="btn btn-info pull-right"
+                        onClick={this.props.id  ? this.editCategory : this.addNewCategory}>{
+                    this.props.id  ? "Редактировать" : "Добавить"}
+                </button>
             </form>
         </div>
 

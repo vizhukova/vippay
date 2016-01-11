@@ -2,21 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 var api_prefix = '/api';
+var getUserId = require('../middlewares/getUserId')
 
 
-/*router.use(function(req, res, next){
-
-
-    var token = '';
-    var id='';
-
-    res.status(401).send({});
-
-    req.user_id = id;
-    next();
-
-
-})*/
+router.use(getUserId);
 
 router.use(api_prefix, require('./users'));
 router.use(api_prefix, require('./auth'));
