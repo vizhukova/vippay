@@ -37,13 +37,16 @@ var Category = bookshelf.Model.extend({
         return record.save();
     }),
 
-    editCategory: Promise.method(function (categoryObj) {
-        if (!categoryObj.categoryObj.name)
-            throw new Error('Поле "категория" обязательна');
-        /*var record = new this({category: category});
-         return record.save();*/
-        return knex('categories').where('id', categoryObj.categoryObj.id).update({category: categoryObj.categoryObj.name});
-    }),
+    editCategory(category) {
+
+        return new Promise((resolve, reject) => {
+            knex('categories').where({id: category.id}).update(category).then((res) => {
+                resolve(category);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
 
     getAllCategories: Promise.method(function () {
         return knex.select('id', 'category').from('categories')
@@ -53,9 +56,17 @@ var Category = bookshelf.Model.extend({
         return knex.first('id', 'category').from('categories').where('id', id);
     }),
 
-    deleteCategory: Promise.method(function (id) {
-        return knex.first('id', 'category').from('categories').where('id', id).del();
-    })
+    deleteCategory(id){
+        return new Promise((resolve, reject) => {
+
+            knex('categories').where({id: id}).del().then((res) => {
+                resolve({id: id});
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+    }
 })
 
 module.exports = Category;

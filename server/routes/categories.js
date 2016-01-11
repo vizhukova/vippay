@@ -24,14 +24,14 @@ router.get('/category', function(req, res){
 });
 
 
-router.put('/category', function(req, res){
+router.post('/category', function(req, res){
 
     Object.keys(req.body).map((k) => {
         if(req.body[k] === '') req.body[k] = null
     })
 
     CategoryController.newCategory({
-        name: req.body.category.name,
+        name: req.body.category,
         user_id: req.user.id.id
     }).then(function(category){
         res.send(category)
@@ -41,15 +41,13 @@ router.put('/category', function(req, res){
 
 });
 
-router.post('/category/:id', function(req, res) {
+router.put('/category/:id', function(req, res) {
 
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
     })
 
-    CategoryController.editCategory({
-        categoryObj: req.body.categoryObj,
-    }).then(function (category) {
+    CategoryController.editCategory(req.body).then(function (category) {
         res.send(category)
     }).catch(function (err) {
         res.status(400).send(err.errors)
@@ -62,9 +60,7 @@ router.delete('/category/:id', function(req, res){
         if(req.body[k] === '') req.body[k] = null
     })
 
-    CategoryController.deleteCategory({
-        id: req.params.id,
-    }).then(function(category){
+    CategoryController.deleteCategory(req.params.id).then(function(category){
         res.send(category)
     }).catch(function(err){
         res.status(400).send(err.errors)

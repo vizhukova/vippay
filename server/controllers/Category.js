@@ -9,7 +9,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
 
             Category.newCategory(categoryObj).then(function (model) {
-                resolve(model);
+                resolve(model.attributes);
 
             }).catch(function (err) {
                 debugger
@@ -21,10 +21,10 @@ module.exports = {
 
     },
 
-     editCategory(categoryObj){
+     editCategory(category){
         return new Promise(function (resolve, reject) {
 
-            Category.editCategory(categoryObj).then(function (model) {
+            Category.editCategory(category).then(function (model) {
                 resolve(model);
 
             }).catch(function (err) {

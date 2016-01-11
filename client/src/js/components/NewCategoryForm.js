@@ -2,8 +2,9 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import CategoriesStore from'./../stores/CategoriesStore';
 import CategoriesAction from'./../actions/CategoriesAction';
+import _  from 'lodash';
 
-class Category extends React.Component {
+class CategoryForm extends React.Component {
 
     constructor(){
         super();
@@ -16,7 +17,6 @@ class Category extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.params.id)
         if(this.props.params.id) {
             this.getCurrentCategory(this.props.params.id);
         }
@@ -26,7 +26,7 @@ class Category extends React.Component {
 
     componentWillReceiveProps(nextProps){
         if(nextProps.params.id) {
-            this.getCurrentCategory(this.props.params.id);
+            this.getCurrentCategory(nextProps.params.id);
         }
     }
 
@@ -39,24 +39,21 @@ class Category extends React.Component {
     }
 
     addNewCategory() {
-         debugger
         if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
         CategoriesAction.addNewCategory(this.state);
     }
 
     editCategory() {
-         debugger
+        debugger
         if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
-        CategoriesAction.editCategory(this.state);
+        CategoriesAction.editCategory(this.state.category);
     }
 
     onChange(e) {
-        console.log(e.target.value)
         var state = {};
-        if(this.state[e.target.name].id) state[e.target.name] = {id: this.state[e.target.name].id}
-        else state[e.target.name] = {}
-		state[e.target.name]["name"] =  e.target.value;
-		this.setState(state);
+		state[e.target.name] =  e.target.value;
+		_.assign(this.state.category, state);
+        this.setState({});
     }
 
     update(state){
@@ -64,7 +61,6 @@ class Category extends React.Component {
     }
 
     render(){
-
         return  <div className="col-sm-7">
             <form>
               <fieldset className="form-group">
@@ -75,7 +71,7 @@ class Category extends React.Component {
               </fieldset>
                 <button type="button" className="btn btn-info pull-right"
                         onClick={this.props.params.id  ? this.editCategory : this.addNewCategory}>{
-                    this.props.id  ? "Редактировать" : "Добавить"}
+                   this.props.params.id  ? "Редактировать" : "Добавить"}
                 </button>
             </form>
         </div>
@@ -86,4 +82,4 @@ class Category extends React.Component {
 }
 
 
-export default Category;
+export default CategoryForm;

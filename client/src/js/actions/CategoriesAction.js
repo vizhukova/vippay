@@ -14,23 +14,21 @@ class CategoriesAction {
         })
     }
 
-    addNewCategory(state) {
+    addNewCategory(category) {
         var self = this;
         debugger
-        ApiActions.put('category', {category: state.category.name}).then(function(data){
-            this.getAllCategories();
+        ApiActions.post('category', category.category).then(function(data){
+            debugger
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);
         })
     }
 
-    editCategory(state) {
+    editCategory(category) {
         var self = this;
         debugger
-        console.log(state)
-        ApiActions.post('category/id', {categoryObj:  state.category}).then(function(data){
-            this.getAllCategories();
+        ApiActions.put('category/id', category).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);
@@ -38,6 +36,7 @@ class CategoriesAction {
     }
 
     getCurrentCategory(id) {
+        var self = this;
         ApiActions.get(`category/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
@@ -47,6 +46,7 @@ class CategoriesAction {
 
     deleteCategory(id) {
         debugger
+        var self = this;
         ApiActions.remove(`category/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
