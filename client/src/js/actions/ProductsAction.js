@@ -4,9 +4,18 @@ import ApiActions from './ApiActions';
 
 class ProductsAction {
 
-    getProductsByCategory() {
+    getAllProducts(id) {
         var self = this;
-        ApiActions.get('category/'+'2').then(function(data){
+        ApiActions.get(`products/${id}`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
+    }
+
+    addNewProduct(product) {
+        var self = this;
+        ApiActions.post(`product`, product).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);

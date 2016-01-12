@@ -8,12 +8,13 @@ import Promise from 'bluebird';
 import App from './components/App';
 import Auth from './components/Auth';
 import Home from './components/Home';
-import Category from './components/Category';
-import NewCategoryForm from './components/NewCategoryForm';
+import Category from './components/category/Category';
+import NewCategoryForm from './components/category/form';
 import Partners from './components/Partners';
 import Statistics from './components/Statistics';
 import Orders from './components/Orders';
-import Products from './components/Products';
+import Products from './components/product/Products';
+import NewProductForm from './components/product/form';
 
 
     ReactDOM.render((
@@ -27,6 +28,8 @@ import Products from './components/Products';
                     <Route path=":id/edit" component={NewCategoryForm} />
                     <Route path=":id/delete" component={NewCategoryForm} />
                     <Route path=":id/products" component={Products} />
+                    <Route path=":id/products/new" component={NewProductForm} />
+                    <Route path=":id/products/:prod_id" component={NewProductForm} />
                 </Route>
                 <Route path="/partners" component={Partners} />
                 <Route path="/statistics" component={Statistics} />

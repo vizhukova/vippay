@@ -6,12 +6,24 @@ class ProductsStore {
     constructor() {
         this.products = [];
         this.bindListeners({
-            onCheck: ProductsAction.GET_PRODUCTS_BY_CATEGORY
+            onGetAllProducts: ProductsAction.GET_ALL_PRODUCTS,
+            onAddNewProduct: ProductsAction.ADD_NEW_PRODUCT
         });
     }
 
-    onCheck(products){
+    onGetAllProducts(products){
         this.products = products;
+    }
+
+    onAddNewProduct(product) {
+        if(product instanceof Error) {
+            console.log(JSON.parse(product.message).category)
+                JSON.parse(product.message).category
+                .forEach(function(i){alert(i)})
+            return
+        } else {
+             this.products.push(product)
+        }
     }
 
 }

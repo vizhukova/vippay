@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
-import CategoriesStore from'./../stores/CategoriesStore';
-import CategoriesAction from'./../actions/CategoriesAction';
+import CategoriesStore from'./../../stores/CategoriesStore';
+import CategoriesAction from'./../../actions/CategoriesAction';
 import _  from 'lodash';
 
 class CategoryForm extends React.Component {

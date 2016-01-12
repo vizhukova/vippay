@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
-import CategoriesStore from'./../stores/CategoriesStore';
-import CategoriesAction from'./../actions/CategoriesAction';
+import CategoriesStore from'./../../stores/CategoriesStore';
+import CategoriesAction from'./../../actions/CategoriesAction';
 
 class Category extends React.Component {
 
@@ -29,19 +29,17 @@ class Category extends React.Component {
     }
 
     deleteCategory() {
-        debugger
         CategoriesAction.deleteCategory(this.props.params.id);
     }
 
     update(state){
-        console.log(state.categories)
         this.setState(state);
+        console.log(this.state)
     }
 
     render(){
         var baseClass = "btn pull-right btn-xs";
         var self = this;
-        console.log(this.state)
         if(!this.state.categories) return;
         return  <div>
             <div className="row">

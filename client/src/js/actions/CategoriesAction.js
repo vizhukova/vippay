@@ -6,7 +6,6 @@ class CategoriesAction {
 
     getAllCategories() {
         var self = this;
-        debugger
         ApiActions.get('category').then(function(data){
             self.dispatch(data);
         }).catch(function(err){
@@ -16,7 +15,6 @@ class CategoriesAction {
 
     addNewCategory(category) {
         var self = this;
-        debugger
         ApiActions.post('category', category.category).then(function(data){
             debugger
             self.dispatch(data);
@@ -27,7 +25,6 @@ class CategoriesAction {
 
     editCategory(category) {
         var self = this;
-        debugger
         ApiActions.put('category/id', category).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
@@ -45,7 +42,6 @@ class CategoriesAction {
     }
 
     deleteCategory(id) {
-        debugger
         var self = this;
         ApiActions.remove(`category/${id}`).then(function(data){
             self.dispatch(data);
