@@ -21,4 +21,35 @@ router.post('/product', function(req, res){
     })
 });
 
+
+router.get('/product/:id', function(req, res){
+
+    ProductController.getCurrentProduct(req.params.id).then(function(product){
+        res.send(product)
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
+
+});
+
+router.put('/product/:id', function(req, res){
+
+    ProductController.editProduct(req.body).then(function(product){
+        res.send(product)
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
+
+});
+
+router.delete('/product/:id', function(req, res){
+
+    ProductController.deleteProduct(req.params.id).then(function(id){
+        res.send(id)
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
+
+});
+
 module.exports = router;

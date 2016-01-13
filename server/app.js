@@ -20,8 +20,11 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 
 app.use(require('./routes/api'));
-app.get('*', function(req, res){
+app.get('/client*', function(req, res){
     res.render('client')
+});
+app.get('/partner*', function(req, res){
+    res.render('partner')
 });
 
 var server = http.listen(config.get('port'), function() {

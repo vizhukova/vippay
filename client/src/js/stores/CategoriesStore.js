@@ -43,7 +43,6 @@ class CategoriesStore {
                 .forEach(function(i){alert(i)})
             return
         } else {
-            //this.categories.push({category: category.category, id: category.id})
             var index = _.findIndex(this.categories, { 'id': category.id });
             this.categories[index] = category;
         }
@@ -55,7 +54,6 @@ class CategoriesStore {
     }
 
     onDeleteCat(category) {
-        debugger
         if(!category) return;
         this.categories = _.filter(this.categories, function(obj) {
             return obj.id != category.id;

@@ -1,4 +1,4 @@
 .idea/
 node_modules/
-server/public/css/*.css
-server/public/*.js
+server/public/**/*.css
+server/public/**/*.js

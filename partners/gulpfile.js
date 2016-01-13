@@ -18,7 +18,7 @@ var path = {
     HTML: './index.html',
     OUT: 'build.js',
     CSS_OUT: 'styles.css',
-    DEST: '../server/public/client',
+    DEST: '../server/public/partners',
     VENDOR_ENTRY_POINT: './src/js/vendor.js',
     ENTRY_POINT: './src/js/app.js'
 };
@@ -74,46 +74,5 @@ gulp.task('res', function () {
     return gulp.src('./res/**')
         .pipe(gulp.dest(path.DEST + '/res'));
 });
-
-//gulp.task('fonts', function () {
-//    return gulp.src('./res/fonts/**/*')
-//        .pipe(gulp.dest(path.DEST + '/fonts'));
-//});
-
-//gulp.task('vendors', function() {
-//    return gulp.src([
-//        './vendor/bootstrap/dist/js/bootstrap.min.js',
-//        './vendor/bootstrap.switch/js/bootstrap-switch.min.js',
-//        './vendor/jquery.float/jquery.float.js',
-//        './vendor/bootstrap.multiselect/js/bootstrap-multiselect.js',
-//        './vendor/jquery.select2/select2.min.js',
-//        './vendor/jquery-ui/jquery-ui.min.js',
-//        './vendor/jquery.easypiechart/jquery.easypiechart.min.js',
-//        './vendor/bootstrap-datepicker-master/dist/js/bootstrap-datepicker.js',
-//        './vendor/jquery.gritter/jquery.gritter.min.js',
-//        './vendor/jquery.nanoscroller/javascripts/jquery.nanoscroller.min.js',
-//        './vendor/jquery.niftymodals/js/jquery.modalEffects.js',
-//        './vendor/jquery.icheck/icheck.js',
-//        './vendor/jquery.sparkline/jquery.sparkline.min.js',
-//        './vendor/skycons/skycons.js',
-//        './scripts/*.js'
-//    ])
-//        .pipe(concat('vendor.js'))
-//        .pipe(gulp.dest(path.DEST));
-//});
-
-//gulp.task('express', function() {
-//    var express = require('express');
-//    var path = require('path');
-//    var app = express();
-//
-//    app.use(express.static(__dirname + './../mobile/www'));
-//
-//    app.get('*', function (request, response){
-//        response.sendFile(path.resolve(__dirname, './../mobile/www', 'index.html'))
-//    });
-//
-//    app.listen(8000);
-//});
 
 gulp.task('default', ["watch", 'js', 'vendor', 'sass', 'res', 'replaceHTML']);

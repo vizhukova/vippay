@@ -16,13 +16,13 @@ var Product = bookshelf.Model.extend({
 
     validateSave: function () {
         return checkit({
-            'name': [function (val) {
-                return knex('products').where('name', '=', val).then(function (resp) {
-                    if (resp.length > 0) throw new Error('Такая категория уже существует')
-                })
-            }, {
+            'name': [{
                 rule: 'required',
                 message: 'Поле "продукт" обязательно для заполнения'
+            }],
+            'category_id': [{
+                rule: 'required',
+                message: 'Поле "категория" обязательно для заполнения'
             }]
         }).run(this.attributes);
     }
@@ -44,8 +44,44 @@ var Product = bookshelf.Model.extend({
                 reject(err);
             })
         })
-    }
+    },
 
+    getAllByUser(id){
+        return new Promise((resolve, reject) => {
+            return knex('products').where({'user_id': id})
+            .then((res) => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
+    getCurrentProduct: Promise.method(function (id) {
+        return knex.first().from('products').where('id', id);
+    }),
+
+    editProduct(product){
+        return new Promise((resolve, reject) => {
+            knex('products').where({id: product.id}).update(product).then((res) => {
+                resolve(product);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
+    deleteProduct(id){
+        return new Promise((resolve, reject) => {
+
+            knex('products').where({id: id}).del().then((res) => {
+                resolve({id: id});
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+    }
 
 })
 

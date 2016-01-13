@@ -8,8 +8,13 @@ class Register extends React.Component {
         super();
 		this.onChange = this.onChange.bind(this);
 		this.register = this.register.bind(this);
-		this.state = {errors: {}};
+		this.state = { errors: {} };
     }
+
+	componentDidMount() {
+		var id = location.hash.slice(location.hash.lastIndexOf('/') + 1, location.hash.lastIndexOf('?'));
+		this.setState({client_id: id});
+	}
 
 	onChange(e){
 		var state = {};
@@ -26,17 +31,11 @@ class Register extends React.Component {
 			return;
 		}
 
-        ApiActions.post('client/register', this.state)
+        ApiActions.post('partner/register', this.state)
 			.then(function(data){
 				console.log(data)
 				console.log('Token: ' + data.token);
 				localStorage.setItem('token', data.token);
-				/*var self = this;
-				ApiActions.get('').then(function(data){
-					self.dispatch(true);
-				}).catch(function(err){
-					self.dispatch(false);
-				})*/
 			})
 			.catch(function(err){
 				console.log('error');

@@ -34,7 +34,6 @@ class Category extends React.Component {
 
     update(state){
         this.setState(state);
-        console.log(this.state)
     }
 
     render(){

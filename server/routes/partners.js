@@ -1,14 +1,15 @@
 var express = require('express');
 var router = express.Router();
-var UserController = require('../controllers/User');
+var PartnerController = require('../controllers/Partner');
 
 
-router.post('/client/register', function(req, res){
+router.post('/partner/register', function(req, res){
     Object.keys(req.body).map((k) => {
         if(req.body[k] === '') req.body[k] = null
     })
 
-    UserController.register({
+    PartnerController.register({
+        client_id: req.body.client_id,
         name: req.body.name,
         login: req.body.login,
         email: req.body.email,
@@ -22,14 +23,15 @@ router.post('/client/register', function(req, res){
 
 });
 
-router.post('/client/login', function(req, res){
+router.post('/partner/login', function(req, res){
     Object.keys(req.body).map((k) => {
         if(req.body[k] === '') req.body[k] = null
 });
 
-    UserController.login({
+    PartnerController.login({
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        client_id: req.body.client_id
     }).then(function(user){
         res.send(user)
     }).catch(function(err){
@@ -37,6 +39,16 @@ router.post('/client/login', function(req, res){
     })
 
 });
+
+router.get('/partner/products', function(req, res) {
+    PartnerController.getAll(req.user.id.id)
+        .then(function(products){
+        res.send(products)
+    }).catch(function(err) {
+        res.status(400).send(err.errors)
+    });
+})
+
 
 
 module.exports = router;

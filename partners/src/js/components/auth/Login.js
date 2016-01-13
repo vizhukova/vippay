@@ -18,6 +18,11 @@ class Login extends React.Component {
         this.setState(state);
     }
 
+    componentDidMount() {
+		var id = location.hash.slice(location.hash.lastIndexOf('/') + 1, location.hash.lastIndexOf('?'));
+		this.setState({client_id: id});
+	}
+
     login() {
         var self = this;
         if(!this.isCorrectField()) {
@@ -25,17 +30,10 @@ class Login extends React.Component {
             return;
         }
 
-        ApiActions.post('client/login', this.state)
+        ApiActions.post('partner/login', this.state)
             .then(function(data){
-                console.log(data)
                 console.log('Token: ' + data.token);
                 localStorage.setItem('token', data.token);
-                /*var self = this;
-                 ApiActions.get('').then(function(data){
-                 self.dispatch(true);
-                 }).catch(function(err){
-                 self.dispatch(false);
-                 })*/
             })
             .catch(function(err){
                 console.log('error');

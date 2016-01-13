@@ -4,6 +4,48 @@ import ProductsStore from'./../../stores/ProductsStore';
 import ProductsAction from'./../../actions/ProductsAction';
 import _  from 'lodash';
 
+class ProductItem extends React.Component {
+
+    constructor(){
+        super();
+        this.state = {};
+        this.removeProduct = this.removeProduct.bind(this);
+        this.setAvailable = this.setAvailable.bind(this);
+    }
+
+    componentDidMount() {
+        console.log(this.props.product);
+    }
+
+    removeProduct() {
+        ProductsAction.removeProduct(this.props.product.id);
+    }
+
+    setAvailable() {
+        var product = _.cloneDeep(this.props.product);
+        product.available = !product.available;
+        ProductsAction.editProduct(product);
+    }
+
+    render(){
+        var available = "glyphicon glyphicon-ok-circle";
+        var notAvailable = "glyphicon glyphicon-ban-circle";
+
+        return <tr>
+                    <td><img src={this.props.product.image} alt="image" width="200px" height="auto"/></td>
+                    <td>{this.props.product.name}</td>
+                    <td>{this.props.product.price}</td>
+                    <td>{this.props.product.description}</td>
+                    <td><button type="button" className="btn btn-default pull-right">
+                        <a href={this.props.product.product_link}>Ссылка на продукт</a></button></td>
+                     <td><button type="button" className={this.props.product.available ? `btn btn-default ${available}` : `btn btn-default ${notAvailable}`} onClick={this.setAvailable}></button></td>
+                    <td><Link to={`/category/${this.props.product.category_id}/products/${this.props.product.id}`}><button type="button" className="btn btn-default pull-right glyphicon glyphicon-pencil"></button></Link></td>
+                    <td><button type="button" className="btn btn-default pull-right glyphicon glyphicon-remove" onClick={this.removeProduct}></button></td>
+                </tr>
+    }
+
+
+}
 
 class Products extends React.Component {
 
@@ -11,7 +53,6 @@ class Products extends React.Component {
         super();
         this.state = ProductsStore.getState();
         this.update = this.update.bind(this);
-        this.addNewProduct = this.addNewProduct.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
@@ -37,19 +78,6 @@ class Products extends React.Component {
         ProductsStore.unlisten(this.update);
     }
 
-    addNewProduct() {
-        console.log(this.state)
-        var counter = 0;
-        var result = _.every(this.state.product, function(item, index) {
-           counter++;
-           return item.length != 0;
-       })
-        if(!result || counter < 6) {alert("Все поля должы быть заполнены"); return;}
-
-        console.log(this.props.params.id)
-        ProductsAction.addNewProduct(this.state.product);
-    }
-
     update(state){
         this.setState(state);
     }
@@ -57,7 +85,6 @@ class Products extends React.Component {
 
     render(){
         var self = this;
-
         return <div>
             <Link to={`/category/${this.props.params.id}/products/new`}><button type="button" className="btn btn-default btn-block">Добавить продукт</button></Link>
             <table className="table table-hover">
@@ -67,23 +94,15 @@ class Products extends React.Component {
                     <th>Товар</th>
                     <th>Цена</th>
                     <th>Описание</th>
-                    <th></th>
+                    <th>Ссылка на продукт</th>
+                    <th>Доступность</th>
                     <th></th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                 { this.state.products.map(function(item, index){
-                return <tr key={index}>
-                    <td><img src={item.image} alt="image" width="200px" height="auto"/></td>
-                    <td>{item.name}</td>
-                    <td>{item.price}</td>
-                    <td>{item.description}</td>
-                    <td><button type="button" className="btn btn-default pull-right">
-                        <a href={item.product_link}>Ссылка на продукт</a></button></td>
-                    <td><button type="button" className="btn btn-default pull-right glyphicon glyphicon-pencil"></button></td>
-                    <td><button type="button" className="btn btn-default pull-right glyphicon glyphicon-remove"></button></td>
-                </tr>
+                return <ProductItem key={index} product={item} />
                 })}
                 </tbody>
             </table>

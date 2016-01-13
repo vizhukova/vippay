@@ -4,9 +4,9 @@ var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
 
-var User = bookshelf.Model.extend({
+var Partner = bookshelf.Model.extend({
 
-    tableName: 'users',
+    tableName: 'partners',
 
     hasTimestamps: true,
 
@@ -18,7 +18,7 @@ var User = bookshelf.Model.extend({
     validateSave: function () {
         return checkit({
             //email: ['email', function(val) {
-            //    return knex('users').where('email', '=', val).then(function(resp) {
+            //    return knex('partners').where('email', '=', val).then(function(resp) {
             //        if (resp.length > 0) throw new Error('Такой электронный адрес уже существует')
             //    })
             //}, {
@@ -30,7 +30,7 @@ var User = bookshelf.Model.extend({
                 message: 'Поле "ФИО" обязательно для заполнения'
             }],
             login: [/*'login', function(val) {
-                return knex('users').where('login', '=', val).then(function(resp) {
+                return knex('partners').where('login', '=', val).then(function(resp) {
                     if (resp.length > 0) throw new Error('Такой логин уже существует')
                 })
             },*/ {
@@ -47,26 +47,27 @@ var User = bookshelf.Model.extend({
 }, {
 
 
-    login: Promise.method(function (user) {
-        if (!user.email || !user.password) throw new Error('Email и пароль обязательны');
-        return new this({email: user.email.toLowerCase().trim()}).fetch({require: true}).tap(function (customer) {
+    login: Promise.method(function (partner) {
+        if (!partner.email || !partner.password) throw new Error('Email и пароль обязательны');
+        return new this({email: partner.email.toLowerCase().trim()}).fetch({require: true}).tap(function (customer) {
             //return bcrypt.compareAsync(customer.get('password'), password)
             //    .then(function (res) {
             //        if (!res) throw new Error('Неверный пароль');
             //    });
-            if(customer.get('password') !== user.password)  throw new Error('Неверный пароль');
+            if(customer.get('password') !== partner.password)  throw new Error('Неверный пароль');
         });
     }),
 
-    register: Promise.method(function (user) {
-        var record = new this({name: user.name, login: user.login, email: user.email, password: user.password});
+    register: Promise.method(function (partner) {
+        var record = new this({client_id: partner.client_id, name: partner.name, login: partner.login, email: partner.email, password: partner.password});
 
         return record.save();
     }),
 
-    getById: Promise.method(function (id) {
-        return knex('users').select('id').where({'id': id});
+
+    getClientId: Promise.method(function (id) {
+        return knex.first('client_id').from('partners').where('id', id);
     })
 });
 
-module.exports = User;
+module.exports = Partner;
