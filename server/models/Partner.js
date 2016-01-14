@@ -49,12 +49,13 @@ var Partner = bookshelf.Model.extend({
 
     login: Promise.method(function (partner) {
         if (!partner.email || !partner.password) throw new Error('Email и пароль обязательны');
-        return new this({email: partner.email.toLowerCase().trim()}).fetch({require: true}).tap(function (customer) {
+        return new this({email: partner.email.trim()}).fetch({require: true}).tap(function (customer) {
             //return bcrypt.compareAsync(customer.get('password'), password)
             //    .then(function (res) {
             //        if (!res) throw new Error('Неверный пароль');
             //    });
-            if(customer.get('password') !== partner.password)  throw new Error('Неверный пароль');
+            if(customer.get('password') !== partner.password)
+                throw new Error('Неверный пароль');
         });
     }),
 
@@ -67,6 +68,10 @@ var Partner = bookshelf.Model.extend({
 
     getClientId: Promise.method(function (id) {
         return knex.first('client_id').from('partners').where('id', id);
+    }),
+
+    getAll: Promise.method(function (id) {
+        return knex.select().from('partners').where('client_id', id);
     })
 });
 

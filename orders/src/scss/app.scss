@@ -1,0 +1,60 @@
+@import './../../../node_modules/bootstrap/dist/css/bootstrap.min';
+
+.form-margin {
+  margin-top: 125px;
+}
+
+.title {
+  font-size: x-large;
+  margin: auto 20px auto 100px;
+  text-align: center;
+}
+
+.step {
+    width: 40px;
+    height: 40px;
+    border: 5px rgba(210, 111, 34, 0.71) solid;
+    border-radius: 100%;
+    background-color: rgba(255, 226, 139, 0.42);
+    text-align: center;
+    line-height: 40px;
+}
+
+.step-text {
+    font-size: xx-large;
+    color: rgba(181, 45, 0, 0.89);
+    line-height: 0px;
+}
+
+.content-step {
+    margin: -45px 20px 20px 100px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    text-align: center;
+    padding: 20px;
+}
+
+.content-step .image{
+  margin-bottom: 20px;
+}
+
+.content-step .field{
+  margin-top: 10px;
+}
+
+.content-step .description {
+    word-wrap: break-word;
+    width: 80%;
+    text-align: center;
+    margin: 0 auto 20px auto;
+}
+
+.order-num {
+    text-align: center;
+    margin: auto;
+    font-size: x-large;
+}
+
+.order {
+  margin: 75px auto;
+}
+

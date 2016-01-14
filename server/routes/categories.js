@@ -15,7 +15,7 @@ router.get('/category/:id', function(req, res){
 
 router.get('/category', function(req, res){
 
-    CategoryController.getAllCategories({}).then(function(categories){
+    CategoryController.getAllCategories(req.user.id.id).then(function(categories){
         res.send(categories)
     }).catch(function(err){
         res.status(400).send(err.errors)

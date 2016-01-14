@@ -15,7 +15,6 @@ class Application extends React.Component {
 
     componentDidMount() {
         AuthStore.listen(this.update)
-        //AuthActions.check();
 
     }
 
@@ -45,6 +44,7 @@ class Application extends React.Component {
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
                             <li><Link to="/products">Продукты клиента</Link></li>
+                            <li><Link to={`/redirect/${8}-${11}`}>Redirect</Link></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
 

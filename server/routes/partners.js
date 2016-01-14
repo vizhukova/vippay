@@ -41,14 +41,23 @@ router.post('/partner/login', function(req, res){
 });
 
 router.get('/partner/products', function(req, res) {
-    PartnerController.getAll(req.user.id.id)
+    PartnerController.getAllProducts(req.user.id)
         .then(function(products){
         res.send(products)
     }).catch(function(err) {
         res.status(400).send(err.errors)
     });
-})
+});
 
+
+router.get('/partners', function(req, res) {
+    PartnerController.getAll(req.user.id)
+        .then(function(partners){
+        res.send(partners)
+    }).catch(function(err) {
+        res.status(400).send(err.errors)
+    });
+});
 
 
 module.exports = router;

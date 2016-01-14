@@ -36,10 +36,10 @@ module.exports = {
 
     },
 
-    getAllCategories() {
+    getAllCategories(user_id) {
         return new Promise(function (resolve, reject) {
 
-            Category.getAllCategories().then(function (model) {
+            Category.getAllCategories(user_id).then(function (model) {
                 resolve(model);
 
             }).catch(function (err) {

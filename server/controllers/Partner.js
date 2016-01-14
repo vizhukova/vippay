@@ -65,7 +65,7 @@ module.exports = {
         })
     },
 
-    getAll(id) {
+    getAllProducts(id) {
         return new Promise(function (resolve, reject) {
 
             Partner.getClientId(id).then(function (id) {
@@ -75,6 +75,17 @@ module.exports = {
                 }).catch(function (err) {
                     reject(err);
                 });
+            }).catch(function (err) {
+                reject(err);
+            });
+        })
+    },
+
+    getAll(id) {
+        return new Promise(function (resolve, reject) {
+
+            Partner.getAll(id).then(function (partners) {
+                resolve(partners)
             }).catch(function (err) {
                 reject(err);
             });

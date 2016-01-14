@@ -48,8 +48,8 @@ var Category = bookshelf.Model.extend({
         })
     },
 
-    getAllCategories: Promise.method(function () {
-        return knex.select('id', 'category').from('categories')
+    getAllCategories: Promise.method(function (user_id) {
+        return knex.select('id', 'category').from('categories').where({'id': user_id})
     }),
 
     getCurrentCategories: Promise.method(function (id) {
