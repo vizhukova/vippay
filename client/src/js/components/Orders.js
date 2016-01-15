@@ -36,6 +36,7 @@ class Orders extends React.Component {
         return <table className="table">
                 <thead>
                   <tr>
+                    <th>Партнер</th>
                     <th>Картинка</th>
                     <th>Продукт</th>
                     <th>Цена</th>
@@ -45,6 +46,7 @@ class Orders extends React.Component {
                 <tbody>
                  { this.state.orders.map(function(item, index) {
                      return <tr key={index}>
+                         <td>{item.login}</td>
                          <td><img src={item.product.image} alt="image" width="200px" height="auto"/></td>
                          <td><a href={item.product.product_link} target="_blank">{item.product.name}</a></td>
                          <td>{item.product.price}</td>

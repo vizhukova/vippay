@@ -23,7 +23,8 @@ var Order = bookshelf.Model.extend({
 }, {
 
     get: Promise.method(function (id) {
-        return knex.select().from('orders').where('id', id);
+        return knex.select('orders.product', 'orders.step', 'orders.history', 'partners.name', 'partners.login', 'partners.email')
+            .from('orders') .where('orders.id', id).innerJoin('partners', 'orders.partner_id', '=', 'partners.id')
     })
 
 })
