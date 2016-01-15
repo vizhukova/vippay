@@ -75,4 +75,7 @@ gulp.task('res', function () {
         .pipe(gulp.dest(path.DEST + '/res'));
 });
 
+gulp.task('build', ['js', 'sass', 'res', 'vendor', 'replaceHTML']);
+
+
 gulp.task('default', ["watch", 'js', 'vendor', 'sass', 'res', 'replaceHTML']);

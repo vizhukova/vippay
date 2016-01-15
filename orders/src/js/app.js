@@ -9,11 +9,7 @@ import Order from './components/Order';
 
 
 
-    /*ReactDOM.render((
-        <Router history={history}>
-            <Route path="/order/:id" component={Order} >
-            </Route>
-        </Router>
+    ReactDOM.render((
+        <Order />
     ), document.getElementById("app-container"));
 
-*/

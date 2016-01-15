@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
       t.increments('id');
       t.json('history', true);
       t.integer('customer_id').notNullable().references('id').inTable('customers').onDelete('RESTRICT');
-      t.integer('partner_id').notNullable().references('id').inTable('partners').onDelete('RESTRICT');
+      t.integer('partner_id').references('id').inTable('partners').onDelete('RESTRICT');
       t.integer('client_id').notNullable().references('id').inTable('users').onDelete('RESTRICT');
       t.integer('product_id').references('id').inTable('products').onDelete('SET NULL');
       t.json('product', true).notNullable();

@@ -7,19 +7,9 @@ class Order extends React.Component {
 
     constructor() {
         super();
-        this.state = {
-
-        };
+        this.state = {};
     }
 
-    componentDidMount() {
-
-
-    }
-
-    update(state){
-
-    }
 
     render() {
         return <div className="panel panel-default col-md-10 col-md-offset-1 form-margin">

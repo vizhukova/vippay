@@ -75,6 +75,8 @@ gulp.task('res', function () {
         .pipe(gulp.dest(path.DEST + '/res'));
 });
 
+gulp.task('build', ['js', 'sass', 'res', 'vendor', 'replaceHTML']);
+
 //gulp.task('fonts', function () {
 //    return gulp.src('./res/fonts/**/*')
 //        .pipe(gulp.dest(path.DEST + '/fonts'));

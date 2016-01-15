@@ -31,8 +31,6 @@ router.post('/redirect', function(req, res) {
                 res.status(400).send(err.errors);
             });
 
-
-   // CustomerController.push({customer_id:1, partner_id: 2});
 });
 
 

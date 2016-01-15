@@ -13,5 +13,6 @@ router.use(api_prefix, require('./auth'));
 router.use(api_prefix, require('./products'));
 router.use(api_prefix, require('./categories'));
 router.use(api_prefix, require('./redirect'));
+router.use(api_prefix, require('./orders'));
 
 module.exports = router;
