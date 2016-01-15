@@ -30,12 +30,7 @@ class Login extends React.Component {
                 console.log(data)
                 console.log('Token: ' + data.token);
                 localStorage.setItem('token', data.token);
-                /*var self = this;
-                 ApiActions.get('').then(function(data){
-                 self.dispatch(true);
-                 }).catch(function(err){
-                 self.dispatch(false);
-                 })*/
+                location.hash = '';
             })
             .catch(function(err){
                 console.log('error');
@@ -69,7 +64,7 @@ class Login extends React.Component {
 				<input type="text" name="email" id="email" className={this.state.errors.email ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Электронная почта" tabIndex="1" />
 			</div>
             <div className="form-group">
-				<input type="text" name="password" id="password" className={this.state.errors.password ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Пароль" tabIndex="2" />
+				<input type="password" name="password" id="password" className={this.state.errors.password ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Пароль" tabIndex="2" />
 			</div>
             </div>
             <div className="btn btn-primary btn-block" onClick={this.login}>Отправить</div>

@@ -6,6 +6,7 @@ class OrdersStore {
 
     constructor() {
         this.product = {};
+        this.order = {};
         this.bindListeners({
             onAdd: OrdersActions.ADD,
             onGetProduct: OrdersActions.GET_PRODUCT
@@ -17,7 +18,6 @@ class OrdersStore {
     }
 
     onGetProduct(product) {
-        debugger
         this.product = product;
     }
 

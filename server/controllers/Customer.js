@@ -9,7 +9,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
 
             Customer.add(partner_id).then(function (customer) {
-                resolve(customer)
+                resolve(customer.attributes)
             }).catch(function (err) {
                 reject(err);
             });

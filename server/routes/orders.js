@@ -13,16 +13,30 @@ router.post('/order', function(req, res) {
             if(! req.cookies.id) {
                 CustomerController.add()
                     .then(function(customer) {
-                        addOrder(product, customer);
+
+                        OrderController.add(product, customer)
+                            .then(function (order) {
+                                res.send(order)
+                            }).catch(function (err) {
+                                res.status(400).send(err);
+                            })
+
                     }).catch(function(err){
-                        reject(err);
+                        res.status(400).send(err);
                     });
             } else {
-                CustomerController.get(req.cookies.id)
+                CustomerController.get(+req.cookies.id)
                     .then(function(customer) {
-                        addOrder(product, customer);
+
+                        OrderController.add(product, customer)
+                            .then(function (order) {
+                                res.send(order)
+                            }).catch(function (err) {
+                                res.status(400).send(err);
+                            })
+
                     }).catch(function(err){
-                        reject(err);
+                        res.status(400).send(err);
                     });
             }
             }).catch(function (err) {
@@ -30,15 +44,6 @@ router.post('/order', function(req, res) {
             });
 
 });
-
-function addOrder(product, customer) {
-    return OrderController.add(product, customer)
-            .then(function (order) {
-                resolve(order);
-            }).catch(function (err) {
-                reject(err);
-            });
-}
 
 
 module.exports = router;

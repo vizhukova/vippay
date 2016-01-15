@@ -28,9 +28,16 @@ var Partner = bookshelf.Model.extend({
         return record.save();
     }),
 
-    get: Promise.method(function (id) {
-        return knex.first('id', 'partner_id').from('customers').where('id', id);
-    }),
+    get(id){
+        return new Promise((resolve, reject) => {
+            knex.first('id', 'partner_id').from('customers').where('id', id).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            });
+        })
+
+    },
 
     push(id){
         return new Promise((resolve, reject) => {

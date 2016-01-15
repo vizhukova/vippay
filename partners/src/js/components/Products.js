@@ -45,7 +45,7 @@ class Products extends React.Component {
                     <td>{item.name}</td>
                     <td>{item.price}</td>
                     <td>{item.description}</td>
-                    <td><a href={item.product_link}>{item.product_link}</a></td>
+                    <td><a href={item.ref_link}>Ссылка</a></td>
                 </tr>
                 })}
                 </tbody>

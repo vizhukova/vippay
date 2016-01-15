@@ -29,6 +29,7 @@ class Category extends React.Component {
     }
 
     deleteCategory() {
+        debugger
         CategoriesAction.deleteCategory(this.props.params.id);
     }
 

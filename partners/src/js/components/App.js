@@ -11,10 +11,18 @@ class Application extends React.Component {
         this.state = {
 
         };
+
+        this.update = this.update.bind(this);
+        this.Out = this.Out.bind(this);
     }
 
     componentDidMount() {
         AuthStore.listen(this.update)
+        AuthActions.check();
+    }
+
+    componentWillUnmount() {
+        AuthStore.unlisten(this.update)
 
     }
 
@@ -25,6 +33,11 @@ class Application extends React.Component {
         }else{
            this.setState(state);
         }
+    }
+
+    Out() {
+        localStorage.removeItem('token');
+        location.reload();
     }
 
     render() {
@@ -46,8 +59,8 @@ class Application extends React.Component {
                             <li><Link to="/products">Продукты клиента</Link></li>
                             <li><Link to={`/redirect/${8}-${11}`}>Redirect</Link></li>
                         </ul>
-                        <ul className="nav navbar-nav navbar-right">
-
+                       <ul className="nav navbar-nav navbar-right">
+                          <li><button className="btn btn-link" onClick={this.Out}>Выход</button></li>
                         </ul>
                     </div>
                 </div>

@@ -31,12 +31,7 @@ class Register extends React.Component {
 				console.log(data)
 				console.log('Token: ' + data.token);
 				localStorage.setItem('token', data.token);
-				/*var self = this;
-				ApiActions.get('').then(function(data){
-					self.dispatch(true);
-				}).catch(function(err){
-					self.dispatch(false);
-				})*/
+				location.hash = '';
 			})
 			.catch(function(err){
 				console.log('error');

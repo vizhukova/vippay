@@ -29,7 +29,6 @@ class Pending extends React.Component {
     }
 
     update(state){
-        debugger
         _.assign(this.state, state);
         this.setState({});
     }

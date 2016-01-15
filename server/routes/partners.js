@@ -40,13 +40,15 @@ router.post('/partner/login', function(req, res){
 
 });
 
-router.get('/partner/products', function(req, res) {
-    PartnerController.getAllProducts(req.user.id)
-        .then(function(products){
-        res.send(products)
-    }).catch(function(err) {
-        res.status(400).send(err.errors)
-    });
+router.get('/partner/products', function (req, res) {
+    PartnerController.getAllProducts(req.user.id).then(function (products) {
+        products.map((p) => {
+            p.ref_link = `/redirect/${req.user.id}-${p.id}`
+        });
+            res.send(products)
+        }).catch(function (err) {
+            res.status(400).send(err.errors)
+        });
 });
 
 

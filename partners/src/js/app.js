@@ -20,6 +20,7 @@ import Redirect from './components/Redirect';
                 <Route path="/redirect/:id" component={Redirect} />
             </Route>
             <Route path="/auth/:id" component={Auth} />
+            <Route path="/auth" component={Auth} />
         </Router>
     ), document.getElementById("app-container"));
 

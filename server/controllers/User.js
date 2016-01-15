@@ -17,7 +17,7 @@ module.exports = {
                         errors: errors
                     })
                 }
-                var token = jwt.encode({id: model.id}, 'secret');
+                var token = jwt.encode({id: model.id, role: 'client'}, 'secret');
                 resolve({modelData: model.attributes, token: token});
 
             }).catch(function(err){
@@ -33,13 +33,26 @@ module.exports = {
             var errors = {};
 
             User.login(user).then(function(model){
-                console.log(model)
 
-                var token = jwt.encode(model.id, 'secret');
+                var token = jwt.encode({id: model.id, role: 'client'}, 'secret');
                 resolve({modelData: model.attributes, token: token});
 
             }).catch(function(err){
                 console.log(err.stack)
+                reject(err);
+            })
+
+        })
+    },
+
+    getById(id) {
+        return new Promise(function(resolve, reject){
+
+            var errors = {};
+
+            User.getById(id).then(function(model){
+                resolve(model);
+            }).catch(function(err){
                 reject(err);
             })
 

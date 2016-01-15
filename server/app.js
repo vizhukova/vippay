@@ -22,6 +22,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 
 app.use(require('./routes/api'));
+app.use(require('./routes/redirect'));
 app.get('/client*', function(req, res){
     res.render('client')
 });

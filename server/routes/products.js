@@ -13,7 +13,7 @@ router.get('/products/:id', function(req, res){
 });
 
 router.post('/product', function(req, res){
-    req.body.user_id = req.user.id.id;
+    req.body.user_id = req.user.id;
     ProductController.newProduct(req.body).then(function(product){
         res.send(product)
     }).catch(function(err){

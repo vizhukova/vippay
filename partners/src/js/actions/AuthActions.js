@@ -8,9 +8,9 @@ class AuthActions {
         this.dispatch(auth);
     }
 
-    check() {
+    check(token) {
         var self = this;
-        ApiActions.get('check').then(function(data){
+        ApiActions.get('check', {role: 'partner'}).then(function(data){
             self.dispatch(true);
         }).catch(function(err){
             self.dispatch(false);

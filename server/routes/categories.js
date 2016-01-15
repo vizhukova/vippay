@@ -15,7 +15,7 @@ router.get('/category/:id', function(req, res){
 
 router.get('/category', function(req, res){
 
-    CategoryController.getAllCategories(req.user.id.id).then(function(categories){
+    CategoryController.getAllCategories(req.user.id).then(function(categories){
         res.send(categories)
     }).catch(function(err){
         res.status(400).send(err.errors)
@@ -32,7 +32,7 @@ router.post('/category', function(req, res){
 
     CategoryController.newCategory({
         name: req.body.category,
-        user_id: req.user.id.id
+        user_id: req.user.id
     }).then(function(category){
         res.send(category)
     }).catch(function(err){

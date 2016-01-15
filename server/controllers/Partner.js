@@ -25,7 +25,7 @@ module.exports = {
                         errors: errors
                     })
                 }
-                var token = jwt.encode({id: model.id}, 'secret');
+                var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
                 resolve({modelData: model.attributes, token: token});
 
                 }).catch(function(err){
@@ -44,12 +44,12 @@ module.exports = {
 
             var errors = {};
 
-             User.getById(partner.client_id).then(function(id){
+             //User.getById(partner.client_id).then(function(id){
 
                  Partner.login(partner).then(function(model){
                 console.log(model)
 
-                var token = jwt.encode(model.id, 'secret');
+                var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
                 resolve({modelData: model.attributes, token: token});
 
                 }).catch(function(err){
@@ -57,10 +57,10 @@ module.exports = {
                     reject(err);
                 })
 
-            }).catch(function(err){
+            /*}).catch(function(err){
                 console.log(err.stack)
                 reject(err);
-            })
+            })*/
 
         })
     },
@@ -89,6 +89,20 @@ module.exports = {
             }).catch(function (err) {
                 reject(err);
             });
+        })
+    },
+
+    getById(id) {
+        return new Promise(function(resolve, reject){
+
+            var errors = {};
+
+            Partner.getById(id).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
         })
     }
 };

@@ -12,8 +12,6 @@ module.exports = {
                 resolve(model.attributes);
 
             }).catch(function (err) {
-                debugger
-                console.log(err.stack)
                 reject(err);
             })
 

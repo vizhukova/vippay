@@ -11,16 +11,27 @@ class Application extends React.Component {
         this.state = {
 
         };
+
+        this.update = this.update.bind(this);
+        this.Out = this.Out.bind(this);
     }
 
     componentDidMount() {
         AuthStore.listen(this.update)
-        //AuthActions.check();
+        AuthActions.check(localStorage.getItem('token'));
 
     }
 
+    componentWillUnmount() {
+        AuthStore.unlisten(this.update)
+    }
+
+    Out() {
+        localStorage.removeItem('token');
+        location.reload();
+    }
+
     update(state){
-        debugger;
         if(!state.auth){
             location.hash = 'auth';
         }else{
@@ -49,9 +60,10 @@ class Application extends React.Component {
                             <li><Link to="/partners">Партнеры</Link></li>
                             <li><Link to="/statistics">Статистика</Link></li>
                             <li><Link to="/orders">Заказы</Link></li>
+                            <li><Link to="/settings">Настройка</Link></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-
+                          <li><button className="btn btn-link" onClick={this.Out}>Выход</button></li>
                         </ul>
                     </div>
                 </div>

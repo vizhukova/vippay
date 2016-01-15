@@ -16,7 +16,6 @@ class CategoriesAction {
     addNewCategory(category) {
         var self = this;
         ApiActions.post('category', category.category).then(function(data){
-            debugger
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);

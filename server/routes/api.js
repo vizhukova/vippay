@@ -12,7 +12,8 @@ router.use(api_prefix, require('./partners'));
 router.use(api_prefix, require('./auth'));
 router.use(api_prefix, require('./products'));
 router.use(api_prefix, require('./categories'));
-router.use(api_prefix, require('./redirect'));
+//router.use(api_prefix, require('./redirect'));
 router.use(api_prefix, require('./orders'));
+router.use(api_prefix, require('./settings'));
 
 module.exports = router;

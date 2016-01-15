@@ -26,7 +26,7 @@ var Product = bookshelf.Model.extend({
 
         var record = new this({
             customer_id: customer.id,
-            partner_id: customer.attributes.partner_id[customer.attributes.partner_id.length - 1],
+            partner_id: customer.partner_id[customer.partner_id.length - 1],
             client_id: product.user_id,
             product_id: product.id,
             product: JSON.stringify(product),

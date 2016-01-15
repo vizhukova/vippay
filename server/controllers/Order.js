@@ -10,7 +10,7 @@ module.exports = {
 
             Order.add(product, customer)
                 .then(function (order) {
-                resolve(order)
+                resolve(order.attributes)
             }).catch(function (err) {
                 reject(err);
             });

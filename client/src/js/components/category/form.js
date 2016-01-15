@@ -44,7 +44,6 @@ class CategoryForm extends React.Component {
     }
 
     editCategory() {
-        debugger
         if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
         CategoriesAction.editCategory(this.state.category);
     }
