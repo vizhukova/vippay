@@ -3,7 +3,7 @@ var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
 
-var Product = bookshelf.Model.extend({
+var Order = bookshelf.Model.extend({
 
     tableName: 'orders',
 
@@ -22,19 +22,10 @@ var Product = bookshelf.Model.extend({
 
 }, {
 
-    add: Promise.method(function (product, customer) {
-
-        var record = new this({
-            customer_id: customer.id,
-            partner_id: customer.partner_id[customer.partner_id.length - 1],
-            client_id: product.user_id,
-            product_id: product.id,
-            product: JSON.stringify(product),
-            step: 'pending'
-        });
-        return record.save();
+    get: Promise.method(function (id) {
+        return knex.select().from('orders').where('id', id);
     })
 
 })
 
-module.exports = Product;
+module.exports = Order;

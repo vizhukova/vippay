@@ -48,7 +48,7 @@ var Product = bookshelf.Model.extend({
 
     getAllByUser(id){
         return new Promise((resolve, reject) => {
-            return knex('products').where({'user_id': id})
+            return knex('products').where({'user_id': id, 'available': true})
             .then((res) => {
                 resolve(res);
             }).catch((err) => {

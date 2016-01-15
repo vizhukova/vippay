@@ -5,12 +5,12 @@ var _ = require('lodash');
 
 module.exports = {
 
-    add(product, customer) {
+    get(id) {
         return new Promise(function (resolve, reject) {
 
-            Order.add(product, customer)
-                .then(function (order) {
-                resolve(order.attributes)
+            Order.get(id)
+                .then(function (orders) {
+                resolve(orders)
             }).catch(function (err) {
                 reject(err);
             });

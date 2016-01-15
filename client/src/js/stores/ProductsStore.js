@@ -29,6 +29,8 @@ class ProductsStore {
         } else {
              this.products.push(product);
         }
+
+        this.onResetProduct();
     }
 
     onGetCurrentProduct(product) {
@@ -45,6 +47,8 @@ class ProductsStore {
             var index = _.findIndex(this.products, { 'id': product.id });
             this.products[index] = product;
         }
+
+        this.onResetProduct();
     }
 
     onRemoveProduct(product) {
@@ -52,6 +56,10 @@ class ProductsStore {
         this.products = _.filter(this.products, function(obj) {
             return obj.id != product.id;
         });
+    }
+
+    onResetProduct() {
+        this.product = {};
     }
 
 }

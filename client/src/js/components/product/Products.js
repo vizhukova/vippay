@@ -37,7 +37,7 @@ class ProductItem extends React.Component {
                     <td>{this.props.product.price}</td>
                     <td>{this.props.product.description}</td>
                     <td><button type="button" className="btn btn-default pull-right">
-                        <a href={this.props.product.product_link}>Ссылка на продукт</a></button></td>
+                        <a href={this.props.product.product_link} target="_blank">Ссылка на продукт</a></button></td>
                      <td><button type="button" className={this.props.product.available ? `btn btn-default ${available}` : `btn btn-default ${notAvailable}`} onClick={this.setAvailable}></button></td>
                     <td><Link to={`/category/${this.props.product.category_id}/products/${this.props.product.id}`}><button type="button" className="btn btn-default pull-right glyphicon glyphicon-pencil"></button></Link></td>
                     <td><button type="button" className="btn btn-default pull-right glyphicon glyphicon-remove" onClick={this.removeProduct}></button></td>

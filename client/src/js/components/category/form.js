@@ -41,11 +41,13 @@ class CategoryForm extends React.Component {
     addNewCategory() {
         if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
         CategoriesAction.addNewCategory(this.state);
+        history.back();
     }
 
     editCategory() {
         if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
         CategoriesAction.editCategory(this.state.category);
+        history.back();
     }
 
     onChange(e) {

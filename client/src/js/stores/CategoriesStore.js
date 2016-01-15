@@ -30,10 +30,10 @@ class CategoriesStore {
             console.log(JSON.parse(category.message).category)
                 JSON.parse(category.message).category
                 .forEach(function(i){alert(i)})
-            return
         } else {
             this.categories.push({category: category.category, id: category.id})
         }
+        this.onResetCategory();
     }
 
     onEditCategory(category) {
@@ -41,11 +41,11 @@ class CategoriesStore {
             console.log(JSON.parse(category.message).category)
                 JSON.parse(category.message).category
                 .forEach(function(i){alert(i)})
-            return
         } else {
             var index = _.findIndex(this.categories, { 'id': category.id });
             this.categories[index] = category;
         }
+        this.onResetCategory();
     }
 
     onGetCurrentCat(categoryObj) {
@@ -58,6 +58,13 @@ class CategoriesStore {
         this.categories = _.filter(this.categories, function(obj) {
             return obj.id != category.id;
         })
+    }
+
+    onResetCategory(){
+        this.category = {
+            id: null,
+            name: ''
+        };
     }
 
 }
