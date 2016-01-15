@@ -28,7 +28,7 @@ app.get('/client*', function(req, res){
 app.get('/partner*', function(req, res){
     res.render('partner')
 });
-app.get('/*', function(req, res){
+app.get('/order/:id', function(req, res){
     res.render('order')
 });
 var server = http.listen(config.get('port'), function() {
