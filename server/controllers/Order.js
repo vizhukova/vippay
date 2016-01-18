@@ -15,6 +15,18 @@ module.exports = {
                 reject(err);
             });
         })
+    },
+
+    add(data) {
+        return new Promise(function (resolve, reject) {
+
+            Order.add(data)
+                .then(function (order) {
+                resolve(order)
+            }).catch(function (err) {
+                reject(err);
+            });
+        })
     }
 
 };

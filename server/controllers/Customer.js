@@ -5,10 +5,10 @@ var _ = require('lodash');
 
 module.exports = {
 
-    add(partner_id) {
+    add(data) {
         return new Promise(function (resolve, reject) {
 
-            Customer.add(partner_id).then(function (customer) {
+            Customer.add(data).then(function (customer) {
                 resolve(customer.attributes)
             }).catch(function (err) {
                 reject(err);
@@ -16,21 +16,21 @@ module.exports = {
         })
     },
 
-    push(id) {
+    push(data) {
         return new Promise(function (resolve, reject) {
 
-            Customer.get(id.customer_id).then(function (customer) {
+            Customer.get(data.customer_id).then(function (customer) {
 
-                if(customer.partner_id[customer.partner_id.length - 1] == id.partner_id) {
-                    resolve(customer);
-                    return;
-                }
+                Customer.get(data.customer_id).then(function(customer) {
 
-                Customer.push(id).then(function (customer) {
-                resolve(customer)
-                }).catch(function (err) {
-                    reject(err);
-                });
+                    var arr = customer.partner_product_id.partner_id;
+
+                    if(arr[arr.length - 1] == data.partner_id) {resolve(customer); return;}
+                    arr.push(data.partner_id);
+                    var res = Customer.edit(data.customer_id, {product_id: customer.partner_product_id.product_id,
+                                                     partner_id: arr});
+                    resolve(res);
+                })
 
             }).catch(function (err) {
                 reject(err);

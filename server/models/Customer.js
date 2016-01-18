@@ -23,14 +23,17 @@ var Partner = bookshelf.Model.extend({
 
 }, {
 
-    add: Promise.method(function (partner_id) {
-        var record = new this({partner_id: [partner_id]});
+    add: Promise.method(function (data) {
+        var record = new this({
+            partner_product_id: JSON.stringify({product_id:data.product_id,
+                                                partner_id: [data.partner_id]})
+        });
         return record.save();
     }),
 
     get(id){
         return new Promise((resolve, reject) => {
-            knex.first('id', 'partner_id').from('customers').where('id', id).then((res) => {
+            knex.first('id', 'partner_product_id').from('customers').where('id', id).then((res) => {
                 resolve(res)
             }).catch((err) => {
                 reject(err)
@@ -39,9 +42,19 @@ var Partner = bookshelf.Model.extend({
 
     },
 
-    push(id){
+    edit(id, data) {
+        return knex('customers')
+            .where('id', '=', id)
+            .update({
+               partner_product_id: JSON.stringify(data)
+            });
+    },
+
+    push(data){
         return new Promise((resolve, reject) => {
-            knex.raw('update customers set partner_id = array_append(partner_id, ?) where id=? returning partner_id', [id.partner_id, id.customer_id])
+            knex.raw('update customers set partner_product_id = array_append(partner_product_id, ?) where id=? returning partner_product_id',
+                [JSON.stringify({partner_id: data.partner_id, product_id: data.product_id})
+                    , data.customer_id])
             .then((res) => {
                 resolve(res);
                 }).catch((err) => {

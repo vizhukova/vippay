@@ -6,7 +6,7 @@ class RedirectAction {
 
     redirect(data) {
         var self = this;
-        ApiActions.post(`redirect`, data).then(function(data){
+        ApiActions.get(`redirect/${data.id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);
