@@ -15,7 +15,7 @@ class ProductsAction {
 
     add(id) {
         var self = this;
-        ApiActions.post(`order`, {id: id}).then(function(data){
+        ApiActions.post(`order/`, {id: id}).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);
