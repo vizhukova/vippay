@@ -80,7 +80,7 @@ var Partner = bookshelf.Model.extend({
     }),
 
     getById: Promise.method(function (id) {
-        return knex('partners').select('id').where({'id': id});
+        return knex.first('id', 'client_id').from('partners').select('id').where({'id': id});
     })
 });
 

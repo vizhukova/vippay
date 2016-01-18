@@ -11,7 +11,6 @@ class CategoriesStore {
             id: null,
             name: ''
         };
-        this.edit = false;
         this.bindListeners({
             onCheck: CategoriesAction.GET_ALL_CATEGORIES,
             onAddNewCat: CategoriesAction.ADD_NEW_CATEGORY,

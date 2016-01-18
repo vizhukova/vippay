@@ -37,7 +37,14 @@ var Order = bookshelf.Model.extend({
         });
 
         return record.save();
-    })
+    }),
+
+    pay(id){
+            return knex('orders')
+            .update({'step': 'complete'})
+            .where('id', id)
+            .returning(['partner_id','customer_id', 'client_id', 'product_id', 'id']);
+    }
 
 })
 

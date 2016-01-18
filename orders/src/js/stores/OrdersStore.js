@@ -9,6 +9,7 @@ class OrdersStore {
         this.order = {};
         this.bindListeners({
             onAdd: OrdersActions.ADD,
+            onPay: OrdersActions.PAY,
             onGetProduct: OrdersActions.GET_PRODUCT
         });
     }
@@ -19,6 +20,10 @@ class OrdersStore {
 
     onGetProduct(product) {
         this.product = product;
+    }
+
+    onPay(order) {
+        console.log('PAYYYYY');
     }
 
 }

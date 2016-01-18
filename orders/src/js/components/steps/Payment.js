@@ -1,6 +1,7 @@
 import React from 'react'
 import {RoutingContext, Link} from 'react-router'
 import OrdersStore from'./../../stores/OrdersStore'
+import OrdersAction from'./../../actions/OrdersActions'
 
 class Order extends React.Component {
 
@@ -8,6 +9,7 @@ class Order extends React.Component {
         super();
         this.state = OrdersStore.getState();
         this.update = this.update.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     componentDidMount() {
@@ -16,6 +18,10 @@ class Order extends React.Component {
 
     componentWillUnmount() {
         OrdersStore.unlisten(this.update);
+    }
+
+    onClick() {
+        OrdersAction.pay(this.state.order.id)
     }
 
     update(state) {
@@ -27,7 +33,7 @@ class Order extends React.Component {
                 <div className="step"><span className="step-text">2</span></div>
                  <div className="content-step">
                     <div className="order-num"><b>ID заказа: </b> {this.state.order.id}</div>
-                    <button type="button" className="btn btn-danger btn-lg order">Заказать</button>
+                    <button type="button" className="btn btn-danger btn-lg order" onClick={this.onClick}>Заказать</button>
                  </div>
            </div>
     }

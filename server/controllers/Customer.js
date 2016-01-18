@@ -21,8 +21,6 @@ module.exports = {
 
             Customer.get(data.customer_id).then(function (customer) {
 
-                Customer.get(data.customer_id).then(function(customer) {
-
                     var arr = customer.partner_product_id.partner_id;
 
                     if(arr[arr.length - 1] == data.partner_id) {resolve(customer); return;}
@@ -30,7 +28,6 @@ module.exports = {
                     var res = Customer.edit(data.customer_id, {product_id: customer.partner_product_id.product_id,
                                                      partner_id: arr});
                     resolve(res);
-                })
 
             }).catch(function (err) {
                 reject(err);

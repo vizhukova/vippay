@@ -2,12 +2,13 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import CategoriesStore from'./../../stores/CategoriesStore';
 import CategoriesAction from'./../../actions/CategoriesAction';
+import _  from 'lodash';
 
 class Category extends React.Component {
 
     constructor(){
         super();
-        this.state = CategoriesStore.getState();
+        this.state = _.assign(CategoriesStore.getState(), {edit: false});
         this.update = this.update.bind(this);
         this.onEditClick = this.onEditClick.bind(this);
         this.deleteCategory = this.deleteCategory.bind(this);
@@ -16,6 +17,7 @@ class Category extends React.Component {
     componentDidMount() {
         CategoriesStore.listen(this.update);
         CategoriesAction.getAllCategories();
+        console.log(this.state)
     }
 
     componentWillUnmount() {
@@ -28,17 +30,21 @@ class Category extends React.Component {
         })
     }
 
-    deleteCategory() {
+    deleteCategory(e) {
         debugger
-        CategoriesAction.deleteCategory(this.props.params.id);
+        var id = e.target.getAttribute("data");
+        CategoriesAction.deleteCategory(id);
     }
 
     update(state){
-        this.setState(state);
+        _.assign(this.state, state);
+        this.setState({});
+        console.log(this.state)
     }
 
     render(){
-        var baseClass = "btn pull-right btn-xs";
+        var baseClassDel = "btn pull-right btn-xs glyphicon glyphicon-remove";
+        var baseClassEdit = "btn pull-right btn-xs glyphicon glyphicon-pencil";
         var self = this;
         if(!this.state.categories) return;
         return  <div>
@@ -48,9 +54,9 @@ class Category extends React.Component {
                         <tbody>
                         { this.state.categories.map(function(item, index){
                         return <tr key={index}>
-                            <td><Link className="list-group-item" to={`/category/${item.id}/products`}>{item.category}</Link></td>
-                            <td> <Link to={`/category/${item.id}`}><button type="button" className={self.state.edit ? `${baseClass} btn-danger` : `${baseClass} btn-danger hidden`} onClick={self.deleteCategory}>Х</button></Link></td>
-                            <td> <Link to={`/category/${item.id}`}><button type="button" className={self.state.edit ? `${baseClass} btn-warning` : `${baseClass} btn-warning hidden`}>Редакт</button></Link></td>
+                            <td><Link className="list-group-item" to={`/category/${item.id}/products`} onClick={self.onEditClick}>{item.category}</Link></td>
+                            <td><Link to={`/category/${item.id}`}><button type="button" className={self.state.edit ? `${baseClassEdit} btn-warning` : `${baseClassEdit} btn-warning hidden`}></button></Link></td>
+                            <td><button type="button" data={item.id} className={self.state.edit ? `${baseClassDel} btn-danger` : `${baseClassDel} btn-danger hidden`} onClick={self.deleteCategory}></button></td>
                         </tr>
                         })}
                         </tbody>

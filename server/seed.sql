@@ -34,9 +34,9 @@ INSERT INTO partners (client_id, email, password, name, login)
                     ('4', 'email87@sss.ss', '123', 'name34', 'login54'),
                     ('5', 'email90@sss.ss', '123', 'name22', 'login65');
 
-INSERT INTO customers (partner_id) VALUES ('{1,2,3}'),
-                                            ('{4,2,5}'),
-                                            ('{1,3,2}'),
-                                            ('{3,2,3}'),
-                                            ('{4,2,5}'),
-                                            ('{1,5,1}');
+INSERT INTO customers (partner_id) VALUES ('{"partner_id": ["1, 2, 3"], "product_id": "1"}'),
+                                            ('{"partner_id": ["2, 1, 2"], "product_id": "2"}'),
+                                            ('{"partner_id": ["3, 4, 5"], "product_id": "3"}'),
+                                            ('{"partner_id": ["4, 1, 4"], "product_id": "4"}'),
+                                            ('{"partner_id": ["5, 1, 3"], "product_id": "5"}');
+

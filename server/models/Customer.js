@@ -47,10 +47,11 @@ var Partner = bookshelf.Model.extend({
             .where('id', '=', id)
             .update({
                partner_product_id: JSON.stringify(data)
-            });
-    },
+            })
+            .returning('partner_product_id', 'id');
+    }
 
-    push(data){
+    /*,push(data){
         return new Promise((resolve, reject) => {
             knex.raw('update customers set partner_product_id = array_append(partner_product_id, ?) where id=? returning partner_product_id',
                 [JSON.stringify({partner_id: data.partner_id, product_id: data.product_id})
@@ -61,7 +62,7 @@ var Partner = bookshelf.Model.extend({
                     reject(err);
                 })
         })
-    }
+    }*/
 
 });
 

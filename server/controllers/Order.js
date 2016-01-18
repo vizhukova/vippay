@@ -22,6 +22,18 @@ module.exports = {
 
             Order.add(data)
                 .then(function (order) {
+                resolve(order.attributes)
+            }).catch(function (err) {
+                reject(err);
+            });
+        })
+    },
+
+    pay(id) {
+        return new Promise(function (resolve, reject) {
+
+            Order.pay(id)
+                .then(function (order) {
                 resolve(order)
             }).catch(function (err) {
                 reject(err);

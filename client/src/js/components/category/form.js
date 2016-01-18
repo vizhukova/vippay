@@ -17,6 +17,7 @@ class CategoryForm extends React.Component {
     }
 
     componentDidMount() {
+        debugger
         if(this.props.params.id) {
             this.getCurrentCategory(this.props.params.id);
         }
@@ -27,6 +28,13 @@ class CategoryForm extends React.Component {
     componentWillReceiveProps(nextProps){
         if(nextProps.params.id) {
             this.getCurrentCategory(nextProps.params.id);
+        } else {
+            this.setState({
+                category: {
+                    id: null,
+                    name: ''
+                }
+            })
         }
     }
 
