@@ -17,7 +17,7 @@ class Application extends React.Component {
     }
 
     componentDidMount() {
-        AuthStore.listen(this.update)
+        AuthStore.listen(this.update);
         AuthActions.check(localStorage.getItem('token'));
 
     }

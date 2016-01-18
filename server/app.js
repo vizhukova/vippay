@@ -20,7 +20,9 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 
 
-
+app.get('/', function(req, res){
+   res.redirect('/client');
+});
 app.use(require('./routes/api'));
 app.use(require('./routes/redirect'));
 app.get('/client*', function(req, res){

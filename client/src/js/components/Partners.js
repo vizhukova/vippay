@@ -1,6 +1,7 @@
 import React from 'react';
-import PartnersAction from'./../actions/PartnersAction'
-import PartnersStore from'./../stores/PartnersStore'
+import PartnersAction from './../actions/PartnersAction';
+import AuthAction from './../actions/AuthActions';
+import PartnersStore from './../stores/PartnersStore';
 
 
 class Partners extends React.Component {
@@ -25,8 +26,15 @@ class Partners extends React.Component {
         this.setState(state);
     }
 
+    login(e){
+        e.preventDefault();
+        AuthAction.guestLogin(e.target.dataset.login).then(() => {
+            location = '/partner'
+        });
+    }
 
     render(){
+        var self = this;
 
         return  <table className="table">
                 <thead>
@@ -42,6 +50,7 @@ class Partners extends React.Component {
                          <td>{item.login}</td>
                          <td>{item.email}</td>
                          <td>{item.name}</td>
+                         <td><a data-login={item.login} onClick={self.login} href="#">Войти под именем</a></td>
                      </tr>
                  })}
                 </tbody>

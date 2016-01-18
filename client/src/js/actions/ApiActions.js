@@ -25,7 +25,7 @@ class ApiActions{
                     resolve(res);
                 },
                  headers: {
-                    auth: token,
+                    auth: token
                 },
                 error(response){
                     var error = new Error(response.responseJSON.msg);
@@ -51,7 +51,7 @@ class ApiActions{
                     resolve(response);
                 },
                 headers: {
-                    auth: token,
+                    auth: token
                 },
                 error(response){
                     var error = new Error(response.responseText);
@@ -75,7 +75,7 @@ class ApiActions{
                 data: JSON.stringify(data),
                 contentType: "application/json; charset=utf-8",
                 headers: {
-                    auth: token,
+                    auth: token
                 },
                 success(response){
                     resolve(response);
@@ -100,7 +100,7 @@ class ApiActions{
                 url: BASE_URL + path,
                 data: data,
                 headers: {
-                    auth: token,
+                    auth: token
                 },
                 success(response){
                     resolve(response);
@@ -117,4 +117,4 @@ class ApiActions{
 
 }
 
-module.exports = ApiActions;
+export default ApiActions;

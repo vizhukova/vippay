@@ -65,6 +65,11 @@ var Partner = bookshelf.Model.extend({
         return record.save();
     }),
 
+    guestLogin(login){
+        return new this({login: login}).fetch({require: true}).tap(function (customer) {
+
+        });
+    },
 
     getClientId: Promise.method(function (id) {
         return knex.first('client_id').from('partners').where('id', id);

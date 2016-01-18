@@ -65,6 +65,32 @@ module.exports = {
         })
     },
 
+    guestLogin(login){
+        return new Promise(function(resolve, reject){
+
+            var errors = {};
+
+             //User.getById(partner.client_id).then(function(id){
+
+                 Partner.guestLogin(login).then(function(model){
+                console.log(model);
+
+                var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
+                resolve({modelData: model.attributes, token: token});
+
+                }).catch(function(err){
+                    console.log(err.stack);
+                    reject(err);
+                });
+
+            /*}).catch(function(err){
+                console.log(err.stack)
+                reject(err);
+            })*/
+
+        })
+    },
+
     getAllProducts(id) {
         return new Promise(function (resolve, reject) {
 

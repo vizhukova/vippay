@@ -17,6 +17,21 @@ class AuthActions {
         })
     }
 
+    guestLogin(login){
+
+        return new Promise((resolve, reject) => {
+
+            ApiActions.post('guest_login', {login: login}).then((data) => {
+                localStorage.setItem('token', data.token);
+                resolve(data.token);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+
+    }
+
 }
 
 export default alt.createActions(AuthActions);
