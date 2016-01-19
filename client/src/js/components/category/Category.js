@@ -11,6 +11,7 @@ class Category extends React.Component {
         this.state = _.assign(CategoriesStore.getState(), {edit: false});
         this.update = this.update.bind(this);
         this.onEditClick = this.onEditClick.bind(this);
+        this.onClickCat = this.onClickCat.bind(this);
         this.deleteCategory = this.deleteCategory.bind(this);
     }
 
@@ -30,8 +31,11 @@ class Category extends React.Component {
         })
     }
 
+    onClickCat() {
+        if(this.state.edit) this.onEditClick();
+    }
+
     deleteCategory(e) {
-        debugger
         var id = e.target.getAttribute("data");
         CategoriesAction.deleteCategory(id);
     }
@@ -54,7 +58,7 @@ class Category extends React.Component {
                         <tbody>
                         { this.state.categories.map(function(item, index){
                         return <tr key={index}>
-                            <td><Link className="list-group-item" to={`/category/${item.id}/products`} onClick={self.onEditClick}>{item.category}</Link></td>
+                            <td><Link className="list-group-item" to={`/category/${item.id}/products`} onClick={self.onClickCat}>{item.category}</Link></td>
                             <td><Link to={`/category/${item.id}`}><button type="button" className={self.state.edit ? `${baseClassEdit} btn-warning` : `${baseClassEdit} btn-warning hidden`}></button></Link></td>
                             <td><button type="button" data={item.id} className={self.state.edit ? `${baseClassDel} btn-danger` : `${baseClassDel} btn-danger hidden`} onClick={self.deleteCategory}></button></td>
                         </tr>

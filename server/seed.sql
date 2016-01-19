@@ -17,15 +17,21 @@ INSERT INTO categories (category, user_id) VALUES ('category1', '1'),
                                                       ('category10', '6'),
                                                       ('category11', '6');
 
-INSERT INTO products (category_id, user_id, name, price, product_link, image, description)
-              VALUES ('1', '1', 'product1', '12', 'product_link11', 'image11', 'description11'),
-                    ('2', '1', 'product2', '22', 'product_link22', 'image22', 'description2'),
-                    ('5', '2', 'product3', '133', 'product_link33', 'image33', 'description33'),
-                    ('6', '3', 'product4', '42', 'product_link44', 'image44', 'description44'),
-                    ('7', '4', 'product55', '52', 'product_link55', 'image55', 'description55'),
-                    ('8', '5', 'product6', '162', 'product_link66', 'image66', 'description66'),
-                    ('9', '6', 'product17', '172', 'product_link77', 'image77', 'description77'),
-                    ('11', '6', 'product8', '182', 'product_link88', 'image88', 'description88');
+INSERT INTO currency (name, basic) VALUES ('UAH', 'true'),
+                                          ('USD', 'false'),
+                                          ('EUR', 'false'),
+                                          ('RUB', 'false');
+
+
+INSERT INTO products (category_id, user_id, name, price, product_link, image, description, currency_id)
+              VALUES ('1', '1', 'product1', '12', 'product_link11', 'image11', 'description11', '1'),
+                    ('2', '1', 'product2', '22', 'product_link22', 'image22', 'description2', '1'),
+                    ('5', '2', 'product3', '133', 'product_link33', 'image33', 'description33', '2'),
+                    ('6', '3', 'product4', '42', 'product_link44', 'image44', 'description44', '1'),
+                    ('7', '4', 'product55', '52', 'product_link55', 'image55', 'description55', '3'),
+                    ('8', '5', 'product6', '162', 'product_link66', 'image66', 'description66', '1'),
+                    ('9', '6', 'product17', '172', 'product_link77', 'image77', 'description77', '1'),
+                    ('11', '6', 'product8', '182', 'product_link88', 'image88', 'description88', '3');
 
 INSERT INTO partners (client_id, email, password, name, login)
              VALUES ('1', 'email23@sss.ss', '123', 'name0', 'login32'),
@@ -34,9 +40,9 @@ INSERT INTO partners (client_id, email, password, name, login)
                     ('4', 'email87@sss.ss', '123', 'name34', 'login54'),
                     ('5', 'email90@sss.ss', '123', 'name22', 'login65');
 
-INSERT INTO customers (partner_id) VALUES ('{"partner_id": ["1, 2, 3"], "product_id": "1"}'),
-                                            ('{"partner_id": ["2, 1, 2"], "product_id": "2"}'),
-                                            ('{"partner_id": ["3, 4, 5"], "product_id": "3"}'),
-                                            ('{"partner_id": ["4, 1, 4"], "product_id": "4"}'),
-                                            ('{"partner_id": ["5, 1, 3"], "product_id": "5"}');
+INSERT INTO customers (partner_product_id) VALUES ('{"product_id": "1", "partner_id": "[1,2]"}'),
+                                                  ('{"product_id": "2", "partner_id": "[3,2]"}'),
+                                                  ('{"product_id": "3", "partner_id": "[2,1]"}'),
+                                                  ('{"product_id": "4", "partner_id": "[3,2]"}'),
+                                                  ('{"product_id": "5", "partner_id": "[4,2]"}');
 

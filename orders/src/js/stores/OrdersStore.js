@@ -7,6 +7,7 @@ class OrdersStore {
     constructor() {
         this.product = {};
         this.order = {};
+        this.payed = false;
         this.bindListeners({
             onAdd: OrdersActions.ADD,
             onPay: OrdersActions.PAY,
@@ -24,6 +25,7 @@ class OrdersStore {
 
     onPay(order) {
         console.log('PAYYYYY');
+        this.payed = true;
     }
 
 }

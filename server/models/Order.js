@@ -2,6 +2,7 @@ var checkit = require('checkit');
 var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
+var _ = require('lodash');
 
 var Order = bookshelf.Model.extend({
 
@@ -28,6 +29,7 @@ var Order = bookshelf.Model.extend({
     }),
 
     add: Promise.method(function (data) {
+
         var record = new this({customer_id: data.customer.id,
                                partner_id: data.customer.partner_product_id.partner_id[data.customer.partner_product_id.partner_id.length - 1],
                                client_id: data.product.user_id,

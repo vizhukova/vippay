@@ -21,17 +21,33 @@ router.post('/order', function(req, res) {
     ProductController.getCurrentProduct(req.body.id).then(function(product){
 
         CustomerController.get(req.cookies.id).then(function(customer) {
-            OrderController.add({user_id: req.user.id,product: product, customer: customer})
-        .then(function (order) {
-            StatisticController.add({partner_id: order.partner_id,
-                                    product_id: order.product_id,
-                                    customer_id: order.customer_id,
-                                    client_id: order.client_id,
-                                    action: "start_order"});
-            res.send(order)
-        }).catch(function (err) {
-            res.status(400).send(err);
-        })
+
+            if(! customer) CustomerController.add({product_id: product.id})
+                .then(function(customer) {
+                    OrderController.add({user_id: req.user.id, product: product, customer: {id: customer.id, partner_product_id: JSON.parse(customer.partner_product_id)}})
+                        .then(function (order) {
+                            StatisticController.add({partner_id: order.partner_id,
+                                                    product_id: order.product_id,
+                                                    customer_id: order.customer_id,
+                                                    client_id: order.client_id,
+                                                    action: "start_order"});
+                            res.send(order)
+                        }).catch(function (err) {
+                            res.status(400).send(err);
+                        })
+                })
+            else OrderController.add({user_id: req.user.id, product: product, customer: customer})
+                        .then(function (order) {
+                            StatisticController.add({partner_id: order.partner_id,
+                                                    product_id: order.product_id,
+                                                    customer_id: order.customer_id,
+                                                    client_id: order.client_id,
+                                                    action: "start_order"});
+                            res.send(order)
+                        }).catch(function (err) {
+                            res.status(400).send(err);
+                        })
+
         })
 
 

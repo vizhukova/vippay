@@ -32,12 +32,11 @@ class ProductItem extends React.Component {
         var notAvailable = "glyphicon glyphicon-ban-circle";
 
         return <tr>
-                    <td><img src={this.props.product.image} alt="image" width="200px" height="auto"/></td>
                     <td>{this.props.product.name}</td>
                     <td>{this.props.product.price}</td>
-                    <td>{this.props.product.description}</td>
-                    <td><button type="button" className="btn btn-default pull-right">
-                        <a href={this.props.product.product_link} target="_blank">Ссылка на продукт</a></button></td>
+                    <td>{this.props.product.currency_name}</td>
+                    <td><button type="button" className="btn btn-default">
+                        <a href={`/order/${this.props.product.id}`} target="_blank">Ссылка на продукт</a></button></td>
                      <td><button type="button" className={this.props.product.available ? `btn btn-default ${available}` : `btn btn-default ${notAvailable}`} onClick={this.setAvailable}></button></td>
                     <td><Link to={`/category/${this.props.product.category_id}/products/${this.props.product.id}`}><button type="button" className="btn btn-default pull-right glyphicon glyphicon-pencil"></button></Link></td>
                     <td><button type="button" className="btn btn-default pull-right glyphicon glyphicon-remove" onClick={this.removeProduct}></button></td>
@@ -90,10 +89,9 @@ class Products extends React.Component {
             <table className="table table-hover">
                 <thead>
                   <tr>
-                    <th>Изображение</th>
                     <th>Товар</th>
                     <th>Цена</th>
-                    <th>Описание</th>
+                    <th>Валюта</th>
                     <th>Ссылка на продукт</th>
                     <th>Доступность</th>
                     <th></th>

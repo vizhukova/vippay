@@ -30,14 +30,21 @@ var Product = bookshelf.Model.extend({
 }, {
 
     newProduct: Promise.method(function (product) {
-
+        product.delivery = JSON.stringify(product.delivery);
         var record = new this(product);
         return record.save();
     }),
 
     getAllProducts(id){
         return new Promise((resolve, reject) => {
-            return knex('products').where({'category_id': id})
+            return knex('products')
+                .select('products.id', 'products.name', 'products.category_id',
+                'products.user_id', 'products.price', 'products.product_link',
+                'products.image', 'products.description', 'products.active',
+                'products.material', 'products.delivery', 'products.available',
+                'currency.name as currency_name')
+                .where({'category_id': id})
+                .join('currency', 'products.currency_id', '=', 'currency.id')
             .then((res) => {
                 resolve(res);
             }).catch((err) => {

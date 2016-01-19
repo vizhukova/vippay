@@ -5,6 +5,8 @@ import ProductsAction from'./../../actions/ProductsAction';
 import CategoriesStore from'./../../stores/CategoriesStore';
 import CategoriesAction from'./../../actions/CategoriesAction';
 import CategorySelect from'./../ui/CategorySelect';
+import CurrencySelect from'./../ui/CurrencySelect';
+import AddForm from'./../ui/AddForm';
 import _  from 'lodash';
 
 
@@ -14,7 +16,6 @@ class ProductForm extends React.Component {
         super();
         this.state = CategoriesStore.getState();
         _.assign(this.state, ProductsStore.getState());
-        console.log(this.state)
         this.update = this.update.bind(this);
         this.addNewProduct = this.addNewProduct.bind(this);
         this.editProduct = this.editProduct.bind(this);
@@ -26,8 +27,9 @@ class ProductForm extends React.Component {
         this.setState({
             product: {
                 category_id: this.props.params.id,
-                available: true
-            }
+                available: true,
+                material: false
+            },
         });
 
         console.log(this.props.params)
@@ -36,6 +38,7 @@ class ProductForm extends React.Component {
         CategoriesStore.listen(this.update);
         ProductsStore.listen(this.update);
         CategoriesAction.getAllCategories();
+        ProductsAction.getAllCurrencies();
     }
 
     componentWillUnmount() {
@@ -45,15 +48,17 @@ class ProductForm extends React.Component {
 
     checkFields() {
         var counter = 0;
+        console.log(this.state.product)
         var result = _.every(this.state.product, function(item, index) {
            counter++;
            return item.length != 0;
        })
-        if(!result || counter < 6) {alert("Все поля должы быть заполнены"); return false;}
+        if(!result || counter < 7) {alert("Все поля должы быть заполнены"); return false;}
         return true;
     }
 
     addNewProduct() {
+        debugger
         if(this.checkFields()) {
             ProductsAction.addNewProduct(this.state.product);
             history.back();
@@ -75,6 +80,7 @@ class ProductForm extends React.Component {
     onChange(e) {
         var state = {};
         if(e.target.name == "available")  state[e.target.name] =  e.target.checked;
+        if(e.target.name == "material")  state[e.target.name] =  e.target.checked;
 		else state[e.target.name] =  e.target.value;
         _.assign(this.state.product, state);
         this.setState({});
@@ -93,8 +99,11 @@ class ProductForm extends React.Component {
                 <label className="text-warning">Цена</label>
                 <input type="text" name="price" className="form-control" id="price" onChange={this.onChange}
                        placeholder="Введите цену" value={this.state.product.price}/>
+                 <label className="text-warning">Валюта</label>
+                <CurrencySelect currencies={this.state.currencies} onChange={this.onChange}
+                                current_currency={this.state.product.currency_id}/>
                 <label className="text-warning">Категория</label>
-                <CategorySelect categories={this.state.categories} current_category={this.props.params.id}
+                <CategorySelect categories={this.state.categories} current_category={this.state.product.category_id}
                                 onChange={this.onChange}/>
                 <div className="checkbox">
                   <label className="text-warning"><input name="available" checked={this.state.product.available}
@@ -110,6 +119,11 @@ class ProductForm extends React.Component {
                 <label className="text-warning">Описание:</label>
                 <textarea className="form-control" id="description" name="description"
                           onChange={this.onChange} value={this.state.product.description}></textarea>
+                <div className="checkbox">
+                  <label className="text-warning"><input name="material" checked={this.state.product.material}
+                  type="checkbox" onChange={this.onChange} />Доставляемый</label>
+                </div>
+                 <AddForm onChange={this.onChange} product={this.state.product} />
             </fieldset>
              <Link to={`/category/${this.props.params.id}/products`}><button type="button" className="btn btn-danger pull-right">{
                 "Отмена"}
