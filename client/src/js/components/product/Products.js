@@ -30,7 +30,7 @@ class ProductItem extends React.Component {
         return <tr>
                     <td>{this.props.product.name}</td>
                     <td>{this.props.product.price}</td>
-                    <td>{this.props.product.currency}</td>
+                    <td>{this.props.currency}</td>
                     <td><button type="button" className="btn btn-default">
                         <a href={`/order/${this.props.product.id}`} target="_blank">Ссылка на продукт</a></button></td>
                      <td><button type="button" className={this.props.product.available ? `btn btn-default ${available}` : `btn btn-default ${notAvailable}`} onClick={this.setAvailable}></button></td>
@@ -100,10 +100,10 @@ class Products extends React.Component {
                 </thead>
                 <tbody>
                 { this.state.products.map(function(item, index){
-                    item.currency = _.findWhere(self.state.currencies, {id: item.currency_id});
-                    item.currency  = item.currency  ? item.currency.name : item.currency;
+                    var currency = _.findWhere(self.state.currencies, {id: item.currency_id});
+                    currency  = currency  ? currency.name : currency;
 
-                return <ProductItem key={index} product={item} />
+                return <ProductItem key={index} product={item} currency={currency} />
                 })}
                 </tbody>
             </table>

@@ -52,13 +52,14 @@ class AddForm extends React.Component {
 
     constructor(){
         super();
-        var state = ProductsStore.getState();
-            this.state = {
+
+          this.state = {
             delivery: [
                 {condition: '',
                  price:''}
             ]
         };
+
         _.assign(this.state, ProductsStore.getState());
 
         this.onChange = this.onChange.bind(this);
@@ -67,8 +68,12 @@ class AddForm extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.product.delivery)
-         _.assign(this.state, {delivery: nextProps.product.delivery}, {material: nextProps.product.material});
+        if(nextProps.product.delivery) {
+            _.assign(this.state, {delivery: nextProps.product.delivery}, {material: nextProps.product.material});
+        }
+        else {
+            if(this.state.material != nextProps.product.material) this.setState({material: nextProps.product.material});
+        }
         console.log('AddForm1', this.state)
     }
 
@@ -104,6 +109,8 @@ class AddForm extends React.Component {
 
     render(){
         var self = this;
+        console.log('AddForm render', this.state);
+
         return  <div role="form" className={this.state.material ? '' : 'hide'}>
                   { this.state.delivery.map(function(item, index){
                     return  <AddFields id={index} key={index} delivery={item} onChange={self.onChange}/>
@@ -129,15 +136,18 @@ class ProductForm extends React.Component {
     }
 
     componentDidMount() {
-
+        var self = this;
         if(!this.props.params.prod_id) {
-            _.assign(this.state.product, {
+
+            this.setState({
+                product: {
                 category_id: this.props.params.id,
                 available: true,
                 material: false
+            }
             });
-        } else {
 
+        } else {
             ProductsAction.getCurrentProduct(this.props.params.prod_id);
         }
 
