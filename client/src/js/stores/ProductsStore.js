@@ -38,7 +38,6 @@ class ProductsStore {
     }
 
     onEditProduct(product) {
-        debugger
         if(product instanceof Error) {
             console.log(JSON.parse(product.message).category)
                 JSON.parse(product.message).category

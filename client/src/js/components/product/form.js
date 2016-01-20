@@ -113,10 +113,13 @@ class AddForm extends React.Component {
 
         return  <div role="form" className={this.state.material ? '' : 'hide'}>
                   { this.state.delivery.map(function(item, index){
-                    return  <AddFields id={index} key={index} delivery={item} onChange={self.onChange}/>
+                    return  <div>
+                                <AddFields id={index} key={index} delivery={item} onChange={self.onChange}/>
+                        <hr />
+                        </div>
                     })}
-                  <button type="submit" className="btn btn-success glyphicon glyphicon-plus pull-right" onClick={this.onAdd}></button>
-                  <button type="submit" className="btn btn-danger glyphicon glyphicon-minus pull-left" onClick={this.onDel}></button>
+                  <button type="submit" className="btn btn-danger glyphicon glyphicon-minus pull-right" onClick={this.onDel}></button>
+                  <button type="submit" className="btn btn-success glyphicon glyphicon-plus pull-left" onClick={this.onAdd}></button>
                 </div>
     }
 }
@@ -211,7 +214,8 @@ class ProductForm extends React.Component {
     render(){
         var self = this;
         var edit = this.props.params.prod_id;
-        console.log('ProductForm', this.state.product)
+        console.log('ProductForm basicCurrency', this.state.basicCurrency)
+        if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
 
          return <form className="col-sm-7 col-md-offset-2">
             <fieldset className="product-form">

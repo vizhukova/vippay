@@ -11,6 +11,7 @@ class ProductItem extends React.Component {
         super();
         this.removeProduct = this.removeProduct.bind(this);
         this.setAvailable = this.setAvailable.bind(this);
+        this.setActive = this.setActive.bind(this);
     }
 
     removeProduct() {
@@ -20,6 +21,12 @@ class ProductItem extends React.Component {
     setAvailable() {
         var product = _.cloneDeep(this.props.product);
         product.available = !product.available;
+        ProductsAction.editProduct(product);
+    }
+
+    setActive() {
+        var product = _.cloneDeep(this.props.product);
+        product.active = !product.active;
         ProductsAction.editProduct(product);
     }
 
@@ -34,6 +41,7 @@ class ProductItem extends React.Component {
                     <td><button type="button" className="btn btn-default">
                         <a href={`/order/${this.props.product.id}`} target="_blank">Ссылка на продукт</a></button></td>
                      <td><button type="button" className={this.props.product.available ? `btn btn-default ${available}` : `btn btn-default ${notAvailable}`} onClick={this.setAvailable}></button></td>
+                     <td><button type="button" className={this.props.product.active ? `btn btn-default ${available}` : `btn btn-default ${notAvailable}`} onClick={this.setActive}></button></td>
                     <td><Link to={`/category/${this.props.product.category_id}/products/${this.props.product.id}`}><button type="button" className="btn btn-default pull-right glyphicon glyphicon-pencil"></button></Link></td>
                     <td><button type="button" className="btn btn-default pull-right glyphicon glyphicon-remove" onClick={this.removeProduct}></button></td>
                 </tr>
@@ -94,6 +102,7 @@ class Products extends React.Component {
                     <th>Валюта</th>
                     <th>Ссылка на продукт</th>
                     <th>Доступность</th>
+                    <th>Активность</th>
                     <th></th>
                     <th></th>
                   </tr>

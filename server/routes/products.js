@@ -17,7 +17,7 @@ router.post('/product', function(req, res){
     ProductController.newProduct(req.body).then(function(product){
         res.send(product)
     }).catch(function(err){
-        res.status(400).send(err.errors)
+        res.status(400).send(err)
     })
 });
 

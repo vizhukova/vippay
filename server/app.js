@@ -19,6 +19,7 @@ app.set('views', path.join(__dirname, 'templates'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 
+var timestamp = Date.now();
 
 app.get('/', function(req, res){
    res.redirect('/client');
@@ -26,13 +27,13 @@ app.get('/', function(req, res){
 app.use(require('./routes/api'));
 app.use(require('./routes/redirect'));
 app.get('/client*', function(req, res){
-    res.render('client')
+    res.render('client', {timestamp: timestamp})
 });
 app.get('/partner*', function(req, res){
-    res.render('partner')
+    res.render('partner', {timestamp: timestamp})
 });
 app.get('/order/:id', function(req, res){
-    res.render('order')
+    res.render('order', {timestamp: timestamp})
 });
 var server = http.listen(config.get('port'), function() {
     console.log("Listening %s on port: %s", server.address().address, server.address().port)

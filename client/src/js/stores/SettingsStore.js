@@ -6,7 +6,7 @@ class SettingsStore {
 
     constructor() {
         this.currencies = [];
-
+        this.basicCurrency;
         this.bindListeners({
             onGetAll: SettingsAction.GET,
             onGetAllCurrencies: SettingsAction.GET_ALL_CURRENCIES
@@ -20,6 +20,9 @@ class SettingsStore {
     onGetAllCurrencies(currencies) {
         console.log('SettingsStore currencies', currencies);
         this.currencies = currencies;
+        debugger
+        var current = _.findWhere(currencies, {basic: true});
+        this.basicCurrency = current.id; //? current[0] : current;
     }
 
 }
