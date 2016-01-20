@@ -35,7 +35,9 @@ router.get('/product/:id', function(req, res){
 router.put('/product/:id', function(req, res){
 
     ProductController.editProduct(req.body).then(function(product){
-        res.send(product)
+        ProductController.getCurrentProduct(product.id).then(function(data) {
+            res.send(data)
+        })
     }).catch(function(err){
         res.status(400).send(err.errors)
     })

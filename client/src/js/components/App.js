@@ -1,7 +1,7 @@
 import React from 'react'
 import {RoutingContext, Link} from 'react-router'
-
 import  AuthActions from '../actions/AuthActions';
+import  SettingsActions from '../actions/SettingsAction';
 import AuthStore from './../stores/AuthStore';
 
 class Application extends React.Component {
@@ -18,8 +18,10 @@ class Application extends React.Component {
 
     componentDidMount() {
         AuthStore.listen(this.update);
-        AuthActions.check(localStorage.getItem('token'));
-
+        AuthActions.check(localStorage.getItem('token'))
+            .then(function() {
+               return SettingsActions.getAllCurrencies();
+            })
     }
 
     componentWillUnmount() {

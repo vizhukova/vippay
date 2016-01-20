@@ -4,10 +4,115 @@ import ProductsStore from'./../../stores/ProductsStore';
 import ProductsAction from'./../../actions/ProductsAction';
 import CategoriesStore from'./../../stores/CategoriesStore';
 import CategoriesAction from'./../../actions/CategoriesAction';
+import SettingsStore from'./../../stores/SettingsStore';
 import CategorySelect from'./../ui/CategorySelect';
 import CurrencySelect from'./../ui/CurrencySelect';
-import AddForm from'./../ui/AddForm';
 import _  from 'lodash';
+
+
+class AddFields extends React.Component {
+
+    constructor(){
+        super();
+        this.state = {};
+        this.onChange = this.onChange.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps){
+         if(nextProps){
+             this.setState(nextProps.delivery);
+         }
+        console.log('AddFields', this.state)
+    }
+
+    onChange(e) {
+        var state = {};
+        state[e.target.name] = e.target.value;
+        _.assign(this.state, state);
+        this.setState({});
+       // this.setState(state);
+        this.props.onChange({id: this.props.id, delivery: this.state})
+    }
+
+    render(){
+        var self = this;
+        return   <div className="form-group">
+                    <label>Даные доставки</label>
+                    <input type='text' className="form-control" value={this.state.condition} name="condition" onChange={this.onChange}/>
+                    <label>Цена</label>
+                    <input type='text' className="form-control" value={this.state.price} name="price" onChange={this.onChange}/>
+                </div>
+    }
+
+
+}
+
+
+class AddForm extends React.Component {
+
+    constructor(){
+        super();
+        var state = ProductsStore.getState();
+            this.state = {
+            delivery: [
+                {condition: '',
+                 price:''}
+            ]
+        };
+        _.assign(this.state, ProductsStore.getState());
+
+        this.onChange = this.onChange.bind(this);
+        this.onAdd = this.onAdd.bind(this);
+        this.onDel = this.onDel.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.product.delivery)
+         _.assign(this.state, {delivery: nextProps.product.delivery}, {material: nextProps.product.material});
+        console.log('AddForm1', this.state)
+    }
+
+    onChange(state) {
+        var delivery = this.state.delivery
+        _.assign(delivery[state.id], state.delivery);
+        this.setState({delivery: delivery});
+        this.props.onChange({
+                target: {
+                    name: 'delivery',
+                    value: this.state.delivery
+                }
+        });
+    }
+
+    onAdd(e) {
+        e.preventDefault();
+        var state = this.state.delivery;
+        state.push({condition: '', price:''});
+        this.setState({
+            delivery: state
+        })
+    }
+
+    onDel(e) {
+        e.preventDefault();
+        var state = this.state.delivery;
+        state.pop();
+        this.setState({
+            delivery: state
+        })
+    }
+
+    render(){
+        var self = this;
+        return  <div role="form" className={this.state.material ? '' : 'hide'}>
+                  { this.state.delivery.map(function(item, index){
+                    return  <AddFields id={index} key={index} delivery={item} onChange={self.onChange}/>
+                    })}
+                  <button type="submit" className="btn btn-success glyphicon glyphicon-plus pull-right" onClick={this.onAdd}></button>
+                  <button type="submit" className="btn btn-danger glyphicon glyphicon-minus pull-left" onClick={this.onDel}></button>
+                </div>
+    }
+}
 
 
 class ProductForm extends React.Component {
@@ -15,7 +120,7 @@ class ProductForm extends React.Component {
     constructor(){
         super();
         this.state = CategoriesStore.getState();
-        _.assign(this.state, ProductsStore.getState());
+        _.assign(this.state, ProductsStore.getState(), SettingsStore.getState());
         this.update = this.update.bind(this);
         this.addNewProduct = this.addNewProduct.bind(this);
         this.editProduct = this.editProduct.bind(this);
@@ -24,41 +129,45 @@ class ProductForm extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({
-            product: {
+
+        if(!this.props.params.prod_id) {
+            _.assign(this.state.product, {
                 category_id: this.props.params.id,
                 available: true,
                 material: false
-            },
-        });
+            });
+        } else {
 
-        console.log(this.props.params)
-        if(this.props.params.prod_id) ProductsAction.getCurrentProduct(this.props.params.prod_id);
+            ProductsAction.getCurrentProduct(this.props.params.prod_id);
+        }
+
+        console.log('ProductForm - componentDidMount', this.state.product)
 
         CategoriesStore.listen(this.update);
         ProductsStore.listen(this.update);
+        SettingsStore.listen(this.update);
         CategoriesAction.getAllCategories();
-        ProductsAction.getAllCurrencies();
     }
 
     componentWillUnmount() {
         CategoriesStore.unlisten(this.update);
         ProductsStore.unlisten(this.update);
+        SettingsStore.unlisten(this.update);
     }
 
     checkFields() {
-        var counter = 0;
+        /*var counter = 0;
         console.log(this.state.product)
         var result = _.every(this.state.product, function(item, index) {
            counter++;
            return item.length != 0;
        })
         if(!result || counter < 7) {alert("Все поля должы быть заполнены"); return false;}
+        return true;*/
         return true;
     }
 
     addNewProduct() {
-        debugger
         if(this.checkFields()) {
             ProductsAction.addNewProduct(this.state.product);
             history.back();
@@ -74,13 +183,15 @@ class ProductForm extends React.Component {
 
     update(state){
         _.assign(this.state, state);
-        this.setState({})
+        this.setState({});
+        console.log('state product form', state)
     }
 
     onChange(e) {
         var state = {};
+        //if(e.target.name =="currency_id") state["currency_name"] =  this.state.currencies[e.target.value].name;
         if(e.target.name == "available")  state[e.target.name] =  e.target.checked;
-        if(e.target.name == "material")  state[e.target.name] =  e.target.checked;
+        else if(e.target.name == "material")  state[e.target.name] =  e.target.checked;
 		else state[e.target.name] =  e.target.value;
         _.assign(this.state.product, state);
         this.setState({});
@@ -90,6 +201,7 @@ class ProductForm extends React.Component {
     render(){
         var self = this;
         var edit = this.props.params.prod_id;
+        console.log('ProductForm', this.state.product)
 
          return <form className="col-sm-7 col-md-offset-2">
             <fieldset className="product-form">

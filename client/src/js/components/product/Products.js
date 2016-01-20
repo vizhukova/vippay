@@ -2,19 +2,15 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import ProductsStore from'./../../stores/ProductsStore';
 import ProductsAction from'./../../actions/ProductsAction';
+import SettingsStore from'./../../stores/SettingsStore';
 import _  from 'lodash';
 
 class ProductItem extends React.Component {
 
     constructor(){
         super();
-        this.state = {};
         this.removeProduct = this.removeProduct.bind(this);
         this.setAvailable = this.setAvailable.bind(this);
-    }
-
-    componentDidMount() {
-        console.log(this.props.product);
     }
 
     removeProduct() {
@@ -34,7 +30,7 @@ class ProductItem extends React.Component {
         return <tr>
                     <td>{this.props.product.name}</td>
                     <td>{this.props.product.price}</td>
-                    <td>{this.props.product.currency_name}</td>
+                    <td>{this.props.product.currency}</td>
                     <td><button type="button" className="btn btn-default">
                         <a href={`/order/${this.props.product.id}`} target="_blank">Ссылка на продукт</a></button></td>
                      <td><button type="button" className={this.props.product.available ? `btn btn-default ${available}` : `btn btn-default ${notAvailable}`} onClick={this.setAvailable}></button></td>
@@ -51,16 +47,18 @@ class Products extends React.Component {
     constructor(){
         super();
         this.state = ProductsStore.getState();
+        _.assign(this.state,SettingsStore.getState());
         this.update = this.update.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
         if(nextProps.params.id) {
-            var state = _.assign(this.state.product, {category_id: nextProps.params.id});
-            this.setState(state);
+             _.assign(this.state.product, {category_id: nextProps.params.id});
+            this.setState({});
             ProductsAction.getAllProducts(nextProps.params.id);
         }
     }
+
 
     componentDidMount() {
         this.setState({
@@ -71,10 +69,12 @@ class Products extends React.Component {
 
         ProductsAction.getAllProducts(this.props.params.id);
         ProductsStore.listen(this.update);
+        SettingsStore.listen(this.update);
     }
 
     componentWillUnmount() {
         ProductsStore.unlisten(this.update);
+        SettingsStore.unlisten(this.update);
     }
 
     update(state){
@@ -100,6 +100,9 @@ class Products extends React.Component {
                 </thead>
                 <tbody>
                 { this.state.products.map(function(item, index){
+                    item.currency = _.findWhere(self.state.currencies, {id: item.currency_id});
+                    item.currency  = item.currency  ? item.currency.name : item.currency;
+
                 return <ProductItem key={index} product={item} />
                 })}
                 </tbody>

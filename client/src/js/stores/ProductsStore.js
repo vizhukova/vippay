@@ -6,25 +6,18 @@ class ProductsStore {
 
     constructor() {
         this.products = [];
-        this.currencies = [];
         this.product = {};
         this.bindListeners({
             onGetAllProducts: ProductsAction.GET_ALL_PRODUCTS,
-            onGetAllCurrencies: ProductsAction.GET_ALL_CURRENCIES,
             onAddNewProduct: ProductsAction.ADD_NEW_PRODUCT,
-            onGetCurrentProduct: ProductsAction.GET_CURRENT_PRODUCT,
             onEditProduct: ProductsAction.EDIT_PRODUCT,
-            onRemoveProduct: ProductsAction.REMOVE_PRODUCT
+            onRemoveProduct: ProductsAction.REMOVE_PRODUCT,
+            onGetCurrentProduct: ProductsAction.GET_CURRENT_PRODUCT
         });
     }
 
     onGetAllProducts(products){
         this.products = products;
-    }
-
-    onGetAllCurrencies(currencies){
-        this.currencies = currencies;
-        this.product.currency_id = currencies.filter(function(item){return item.basic;})
     }
 
     onAddNewProduct(product) {
@@ -45,6 +38,7 @@ class ProductsStore {
     }
 
     onEditProduct(product) {
+        debugger
         if(product instanceof Error) {
             console.log(JSON.parse(product.message).category)
                 JSON.parse(product.message).category

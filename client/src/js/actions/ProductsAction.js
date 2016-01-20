@@ -13,15 +13,6 @@ class ProductsAction {
         })
     }
 
-    getAllCurrencies(id) {
-        var self = this;
-        ApiActions.get(`currency`).then(function(data){
-            self.dispatch(data);
-        }).catch(function(err){
-            self.dispatch(err);
-        })
-    }
-
     editProduct(product) {
         var self = this;
         ApiActions.put(`product/${product.id}`, product).then(function(data){

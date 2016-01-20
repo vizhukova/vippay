@@ -9,12 +9,20 @@ class AuthActions {
     }
 
     check(token) {
-        var self = this;
-        ApiActions.get('check', {role: 'client'}).then(function(data){
-            self.dispatch(true);
-        }).catch(function(err){
-            self.dispatch(false);
+
+        return new Promise((resolve,reject) => {
+            var self = this;
+            ApiActions.get('check', {role: 'client'}).then(function(data){
+                self.dispatch(true);
+                resolve();
+
+            }).catch(function(err){
+                self.dispatch(false);
+                reject(err);
+
+            })
         })
+
     }
 
     guestLogin(login){

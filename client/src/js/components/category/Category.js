@@ -18,7 +18,6 @@ class Category extends React.Component {
     componentDidMount() {
         CategoriesStore.listen(this.update);
         CategoriesAction.getAllCategories();
-        console.log(this.state)
     }
 
     componentWillUnmount() {
@@ -43,7 +42,6 @@ class Category extends React.Component {
     update(state){
         _.assign(this.state, state);
         this.setState({});
-        console.log(this.state)
     }
 
     render(){

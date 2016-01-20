@@ -9,10 +9,23 @@ class SettingsAction {
         ApiActions.get('settings').then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 
+    getAllCurrencies() {
+
+        var self = this;
+        new Promise((resolve, reject) => {
+            ApiActions.get(`currency`).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                //self.dispatch(err);
+                reject(err);
+            })
+        })
+    }
 }
 
 export default alt.createActions(SettingsAction);

@@ -6,24 +6,23 @@ class CurrencySelect extends React.Component {
     constructor(){
         super();
         this.state = {};
+        this.onChange = this.onChange.bind(this);
     }
 
-    /*componentDidMount(){
-        this.setState({
-            current: this.props.currencies.filter(function(item){return item.basic;})
-        })
+    onChange(e) {
+        this.props.onChange({
+            target: {
+                name: "currency_id",
+                value: e.target.value
+            }
+        });
     }
 
-    componentWillReceiveProps(props){
-        this.setState({
-            current: this.props.currencies.filter(function(item){return item.basic;})
-        })
-    }*/
 
     render(){
         var self = this;
         return  <select className="form-control" id="sell"  name="currency_id"
-                        value={this.props.current_currency} onChange={this.props.onChange}>
+                        value={this.props.current_currency} onChange={self.onChange}>
                     { this.props.currencies.map(function(item, index){
                         return <option
                             key={index}

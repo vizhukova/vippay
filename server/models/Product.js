@@ -38,13 +38,8 @@ var Product = bookshelf.Model.extend({
     getAllProducts(id){
         return new Promise((resolve, reject) => {
             return knex('products')
-                .select('products.id', 'products.name', 'products.category_id',
-                'products.user_id', 'products.price', 'products.product_link',
-                'products.image', 'products.description', 'products.active',
-                'products.material', 'products.delivery', 'products.available',
-                'currency.name as currency_name')
+                .select()
                 .where({'category_id': id})
-                .join('currency', 'products.currency_id', '=', 'currency.id')
             .then((res) => {
                 resolve(res);
             }).catch((err) => {
@@ -65,16 +60,24 @@ var Product = bookshelf.Model.extend({
     },
 
     getCurrentProduct: Promise.method(function (id) {
-        return knex.first().from('products').where('id', id);
+        return knex
+            .first()
+            .from('products')
+            .where('id', id)
     }),
 
     editProduct(product){
         return new Promise((resolve, reject) => {
-            knex('products').where({id: product.id}).update(product).then((res) => {
-                resolve(product);
-            }).catch((err) => {
-                reject(err);
-            })
+            product.delivery = JSON.stringify(product.delivery);
+
+            knex('products')
+                .where({id: product.id})
+                .update(product)
+                .then((res) => {
+                    resolve(product);
+                }).catch((err) => {
+                    reject(err);
+                })
         })
     },
 
