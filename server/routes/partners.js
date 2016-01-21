@@ -61,5 +61,14 @@ router.get('/partners', function(req, res) {
     });
 });
 
+router.put('/partner', function(req, res) {
+    PartnerController.edit(req.body)
+        .then(function(partner){
+        res.send(partner)
+    }).catch(function(err) {
+        res.status(400).send(err.errors)
+    });
+});
+
 
 module.exports = router;

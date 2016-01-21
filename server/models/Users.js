@@ -64,9 +64,20 @@ var User = bookshelf.Model.extend({
         return record.save();
     }),
 
-    getById: Promise.method(function (id) {
-        return knex('users').select('id').where({'id': id});
+    get: Promise.method(function (partner_id) {
+
+        return knex.select('users.*')
+            .from('partners')
+            .innerJoin('clients-partners', 'clients-partners.partner_id', '=',  'partners.id')
+            .innerJoin('users', 'clients-partners.client_id', '=',  'users.id')
+            .where('partners.id', '=', partner_id)
+
     })
 });
 
 module.exports = User;
+
+/*SELECT users.* FROM partners
+  INNER JOIN "clients-partners" on "clients-partners".partner_id = partners.id
+  INNER JOIN users on "clients-partners".client_id = users.id
+WHERE partners.id = 6;*/

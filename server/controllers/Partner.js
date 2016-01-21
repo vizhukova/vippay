@@ -18,15 +18,19 @@ module.exports = {
             }
             User.getById(partner.client_id).then(function(id){
                 if(id.length == 0) reject(errors);
+                var newPartner = _.omit(partner, ['client_id']);
 
-                Partner.register(partner).then(function(model){
+                Partner.register(newPartner).then(function(model){
                 if(errors.password){
                     reject({
                         errors: errors
                     })
                 }
-                var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
-                resolve({modelData: model.attributes, token: token});
+                    Partner.bindWithClient({client_id: partner.client_id, partner_id: model.id})
+                    .then(() => {
+                        var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
+                        resolve({modelData: model.attributes, token: token});
+                    })
 
                 }).catch(function(err){
                     reject(err);
@@ -44,23 +48,26 @@ module.exports = {
 
             var errors = {};
 
-             //User.getById(partner.client_id).then(function(id){
-
                  Partner.login(partner).then(function(model){
-                console.log(model)
 
-                var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
-                resolve({modelData: model.attributes, token: token});
+                    Partner.getByClientId(partner.client_id).then((res) => {
+                        if(res.length == 0) {
+                            Partner.bindWithClient({client_id: partner.client_id, partner_id: model.id})
+                            .then(() => {
+                                var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
+                                resolve({modelData: model.attributes, token: token});
+                            })
+                        } else {
+                            var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
+                            resolve({modelData: model.attributes, token: token});
+                        }
+
+                    })
 
                 }).catch(function(err){
-                    console.log(err.stack)
                     reject(err);
                 })
 
-            /*}).catch(function(err){
-                console.log(err.stack)
-                reject(err);
-            })*/
 
         })
     },
@@ -69,8 +76,6 @@ module.exports = {
         return new Promise(function(resolve, reject){
 
             var errors = {};
-
-             //User.getById(partner.client_id).then(function(id){
 
                  Partner.guestLogin(login).then(function(model){
                 console.log(model);
@@ -82,11 +87,6 @@ module.exports = {
                     console.log(err.stack);
                     reject(err);
                 });
-
-            /*}).catch(function(err){
-                console.log(err.stack)
-                reject(err);
-            })*/
 
         })
     },
@@ -124,6 +124,20 @@ module.exports = {
             var errors = {};
 
             Partner.getById(id).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
+    },
+
+    edit(partner) {
+        return new Promise(function(resolve, reject){
+
+            var errors = {};
+
+            Partner.edit(partner).then(function(model){
                 resolve(model);
             }).catch(function(err){
                 reject(err);

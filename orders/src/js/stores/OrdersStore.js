@@ -7,6 +7,8 @@ class OrdersStore {
     constructor() {
         this.product = {};
         this.order = {};
+        this.delivery_id = 0;
+        this.delivery = {};
         this.payed = false;
         this.bindListeners({
             onAdd: OrdersActions.ADD,

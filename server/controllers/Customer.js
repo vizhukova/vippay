@@ -25,13 +25,14 @@ module.exports = {
 
                     if(arr[arr.length - 1] == data.partner_id) {resolve(customer); return;}
                     arr.push(data.partner_id);
-                    var res = Customer.edit(data.customer_id, {product_id: customer.partner_product_id.product_id,
-                                                     partner_id: arr});
-                    resolve(res);
+                    var res = Customer.edit(data.customer_id, {product_id: customer.partner_product_id.product_id, partner_id: arr})
+                    .then(() => {
+                        resolve(res);
+                    })
 
-            }).catch(function (err) {
-                reject(err);
-            });
+                    }).catch((err) => {
+                        reject(err);
+                    });
         })
     },
 

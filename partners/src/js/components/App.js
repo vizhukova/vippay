@@ -1,7 +1,7 @@
 import React from 'react'
 import {RoutingContext, Link} from 'react-router'
-
 import  AuthActions from '../actions/AuthActions';
+import  SettingsActions from '../actions/SettingsActions';
 import AuthStore from './../stores/AuthStore';
 
 class Application extends React.Component {
@@ -26,12 +26,12 @@ class Application extends React.Component {
 
     }
 
-    update(state){
-        debugger;
+    update(state){;
         if(!state.auth){
             location.hash = 'auth';
         }else{
            this.setState(state);
+            SettingsActions.get();
         }
     }
 

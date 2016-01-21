@@ -13,6 +13,15 @@ class PartnersAction {
         })
     }
 
+    edit(partner) {
+        var self = this;
+        ApiActions.put(`partner`, partner).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
+    }
+
 }
 
 export default alt.createActions(PartnersAction);

@@ -20,7 +20,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
 
             Statistic.add(data).then(function(statistic) {
-               resolve(statistic);
+               resolve(statistic.attributes);
             }).catch(function(err){
                reject(err);
             });

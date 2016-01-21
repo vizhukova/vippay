@@ -5,10 +5,10 @@ var _ = require('lodash');
 
 module.exports = {
 
-    get(id) {
+    get(client_id) {
         return new Promise(function (resolve, reject) {
 
-            Order.get(id)
+            Order.get(client_id)
                 .then(function (orders) {
                 resolve(orders)
             }).catch(function (err) {

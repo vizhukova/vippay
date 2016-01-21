@@ -33,11 +33,12 @@ var Partner = bookshelf.Model.extend({
 
     get(id){
         return new Promise((resolve, reject) => {
-            knex.first('id', 'partner_product_id').from('customers').where('id', id).then((res) => {
+            knex.first('id', 'partner_product_id').from('customers').where('id', '=',  id)
+                .then((res) => {
                 resolve(res)
-            }).catch((err) => {
-                reject(err)
-            });
+                }).catch((err) => {
+                    reject(err)
+                });
         })
 
     },

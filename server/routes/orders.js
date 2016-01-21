@@ -18,32 +18,38 @@ router.get('/orders', function(req, res) {
 
 router.post('/order', function(req, res) {
 
-    ProductController.getCurrentProduct(req.body.id).then(function(product){
+    ProductController.getCurrentProduct(req.body.prod_id).then(function(product){
 
         CustomerController.get(req.cookies.id).then(function(customer) {
 
             if(! customer) CustomerController.add({product_id: product.id})
                 .then(function(customer) {
-                    OrderController.add({user_id: req.user.id, product: product, customer: {id: customer.id, partner_product_id: JSON.parse(customer.partner_product_id)}})
+                    OrderController.add({user_id: req.user.id, product: product, customer: {id: customer.id, partner_product_id: customer.partner_product_id}, delivery: req.body.delivery})
                         .then(function (order) {
                             StatisticController.add({partner_id: order.partner_id,
-                                                    product_id: order.product_id,
+                                                    product: order.product,
                                                     customer_id: order.customer_id,
                                                     client_id: order.client_id,
-                                                    action: "start_order"});
-                            res.send(order)
+                                                    action: "start_order"})
+                                                    .then(() => {
+                                                        res.send(order);
+                                                    })
+
                         }).catch(function (err) {
                             res.status(400).send(err);
                         })
                 })
-            else OrderController.add({user_id: req.user.id, product: product, customer: customer})
+            else OrderController.add({user_id: req.user.id, product: product, customer: customer, delivery: req.body.delivery})
                         .then(function (order) {
                             StatisticController.add({partner_id: order.partner_id,
-                                                    product_id: order.product_id,
+                                                    product: order.product,
                                                     customer_id: order.customer_id,
                                                     client_id: order.client_id,
-                                                    action: "start_order"});
-                            res.send(order)
+                                                    action: "start_order"})
+                                                    .then(() => {
+                                                        res.send(order);
+                                                    })
+
                         }).catch(function (err) {
                             res.status(400).send(err);
                         })
@@ -59,13 +65,16 @@ router.post('/order', function(req, res) {
 
 router.put('/order', function(req, res) {
 
-    OrderController.pay(req.body.id).then(function(order){
+    OrderController.pay(req.body.id).then((order) => {
+
         StatisticController.add({partner_id: order[0].partner_id,
-                                    product_id: order[0].product_id,
+                                    product: JSON.stringify(order[0].product),
                                     customer_id: order[0].customer_id,
                                     client_id: order[0].client_id,
-                                    action: "pending_order"});
-        res.send(order);
+                                    action: "pending_order"})
+                                    .then(() => {
+                                        res.send(order);
+                                    })
     }).catch(function(err){
         res.status(400).send(err.errors)
     })

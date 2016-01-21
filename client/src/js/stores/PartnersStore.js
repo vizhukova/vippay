@@ -7,12 +7,18 @@ class PartnersStore {
     constructor() {
         this.partners = [];
         this.bindListeners({
-            onGetAll: ProductsAction.GET_ALL
+            onGetAll: ProductsAction.GET_ALL,
+            onEdit: ProductsAction.EDIT
         });
     }
 
     onGetAll(partners){
         this.partners = partners;
+    }
+
+    onEdit(partner) {
+        var index = _.findIndex(this.partners, { 'id': partner.id });
+        this.partners[index] = partner;
     }
 
 }

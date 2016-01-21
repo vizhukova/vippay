@@ -26,7 +26,7 @@ var Order = bookshelf.Model.extend({
         var record = new this({customer_id: data.customer_id,
                                partner_id: data.partner_id,
                                client_id: data.client_id,
-                               product_id: data.product_id,
+                               product: data.product,
                                action: data.action
         });
 
@@ -35,12 +35,15 @@ var Order = bookshelf.Model.extend({
 
      get(client_id){
         return new Promise((resolve, reject) => {
-            return knex('statistics').where({'client_id': client_id})
-            .then((res) => {
-                resolve(res);
-            }).catch((err) => {
-                reject(err);
-            })
+
+            return knex.select(knex.raw(`statistics.*,
+              (SELECT partners.login as partner_login from partners WHERE partners.id = statistics.partner_id)`))
+                .from('statistics') .where('statistics.client_id', client_id)
+                .then((res) => {
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                })
         })
     }
 

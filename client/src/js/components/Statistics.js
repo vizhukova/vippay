@@ -8,6 +8,12 @@ class Statistics extends React.Component {
         super();
         this.state = StaticStore.getState();
         this.update = this.update.bind(this);
+        this.statuses = {
+            follow_link: 'Прошел по ссылке',
+            start_order: 'Заказал',
+            pending_order: 'Оплатил',
+            complete_order: 'Завершил'
+        }
     }
 
     componentDidMount() {
@@ -25,25 +31,25 @@ class Statistics extends React.Component {
     }
 
     render(){
-
+        var self = this;
         return <table className="table">
                 <thead>
                   <tr>
-                    <th>customer_id</th>
-                    <th>partner_id</th>
-                    <th>client_id</th>
-                    <th>product_id</th>
-                    <th>action</th>
+                    <th>Номер заказчика</th>
+                    <th>Ник партнера</th>
+                    <th>Товар</th>
+                    <th>Название</th>
+                    <th>Дейсвие</th>
                   </tr>
                 </thead>
                 <tbody>
                     { this.state.statistic.map(function(item, index) {
                      return <tr key={index}>
                          <td>{item.customer_id}</td>
-                         <td>{item.partner_id}</td>
-                         <td>{item.client_id}</td>
-                         <td>{item.product_id}</td>
-                         <td>{item.action}</td>
+                         <td>{item.partner_login}</td>
+                         <td><img src={item.product.image} alt="image" width="200px" height="auto"/></td>
+                         <td>{item.product.name}</td>
+                         <td>{self.statuses[item.action]}</td>
                      </tr>
                  })}
                 </tbody>

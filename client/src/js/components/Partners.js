@@ -2,7 +2,44 @@ import React from 'react';
 import PartnersAction from './../actions/PartnersAction';
 import AuthAction from './../actions/AuthActions';
 import PartnersStore from './../stores/PartnersStore';
+import _  from 'lodash';
 
+
+class PartnerItem extends React.Component {
+
+    constructor(){
+        super();
+        this.setActive = this.setActive.bind(this);
+    }
+
+    setActive() {
+        var partner = _.cloneDeep(this.props.partner);
+        partner.active = !partner.active;
+        PartnersAction.edit(partner);
+    }
+
+    login(e){
+        e.preventDefault();
+        AuthAction.guestLogin(e.target.dataset.login).then(() => {
+            location = '/partner'
+        });
+    }
+
+    render(){
+        var available = "glyphicon glyphicon-ok-circle";
+        var notAvailable = "glyphicon glyphicon-ban-circle";
+
+        return <tr>
+                <td>{this.props.partner.login}</td>
+                <td>{this.props.partner.email}</td>
+                <td>{this.props.partner.name}</td>
+                <td><button type="button" className={this.props.partner.active ? `btn btn-default ${available}` : `btn btn-default ${notAvailable}`} onClick={this.setActive}></button></td>
+                <td><a data-login={this.props.partner.login} onClick={this.login} href="#">Войти под именем</a></td>
+            </tr>
+    }
+
+
+}
 
 class Partners extends React.Component {
 
@@ -26,12 +63,6 @@ class Partners extends React.Component {
         this.setState(state);
     }
 
-    login(e){
-        e.preventDefault();
-        AuthAction.guestLogin(e.target.dataset.login).then(() => {
-            location = '/partner'
-        });
-    }
 
     render(){
         var self = this;
@@ -42,16 +73,13 @@ class Partners extends React.Component {
                     <th>Логин</th>
                     <th>Электронная почта</th>
                     <th>ФИО</th>
+                    <th>Активность</th>
+                    <th>Ссылка</th>
                   </tr>
                 </thead>
                 <tbody>
                  { this.state.partners.map(function(item, index) {
-                     return <tr key={index}>
-                         <td>{item.login}</td>
-                         <td>{item.email}</td>
-                         <td>{item.name}</td>
-                         <td><a data-login={item.login} onClick={self.login} href="#">Войти под именем</a></td>
-                     </tr>
+                     return <PartnerItem key={index} partner={item}/>
                  })}
                 </tbody>
               </table>

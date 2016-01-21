@@ -1,5 +1,6 @@
 var ProductController = require('../controllers/Product')
 var express = require('express');
+var _ = require('lodash');
 var router = express.Router();
 
 router.get('/products/:id', function(req, res){
@@ -34,7 +35,8 @@ router.get('/product/:id', function(req, res){
 
 router.put('/product/:id', function(req, res){
 
-    ProductController.editProduct(req.body).then(function(product){
+    var product =_.omit(req.body, ['currency_name']);
+    ProductController.editProduct(product).then(function(product){
         ProductController.getCurrentProduct(product.id).then(function(data) {
             res.send(data)
         })

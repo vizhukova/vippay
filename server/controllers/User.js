@@ -57,6 +57,20 @@ module.exports = {
             })
 
         })
+    },
+
+    get(partner_id) {
+        return new Promise(function(resolve, reject){
+
+            var errors = {};
+
+            User.get(partner_id).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
     }
 
 };

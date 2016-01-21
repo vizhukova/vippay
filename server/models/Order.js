@@ -23,19 +23,25 @@ var Order = bookshelf.Model.extend({
 
 }, {
 
-    get: Promise.method(function (id) {
-        return knex.select('orders.product', 'orders.step', 'orders.history', 'partners.name', 'partners.login', 'partners.email')
-            .from('orders') .where('orders.id', id).innerJoin('partners', 'orders.partner_id', '=', 'partners.id')
+    get: Promise.method(function (client_id) {
+        return knex.select(knex.raw(`orders.*,
+              (SELECT partners.name from partners WHERE partners.id = orders.partner_id),
+              (SELECT partners.login from partners WHERE partners.id = orders.partner_id),
+              (SELECT partners.email from partners WHERE partners.id = orders.partner_id)`))
+            .from('orders') .where('orders.client_id', client_id)
     }),
 
     add: Promise.method(function (data) {
+        var partnerId = data.customer.partner_product_id.partner_id;
+        var lastPartnerId = partnerId ? partnerId[partnerId.length - 1] : null;
 
         var record = new this({customer_id: data.customer.id,
-                               partner_id: data.customer.partner_product_id.partner_id[data.customer.partner_product_id.partner_id.length - 1],
+                               partner_id: lastPartnerId,
                                client_id: data.product.user_id,
                                product_id: data.product.id,
                                product: JSON.stringify(data.product),
-                               step: "pending"
+                               step: "pending",
+                               delivery: JSON.stringify(data.delivery)
         });
 
         return record.save();
@@ -45,7 +51,7 @@ var Order = bookshelf.Model.extend({
             return knex('orders')
             .update({'step': 'complete'})
             .where('id', id)
-            .returning(['partner_id','customer_id', 'client_id', 'product_id', 'id']);
+            .returning(['partner_id','customer_id', 'client_id', 'product_id', 'id', 'product']);
     }
 
 })

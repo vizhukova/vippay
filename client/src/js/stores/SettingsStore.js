@@ -20,7 +20,6 @@ class SettingsStore {
     onGetAllCurrencies(currencies) {
         console.log('SettingsStore currencies', currencies);
         this.currencies = currencies;
-        debugger
         var current = _.findWhere(currencies, {basic: true});
         this.basicCurrency = current.id; //? current[0] : current;
     }

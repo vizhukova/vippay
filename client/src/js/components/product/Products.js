@@ -109,7 +109,8 @@ class Products extends React.Component {
                 </thead>
                 <tbody>
                 { this.state.products.map(function(item, index){
-                    var currency = _.findWhere(self.state.currencies, {id: item.currency_id});
+                    var currency = _.findWhere(self.state.currencies, {id: +item.currency_id});
+                    console.log('currency_render:', currency, self.state.currencies,  item.currency_id);
                     currency  = currency  ? currency.name : currency;
 
                 return <ProductItem key={index} product={item} currency={currency} />

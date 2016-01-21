@@ -56,14 +56,33 @@ var Partner = bookshelf.Model.extend({
             //    });
             if(customer.get('password') !== partner.password)
                 throw new Error('Неверный пароль');
+            if(! customer.get('active'))
+                throw new Error('Партнер не активен');
         });
     }),
 
+    getByClientId: Promise.method(function (id) {
+        return knex.select().from('clients-partners').where('client_id', id);
+    }),
+
     register: Promise.method(function (partner) {
-        var record = new this({client_id: partner.client_id, name: partner.name, login: partner.login, email: partner.email, password: partner.password});
+        var record = new this({name: partner.name, login: partner.login, email: partner.email, password: partner.password});
 
         return record.save();
     }),
+
+    bindWithClient(data) {
+        return new Promise((resolve, reject) => {
+            knex('clients-partners')
+                .insert({client_id: data.client_id, partner_id: data.partner_id})
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+        })
+    },
 
     guestLogin(login){
         return new this({login: login}).fetch({require: true}).tap(function (customer) {
@@ -71,17 +90,28 @@ var Partner = bookshelf.Model.extend({
         });
     },
 
-    getClientId: Promise.method(function (id) {
-        return knex.first('client_id').from('partners').where('id', id);
-    }),
 
     getAll: Promise.method(function (id) {
         return knex.select().from('partners').where('client_id', id);
     }),
 
     getById: Promise.method(function (id) {
-        return knex.first('id', 'client_id').from('partners').select('id').where({'id': id});
-    })
+        return knex.first('id').from('partners').select('id').where({'id': id});
+    }),
+
+    edit(partner){
+        return new Promise((resolve, reject) => {
+
+            knex('partners')
+                .where({id: partner.id})
+                .update(partner)
+                .then((res) => {
+                    resolve(partner);
+                }).catch((err) => {
+                    reject(err);
+                })
+        })
+    }
 });
 
 module.exports = Partner;

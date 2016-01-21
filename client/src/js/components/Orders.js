@@ -7,7 +7,8 @@ class Orders extends React.Component {
 
     constructor(){
         super();
-        this.state = OrdersStore.getState();this.statuses = {
+        this.state = OrdersStore.getState();
+        this.statuses = {
             pending: 'Заказ оформлен',
             complete: 'Заказ оплачен',
             leaving: 'Заказ завершен'
@@ -40,16 +41,18 @@ class Orders extends React.Component {
                     <th>Картинка</th>
                     <th>Продукт</th>
                     <th>Цена</th>
+                    <th>Валюта</th>
                     <th>Статус</th>
                   </tr>
                 </thead>
                 <tbody>
                  { this.state.orders.map(function(item, index) {
                      return <tr key={index}>
-                         <td>{item.login}</td>
+                         <td>{item.login ? item.login : "отсутствует"}</td>
                          <td><img src={item.product.image} alt="image" width="200px" height="auto"/></td>
                          <td><a href={item.product.product_link} target="_blank">{item.product.name}</a></td>
                          <td>{item.product.price}</td>
+                         <td>{item.product.currency_name}</td>
                          <td>{self.statuses[item.step]}</td>
                      </tr>
                  })}

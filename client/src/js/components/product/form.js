@@ -146,6 +146,7 @@ class ProductForm extends React.Component {
                 product: {
                 category_id: this.props.params.id,
                 available: true,
+                active: true,
                 material: false
             }
             });
@@ -234,6 +235,10 @@ class ProductForm extends React.Component {
                 <div className="checkbox">
                   <label className="text-warning"><input name="available" checked={this.state.product.available}
                   type="checkbox" onChange={this.onChange} />Доступность</label>
+                </div>
+                <div className="checkbox">
+                  <label className="text-warning"><input name="active" checked={this.state.product.active}
+                  type="checkbox" onChange={this.onChange} />Активность</label>
                 </div>
                 <label className="text-warning">Ссылка на картинку</label>
                 <input type="text" name="image" className="form-control" id="image" onChange={this.onChange}
