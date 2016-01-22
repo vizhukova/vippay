@@ -8,7 +8,6 @@ class Products extends React.Component {
     constructor(){
         super();
         this.state = ProductsStore.getState();
-
         this.update = this.update.bind(this);
     }
 
@@ -19,7 +18,6 @@ class Products extends React.Component {
 
     update(state) {
         this.setState(state);
-        console.log(state)
     }
 
 
@@ -34,6 +32,7 @@ class Products extends React.Component {
                     <th>Изображение</th>
                     <th>Товар</th>
                     <th>Цена</th>
+                    <th>Валюта</th>
                     <th>Описание</th>
                     <th>Ссылка на продукт</th>
                   </tr>
@@ -44,6 +43,7 @@ class Products extends React.Component {
                     <td><img src={item.image} alt="image" width="200px" height="auto"/></td>
                     <td>{item.name}</td>
                     <td>{item.price}</td>
+                    <td>{item.currency_name}</td>
                     <td>{item.description}</td>
                     <td><a href={item.ref_link}>Ссылка</a></td>
                 </tr>

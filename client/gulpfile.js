@@ -9,7 +9,7 @@ var watchify = require('watchify');
 var reactify = require('reactify');
 var streamify = require('gulp-streamify');
 var buffer = require('vinyl-buffer');
-//var sass = require('gulp-sass');
+var sass = require('gulp-sass');
 var plumber = require('gulp-plumber');
 var concat = require('gulp-concat');
 
@@ -60,7 +60,7 @@ gulp.task('vendor', function(){
 
 gulp.task('watch', function() {
     gulp.watch('./src/js/**/*.js', ['js', 'vendor']);
-    //gulp.watch('./src/scss/**/*.scss', ['scss']);
+    gulp.watch('./src/scss/**/*.scss', ['scss']);
     gulp.watch('./*.html', ['replaceHTML']);
 });
 
@@ -75,7 +75,7 @@ gulp.task('res', function () {
         .pipe(gulp.dest(path.DEST + '/res'));
 });
 
-gulp.task('build', ['js', 'res', 'vendor', 'replaceHTML']);
+gulp.task('build', ['js', 'res', 'sass', 'vendor', 'replaceHTML']);
 
 //gulp.task('fonts', function () {
 //    return gulp.src('./res/fonts/**/*')
@@ -118,4 +118,4 @@ gulp.task('build', ['js', 'res', 'vendor', 'replaceHTML']);
 //    app.listen(8000);
 //});
 
-gulp.task('default', ["watch", 'js', 'vendor', 'res', 'replaceHTML']);
+gulp.task('default', ["watch", 'js', 'sass', 'vendor', 'res', 'replaceHTML']);

@@ -41,7 +41,8 @@ router.post('/partner/login', function(req, res){
 });
 
 router.get('/partner/products', function (req, res) {
-    PartnerController.getAllProducts(req.user.id).then(function (products) {
+    PartnerController.getAllProducts({partner_id: req.user.id, client_id: req.client.id})
+        .then(function (products) {
         products.map((p) => {
             p.ref_link = `/redirect/${req.user.id}-${p.id}`
         });

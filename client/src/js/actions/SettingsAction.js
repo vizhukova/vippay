@@ -26,6 +26,20 @@ class SettingsAction {
             })
         })
     }
+
+    setBasicCurrency(id) {
+         this.dispatch(id);
+    }
+
+    addRate(rate) {
+        debugger
+        var self = this;
+            ApiActions.put(`rate`, rate).then(function(data){
+                self.dispatch(data);
+            }).catch(function(err){
+                self.dispatch(err);
+        })
+    }
 }
 
 export default alt.createActions(SettingsAction);

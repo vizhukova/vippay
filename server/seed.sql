@@ -46,3 +46,18 @@ INSERT INTO customers (partner_product_id) VALUES ('{"product_id": "1", "partner
                                                   ('{"product_id": "4", "partner_id": "[3,2]"}'),
                                                   ('{"product_id": "5", "partner_id": "[4,2]"}');
 
+INSERT INTO rate (from, to, result) VALUES ('1', '2', '1'),
+                                                 ('1', '3', '2'),
+                                                 ('1', '4', '3'),
+                                                 ('2', '1', '4'),
+                                                 ('2', '3', '5'),
+                                                 ('2', '4', '6'),
+                                                 ('3', '1', '7'),
+                                                 ('3', '2', '8'),
+                                                 ('3', '4', '9'),
+                                                 ('4', '1', '10'),
+                                                 ('4', '2', '11'),
+                                                 ('4', '3', '12');
+
+
+

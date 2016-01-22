@@ -2,15 +2,40 @@ import React from 'react'
 import {RoutingContext, Link} from 'react-router'
 import  AuthActions from '../actions/AuthActions';
 import  SettingsActions from '../actions/SettingsActions';
+import  ProductsActions from '../actions/ProductsActions';
+import SettingsStore from './../stores/SettingsStore';
 import AuthStore from './../stores/AuthStore';
+var _ = require('lodash');
+
+
+
+class ProductItem extends React.Component {
+
+    constructor(){
+        super();
+        this.state={};
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onChange(e) {
+        e.preventDefault();
+        SettingsActions.setCurrentClient(this.props.client);
+        ProductsActions.getAll();
+    }
+
+    render(){
+        return  <li onClick={this.onChange}><a>{this.props.client.name}</a></li>
+    }
+
+
+}
+
 
 class Application extends React.Component {
 
     constructor() {
         super();
-        this.state = {
-
-        };
+        this.state = SettingsStore.getState();
 
         this.update = this.update.bind(this);
         this.Out = this.Out.bind(this);
@@ -18,21 +43,28 @@ class Application extends React.Component {
 
     componentDidMount() {
         AuthStore.listen(this.update)
+        SettingsStore.listen(this.update)
         AuthActions.check();
     }
 
     componentWillUnmount() {
         AuthStore.unlisten(this.update)
+        SettingsStore.unlisten(this.update)
 
     }
 
-    update(state){;
-        if(!state.auth){
-            location.hash = 'auth';
-        }else{
-           this.setState(state);
-            SettingsActions.get();
+    update(state){
+        if(!this.state.auth) {
+            if (!state.auth) {
+                location.hash = 'auth/1';
+            }
+            else {
+                SettingsActions.get();
+            }
         }
+
+        _.assign(this.state, state);
+        this.setState({});
     }
 
     Out() {
@@ -41,6 +73,9 @@ class Application extends React.Component {
     }
 
     render() {
+        console.log(this.state)
+        var self = this;
+
         return <div>
                 <nav className="navbar navbar-default">
                 <div className="container-fluid">
@@ -60,7 +95,15 @@ class Application extends React.Component {
                             <li><Link to={`/redirect/${8}-${11}`}>Redirect</Link></li>
                         </ul>
                        <ul className="nav navbar-nav navbar-right">
-                          <li><button className="btn btn-link" onClick={this.Out}>Выход</button></li>
+                            <li className="dropdown">
+                              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.current_client.name}<span className="caret"></span></a>
+                              <ul className="dropdown-menu">
+                                  {this.state.clients.map((item, index) => {
+                                      return <ProductItem key={index} client={item} />
+                                  })}
+                              </ul>
+                            </li>
+                          <li><button className="btn btn-link btn-lg glyphicon glyphicon-log-out" onClick={this.Out}></button></li>
                         </ul>
                     </div>
                 </div>

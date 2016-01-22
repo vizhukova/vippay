@@ -1,6 +1,6 @@
 import React from 'react';
-import SettingsAction from'./../actions/SettingsAction'
-import SettingsStore from'./../stores/SettingsStore'
+import SettingsAction from'./../../actions/SettingsAction'
+import SettingsStore from'./../../stores/SettingsStore'
 
 
 class Settings extends React.Component {

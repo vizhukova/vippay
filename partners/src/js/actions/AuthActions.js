@@ -8,7 +8,7 @@ class AuthActions {
         this.dispatch(auth);
     }
 
-    check(token) {
+    check() {
         var self = this;
         ApiActions.get('check', {role: 'partner'}).then(function(data){
             self.dispatch(true);

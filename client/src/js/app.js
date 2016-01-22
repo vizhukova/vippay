@@ -14,7 +14,8 @@ import Partners from './components/Partners';
 import Statistics from './components/Statistics';
 import Orders from './components/Orders';
 import Products from './components/product/Products';
-import Settings from './components/Settings';
+import Settings from './components/settings/Settings';
+import Rate from './components/settings/Rate';
 import NewProductForm from './components/product/form';
 
 
@@ -36,6 +37,7 @@ import NewProductForm from './components/product/form';
                 <Route path="/statistics" component={Statistics} />
                 <Route path="/orders" component={Orders} />
                 <Route path="/settings" component={Settings} />
+                <Route path="/rate" component={Rate} />
             </Route>
             <Route path="/auth" component={Auth} />
         </Router>

@@ -13,6 +13,7 @@ class ApiActions{
         var BASE_URL = getDomain();
 
         var token = localStorage.getItem('token') || '';
+        var client_id = localStorage.getItem('current_client') ? localStorage.getItem('current_client') : localStorage.getItem('current_client_id');
 
         return new Promise(function (resolve, reject) {
             $.ajax({
@@ -26,6 +27,7 @@ class ApiActions{
                 },
                  headers: {
                     auth: token,
+                    client_id: client_id
                 },
                 error(response){
                     var error = new Error(response.responseJSON.msg);
@@ -52,6 +54,7 @@ class ApiActions{
                 },
                 headers: {
                     auth: token,
+                    client_id: client_id
                 },
                 error(response){
                     var error = new Error(response.responseText);
@@ -76,6 +79,7 @@ class ApiActions{
                 contentType: "application/json; charset=utf-8",
                 headers: {
                     auth: token,
+                    client_id: client_id
                 },
                 success(response){
                     resolve(response);
@@ -101,6 +105,7 @@ class ApiActions{
                 data: data,
                 headers: {
                     auth: token,
+                    client_id: client_id
                 },
                 success(response){
                     resolve(response);

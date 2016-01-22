@@ -3,9 +3,11 @@ var router = express.Router();
 
 var api_prefix = '/api';
 var getUserId = require('../middlewares/getUserId')
+var getClientId = require('../middlewares/getClientId')
 
 
 router.use(getUserId);
+router.use(getClientId);
 
 router.use(api_prefix, require('./users'));
 router.use(api_prefix, require('./partners'));

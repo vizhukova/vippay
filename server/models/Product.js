@@ -50,7 +50,24 @@ var Product = bookshelf.Model.extend({
 
     getAllByUser(id){
         return new Promise((resolve, reject) => {
-            return knex('products').where({'user_id': id, 'available': true}).orderBy('id', 'asc')
+            return knex('products').where({'user_id': id, 'available': true})
+            .orderBy('id', 'asc')
+            .then((res) => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    },
+
+    getForPartner(id){
+        return new Promise((resolve, reject) => {
+            return knex
+            .select('products.*', 'currency.name as currency_name')
+            .from('products')
+            .where({'user_id': id, 'available': true})
+            .join('currency', 'products.currency_id', '=', 'currency.id')
+            .orderBy('id', 'asc')
             .then((res) => {
                 resolve(res);
             }).catch((err) => {

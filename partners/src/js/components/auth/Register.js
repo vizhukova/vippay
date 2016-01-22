@@ -14,6 +14,7 @@ class Register extends React.Component {
 	componentDidMount() {
 		var id = location.hash.slice(location.hash.lastIndexOf('/') + 1, location.hash.lastIndexOf('?'));
 		this.setState({client_id: id});
+		localStorage.setItem('current_client_id', id);
 	}
 
 	onChange(e){

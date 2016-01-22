@@ -12,6 +12,10 @@ class SettingsAction {
             self.dispatch(err);
         })
     }
+
+    setCurrentClient(client) {
+        this.dispatch(client);
+    }
 }
 
 export default alt.createActions(SettingsAction);

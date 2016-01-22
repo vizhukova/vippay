@@ -62,7 +62,13 @@ class Application extends React.Component {
                             <li><Link to="/partners">Партнеры</Link></li>
                             <li><Link to="/statistics">Статистика</Link></li>
                             <li><Link to="/orders">Заказы</Link></li>
-                            <li><Link to="/settings">Настройка</Link></li>
+                            <li className="dropdown">
+                                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Настройка <span className="caret"></span></a>
+                                  <ul className="dropdown-menu">
+                                    <li><Link to="/settings">Ссылка на регистрацию</Link></li>
+                                    <li><Link to="/rate">Настройка курса валют</Link></li>
+                                  </ul>
+                            </li>   
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                           <li><button className="btn btn-link" onClick={this.Out}>Выход</button></li>
