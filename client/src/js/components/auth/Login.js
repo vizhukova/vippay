@@ -27,7 +27,7 @@ class Login extends React.Component {
 
         ApiActions.post('client/login', this.state)
             .then(function(data){
-                console.log(data)
+                console.log(data);
                 console.log('Token: ' + data.token);
                 localStorage.setItem('token', data.token);
                 location.hash = '';
@@ -46,12 +46,8 @@ class Login extends React.Component {
         if(!this.state.email || this.state.email.length == 0) {this.state.errors.email = ["Поле 'электронная почта' должно быть заполнено"]; empty = true;}
         if(!this.state.password || this.state.password.length == 0) {this.state.errors.password = ["Поле 'пароль' должно быть заполнено"]; empty = true;}
 
-        if( empty ) {
-            //alert('Все поля должны быть заполнены');
-            return false;
-        }
+        return !empty;
 
-        return true;
     }
 
 
@@ -59,14 +55,14 @@ class Login extends React.Component {
         var baseClass = "form-control input-lg";
 
         return <div>
-            <div className="row">
+
 			<div className="form-group">
 				<input type="text" name="email" id="email" className={this.state.errors.email ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Электронная почта" tabIndex="1" />
 			</div>
             <div className="form-group">
 				<input type="password" name="password" id="password" className={this.state.errors.password ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Пароль" tabIndex="2" />
 			</div>
-            </div>
+
             <div className="btn btn-primary btn-block" onClick={this.login}>Отправить</div>
             </div>
 

@@ -3,12 +3,22 @@
   margin-top: 125px;
 }
 
-.invalid {
-  border-color: #e9322d;
-  -webkit-box-shadow: 0 0 6px #f8b9b7;
-  -moz-box-shadow: 0 0 6px #f8b9b7;
-  box-shadow: 0 0 6px #f8b9b7;
+@import 'ui_common';
+@import 'ui_button';
+@import 'ui_input';
+@import 'ui_tabs';
+
+@import "auth";
+
+body{
+  font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    color: #8e8071;
+    font-size: 13px;
+    position: relative;
+    background: url(images/bg.jpg);
 }
+
 
 .list-group {
   list-style-type: none;

@@ -75,12 +75,12 @@ class Register extends React.Component {
 				<input type="email" name="email" id="email" className={this.state.errors.email ? `${baseClass} invalid` : baseClass}  onChange={this.onChange} placeholder="Электронная почта" tabIndex="3" required />
 			</div>
 			<div className="row">
-				<div className="col-xs-6 col-sm-6 col-md-6">
+				<div className="col-lg-6 col-sm-12 col-md-6">
 					<div className="form-group">
 						<input type="password" name="password" id="password" className={this.state.errors.password ? `${baseClass} invalid` : baseClass}  onChange={this.onChange} placeholder="Пароль" tabIndex="4" />
 					</div>
 				</div>
-				<div className="col-xs-6 col-sm-6 col-md-6">
+				<div className="col-lg-6 col-sm-12 col-md-6">
 					<div className="form-group">
 						<input type="password" name="confirm_pass" id="confirm_pass" className={this.state.errors.password ? `${baseClass} invalid` : baseClass}  onChange={this.onChange} placeholder="Подтвердите пароль" tabIndex="5" />
 					</div>
