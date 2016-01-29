@@ -51,12 +51,12 @@ class Category extends React.Component {
         if(!this.state.categories) return;
         return  <div>
             <div className="row">
-                <div className="col-sm-3">
+                <div className="col-sm-12">
                     <table className="table table-hover">
                         <tbody>
                         { this.state.categories.map(function(item, index){
                         return <tr key={index}>
-                            <td><Link className="list-group-item" to={`/category/${item.id}/products`} onClick={self.onClickCat}>{item.category}</Link></td>
+                            <td><Link to={`/category/${item.id}/products`} onClick={self.onClickCat}>{item.category}</Link></td>
                             <td><Link to={`/category/${item.id}`}><button type="button" className={self.state.edit ? `${baseClassEdit} btn-warning` : `${baseClassEdit} btn-warning hidden`}></button></Link></td>
                             <td><button type="button" data={item.id} className={self.state.edit ? `${baseClassDel} btn-danger` : `${baseClassDel} btn-danger hidden`} onClick={self.deleteCategory}></button></td>
                         </tr>

@@ -27,7 +27,9 @@ class Auth extends React.Component {
                 <div className="tab-container col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3 auth-form">
                     <ul className="tabs clearfix">
 
-                        <li className={this.state.tab === 'login' ? `${baseClass} active` : baseClass} data-tab="login" onClick={this.changeTab}>Логин</li>
+                        <li className={this.state.tab === 'login' ? `${baseClass} active` : baseClass} data-tab="login" onClick={this.changeTab}>
+                            Логин
+                        </li>
 
                         <li className={this.state.tab === 'register' ? `${baseClass} active` : baseClass} data-tab="register" onClick={this.changeTab}>Регистрация</li>
 

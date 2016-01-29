@@ -9,7 +9,7 @@ class Application extends React.Component {
     constructor() {
         super();
         this.state = {
-
+            user: {}
         };
 
         this.update = this.update.bind(this);
@@ -20,6 +20,7 @@ class Application extends React.Component {
         AuthStore.listen(this.update);
         AuthActions.check(localStorage.getItem('token'))
             .then(function() {
+                AuthActions.getMe();
                return SettingsActions.getAllCurrencies();
             })
     }
@@ -28,7 +29,8 @@ class Application extends React.Component {
         AuthStore.unlisten(this.update)
     }
 
-    Out() {
+    Out(e) {
+        e.preventDefault();
         localStorage.removeItem('token');
         location.reload();
     }
@@ -42,7 +44,7 @@ class Application extends React.Component {
     }
 
     render() {
-        return <div>
+        return <div className="app">
                 <nav className="navbar navbar-default">
                 <div className="container-fluid">
                     <div className="navbar-header">
@@ -52,26 +54,35 @@ class Application extends React.Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <a className="navbar-brand" href="#">VIPPAY</a>
+                        <a className="navbar-brand" href="#"><i className="glyphicon glyphicon-home"></i></a>
                     </div>
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
-                            <li><Link to="/home">Главная страница</Link></li>
-                            <li><Link to="/category">Категория</Link></li>
+                            <li><Link to="/category">Каталог</Link></li>
                             <li><Link to="/partners">Партнеры</Link></li>
                             <li><Link to="/statistics">Статистика</Link></li>
                             <li><Link to="/orders">Заказы</Link></li>
                             <li className="dropdown">
-                                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Настройка <span className="caret"></span></a>
+                                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Настройка</a>
                                   <ul className="dropdown-menu">
-                                    <li><Link to="/settings">Ссылка на регистрацию</Link></li>
-                                    <li><Link to="/rate">Настройка курса валют</Link></li>
+                                    <li><Link to="/settings">Ссылка</Link></li>
+                                    <li><Link to="/rate">Курсы</Link></li>
+                                    <li><Link to="/rate">Комиссия</Link></li>
+                                    <li><Link to="/rate">Платежи</Link></li>
                                   </ul>
-                            </li>   
+                            </li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                          <li><button className="btn btn-link" onClick={this.Out}>Выход</button></li>
+                          <li className="dropdown">
+                              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.user.name}</a>
+                                  <ul className="dropdown-menu">
+                                    <li><Link to="/rate">Курсы</Link></li>
+                                    <li><a href="#" onClick={this.Out}>Выход</a></li>
+                                  </ul>
+
+
+                          </li>
                         </ul>
                     </div>
                 </div>

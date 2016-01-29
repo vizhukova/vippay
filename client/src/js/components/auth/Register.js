@@ -1,6 +1,8 @@
 import React from 'react'
 import ApiActions from './../../actions/ApiActions'
 
+import PasswordInput from './../ui/PasswordInput';
+
 
 class Register extends React.Component {
 
@@ -76,14 +78,18 @@ class Register extends React.Component {
 			</div>
 			<div className="row">
 				<div className="col-lg-6 col-sm-12 col-md-6">
-					<div className="form-group">
-						<input type="password" name="password" id="password" className={this.state.errors.password ? `${baseClass} invalid` : baseClass}  onChange={this.onChange} placeholder="Пароль" tabIndex="4" />
-					</div>
+					<PasswordInput
+							name="password"
+							id="password"
+							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
+							onChange={this.onChange} placeholder="Пароль"/>
 				</div>
 				<div className="col-lg-6 col-sm-12 col-md-6">
-					<div className="form-group">
-						<input type="password" name="confirm_pass" id="confirm_pass" className={this.state.errors.password ? `${baseClass} invalid` : baseClass}  onChange={this.onChange} placeholder="Подтвердите пароль" tabIndex="5" />
-					</div>
+					<PasswordInput
+							name="confirm_pass"
+							id="confirm_pass"
+							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
+							onChange={this.onChange} placeholder="Подтвердите"/>
 				</div>
 			</div>
 			<div className="btn btn-primary btn-block" onClick={this.register}>Отправить</div>

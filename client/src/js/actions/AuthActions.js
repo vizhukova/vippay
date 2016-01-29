@@ -40,6 +40,19 @@ class AuthActions {
 
     }
 
+    getMe(){
+
+        return new Promise((resolve,reject) => {
+            var self = this;
+            ApiActions.get('me').then(function(user){
+                self.dispatch(user);
+                resolve();
+            }).catch(function(err){
+                reject(err);
+            })
+        })
+    }
+
 }
 
 export default alt.createActions(AuthActions);

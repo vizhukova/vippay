@@ -6,12 +6,21 @@ class AuthStore {
     constructor() {
 
         this.bindListeners({
-            onCheck: AuthActions.CHECK
+            onCheck: AuthActions.CHECK,
+            onGetMe: AuthActions.GET_ME
         });
+
+        this.user = {
+
+        };
     }
 
     onCheck(auth){
         this.auth = auth;
+    }
+
+    onGetMe(user){
+        this.user = user;
     }
 }
 

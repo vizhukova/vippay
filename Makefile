@@ -1,10 +1,10 @@
 .PHONY: refresh_db, build_static
 
 refresh_db:
-	psql -h 192.168.1.48 -U postgres -d template1 -f server/drop.sql && \
-	psql -h 192.168.1.48 -U postgres -d template1 -f server/init.sql && \
+	psql -h 127.0.0.1 -U postgres -d template1 -f server/drop.sql && \
+	psql -h 127.0.0.1 -U postgres -d template1 -f server/init.sql && \
 	cd server && knex migrate:latest && cd .. \
-	psql -h 192.168.1.48 -U vippay -d vippay -f server/seed.sql
+	psql -h 127.0.0.1 -U vippay -d vippay -f server/seed.sql
 
 build_static:
 	cd client && gulp build && \

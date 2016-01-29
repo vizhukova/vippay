@@ -51,6 +51,16 @@ router.post('/guest_login', (req, res) => {
 
 });
 
+router.get('/me', (req, res) => {
+
+    UserController.getById(req.user.id).then(function(user){
+        res.send(user)
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
+
+});
+
 router.get('/client', (req, res) => {
 
     UserController.get(req.user.id)

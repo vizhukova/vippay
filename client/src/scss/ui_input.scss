@@ -13,3 +13,15 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
     border: 1px solid #E86741 !important;
   }
 }
+
+.password-field{
+  position: relative;
+
+  i{
+        position: absolute;
+    right: 1px;
+    top: 2px;
+    padding: 15px;
+    background-color: #fff;
+  }
+}

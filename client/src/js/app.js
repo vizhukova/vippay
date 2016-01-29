@@ -33,6 +33,7 @@ import NewProductForm from './components/product/form';
                     <Route path=":id/products/new" component={NewProductForm} />
                     <Route path=":id/products/:prod_id" component={NewProductForm} />
                 </Route>
+                <Route path="/products/:id" component={Products} />
                 <Route path="/partners" component={Partners} />
                 <Route path="/statistics" component={Statistics} />
                 <Route path="/orders" component={Orders} />
