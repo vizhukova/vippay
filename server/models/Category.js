@@ -67,6 +67,6 @@ var Category = bookshelf.Model.extend({
 
         })
     }
-})
+});
 
 module.exports = Category;

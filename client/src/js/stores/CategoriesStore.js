@@ -11,6 +11,10 @@ class CategoriesStore {
             id: null,
             name: ''
         };
+
+        this.currentPage = 1;
+        this.perPage = 2;
+
         this.bindListeners({
             onCheck: CategoriesAction.GET_ALL_CATEGORIES,
             onAddNewCat: CategoriesAction.ADD_NEW_CATEGORY,
@@ -20,13 +24,14 @@ class CategoriesStore {
         });
     }
 
-    onCheck(categories){
-        this.categories = categories;
+    onCheck(data){
+        this.categories = data.data;
+        this.page = data.page;
     }
 
     onAddNewCat(category){
         if(category instanceof Error) {
-            console.log(JSON.parse(category.message).category)
+            console.log(JSON.parse(category.message).category);
                 JSON.parse(category.message).category
                 .forEach(function(i){alert(i)})
         } else {
@@ -37,7 +42,7 @@ class CategoriesStore {
 
     onEditCategory(category) {
         if(category instanceof Error) {
-            console.log(JSON.parse(category.message).category)
+            console.log(JSON.parse(category.message).category);
                 JSON.parse(category.message).category
                 .forEach(function(i){alert(i)})
         } else {

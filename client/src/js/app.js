@@ -24,15 +24,17 @@ import NewProductForm from './components/product/form';
             <Route path="/" component={App} >
                 <IndexRoute component={Home} />
                 <Route path="/home" component={Home} />
-                <Route path="/category" component={Category}>
-                    <Route path="new" component={NewCategoryForm} />
-                    <Route path=":id" component={NewCategoryForm} />
+                <Route path="/categories/:page?" component={Category}>
+
+
                     <Route path=":id/edit" component={NewCategoryForm} />
                     <Route path=":id/delete" component={NewCategoryForm} />
                     <Route path=":id/products" component={Products} />
                     <Route path=":id/products/new" component={NewProductForm} />
                     <Route path=":id/products/:prod_id" component={NewProductForm} />
                 </Route>
+                <Route path="/category/new" component={NewCategoryForm} />
+                <Route path="/category/:id" component={NewCategoryForm} />
                 <Route path="/products/:id" component={Products} />
                 <Route path="/partners" component={Partners} />
                 <Route path="/statistics" component={Statistics} />

@@ -59,7 +59,7 @@ class Application extends React.Component {
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
-                            <li><Link to="/category">Каталог</Link></li>
+                            <li><Link to="/categories">Каталог</Link></li>
                             <li><Link to="/partners">Партнеры</Link></li>
                             <li><Link to="/statistics">Статистика</Link></li>
                             <li><Link to="/orders">Заказы</Link></li>

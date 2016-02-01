@@ -4,10 +4,10 @@ import ApiActions from './ApiActions';
 
 class CategoriesAction {
 
-    getAllCategories() {
+    getAllCategories(page) {
         var self = this;
         ApiActions.get('category').then(function(data){
-            self.dispatch(data);
+            self.dispatch({page: page, data: data});
         }).catch(function(err){
             self.dispatch(err);
         })
