@@ -63,8 +63,8 @@ var Product = bookshelf.Model.extend({
     getForPartner(id){
         return new Promise((resolve, reject) => {
             return knex
-            .select('users.*', 'currency.name as currency_name')
-            .from('users')
+            .select('products.*', 'currency.name as currency_name')
+            .from('products')
             .where({'user_id': id, 'available': true})
             .join('currency', 'products.currency_id', '=', 'currency.id')
             .orderBy('id', 'asc')

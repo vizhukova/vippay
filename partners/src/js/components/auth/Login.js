@@ -32,6 +32,7 @@ class Login extends React.Component {
             return;
         }
 
+        debugger
         ApiActions.post('partner/login', this.state)
             .then(function(data){
                 console.log('Token: ' + data.token);
@@ -41,8 +42,6 @@ class Login extends React.Component {
             .catch(function(err){
                 console.log('error');
                 if(!err.message) return;
-                console.log(JSON.parse(err.message));
-                self.setState({errors: JSON.parse(err.message)})
             })
     }
 

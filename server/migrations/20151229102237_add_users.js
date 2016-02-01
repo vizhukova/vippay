@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
       t.string('login').unique().notNullable();
       t.string('email').unique().notNullable();
       t.string('password').notNullable();
+      t.enu('type', ['client', 'partner']);
       t.timestamps();
   });
 };

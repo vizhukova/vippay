@@ -67,7 +67,7 @@ router.get('/me', (req, res) => {
 
 });
 
-router.get('/client', (req, res) => {
+router.get('/client', (req, res) => { //get all clients for partner
 
     UserController.get(req.user.id)
         .then(function(clients){

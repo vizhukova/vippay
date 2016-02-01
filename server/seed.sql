@@ -3,17 +3,17 @@ INSERT INTO currency (name) VALUES ('UAH'),
                                     ('EUR'),
                                     ('RUB');
 
-INSERT INTO users (login, email, password, name, basic_currency) VALUES ('login1', 'email1@sss.ss', 'password1', 'name1', '1'),
-                                                                          ('login2', 'email2@sss.ss', 'password2', 'name2', '1'),
-                                                                          ('login3', 'email3@sss.ss', 'password3', 'name3', '1'),
-                                                                          ('login4', 'email4@sss.ss', 'password4', 'name4', '1'),
-                                                                          ('login5', 'email5@sss.ss', 'password5', 'name5', '1'),
-                                                                          ('login6', 'email6@sss.ss', 'password6', 'name6', '1'),
-                                                                          ('login7', 'email7@sss.ss', 'password7', 'name7', '1'),
-                                                                          ('login8', 'email8@sss.ss', 'password8', 'name8', '1'),
-                                                                          ('login9', 'email9@sss.ss', 'password9', 'name9', '1'),
-                                                                          ('login10', 'email10@sss.ss', 'password10', 'name10', '1'),
-                                                                          ('login11', 'email11@sss.ss', 'password11', 'name11', '1');
+INSERT INTO users (login, email, password, name, basic_currency, type) VALUES ('login1', 'email1@sss.ss', 'password1', 'name1', '1', 'client'),
+                                                                          ('login2', 'email2@sss.ss', 'password2', 'name2', '1', 'client'),
+                                                                          ('login3', 'email3@sss.ss', 'password3', 'name3', '1', 'client'),
+                                                                          ('login4', 'email4@sss.ss', 'password4', 'name4', '1', 'client'),
+                                                                          ('login5', 'email5@sss.ss', 'password5', 'name5', '1', 'client'),
+                                                                          ('login6', 'email6@sss.ss', 'password6', 'name6', '1', 'partner'),
+                                                                          ('login7', 'email7@sss.ss', 'password7', 'name7', '1', 'partner'),
+                                                                          ('login8', 'email8@sss.ss', 'password8', 'name8', '1', 'partner'),
+                                                                          ('login9', 'email9@sss.ss', 'password9', 'name9', '1', 'partner'),
+                                                                          ('login10', 'email10@sss.ss', 'password10', 'name10', '1', 'partner'),
+                                                                          ('login11', 'email11@sss.ss', 'password11', 'name11', '1', 'partner');
 
 
 INSERT INTO categories (category, user_id) VALUES ('category1', '1'),
