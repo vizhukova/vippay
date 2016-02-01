@@ -6,7 +6,7 @@ var knex = require('../knex_connection');
 
 var Partner = bookshelf.Model.extend({
 
-    tableName: 'partners',
+    tableName: 'users',
 
     hasTimestamps: true,
 
@@ -92,20 +92,20 @@ var Partner = bookshelf.Model.extend({
 
 
     getAll: Promise.method(function (client_id) {
-        return knex.select('partners.*')
-                    .from('partners')
-                    .join('clients-partners', 'partner_id', '=', 'partners.id')
-                    .where('client_id', '=', client_id)
+        return knex.select('users.*')
+                    .from('users')
+                    .join('clients-partners', 'client_id', '=', 'users.id')
+                    .where('users.id', '=', client_id)
     }),
 
     getById: Promise.method(function (id) {
-        return knex.first('id').from('partners').select('id').where({'id': id});
+        return knex.first('id').from('users').select('id').where({'id': id});
     }),
 
     edit(partner){
         return new Promise((resolve, reject) => {
 
-            knex('partners')
+            knex('users')
                 .where({id: partner.id})
                 .update(partner)
                 .then((res) => {

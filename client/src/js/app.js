@@ -16,6 +16,7 @@ import Orders from './components/Orders';
 import Products from './components/product/Products';
 import Settings from './components/settings/Settings';
 import Rate from './components/settings/Rate';
+import Fee from './components/settings/Fee';
 import NewProductForm from './components/product/form';
 
 
@@ -39,6 +40,7 @@ import NewProductForm from './components/product/form';
                 <Route path="/orders" component={Orders} />
                 <Route path="/settings" component={Settings} />
                 <Route path="/rate" component={Rate} />
+                <Route path="/fee" component={Fee} />
             </Route>
             <Route path="/auth" component={Auth} />
         </Router>

@@ -59,7 +59,7 @@ var User = bookshelf.Model.extend({
     }),
 
     register: Promise.method(function (user) {
-        var record = new this({name: user.name, login: user.login, email: user.email, password: user.password});
+        var record = new this({name: user.name, login: user.login, email: user.email, password: user.password, basic_currency: user.basic_currency});
 
         return record.save();
     }),
@@ -81,7 +81,27 @@ var User = bookshelf.Model.extend({
             .from('users')
             .where('id', '=', id)
 
+    }),
+
+    getBasicCurrency: Promise.method(function (client_id) {
+
+        return knex
+            .first('basic_currency')
+            .from('users')
+            .where('id', '=', client_id)
+
+    }),
+
+    editBasicCurrency: Promise.method(function (data) {
+
+        return knex('users')
+            .update({basic_currency: +data.basic_currency})
+            .where('id', '=', data.client_id)
+            .returning('basic_currency')
+
     })
+
+
 });
 
 module.exports = User;

@@ -38,7 +38,6 @@ module.exports = {
                 resolve({modelData: model.attributes, token: token});
 
             }).catch(function(err){
-                console.log(err.stack)
                 reject(err);
             })
 

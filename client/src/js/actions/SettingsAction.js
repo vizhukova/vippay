@@ -28,13 +28,62 @@ class SettingsAction {
     }
 
     setBasicCurrency(id) {
-         this.dispatch(id);
+
+         var self = this;
+        new Promise((resolve, reject) => {
+            ApiActions.put(`basicCurrency`, {id: id}).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                //self.dispatch(err);
+                reject(err);
+            })
+        })
+    }
+
+    getBasicCurrency() {
+         var self = this;
+        new Promise((resolve, reject) => {
+            ApiActions.get(`basicCurrency`).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                //self.dispatch(err);
+                reject(err);
+            })
+        })
     }
 
     addRate(rate) {
-        debugger
         var self = this;
             ApiActions.put(`rate`, rate).then(function(data){
+                self.dispatch(data);
+            }).catch(function(err){
+                self.dispatch(err);
+        })
+    }
+
+    getRate() {
+        var self = this;
+            ApiActions.get(`rate`).then(function(data){
+                self.dispatch(data);
+            }).catch(function(err){
+                self.dispatch(err);
+        })
+    }
+
+    getFee() {
+        var self = this;
+            ApiActions.get(`fee`).then(function(data){
+                self.dispatch(data);
+            }).catch(function(err){
+                self.dispatch(err);
+        })
+    }
+
+    editFee(fee) {
+        var self = this;
+            ApiActions.put(`fee`, {fee: fee}).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
                 self.dispatch(err);
