@@ -1,50 +1,42 @@
-var Currency = require('../models/Currency');
-var User = require('../models/Users');
+var Rate = require('../models/Rate');
 var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 
 module.exports = {
 
-    get(){
+    setDefault(client_id){
         return new Promise(function (resolve, reject) {
 
-            Currency.get().then(function (model) {
+            Rate.setDefault(client_id).then(function (model) {
                 resolve(model);
 
             }).catch(function (err) {
                 reject(err);
             })
-
         })
-
     },
 
-    getBasic(client_id){
+    get(client_id){
         return new Promise(function (resolve, reject) {
 
-            User.getBasicCurrency(client_id).then(function (model) {
+            Rate.get(client_id).then(function (model) {
                 resolve(model);
 
             }).catch(function (err) {
                 reject(err);
             })
-
         })
-
     },
 
-    editBasic(data){
+    edit(rate) {
         return new Promise(function (resolve, reject) {
 
-            User.editBasicCurrency(data).then(function (model) {
-                resolve({basic_currency: model[0]});
-
-            }).catch(function (err) {
-                reject(err);
-            })
-
-        })
-
+            Rate.edit(rate).then(function(rate) {
+               resolve(rate);
+            }).catch(function(err){
+               reject(err);
+            });
+    })
     }
 };

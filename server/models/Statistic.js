@@ -22,7 +22,7 @@ var Order = bookshelf.Model.extend({
 
 }, {
 
-    add: Promise.method(function (data) {
+    add: function (data) {
         var record = new this({customer_id: data.customer_id,
                                partner_id: data.partner_id,
                                client_id: data.client_id,
@@ -31,7 +31,7 @@ var Order = bookshelf.Model.extend({
         });
 
         return record.save();
-    }),
+    },
 
      get(client_id){
         return new Promise((resolve, reject) => {

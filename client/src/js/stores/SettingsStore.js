@@ -7,12 +7,17 @@ class SettingsStore {
     constructor() {
         this.currencies = [];
         this.basicCurrency;
+        this.fee = '';
         this.rate={};
         this.bindListeners({
             onGetAll: SettingsAction.GET,
             onGetAllCurrencies: SettingsAction.GET_ALL_CURRENCIES,
             onSetBasicCurrency: SettingsAction.SET_BASIC_CURRENCY,
-            onAddRate: SettingsAction.ADD_RATE
+            onGetBasicCurrency: SettingsAction.GET_BASIC_CURRENCY,
+            onAddRate: SettingsAction.ADD_RATE,
+            onGetRate: SettingsAction.GET_RATE,
+            onGetFee: SettingsAction.GET_FEE,
+            onEditFee: SettingsAction.EDIT_FEE
         });
     }
 
@@ -23,16 +28,35 @@ class SettingsStore {
     onGetAllCurrencies(currencies) {
         console.log('SettingsStore currencies', currencies);
         this.currencies = currencies;
-        var current = _.findWhere(currencies, {basic: true});
-        this.basicCurrency = current.id; //? current[0] : current;
     }
 
-    onSetBasicCurrency(id) {
-        this.basicCurrency = id;
+    onSetBasicCurrency(obj) {
+        console.log('SettingsStore basicCurrency', obj);
+        this.basicCurrency = obj.basic_currency;
+    }
+
+    onGetBasicCurrency(obj) {
+        console.log('SettingsStore basicCurrency', obj);
+        this.basicCurrency = obj.basic_currency;
     }
 
     onAddRate(rate) {
         this.rate = rate;
+    }
+
+    onGetRate(rate) {
+        this.rate = rate;
+        console.log('SettingsStore rate = ', rate);
+    }
+
+    onGetFee(fee) {
+        this.fee = fee.partner_first_level;
+        console.log('SettingsStore fee = ', fee);
+    }
+
+    onEditFee(fee) {
+        this.fee = fee.partner_first_level;
+        console.log('SettingsStore fee = ', fee);
     }
 
 }

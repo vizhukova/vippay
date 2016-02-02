@@ -13,10 +13,12 @@ class Rate extends React.Component {
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
         this.save = this.save.bind(this);
+        this.cancel = this.cancel.bind(this);
     }
 
     componentDidMount() {
         SettingsAction.get();
+        SettingsAction.getRate();
         SettingsStore.listen(this.update)
     }
 
@@ -33,14 +35,18 @@ class Rate extends React.Component {
             SettingsAction.setBasicCurrency(e.target.dataset.currency);
         }
         else if(e.target.name === "rate") {
-            this.state.rate[e.target.dataset.currency] = e.target.value;
+            this.state.rate[e.target.dataset.currency].result = e.target.value;
+            this.setState({});
         }
 
     }
 
     save() {
-        console.log(this.state.rate)
         SettingsAction.addRate(this.state.rate);
+    }
+
+    cancel() {
+        SettingsAction.getRate();
     }
 
 
@@ -48,16 +54,18 @@ class Rate extends React.Component {
     render(){
         var self = this;
         var res = [];
-        console.log(this.state.basicCurrency)
-        this.state.currencies.map((from, index) => {
+        var counter = 0;
 
+        this.state.currencies.map((from, index) => {
             var toArr = _.clone(self.state.currencies);
             _.remove(toArr, (el) => el.id === from.id);
             var arr = toArr.map((toEl, i) => {
+                var result = this.state.rate[counter] ? this.state.rate[counter].result : '';
+
                 return <tr key={`${index}-${i}`}>
                     <td>{from.name}</td>
                     <td>{toEl.name}</td>
-                    <td><input type="text" name="rate" data-currency={`${from.id}-${toEl.id}`} onChange={self.onChange}/></td>
+                    <td><input type="text" name="rate" data-currency={`${counter++}`} value={`${result}`} onChange={self.onChange}/></td>
                 </tr>
             });
             res.push(arr);
@@ -86,7 +94,7 @@ class Rate extends React.Component {
                     </tbody>
                   </table>
                   <div className="btn btn-success pull-right" onClick={this.save}>Сохранить</div>
-                  <div className="btn btn-danger pull-left" >Отменить</div>
+                  <div className="btn btn-danger pull-left" onClick={this.cancel}>Отменить</div>
                 </div>
 
     }

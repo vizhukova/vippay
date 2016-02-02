@@ -23,32 +23,23 @@ var Rate = bookshelf.Model.extend({
 
 }, {
 
-    editRate(rate){
-        var result = [];
-        return new Promise((resolve, reject) => {
-            _.forIn(rate, (value, key) => {
-                var arr = key.split('-');//arr[0] - from    arr[1]  - to
+    getFee: Promise.method((client_id) => {
+        return knex('fee').first('*').where('client_id', '=', client_id);
+    }),
 
-                knex('rate')
-                .update({from: +arr[0], to: +arr[1], result: +value})
-                .where('from', '=', +arr[0])
-                .andWhere('to', '=', +arr[1])
-                .returning('from', 'to', 'result')
-                .then((res) => {
-                    result.push(res);
-                    //if(result.length === _.keys(rate).length) resolve(result)
-                })
-                .catch((err) => {
-                    result.push(err);
-                })
-            })
+     editFee: Promise.method((data) => {
+        return knex('fee')
+                .update({value: JSON.stringify({partner_first_level: data.fee})})
+                .where('client_id', '=', data.client_id)
+                .returning('*')
+    }),
 
-        }).then((res) => {
-            resolve(res)
-        }).catch((err) => {
-            reject(err)
-        })
-    }
+    addFee: Promise.method((data) => {
+        return knex('fee')
+                .insert({value: JSON.stringify({partner_first_level: data.fee}), client_id: data.client_id})
+                .returning('*')
+    })
+
 })
 
 module.exports = Rate;

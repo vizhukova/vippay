@@ -21,7 +21,8 @@ class Application extends React.Component {
         AuthActions.check(localStorage.getItem('token'))
             .then(function() {
                 AuthActions.getMe();
-               return SettingsActions.getAllCurrencies();
+                SettingsActions.getAllCurrencies();
+                return SettingsActions.getBasicCurrency();
             })
     }
 
@@ -68,7 +69,7 @@ class Application extends React.Component {
                                   <ul className="dropdown-menu">
                                     <li><Link to="/settings">Ссылка</Link></li>
                                     <li><Link to="/rate">Курсы</Link></li>
-                                    <li><Link to="/rate">Комиссия</Link></li>
+                                    <li><Link to="/fee">Комиссия</Link></li>
                                     <li><Link to="/rate">Платежи</Link></li>
                                   </ul>
                             </li>

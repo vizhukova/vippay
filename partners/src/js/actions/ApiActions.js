@@ -41,6 +41,7 @@ class ApiActions{
 
         var BASE_URL = getDomain();
         var token = localStorage.getItem('token') || '';
+        var client_id = localStorage.getItem('current_client') ? localStorage.getItem('current_client') : localStorage.getItem('current_client_id');
 
         return new Promise(function (resolve, reject) {
             $.ajax({
@@ -69,6 +70,7 @@ class ApiActions{
 
         var BASE_URL = getDomain();
         var token = localStorage.getItem('token') || '';
+        var client_id = localStorage.getItem('current_client') ? localStorage.getItem('current_client') : localStorage.getItem('current_client_id');
 
         return new Promise(function (resolve, reject) {
             $.ajax({
@@ -96,6 +98,7 @@ class ApiActions{
 
         var BASE_URL = getDomain();
         var token = localStorage.getItem('token') || '';
+        var client_id = localStorage.getItem('current_client') ? localStorage.getItem('current_client') : localStorage.getItem('current_client_id');
 
         return new Promise(function (resolve, reject) {
             $.ajax({

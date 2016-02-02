@@ -93,9 +93,7 @@ module.exports = {
 
                 Product.getForPartner(data.client_id).then(function (products) {
                     resolve(products);
-                }).catch(function (err) {
-                    reject(err);
-                });
+                })
             }).catch(function (err) {
                 reject(err);
         })

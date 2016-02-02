@@ -8,6 +8,7 @@ var StatisticController = require('../controllers/Statistic');
 router.get('/redirect/:id', function(req, res) {
     var arr_id = req.params.id.split('-');// arr_id[0] - partner_id   arr_id[1] - product_id
 
+    //res.send({});
     ProductController.getCurrentProduct(arr_id[1])
             .then((product) => {
 

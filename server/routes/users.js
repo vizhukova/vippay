@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var UserController = require('../controllers/User');
 var PartnerController = require('../controllers/Partner');
+var RateController = require('../controllers/Rate');
 
 
 router.post('/client/register', function(req, res){
@@ -14,9 +15,14 @@ router.post('/client/register', function(req, res){
         login: req.body.login,
         email: req.body.email,
         password: req.body.password,
-        confirm_pass: req.body.confirm_pass
+        confirm_pass: req.body.confirm_pass,
+        basic_currency: 1
     }).then(function(user){
-        res.send(user)
+
+        RateController.setDefault(user.modelData.id).then((rate) => {
+            res.send(user);
+        })
+
     }).catch(function(err){
         res.status(400).send(err.errors)
     })
@@ -32,7 +38,7 @@ router.post('/client/login', function(req, res){
         email: req.body.email,
         password: req.body.password
     }).then(function(user){
-        res.send(user)
+            res.send(user);
     }).catch(function(err){
         res.status(400).send(err.errors)
     })
@@ -61,7 +67,7 @@ router.get('/me', (req, res) => {
 
 });
 
-router.get('/client', (req, res) => {
+router.get('/client', (req, res) => { //get all clients for partner
 
     UserController.get(req.user.id)
         .then(function(clients){
