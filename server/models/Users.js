@@ -55,11 +55,12 @@ var User = bookshelf.Model.extend({
             //        if (!res) throw new Error('Неверный пароль');
             //    });
             if(customer.get('password') !== user.password)  throw new Error('Неверный пароль');
+            if(customer.get('type') !== 'client')  throw new Error('Вы нее зарегестрированы');
         });
     }),
 
     register: Promise.method(function (user) {
-        var record = new this({name: user.name, login: user.login, email: user.email, password: user.password});
+        var record = new this({name: user.name, login: user.login, email: user.email, password: user.password, type: 'client', basic_currency: 1});
 
         return record.save();
     }),
@@ -80,6 +81,32 @@ var User = bookshelf.Model.extend({
             .first()
             .from('users')
             .where('id', '=', id)
+
+    }),
+
+    getByLogin: Promise.method(function (login) {
+
+        return knex
+            .first()
+            .from('users')
+            .where('login', '=', login)
+
+    }),
+
+    setBasicCurrency: Promise.method(function (data) {
+
+        return knex('users')
+            .update({'basic_currency': data.id})
+            .where('id', '=', data.user_id)
+
+    }),
+
+    getBasicCurrency: Promise.method(function (data) {
+
+        return knex
+            .first()
+            .from('users')
+            .where('id', '=', data.user_id)
 
     })
 });

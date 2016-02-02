@@ -34,9 +34,10 @@ class Login extends React.Component {
 
         ApiActions.post('partner/login', this.state)
             .then(function(data){
-                console.log('Token: ' + data.token);
-                localStorage.setItem('token', data.token);
+                localStorage.setItem('token', data.user.token);
+                //location.href = data.redirect;
                 location.hash = '';
+                console.log('Token: ' + data.user.token);
             })
             .catch(function(err){
                 console.log('error');

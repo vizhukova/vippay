@@ -9,7 +9,10 @@ var config = require('./config');
 
 var app = express();
 var http = require('http').Server(app);
-
+var getSubdomain = require('./middlewares/getSubdomain');
+var getClientObj = require('./middlewares/getClientObj');
+var getUserId = require('./middlewares/getUserId');
+var getClientId = require('./middlewares/getClientId')
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -18,22 +21,25 @@ app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'templates'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-
+app.use(getSubdomain);
+app.use(getClientObj);
+app.use(getUserId);
+app.use(getClientId);
 var timestamp = Date.now();
 
 app.get('/', function(req, res){
-   res.redirect('/client');
+   res.render('client', {timestamp: timestamp})
 });
 app.use(require('./routes/api'));
 app.use(require('./routes/redirect'));
-app.get('/client*', function(req, res){
-    res.render('client', {timestamp: timestamp})
-});
-app.get('/partner*', function(req, res){
-    res.render('partner', {timestamp: timestamp})
-});
-app.get('/order/:id', function(req, res){
+//app.get('/client*', function(req, res){
+//    res.render('client', {timestamp: timestamp})
+//});
+app.get('/order/:id*', function(req, res){
     res.render('order', {timestamp: timestamp})
+});
+app.get('/:partner', function(req, res){
+    res.render('partner', {timestamp: timestamp})
 });
 var server = http.listen(config.get('port'), function() {
     console.log("Listening %s on port: %s", server.address().address, server.address().port)

@@ -5,12 +5,12 @@ import ApiActions from './ApiActions';
 class ProductsAction {
 
     get(order_num) {
-        /*var self = this;
-        ApiActions.get(`partner/products`).then(function(data){
+        var self = this;
+        ApiActions.get(`order/${ order_num}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);
-        })*/
+        })
     }
 
     add(data) {

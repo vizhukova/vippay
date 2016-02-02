@@ -12,6 +12,7 @@ class SettingsStore {
             onGetAll: SettingsAction.GET,
             onGetAllCurrencies: SettingsAction.GET_ALL_CURRENCIES,
             onSetBasicCurrency: SettingsAction.SET_BASIC_CURRENCY,
+            onGetBasicCurrency: SettingsAction.GET_BASIC_CURRENCY,
             onAddRate: SettingsAction.ADD_RATE
         });
     }
@@ -23,12 +24,17 @@ class SettingsStore {
     onGetAllCurrencies(currencies) {
         console.log('SettingsStore currencies', currencies);
         this.currencies = currencies;
-        var current = _.findWhere(currencies, {basic: true});
-        this.basicCurrency = current.id; //? current[0] : current;
     }
 
-    onSetBasicCurrency(id) {
-        this.basicCurrency = id;
+
+    onSetBasicCurrency(currency) {
+        this.basicCurrency = currency.id;
+        console.log('SettingsStore basicCurrency', currency.id);
+    }
+
+    onGetBasicCurrency(currency) {
+        this.basicCurrency = currency.id;
+        console.log('SettingsStore basicCurrency', currency.id);
     }
 
     onAddRate(rate) {

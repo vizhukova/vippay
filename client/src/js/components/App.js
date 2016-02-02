@@ -21,7 +21,8 @@ class Application extends React.Component {
         AuthActions.check(localStorage.getItem('token'))
             .then(function() {
                 AuthActions.getMe();
-               return SettingsActions.getAllCurrencies();
+                SettingsActions.getAllCurrencies();
+               return SettingsActions.getBasicCurrency();
             })
     }
 

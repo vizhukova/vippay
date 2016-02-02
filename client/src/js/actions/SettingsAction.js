@@ -28,7 +28,29 @@ class SettingsAction {
     }
 
     setBasicCurrency(id) {
-         this.dispatch(id);
+         var self = this;
+        new Promise((resolve, reject) => {
+            ApiActions.put(`basicCurrency`, {id: id}).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                //self.dispatch(err);
+                reject(err);
+            })
+        })
+    }
+
+    getBasicCurrency() {
+         var self = this;
+        new Promise((resolve, reject) => {
+            ApiActions.get(`basicCurrency`).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                //self.dispatch(err);
+                reject(err);
+            })
+        })
     }
 
     addRate(rate) {

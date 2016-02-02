@@ -16,8 +16,6 @@ module.exports = {
             if(partner.password !== partner.confirm_pass){
                 errors.password = ['Пароли должны совпадать'];
             }
-            User.getById(partner.client_id).then(function(id){
-                if(id.length == 0) reject(errors);
                 var newPartner = _.omit(partner, ['client_id']);
 
                 return Partner.register(newPartner).then(function(model){
@@ -31,9 +29,7 @@ module.exports = {
                         var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
                         resolve({modelData: model.attributes, token: token});
                     })
-                })
-
-            }).catch(function(err){
+                }).catch(function(err){
                 reject(err);
             });
         })
@@ -42,13 +38,13 @@ module.exports = {
 
     login(partner){
         return new Promise(function (resolve, reject) {
-
-            var errors = {};
             var model;
+            var errors = {};
 
-            Partner.login(partner).then(function (m) {
+            var newPartner = _.omit(partner, ['client_id']);
+
+            Partner.login(newPartner).then(function (m) {
                 model = m;
-
                 return Partner.bindWithClient({client_id: partner.client_id, partner_id: model.id})
 
             }).then(() => {

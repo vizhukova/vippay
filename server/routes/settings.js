@@ -6,7 +6,7 @@ var SettingsController = require('../controllers/Settings');
 router.get('/settings', function(req, res){
 
 
-    res.send({link: `/partners/#auth/${req.user.id}`});
+    res.send({link: `/partners/${req.clientObj.id}`});
 
 });
 

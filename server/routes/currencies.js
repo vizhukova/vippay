@@ -12,4 +12,24 @@ router.get('/currency', function(req, res){
 
 });
 
+router.get('/basicCurrency', function(req, res){
+
+    CurrencyController.getBasic({user_id: req.user.id}).then(function(currency){
+        res.send({id: currency.basic_currency})
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
+
+});
+
+router.put('/basicCurrency', function(req, res){
+
+    CurrencyController.setBasic({id: req.body.id, user_id: req.user.id}).then(function(currency){
+        res.send(currency)
+    }).catch(function(err){
+        res.status(400).send(err.errors)
+    })
+
+});
+
 module.exports = router;
