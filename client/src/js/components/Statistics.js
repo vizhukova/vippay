@@ -32,7 +32,7 @@ class Statistics extends React.Component {
 
     render(){
         var self = this;
-        return <table className="table">
+        return <table className="table table-wrapper">
                 <thead>
                   <tr>
                     <th>Номер заказчика</th>

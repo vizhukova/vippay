@@ -29,21 +29,23 @@
     margin-bottom: 0;
   }
 
-  tr {
-    border-left: 3px solid #f8f8f8;
+  tbody {
+    tr {
+      border-left: 3px solid #f8f8f8;
 
-    &:hover {
-      border-left: 3px solid #4daf7b;
-    }
-
-    td {
-
-      &.actions {
-        .btn {
-          margin-left: 8px;
-        }
+      &:hover {
+        border-left: 3px solid #4daf7b;
       }
 
+      td {
+
+        &.actions {
+          .btn {
+            margin-left: 8px;
+          }
+        }
+
+      }
     }
   }
 
@@ -96,24 +98,24 @@
         }
       }
 
-      .page-numbers{
-            float: left;
-    margin-right: 1px;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
+      .page-numbers {
+        float: left;
+        margin-right: 1px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
         background: #fff;
-    color: #8d7f70;
+        color: #8d7f70;
         text-decoration: none;
 
-        &:hover{
+        &:hover {
           color: #fff;
-    background: #e86741;
+          background: #e86741;
         }
 
-        &.page_current{
+        &.page_current {
           color: #fff;
-    background: #e86741;
+          background: #e86741;
         }
       }
     }

@@ -14,7 +14,6 @@ class Order extends React.Component {
     }
 
     componentDidMount() {
-        debugger
         var id = location.search.split('?')[1];
         if(id) OrderActions.get(id);
         OrdersStore.listen(this.update);
@@ -32,7 +31,7 @@ class Order extends React.Component {
     render() {
         return <div className="panel panel-default col-md-10 col-md-offset-1 form-margin">
                   <div className="panel-body">
-                    <div className="text-danger title">Заказ</div>
+                    <div className="text-danger title">Оформление заказа</div>
                   </div>
                     {this.state.order.id ? <Payment /> : <Pending />}
                 </div>
