@@ -13,7 +13,7 @@ class CategoriesStore {
         };
 
         this.currentPage = 1;
-        this.perPage = 2;
+        this.perPage = 20;
 
         this.bindListeners({
             onCheck: CategoriesAction.GET_ALL_CATEGORIES,
@@ -26,7 +26,7 @@ class CategoriesStore {
 
     onCheck(data){
         this.categories = data.data;
-        this.page = data.page;
+        this.currentPage = data.page;
     }
 
     onAddNewCat(category){

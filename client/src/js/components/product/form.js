@@ -218,7 +218,7 @@ class ProductForm extends React.Component {
         console.log('ProductForm basicCurrency', this.state.basicCurrency)
         if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
 
-         return <form className="col-sm-7 col-md-offset-2">
+         return <form className="col-sm-7 form-ui">
             <fieldset className="product-form">
                 <label className="text-warning">Новый продукт</label>
                 <input type="text" name="name" className="form-control" id="name" onChange={this.onChange}

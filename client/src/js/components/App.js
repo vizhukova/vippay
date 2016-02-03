@@ -60,17 +60,17 @@ class Application extends React.Component {
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
-                            <li><Link to="/categories">Каталог</Link></li>
-                            <li><Link to="/partners">Партнеры</Link></li>
-                            <li><Link to="/statistics">Статистика</Link></li>
-                            <li><Link to="/orders">Заказы</Link></li>
+                            <li><Link to="/categories/1" activeClassName="active">Каталог</Link></li>
+                            <li><Link to="/partners" activeClassName="active">Партнеры</Link></li>
+                            <li><Link to="/statistics" activeClassName="active">Статистика</Link></li>
+                            <li><Link to="/orders" activeClassName="active">Заказы</Link></li>
                             <li className="dropdown">
                                   <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Настройка</a>
                                   <ul className="dropdown-menu">
-                                    <li><Link to="/settings">Ссылка</Link></li>
-                                    <li><Link to="/rate">Курсы</Link></li>
-                                    <li><Link to="/fee">Комиссия</Link></li>
-                                    <li><Link to="/rate">Платежи</Link></li>
+                                    <li><Link to="/settings" activeClassName="active">Ссылка</Link></li>
+                                    <li><Link to="/rate" activeClassName="active">Курсы</Link></li>
+                                    <li><Link to="/fee" activeClassName="active">Комиссия</Link></li>
+                                    <li><Link to="/rate" activeClassName="active">Платежи</Link></li>
                                   </ul>
                             </li>
                         </ul>
