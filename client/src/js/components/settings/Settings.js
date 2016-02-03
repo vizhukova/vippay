@@ -1,4 +1,5 @@
 import React from 'react';
+import {RoutingContext, Link} from 'react-router'
 import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore'
 
@@ -28,10 +29,10 @@ class Settings extends React.Component {
 
     render(){
 
-        return  <div><a href={this.state.link}>Ссылка</a></div>
+        return  <div><Link to={`${this.state.link}`}>Ссылка</Link></div>
 
     }
-
+//<a href={this.state.link}>Ссылка</a>
 
 }
 

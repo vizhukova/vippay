@@ -30,14 +30,15 @@ class SettingsStore {
         this.currencies = currencies;
     }
 
-    onSetBasicCurrency(obj) {
-        console.log('SettingsStore basicCurrency', obj);
-        this.basicCurrency = obj.basic_currency;
+
+    onSetBasicCurrency(currency) {
+        this.basicCurrency = currency.id;
+        console.log('SettingsStore basicCurrency', currency.id);
     }
 
-    onGetBasicCurrency(obj) {
-        console.log('SettingsStore basicCurrency', obj);
-        this.basicCurrency = obj.basic_currency;
+    onGetBasicCurrency(currency) {
+        this.basicCurrency = currency.id;
+        console.log('SettingsStore basicCurrency', currency.id);
     }
 
     onAddRate(rate) {

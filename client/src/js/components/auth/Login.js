@@ -20,23 +20,37 @@ class Login extends React.Component {
 
     login() {
         var self = this;
+        var path = '';
+
         if(!this.isCorrectField()) {
             this.setState({});
             return;
         }
+        debugger
 
-        ApiActions.post('client/login', this.state)
+        if(location.hash.split('/')[1] == 'partners') path = '/partner/login';
+        else path = 'client/login';
+
+        ApiActions.post(path, this.state)
             .then(function(data){
-                console.log(data);
-                console.log('Token: ' + data.token);
-                localStorage.setItem('token', data.token);
-                location.hash = '';
+                debugger
+                var result = {};
+                var redirect = '';
+                if(data.redirect) {
+                    result = data.user;
+                    redirect = data.redirect;
+                    localStorage.setItem('token', result.token);
+                    location.href = redirect;
+                } else {
+                    result = data;
+                    localStorage.setItem('token', result.token);
+                    location.hash = redirect;
+                }
+                console.log('Token: ' + result.token);
+
             })
             .catch(function(err){
                 console.log('error');
-                if(!err.message) return;
-                console.log(JSON.parse(err.message));
-                self.setState({errors: JSON.parse(err.message)})
             })
     }
 

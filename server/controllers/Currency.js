@@ -20,10 +20,11 @@ module.exports = {
 
     },
 
-    getBasic(client_id){
+
+    getBasic(data){
         return new Promise(function (resolve, reject) {
 
-            User.getBasicCurrency(client_id).then(function (model) {
+            User.getBasicCurrency(data).then(function (model) {
                 resolve(model);
 
             }).catch(function (err) {
@@ -34,11 +35,12 @@ module.exports = {
 
     },
 
-    editBasic(data){
+
+    setBasic(data){
         return new Promise(function (resolve, reject) {
 
-            User.editBasicCurrency(data).then(function (model) {
-                resolve({basic_currency: model[0]});
+            User.setBasicCurrency(data).then(function (model) {
+                resolve(model);
 
             }).catch(function (err) {
                 reject(err);

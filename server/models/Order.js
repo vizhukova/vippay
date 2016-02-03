@@ -31,6 +31,12 @@ var Order = bookshelf.Model.extend({
             .from('orders') .where('orders.client_id', client_id)
     }),
 
+    getById: Promise.method(function (id) {
+        return knex('orders')
+                .first()
+                .where('orders.id', id)
+    }),
+
     add: Promise.method(function (data) {
         var partnerId = data.customer.partner_product_id.partner_id;
         var lastPartnerId = partnerId ? partnerId[partnerId.length - 1] : null;
