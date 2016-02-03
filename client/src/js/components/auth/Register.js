@@ -37,9 +37,6 @@ class Register extends React.Component {
 			})
 			.catch(function(err){
 				console.log('error');
-				if(!err.message) return;
-				console.log(JSON.parse(err.message));
-				self.setState({errors: JSON.parse(err.message)})
 			})
     }
 

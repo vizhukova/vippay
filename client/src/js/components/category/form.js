@@ -70,15 +70,15 @@ class CategoryForm extends React.Component {
     }
 
     render(){
-        return  <div className="col-sm-7">
-            <form>
+        return  <div className="col-sm-7 form-ui">
+            <form className="">
               <fieldset className="form-group">
                 <label htmlFor="newCategory" className="text-primary">Новая категория</label>
                 <input type="text" name="category" className="form-control" id="newCategory" onChange={this.onChange}
                        value={this.state.category.category}
                        placeholder="Введите название новой категории" />
               </fieldset>
-                <button type="button" className="btn btn-info pull-right"
+                <button type="button" className="btn btn-default"
                         onClick={this.props.params.id  ? this.editCategory : this.addNewCategory}>{
                    this.props.params.id  ? "Редактировать" : "Добавить"}
                 </button>

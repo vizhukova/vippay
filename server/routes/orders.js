@@ -7,9 +7,19 @@ var StatisticController = require('../controllers/Statistic');
 
 router.get('/orders', function(req, res) {
 
-    OrderController.get(req.user.id)
-        .then(function (orders) {
+    OrderController.get(req.user.id).then(function (orders) {
             res.send(orders)
+        }).catch(function (err) {
+            res.status(400).send(err);
+        })
+
+});
+
+router.get('/order/:id', function(req, res) {
+
+    OrderController.getById(req.params.id)
+        .then(function (order) {
+            res.send(order)
         }).catch(function (err) {
             res.status(400).send(err);
         })

@@ -57,7 +57,7 @@ class Application extends React.Component {
     update(state){
         if(!this.state.auth) {
             if (!state.auth) {
-                location.hash = 'auth/1';
+                location.hash = 'auth';
             }
             else {
                 SettingsActions.get();

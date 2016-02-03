@@ -7,7 +7,7 @@ var RateController = require('../controllers/Rate');
 router.get('/settings', function(req, res){
 
 
-    res.send({link: `/partners/#auth/${req.user.id}`});
+    res.send({link: `/partners/${req.clientObj.id}`});
 
 });
 

@@ -9,12 +9,12 @@ router.post('/partner/register', function(req, res){
     })
 
     PartnerController.register({
-        client_id: req.body.client_id,
         name: req.body.name,
         login: req.body.login,
         email: req.body.email,
         password: req.body.password,
-        confirm_pass: req.body.confirm_pass
+        confirm_pass: req.body.confirm_pass,
+        client_id: req.clientObj.id
     }).then(function(user){
         res.send(user)
     }).catch(function(err){
@@ -31,23 +31,26 @@ router.post('/partner/login', function(req, res){
     PartnerController.login({
         email: req.body.email,
         password: req.body.password,
-        client_id: req.body.client_id
+         client_id: req.clientObj.id
     }).then(function(user){
-        res.send(user)
+        res.send({user: user, redirect: `http://${req.hostname}/${user.modelData.login}`});
     }).catch(function(err){
         res.status(400).send(err.errors)
     })
 
 });
 
-router.get('/partner/products', function (req, res) {
-    PartnerController.getAllProducts({partner_id: req.user.id, client_id: req.client.id})
+router.get(`/partner/products`, function (req, res) {
+    PartnerController.getById(req.user.id).then((partner) => {
+        return PartnerController.getAllProducts({partner_id: req.user.id, client_id: req.clientObj.id})
         .then(function (products) {
         products.map((p) => {
-            p.ref_link = `/redirect/${req.user.id}-${p.id}`
+            p.ref_link = `/redirect/${partner.login}/${p.id}`
         });
             res.send(products)
-        }).catch(function (err) {
+        })
+    })
+    .catch(function (err) {
             res.status(400).send(err.errors)
         });
 });

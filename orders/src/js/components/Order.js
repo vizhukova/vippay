@@ -3,6 +3,7 @@ import {RoutingContext, Link} from 'react-router'
 import Pending from './steps/Pending'
 import Payment from './steps/Payment'
 import OrdersStore from'./../stores/OrdersStore'
+import OrderActions from'./../actions/OrdersActions'
 
 class Order extends React.Component {
 
@@ -13,6 +14,9 @@ class Order extends React.Component {
     }
 
     componentDidMount() {
+        debugger
+        var id = location.search.split('?')[1];
+        if(id) OrderActions.get(id);
         OrdersStore.listen(this.update);
     }
 

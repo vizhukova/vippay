@@ -17,8 +17,18 @@ class Category extends React.Component {
 
     componentDidMount() {
         var page = 1;
-        if(this.props.params.page)
+        if(this.props.params.page){
+            page = this.props.params.page;
+        }
         CategoriesStore.listen(this.update);
+        CategoriesAction.getAllCategories(page);
+    }
+
+    componentWillReceiveProps(props){
+        var page = 1;
+        if(props.params.page){
+            page = props.params.page;
+        }
         CategoriesAction.getAllCategories(page);
     }
 
@@ -51,11 +61,27 @@ class Category extends React.Component {
         var baseClassEdit = "btn pull-right btn-xs glyphicon glyphicon-pencil btn-warning btn-action btn-default";
         var self = this;
 
-
-
         if (!this.state.categories) return;
         var categories = this.state.categories.slice((this.state.currentPage - 1) * this.state.perPage , ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
-        debugger;
+        var pages = Math.floor(this.state.categories.length/this.state.perPage);
+        var pageArray = Array.apply(null, Array(pages)).map(function () {});
+
+        var isPagination = false;
+
+        if(pageArray.length > 1) isPagination = true;
+
+
+        var isLast = false;
+        var isFirst = false;
+
+
+        if(+this.state.currentPage >= (pageArray.length)){
+            isLast = true;
+        }
+        if(+this.state.currentPage === 1){
+            isFirst = true;
+        }
+
         return <div>
             <div className="row">
                 <div className="col-sm-12">
@@ -89,16 +115,20 @@ class Category extends React.Component {
                         </table>
 
                         <div className="table-footer">
-                            <div className="inner">
-                                <a className="page_prev" href="#"><span></span></a>
+                            { isPagination ? <div className="inner">
 
-                                <a href="#" className="page-numbers page_current">1</a>
-                                <a href="#" className="page-numbers">2</a>
-                                <a href="#" className="page-numbers">3</a>
-                                <a href="#" className="page-numbers">4</a>
 
-                                <a className="page_next" href="#"><span></span></a>
-                            </div>
+                                {!isFirst ? <a className="page_prev" href={`#/categories/${+this.state.currentPage - 1}`}><span></span></a>:null}
+
+                                {pageArray.map(function(el, i){
+
+                                    var activeClass = +self.state.currentPage === i+1 ? 'page_current':'';
+
+                                   return  <a href={`#/categories/${i+1}`} className={`page-numbers ${activeClass}`}>{i+1}</a>
+                                })}
+
+                                { !isLast ? <a className="page_next" href={`#/categories/${+this.state.currentPage +1}`}><span></span></a>: null}
+                            </div>: null}
                         </div>
 
                     </div>
