@@ -1,12 +1,12 @@
 import React from 'react';
 
 
-class LoginInput extends React.Component {
+class Alert extends React.Component {
 
     constructor(){
         super();
         this.state = {
-            value: ''
+            visible: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -34,14 +34,9 @@ class LoginInput extends React.Component {
 
     render(){
 
-        return <input type='text'
-                   id='login'
-                   name='name'
-                   className={this.props.class}
-                   placeholder='Логин'
-                      value={this.state.value}
-                   onChange={this.onChange}
-            />
+        return <div className="alert boxed">
+
+        </div>
 
 
     }
@@ -50,4 +45,4 @@ class LoginInput extends React.Component {
 }
 
 
-export default LoginInput;
+export default Alert;

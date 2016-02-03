@@ -1,6 +1,9 @@
 import React from 'react'
 import ApiActions from './../../actions/ApiActions'
 
+import PasswordInput from './../ui/PasswordInput';
+import LoginInput from './../ui/LoginInput';
+
 
 class Login extends React.Component {
 
@@ -71,10 +74,17 @@ class Login extends React.Component {
         return <div>
 
 			<div className="form-group">
-				<input type="text" name="email" id="email" className={this.state.errors.email ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Электронная почта" tabIndex="1" />
+                <LoginInput
+                    class={this.state.errors.email ? `${baseClass} invalid` : baseClass}
+                    onChange={this.onChange}
+                />
 			</div>
             <div className="form-group">
-				<input type="password" name="password" id="password" className={this.state.errors.password ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Пароль" tabIndex="2" />
+                <PasswordInput
+							name="password"
+							id="password"
+							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
+							onChange={this.onChange} placeholder="Пароль"/>
 			</div>
 
             <div className="btn btn-primary btn-block" onClick={this.login}>Отправить</div>

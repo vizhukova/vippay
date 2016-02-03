@@ -2,6 +2,7 @@ import React from 'react'
 import ApiActions from './../../actions/ApiActions'
 
 import PasswordInput from './../ui/PasswordInput';
+import LoginInput from './../ui/LoginInput';
 
 
 class Register extends React.Component {
@@ -65,7 +66,10 @@ class Register extends React.Component {
 
         return <div>
             <div className="form-group">
-				<input type="text" name="login" id="login" className={this.state.errors.login ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Логин" tabIndex="1"  required/>
+				<LoginInput
+					class={this.state.errors.login ? `${baseClass} invalid` : baseClass}
+					onChange={this.onChange}
+				/>
 			</div>
 			<div className="form-group">
 				<input type="text" name="name" id="full_name" className={this.state.errors.name ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="ФИО" tabIndex="2" />
