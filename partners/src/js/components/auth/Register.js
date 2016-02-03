@@ -1,5 +1,6 @@
 import React from 'react'
 import ApiActions from './../../actions/ApiActions'
+import PasswordInput from './../ui/PasswordInput';
 
 
 class Register extends React.Component {
@@ -33,11 +34,13 @@ class Register extends React.Component {
 		}
 
         ApiActions.post('partner/register', this.state)
-			.then(function(data){
+			.then(function(obj){
+				debugger
+				var data = obj.user;
 				console.log(data)
 				console.log('Token: ' + data.token);
 				localStorage.setItem('token', data.token);
-				location.hash = '';
+				location.href = obj.redirect;
 			})
 			.catch(function(err){
 				console.log('error');

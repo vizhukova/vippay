@@ -33,7 +33,8 @@ class Register extends React.Component {
 				console.log(data)
 				console.log('Token: ' + data.token);
 				localStorage.setItem('token', data.token);
-				location.hash = '';
+				location.assign('http://' + data.domain)
+				//location.hash = '';
 			})
 			.catch(function(err){
 				console.log('error');

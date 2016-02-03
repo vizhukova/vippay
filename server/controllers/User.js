@@ -5,20 +5,20 @@ var _ = require('lodash');
 
 module.exports = {
 
-    register(user){
+    register(data){
         return new Promise(function(resolve, reject){
             var errors = {};
-            if(user.password !== user.confirm_pass){
+            if(data.password !== data.confirm_pass){
                 errors.password = ['Пароли должны совпадать'];
             }
-            User.register(user).then(function(model){
+            User.register(data).then(function(model){
                 if(errors.password){
                     reject({
                         errors: errors
                     })
                 }
                 var token = jwt.encode({id: model.id, role: 'client'}, 'secret');
-                resolve({modelData: model.attributes, token: token});
+                resolve({modelData: model.attributes, token: token, domain: `${model.attributes.login}.${data.domain}`});
 
             }).catch(function(err){
                 reject(err);
@@ -27,15 +27,15 @@ module.exports = {
     },
 
 
-    login(user){
+    login(data){
         return new Promise(function(resolve, reject){
 
             var errors = {};
 
-            User.login(user).then(function(model){
+            User.login(data).then(function(model){
 
                 var token = jwt.encode({id: model.id, role: 'client'}, 'secret');
-                resolve({modelData: model.attributes, token: token});
+                resolve({modelData: model.attributes, token: token, domain: `${model.attributes.login}.${data.domain}`});
 
             }).catch(function(err){
                 reject(err);

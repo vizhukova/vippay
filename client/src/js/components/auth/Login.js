@@ -36,7 +36,7 @@ class Login extends React.Component {
                 debugger
                 var result = {};
                 var redirect = '';
-                if(data.redirect) {
+                if(data.redirect) {//for partners login
                     result = data.user;
                     redirect = data.redirect;
                     localStorage.setItem('token', result.token);
@@ -44,7 +44,8 @@ class Login extends React.Component {
                 } else {
                     result = data;
                     localStorage.setItem('token', result.token);
-                    location.hash = redirect;
+                    location.assign('http://' + data.domain)
+                    //location.hash = redirect;
                 }
                 console.log('Token: ' + result.token);
 

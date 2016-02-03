@@ -16,7 +16,7 @@ router.post('/partner/register', function(req, res){
         confirm_pass: req.body.confirm_pass,
         client_id: req.clientObj.id
     }).then(function(user){
-        res.send(user)
+        res.send({user: user, redirect: `http://${req.hostname}/${user.modelData.login}`})
     }).catch(function(err){
         res.status(400).send(err.errors)
     })
@@ -31,7 +31,7 @@ router.post('/partner/login', function(req, res){
     PartnerController.login({
         email: req.body.email,
         password: req.body.password,
-         client_id: req.clientObj.id
+        client_id: req.clientObj.id
     }).then(function(user){
         res.send({user: user, redirect: `http://${req.hostname}/${user.modelData.login}`});
     }).catch(function(err){
