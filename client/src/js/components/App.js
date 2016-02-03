@@ -23,6 +23,7 @@ class Application extends React.Component {
                 AuthActions.getMe();
                 SettingsActions.getAllCurrencies();
                 return SettingsActions.getBasicCurrency();
+
             })
     }
 

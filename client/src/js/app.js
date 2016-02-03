@@ -49,6 +49,7 @@ import NewProductForm from './components/product/form';
                 <Route path="/fee" component={Fee} />
             </Route>
             <Route path="/auth" component={Auth} />
+            <Route path="/partners/:id" component={Auth} />
         </Router>
     ), document.getElementById("app-container"));
 

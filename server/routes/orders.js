@@ -15,6 +15,17 @@ router.get('/orders', function(req, res) {
 
 });
 
+router.get('/order/:id', function(req, res) {
+
+    OrderController.getById(req.params.id)
+        .then(function (order) {
+            res.send(order)
+        }).catch(function (err) {
+            res.status(400).send(err);
+        })
+
+});
+
 router.post('/order', function(req, res) {
 
     ProductController.getCurrentProduct(req.body.prod_id).then(function(product){

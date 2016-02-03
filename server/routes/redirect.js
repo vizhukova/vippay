@@ -1,39 +1,56 @@
 var express = require('express');
 var router = express.Router();
+var getPartnerIdByLogin = require('../middlewares/getPartnerIdByLogin')
 var ProductController = require('../controllers/Product');
 var CustomerController = require('../controllers/Customer');
 var StatisticController = require('../controllers/Statistic');
 
 
-router.get('/redirect/:id', function(req, res) {
-    var arr_id = req.params.id.split('-');// arr_id[0] - partner_id   arr_id[1] - product_id
+router.get('/redirect/:partner_login/:product_id', getPartnerIdByLogin, function (req, res)
+{
+    var product;
+    var customer;
 
-    //res.send({});
-    ProductController.getCurrentProduct(arr_id[1])
-            .then((product) => {
+    ProductController.getCurrentProduct(req.params.product_id).then((p) => {
 
-                if(! req.cookies.id) {
-                    CustomerController.add({partner_id: arr_id[0], product_id: arr_id[1]})
-                        .then((customer) => {
-                            StatisticController.add({client_id: product.user_id, partner_id: arr_id[0],product: JSON.stringify(product), customer_id: customer.id, action: "follow_link"})
-                            .then(() => {
-                                res.cookie('id', customer.id, {maxAge: 9000000000, httpOnly: true});
-                                res.redirect(product.product_link)
-                            })
-                        })
-                } else {
-                    CustomerController.push({partner_id: arr_id[0], product_id: arr_id[1], customer_id: req.cookies.id})
-                        .then((customer) => {
-                            StatisticController.add({client_id: product.user_id, partner_id: arr_id[0], product: JSON.stringify(product), customer_id: customer.id, action: "follow_link"})
-                            .then(() => {
-                                res.redirect(product.product_link);
-                            })
-                        })
-                }
+        product = p;
 
-            }).catch(function(err) {
-                res.status(400).send(err.errors);
-            });
+        if (!req.cookies.id) {
+            return CustomerController.add({
+                partner_id: req.partner_id,
+                product_id: req.params.product_id
+            })
+
+        } else {
+            return CustomerController.push({
+                partner_id: req.partner_id,
+                product_id: req.params.product_id,
+                customer_id: req.cookies.id
+            })
+        }
+
+    }).then((c) => {
+
+        customer = c;
+
+        return StatisticController.add({
+            client_id: product.user_id,
+            partner_id: req.partner_id,
+            product: JSON.stringify(product),
+            customer_id: customer.id,
+            action: "follow_link"
+        })
+
+    }).then(() => {
+
+        res.cookie('id', customer.id, {maxAge: 9000000000, httpOnly: true});
+        res.redirect(product.product_link)
+
+    }).catch(function (err) {
+
+        res.status(400).send(err.errors);
+
+    });
 
 });
 

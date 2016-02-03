@@ -58,6 +58,8 @@ var Partner = bookshelf.Model.extend({
                 throw new Error('Неверный пароль');
             if(! customer.get('active'))
                 throw new Error('Партнер не активен');
+            if(customer.get('type') !== 'client')
+                throw new Error('Вы нее зарегестрированы');
         });
     }),
 
@@ -66,7 +68,7 @@ var Partner = bookshelf.Model.extend({
     }),
 
     register: Promise.method(function (partner) {
-        var record = new this({name: partner.name, login: partner.login, email: partner.email, password: partner.password});
+        var record = new this({name: partner.name, login: partner.login, email: partner.email, password: partner.password, type: 'partner', basic_currency: 1});
 
         return record.save();
     }),
@@ -94,12 +96,12 @@ var Partner = bookshelf.Model.extend({
     getAll: Promise.method(function (client_id) {
         return knex.select('users.*')
                     .from('users')
-                    .join('clients-partners', 'client_id', '=', 'users.id')
-                    .where('users.id', '=', client_id)
+                    .join('clients-partners', 'partner_id', '=', 'users.id')
+                    .where('client_id', '=', client_id)
     }),
 
     getById: Promise.method(function (id) {
-        return knex.first('id').from('users').select('id').where({'id': id});
+        return knex.first().from('users').where({'id': id});
     }),
 
     edit(partner){

@@ -12,12 +12,17 @@ class OrdersStore {
         this.payed = false;
         this.bindListeners({
             onAdd: OrdersActions.ADD,
+            onGet: OrdersActions.GET,
             onPay: OrdersActions.PAY,
             onGetProduct: OrdersActions.GET_PRODUCT
         });
     }
 
     onAdd(order){
+        this.order = order;
+    }
+
+    onGet(order){
         this.order = order;
     }
 
