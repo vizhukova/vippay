@@ -61,17 +61,17 @@ class Login extends React.Component {
 
 
     render() {
-        var baseClass = "form-control input-lg";
+       var baseClass = "form-control input-lg";
 
         return <div>
-            <div className="row">
+
 			<div className="form-group">
 				<input type="text" name="email" id="email" className={this.state.errors.email ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Электронная почта" tabIndex="1" />
 			</div>
             <div className="form-group">
 				<input type="password" name="password" id="password" className={this.state.errors.password ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Пароль" tabIndex="2" />
 			</div>
-            </div>
+
             <div className="btn btn-primary btn-block" onClick={this.login}>Отправить</div>
             </div>
 

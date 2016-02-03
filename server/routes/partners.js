@@ -71,5 +71,14 @@ router.put('/partner', function(req, res) {
     });
 });
 
+router.get('/partner', function(req, res) {
+    PartnerController.get(req.user.id)
+        .then(function(partner){
+        res.send(partner)
+    }).catch(function(err) {
+        res.status(400).send(err.errors)
+    });
+});
+
 
 module.exports = router;

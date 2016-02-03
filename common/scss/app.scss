@@ -1,0 +1,35 @@
+@import './../../node_modules/bootstrap/dist/css/bootstrap.min';
+.form-register {
+  margin-top: 125px;
+}
+
+@import 'ui_common';
+@import 'ui_button';
+@import 'ui_input';
+@import 'ui_tabs';
+@import 'ui_navigation';
+@import 'ui_table';
+
+@import "auth";
+
+body{
+  font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    color: #8e8071;
+    font-size: 13px;
+    position: relative;
+    background: url(images/bg.jpg);
+}
+
+
+.list-group {
+  list-style-type: none;
+}
+
+.product-form {
+  margin-bottom: 70px;
+}
+
+.text-center-pos {
+  text-align: center;
+}

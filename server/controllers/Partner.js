@@ -136,5 +136,19 @@ module.exports = {
             })
 
         })
+    },
+
+    get(id) {
+        return new Promise(function(resolve, reject){
+
+            var errors = {};
+
+            Partner.get(id).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
     }
 };

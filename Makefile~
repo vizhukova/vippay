@@ -3,8 +3,8 @@
 refresh_db:
 	psql -h 192.168.1.48 -U postgres -d template1 -f server/drop.sql && \
 	psql -h 192.168.1.48 -U postgres -d template1 -f server/init.sql && \
-	cd server && knex migrate:latest && cd .. && \
-	psql -h 192.168.1.48 -U postgres -d template1 -f server/seed.sql
+	cd server && knex migrate:latest && cd .. \
+	 psql -h 192.168.1.48 -U vippay -d vippay -f server/seed.sql
 
 build_static:
 	cd client && gulp build && \

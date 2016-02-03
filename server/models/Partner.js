@@ -114,6 +114,12 @@ var Partner = bookshelf.Model.extend({
                     reject(err);
                 })
         })
+    },
+
+    get(id){
+           return  knex('users')
+                .first('login', 'name', 'id')
+                .where({id: id})
     }
 });
 

@@ -1,5 +1,5 @@
 import alt from '../alt';
-import ProductsAction from './../actions/SettingsActions';
+import SettingsActions from './../actions/SettingsActions';
 var _ = require('lodash');
 
 class SettingsStore {
@@ -7,9 +7,11 @@ class SettingsStore {
     constructor() {
         this.clients = [];
         this.current_client = {};
+        this.partner = {};
         this.bindListeners({
-            onGet: ProductsAction.GET,
-            setCurrentClient: ProductsAction.SET_CURRENT_CLIENT
+            onGet: SettingsActions.GET,
+            setCurrentClient: SettingsActions.SET_CURRENT_CLIENT,
+            getCurrentPartner: SettingsActions.GET_CURRENT_PARTNER
         });
     }
 
@@ -26,6 +28,10 @@ class SettingsStore {
         this.current_client = client;
          localStorage.setItem('current_client', client.id);
          console.log('current_client SettingsStore', this.current_client)
+    }
+
+    getCurrentPartner(partner) {
+        this.partner = partner;
     }
 
 }

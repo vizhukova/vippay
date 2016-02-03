@@ -16,6 +16,15 @@ class SettingsAction {
     setCurrentClient(client) {
         this.dispatch(client);
     }
+
+    getCurrentPartner() {
+        var self = this;
+        ApiActions.get(`partner`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
+    }
 }
 
 export default alt.createActions(SettingsAction);

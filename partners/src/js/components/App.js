@@ -24,7 +24,7 @@ class ProductItem extends React.Component {
     }
 
     render(){
-        return  <li onClick={this.onChange}><a>{this.props.client.name}</a></li>
+        return  <li onClick={this.onChange}><a>{this.props.client.login}</a></li>
     }
 
 
@@ -45,6 +45,7 @@ class Application extends React.Component {
         AuthStore.listen(this.update)
         SettingsStore.listen(this.update)
         AuthActions.check();
+        SettingsActions.getCurrentPartner();
     }
 
     componentWillUnmount() {
@@ -76,7 +77,7 @@ class Application extends React.Component {
         console.log(this.state)
         var self = this;
 
-        return <div>
+        return <div className="app">
                 <nav className="navbar navbar-default">
                 <div className="container-fluid">
                     <div className="navbar-header">
@@ -96,14 +97,20 @@ class Application extends React.Component {
                         </ul>
                        <ul className="nav navbar-nav navbar-right">
                             <li className="dropdown">
-                              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.current_client.name}<span className="caret"></span></a>
+                              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.current_client.login}<span className="caret"></span></a>
                               <ul className="dropdown-menu">
                                   {this.state.clients.map((item, index) => {
                                       return <ProductItem key={index} client={item} />
                                   })}
                               </ul>
                             </li>
-                          <li><button className="btn btn-link btn-lg glyphicon glyphicon-log-out" onClick={this.Out}></button></li>
+                             <li className="dropdown">
+                              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.partner.name}</a>
+                                  <ul className="dropdown-menu">
+                                    <li><Link to="/rate">Курсы</Link></li>
+                                    <li><a href="#" onClick={this.Out}>Выход</a></li>
+                                  </ul>
+                          </li>
                         </ul>
                     </div>
                 </div>
