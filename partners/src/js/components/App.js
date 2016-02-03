@@ -68,7 +68,8 @@ class Application extends React.Component {
         this.setState({});
     }
 
-    Out() {
+    Out(e) {
+        e.preventDefault();
         localStorage.removeItem('token');
         location.reload();
     }

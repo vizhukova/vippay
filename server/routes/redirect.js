@@ -17,13 +17,13 @@ router.get('/redirect/:partner_login/:product_id', getPartnerIdByLogin, function
 
         if (!req.cookies.id) {
             return CustomerController.add({
-                partner_id: req.partner_id,
+                partner_id: req.partnerId,
                 product_id: req.params.product_id
             })
 
         } else {
             return CustomerController.push({
-                partner_id: req.partner_id,
+                partner_id: req.partnerId,
                 product_id: req.params.product_id,
                 customer_id: req.cookies.id
             })
@@ -35,7 +35,7 @@ router.get('/redirect/:partner_login/:product_id', getPartnerIdByLogin, function
 
         return StatisticController.add({
             client_id: product.user_id,
-            partner_id: req.partner_id,
+            partner_id: req.partnerId,
             product: JSON.stringify(product),
             customer_id: customer.id,
             action: "follow_link"
@@ -44,7 +44,8 @@ router.get('/redirect/:partner_login/:product_id', getPartnerIdByLogin, function
     }).then(() => {
 
         res.cookie('id', customer.id, {maxAge: 9000000000, httpOnly: true});
-        res.redirect(product.product_link)
+        var link = testLink(product.product_link) ? product.product_link : `http://${product.product_link}`;
+        res.redirect(link)
 
     }).catch(function (err) {
 
@@ -53,6 +54,11 @@ router.get('/redirect/:partner_login/:product_id', getPartnerIdByLogin, function
     });
 
 });
+
+function testLink(s) {
+      var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+      return regexp.test(s);
+ }
 
 
 module.exports = router;

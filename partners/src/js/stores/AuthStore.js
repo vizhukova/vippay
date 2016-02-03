@@ -12,6 +12,7 @@ class AuthStore {
 
     onCheck(auth){
         this.auth = auth;
+        if(auth) location.hash = '';
     }
 }
 

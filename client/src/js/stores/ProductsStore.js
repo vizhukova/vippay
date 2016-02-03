@@ -21,15 +21,8 @@ class ProductsStore {
     }
 
     onAddNewProduct(product) {
-        if(product instanceof Error) {
-            console.log(JSON.parse(product.message).category)
-                JSON.parse(product.message).category
-                .forEach(function(i){alert(i)})
-            return
-        } else {
-             this.products.push(product);
-        }
 
+        this.products.push(product);
         this.onResetProduct();
     }
 

@@ -72,31 +72,40 @@ class Rate extends React.Component {
             res.push(arr);
 
         })
-        return  <div className="row">
-                <div className="text-center">
-                    <span><b>Основной курс</b></span>
-                    {self.state.currencies.map((item, index)=> {
-                        return <div key={index} className="radio">
-                                  <label><input type="radio" name="basicCurrency" data-currency={item.id} onChange={self.onChange} checked={this.state.basicCurrency == item.id}/>{item.name}</label>
-                                </div>
-                    })}
-                </div>
+        return  <div>
 
-                <table className="table table-bordered text-center-pos">
-                    <thead>
-                      <tr>
-                        <th className="text-center-pos">из</th>
-                        <th className="text-center-pos">в</th>
-                        <th className="text-center-pos">Результат</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {_.flatten(res)}
-                    </tbody>
-                  </table>
+                        <div className="table-wrapper boxed">
+                             <div className="table-head">
+                                <span className="title">Базовая валюта</span>
+                            </div>
+                            {self.state.currencies.map((item, index)=> {
+                                return <div key={index} className="radio">
+                                          <label><input type="radio" name="basicCurrency" data-currency={item.id} onChange={self.onChange} checked={this.state.basicCurrency == item.id}/>{item.name}</label>
+                                        </div>
+                            })}
+                        </div>
+                        <div className="table-wrapper boxed">
+                            <div className="table-head">
+                                <span className="title">Курсы валют</span>
+                            </div>
+                        <table className="table table-bordered text-center-pos">
+                            <thead>
+                              <tr>
+                                <th className="text-center-pos">из</th>
+                                <th className="text-center-pos">в</th>
+                                <th className="text-center-pos">Результат</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {_.flatten(res)}
+                            </tbody>
+                          </table>
+                          </div>
+
                   <div className="btn btn-success pull-right" onClick={this.save}>Сохранить</div>
                   <div className="btn btn-danger pull-left" onClick={this.cancel}>Отменить</div>
-                </div>
+
+            </div>
 
     }
 
