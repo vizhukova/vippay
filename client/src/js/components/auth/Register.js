@@ -3,6 +3,7 @@ import ApiActions from './../../actions/ApiActions'
 
 import PasswordInput from './../ui/PasswordInput';
 import LoginInput from './../ui/LoginInput';
+import Alert from './../ui/Alert';
 
 
 class Register extends React.Component {

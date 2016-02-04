@@ -9,33 +9,23 @@ class Alert extends React.Component {
             visible: false
         };
 
-        this.onChange = this.onChange.bind(this);
+        this.hide = this.hide.bind(this);
 
     }
 
-    onChange(e){
-        var re = /[a-zA-Z0-9_-]+$/g;
-        var value = e.target.value;
-
-        if(re.test(value) || value === ''){
-            this.setState({
-                value: value
-            });
-
-            this.props.onChange({
-                target: {
-                    value: value,
-                    name: 'login'
-                }
-            })
-        }
-
+    hide(e){
+        e.preventDefault();
     }
 
     render(){
 
-        return <div className="alert boxed">
-
+        return <div onClick={this.hide} className={`alert boxed alert-${this.props.type}`}>
+            <div className="alert-body">
+                <span>{this.props.title}</span>
+                <p>{this.props.text}</p>
+            </div>
+            <span className="alert-label" />
+            <a href="#" className="close" />
         </div>
 
 
