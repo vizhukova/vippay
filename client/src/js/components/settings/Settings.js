@@ -29,7 +29,7 @@ class Settings extends React.Component {
 
     render(){
 
-        return  <div><Link to={`${this.state.link}`}>Ссылка</Link></div>
+        return  <div><a href={`${this.state.link}`}>Ссылка</a></div>
 
     }
 //<a href={this.state.link}>Ссылка</a>
