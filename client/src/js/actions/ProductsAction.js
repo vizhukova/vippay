@@ -15,10 +15,14 @@ class ProductsAction {
 
     editProduct(product) {
         var self = this;
-        ApiActions.put(`product/${product.id}`, product).then(function(data){
+        return new Promise((resolve, reject) => {
+            ApiActions.put(`product/${product.id}`, product).then(function(data){
             self.dispatch(data);
+                resolve(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
+                reject(err);
+        })
         })
     }
 
@@ -33,10 +37,14 @@ class ProductsAction {
 
     addNewProduct(product) {
         var self = this;
-        ApiActions.post(`product`, product).then(function(data){
-            self.dispatch(data);
-        }).catch(function(err){
-            self.dispatch(err);
+        return new Promise((resolve, reject) => {
+              ApiActions.post(`product`, product).then(function(data){
+                    self.dispatch(data);
+                    resolve(data)
+                }).catch(function(err){
+                    self.dispatch(err);
+                    reject(err)
+                })
         })
     }
 

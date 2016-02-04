@@ -2,6 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import CategoriesStore from'./../../stores/CategoriesStore';
 import CategoriesAction from'./../../actions/CategoriesAction';
+import Alert from './../../../../../common/js/Alert';
 import _  from 'lodash';
 
 class CategoryForm extends React.Component {
@@ -11,6 +12,7 @@ class CategoryForm extends React.Component {
         this.state = CategoriesStore.getState();
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onClick = this.onClick.bind(this);
         this.addNewCategory = this.addNewCategory.bind(this);
         this.getCurrentCategory = this.getCurrentCategory.bind(this);
         this.editCategory = this.editCategory.bind(this);
@@ -47,15 +49,61 @@ class CategoryForm extends React.Component {
     }
 
     addNewCategory() {
+        var self = this;
+        if (!this.state.category.category || this.state.category.category.length == 0) {
+            self.setState({
+                error: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Поле "категория" обязательно для заполнения.'
+                }
+            })
+            return;
+        }
+
         if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
-        CategoriesAction.addNewCategory(this.state);
-        history.back();
+        CategoriesAction.addNewCategory(this.state).then((data) => {
+
+            history.back();
+
+        }).catch((err) => {
+            self.setState({
+                error: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Такая категория уже существует.'
+                }
+            })
+
+        })
     }
 
     editCategory() {
-        if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
-        CategoriesAction.editCategory(this.state.category);
-        history.back();
+        var self = this;
+        debugger
+        if (this.state.category.category.length == 0) {
+            self.setState({
+                error: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Поле "категория" обязательно для заполнения.'
+                }
+            })
+            return;
+        }
+        CategoriesAction.editCategory(this.state.category).then((data) => {
+
+            history.back();
+
+        }).catch((err) => {
+            self.setState({
+                error: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Такая категория уже существует.'
+                }
+            })
+        })
     }
 
     onChange(e) {
@@ -65,20 +113,32 @@ class CategoryForm extends React.Component {
         this.setState({});
     }
 
+    onClick(e) {
+        this.setState({
+            error: {}
+        })
+    }
+
     update(state){
         this.setState(state);
     }
 
     render(){
-        return  <div className="col-sm-7 form-ui">
+        return  <div className="col-sm-7 form-ui table-wrapper">
+            <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
             <form className="">
               <fieldset className="form-group">
-                <label htmlFor="newCategory" className="text-primary">Новая категория</label>
-                <input type="text" name="category" className="form-control" id="newCategory" onChange={this.onChange}
+
+                  <label htmlFor="newCategory" className="text-primary">Новая категория</label>
+                <input type="text" name="category" className="form-control" id="newCategory"
+                       placeholder="Введите название новой категории"
+                       onChange={this.onChange}
+                       onClick={this.onClick}
                        value={this.state.category.category}
-                       placeholder="Введите название новой категории" />
+                        />
+
               </fieldset>
-                <button type="button" className="btn btn-default"
+                <button type="button" className="btn btn-default btn-submit pull-right"
                         onClick={this.props.params.id  ? this.editCategory : this.addNewCategory}>{
                    this.props.params.id  ? "Редактировать" : "Добавить"}
                 </button>

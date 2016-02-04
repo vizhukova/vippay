@@ -15,19 +15,27 @@ class CategoriesAction {
 
     addNewCategory(category) {
         var self = this;
-        ApiActions.post('category', category.category).then(function(data){
+        return new Promise((resolve, reject) => {
+            ApiActions.post('category', category.category).then(function(data){
             self.dispatch(data);
+                resolve(data)
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
+                reject(err);
+        })
         })
     }
 
     editCategory(category) {
         var self = this;
-        ApiActions.put('category/id', category).then(function(data){
-            self.dispatch(data);
+        return new Promise((resolve, reject) => {
+            ApiActions.put('category/id', category).then(function(data){
+                self.dispatch(data);
+                resolve(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
+                reject(err);
+        })
         })
     }
 

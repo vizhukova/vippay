@@ -22,13 +22,17 @@ class CurrencySelect extends React.Component {
     render(){
         var self = this;
         return  <select className="form-control" id="sell"  name="currency_id"
-                        value={this.props.current_currency} onChange={self.onChange}>
-                    { this.props.currencies.map(function(item, index){
+                        value={this.props.current_currency}
+                        onChange={self.onChange}
+                        onClick = {self.props.onClick}>
+
+                        { this.props.currencies.map(function(item, index){
                         return <option
                             key={index}
                             value={item.id}
                         >{item.name}</option>
                         })}
+
                 </select>
     }
 

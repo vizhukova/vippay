@@ -41,6 +41,7 @@ class LoginInput extends React.Component {
                    placeholder='Логин'
                       value={this.state.value}
                    onChange={this.onChange}
+                   onClick={this.props.onClick}
             />
 
 

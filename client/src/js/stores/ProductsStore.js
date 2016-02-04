@@ -7,6 +7,7 @@ class ProductsStore {
     constructor() {
         this.products = [];
         this.product = {};
+        this.error = {};
         this.bindListeners({
             onGetAllProducts: ProductsAction.GET_ALL_PRODUCTS,
             onAddNewProduct: ProductsAction.ADD_NEW_PRODUCT,
@@ -31,11 +32,17 @@ class ProductsStore {
     }
 
     onEditProduct(product) {
+        var self = this;
         if(product instanceof Error) {
             console.log(JSON.parse(product.message).category)
                 JSON.parse(product.message).category
-                .forEach(function(i){alert(i)})
-            return
+                .forEach(function(i){
+                    self.error = {
+                        type: 'danger',
+                        title: 'Ошибка',
+                        text: i
+                    }
+                })
         } else {
             var index = _.findIndex(this.products, { 'id': product.id });
             this.products[index] = product;

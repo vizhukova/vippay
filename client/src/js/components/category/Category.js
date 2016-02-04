@@ -94,12 +94,12 @@ class Category extends React.Component {
                             <Link to="/category/new"
                                   className="btn btn-action-big btn-default glyphicon glyphicon-plus" />
                         </div>
-
                         <table className="table table-hover">
                             <tbody>
                             { categories.map(function (item, index) {
                                 return <tr key={index}>
                                     <td><Link to={`/category/${item.id}/products`}
+                                              className="category-link"
                                               onClick={self.onClickCat}>{item.category}</Link></td>
 
                                     <td className="actions">

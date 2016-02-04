@@ -42,7 +42,7 @@ router.post('/client/login', function(req, res){
     }).then(function(user){
             res.send(user);
     }).catch(function(err){
-        res.status(400).send(err.errors)
+            res.status(400).send(err.errors)
     })
 
 });

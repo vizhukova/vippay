@@ -23,13 +23,17 @@ class CategorySelect extends React.Component {
     render(){
         var self = this;
         return  <select className="form-control" id="sell"  name="category_id"
-                        value={this.state.current_category} onChange={this.props.onChange}>
+                        value={this.state.current_category}
+                        onChange={this.props.onChange}
+                        onClick={this.props.onClick}>
+
                     { this.props.categories.map(function(item, index){
                         return <option
                             key={index}
                             value={item.id}
                         >{item.category}</option>
                         })}
+
                 </select>
     }
 

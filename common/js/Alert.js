@@ -15,11 +15,17 @@ class Alert extends React.Component {
 
     hide(e){
         e.preventDefault();
+        this.setState({visible: false})
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.type) this.setState({visible: true});
+        else this.setState({visible: false});
     }
 
     render(){
-
-        return <div onClick={this.hide} className={`alert boxed alert-${this.props.type}`}>
+        console.log('Alert this.props', this.props)
+        return <div onClick={this.hide} className={`alert boxed alert-${this.props.type} ${this.state.visible ? '' : 'hide'}`}>
             <div className="alert-body">
                 <span>{this.props.title}</span>
                 <p>{this.props.text}</p>
