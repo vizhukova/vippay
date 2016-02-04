@@ -32,12 +32,12 @@ class Login extends React.Component {
             return;
         }
 
-        debugger
         ApiActions.post('partner/login', this.state)
             .then(function(data){
+                debugger
                 localStorage.setItem('token', data.user.token);
-                //location.href = data.redirect;
-                location.hash = '';
+                location.href = data.redirect;
+                //location.hash = '';
                 console.log('Token: ' + data.user.token);
             })
             .catch(function(err){

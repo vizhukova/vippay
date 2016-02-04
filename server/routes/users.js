@@ -16,7 +16,8 @@ router.post('/client/register', function(req, res){
         email: req.body.email,
         password: req.body.password,
         confirm_pass: req.body.confirm_pass,
-        basic_currency: 1
+        basic_currency: 1,
+        domain: req.postdomain
     }).then(function(user){
 
         RateController.setDefault(user.modelData.id).then((rate) => {
@@ -36,7 +37,8 @@ router.post('/client/login', function(req, res){
 
     UserController.login({
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        domain: req.postdomain
     }).then(function(user){
             res.send(user);
     }).catch(function(err){
