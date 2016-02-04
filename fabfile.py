@@ -15,6 +15,7 @@ def prepare_branch():
 
 def update_code():
     with(cd(project_root)):
+	run('git stash')
         run('git checkout master')
         run('git pull')
 
