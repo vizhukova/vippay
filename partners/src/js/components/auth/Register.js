@@ -40,10 +40,9 @@ class Register extends React.Component {
 			this.setState({});
 			return;
 		}
-
+		debugger
         ApiActions.post('partner/register', this.state)
 			.then(function(obj){
-				debugger
 				var data = obj.user;
 				console.log(data)
 				console.log('Token: ' + data.token);

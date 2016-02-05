@@ -38,5 +38,29 @@ module.exports = {
                 reject(err);
             })
         })
+    },
+
+    getPayment(user_id) {
+        return new Promise(function (resolve, reject) {
+
+            Settings.getPayment(user_id).then(function (model) {
+                resolve(model);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+        })
+    },
+
+    putPayment(data) {
+        return new Promise(function (resolve, reject) {
+
+            Settings.putPayment(data).then((result) => {
+                resolve(result[0]);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
     }
 };

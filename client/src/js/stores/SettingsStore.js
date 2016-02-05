@@ -9,6 +9,8 @@ class SettingsStore {
         this.basicCurrency;
         this.fee = '';
         this.rate={};
+        this.payment = [];
+
         this.bindListeners({
             onGetAll: SettingsAction.GET,
             onGetAllCurrencies: SettingsAction.GET_ALL_CURRENCIES,
@@ -17,11 +19,14 @@ class SettingsStore {
             onAddRate: SettingsAction.ADD_RATE,
             onGetRate: SettingsAction.GET_RATE,
             onGetFee: SettingsAction.GET_FEE,
-            onEditFee: SettingsAction.EDIT_FEE
+            onEditFee: SettingsAction.EDIT_FEE,
+            onGetPayment: SettingsAction.GET_PAYMENT,
+            onEditPayment: SettingsAction.EDIT_PAYMENT
         });
     }
 
     onGetAll(state){
+        console.log('SettingsStore link', state.link);
         this.link = state.link;
     }
 
@@ -58,6 +63,16 @@ class SettingsStore {
     onEditFee(fee) {
         this.fee = fee.partner_first_level;
         console.log('SettingsStore fee = ', fee);
+    }
+
+    onGetPayment(payment) {
+        this.payment = payment;
+         console.log('SettingsStore payment = ', payment);
+    }
+
+    onEditPayment(payment) {
+        this.payment = payment;
+         console.log('SettingsStore payment = ', payment);
     }
 
 }
