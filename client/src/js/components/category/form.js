@@ -13,13 +13,13 @@ class CategoryForm extends React.Component {
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
         this.addNewCategory = this.addNewCategory.bind(this);
         this.getCurrentCategory = this.getCurrentCategory.bind(this);
         this.editCategory = this.editCategory.bind(this);
     }
 
     componentDidMount() {
-        debugger
         if(this.props.params.id) {
             this.getCurrentCategory(this.props.params.id);
         }
@@ -80,7 +80,6 @@ class CategoryForm extends React.Component {
 
     editCategory() {
         var self = this;
-        debugger
         if (this.state.category.category.length == 0) {
             self.setState({
                 error: {
@@ -119,6 +118,12 @@ class CategoryForm extends React.Component {
         })
     }
 
+    onKeyDown(e) {
+		if(e.keyCode == 13) {
+            this.props.params.id  ? this.editCategory() : this.addNewCategory();
+        }
+	}
+
     update(state){
         this.setState(state);
     }
@@ -133,6 +138,7 @@ class CategoryForm extends React.Component {
                 <input type="text" name="category" className="form-control" id="newCategory"
                        placeholder="Введите название новой категории"
                        onChange={this.onChange}
+                       onKeyDown={this.onKeyDown}
                        onClick={this.onClick}
                        value={this.state.category.category}
                         />

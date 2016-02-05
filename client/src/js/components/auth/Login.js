@@ -11,6 +11,7 @@ class Login extends React.Component {
         super();
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
         this.login = this.login.bind(this);
         this.state = {
             errors: {},
@@ -19,6 +20,10 @@ class Login extends React.Component {
     }
 
     onChange(e){
+        if(e.keyCode == 13) {
+            this.login();
+            return;
+        }
         var state = {};
         console.log(e.target.name)
         state[e.target.name] = e.target.value;
@@ -28,6 +33,12 @@ class Login extends React.Component {
     onClick(e) {
         this.setState({error: {}});
     }
+
+    onKeyDown(e) {
+		if(e.keyCode == 13) {
+            this.login();
+        }
+	}
 
     login() {
         var self = this;
@@ -99,7 +110,7 @@ class Login extends React.Component {
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
 							onChange={this.onChange}
                             onClick={this.onClick}
-                            placeholder="Пароль"/>
+                            placeholder="Пароль" tabIndex="2"/>
 			</div>
 
             <div className="btn btn-primary btn-block" onClick={this.login}>Отправить</div>

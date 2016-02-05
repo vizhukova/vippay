@@ -32,6 +32,8 @@ class PasswordInput extends React.Component {
                    placeholder={this.props.placeholder}
                    onChange={this.props.onChange}
                    onClick={this.props.onClick}
+                   onKeyDown={this.props.onKeyDown}
+                   tabIndex={this.props.tabIndex}
             />
             <i className={`password-eye glyphicon ${eyeClass}`} onClick={this.changePasswordVisible}></i>
         </div>

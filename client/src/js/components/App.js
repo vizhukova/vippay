@@ -3,6 +3,7 @@ import {RoutingContext, Link} from 'react-router'
 import  AuthActions from '../actions/AuthActions';
 import  SettingsActions from '../actions/SettingsAction';
 import AuthStore from './../stores/AuthStore';
+import IFrame from './IFrame';
 
 class Application extends React.Component {
 
@@ -17,14 +18,14 @@ class Application extends React.Component {
     }
 
     componentDidMount() {
-        AuthStore.listen(this.update);
-        AuthActions.check(localStorage.getItem('token'))
-            .then(function() {
-                AuthActions.getMe();
-                SettingsActions.getAllCurrencies();
-                return SettingsActions.getBasicCurrency();
 
-            })
+        window.onmessage = function(e) {
+            console.log(e.origin)
+            console.log('onmessage:', e.data);
+            localStorage.setItem('token', e.data);
+        }
+
+        AuthStore.listen(this.update);
     }
 
     componentWillUnmount() {
@@ -33,8 +34,25 @@ class Application extends React.Component {
 
     Out(e) {
         e.preventDefault();
+        var win = document.getElementsByTagName('iframe')[0].contentWindow;
+        win.postMessage(JSON.stringify({key: 'token', method: 'remove'}), "*");
         localStorage.removeItem('token');
         location.reload();
+    }
+
+    onLoadIFrame() {
+        console.log('-------main window send post')
+        var win = document.getElementsByTagName('iframe')[0].contentWindow;
+        win.postMessage(JSON.stringify({key: 'token', method: 'get'}), "*");
+
+        AuthActions.check(localStorage.getItem('token'))
+
+            .then(function() {
+                AuthActions.getMe();
+                SettingsActions.getAllCurrencies();
+                return SettingsActions.getBasicCurrency();
+
+            })
     }
 
     update(state){
@@ -90,6 +108,7 @@ class Application extends React.Component {
                 </div>
             </nav>
             <div>{this.props.children}</div>
+            <IFrame src={`http://auth.vippay.loc/iframe`} onLoad={this.onLoadIFrame} />
         </div>
     }
 }

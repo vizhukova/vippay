@@ -12,6 +12,7 @@ class Register extends React.Component {
         super();
 		this.onChange = this.onChange.bind(this);
 		this.onClick = this.onClick.bind(this);
+		this.onKeyDown = this.onKeyDown.bind(this);
 		this.register = this.register.bind(this);
 		this.state = {
 			errors: {},
@@ -25,6 +26,12 @@ class Register extends React.Component {
 		state[e.target.name] = e.target.value;
 		this.setState(state);
     }
+
+	onKeyDown(e) {
+		if(e.keyCode == 13) {
+            this.register();
+        }
+	}
 
 	 onClick(e) {
         this.setState({error: {}});
@@ -84,6 +91,8 @@ class Register extends React.Component {
             <div className="form-group">
 				<LoginInput
 					class={this.state.errors.login ? `${baseClass} invalid` : baseClass}
+					tabIndex="1"
+					onKeyDown={this.onKeyDown}
 					onChange={this.onChange}
 					onClick={this.onClick}
 				/>
@@ -91,6 +100,7 @@ class Register extends React.Component {
 			<div className="form-group">
 				<input type="text" name="name" id="full_name"
 					   className={this.state.errors.name ? `${baseClass} invalid` : baseClass}
+					   onKeyDown={this.onKeyDown}
 					   onChange={this.onChange}
 					   onClick={this.onClick}
 					   placeholder="ФИО" tabIndex="2" />
@@ -98,6 +108,7 @@ class Register extends React.Component {
 			<div className="form-group">
 				<input type="email" name="email" id="email"
 					   className={this.state.errors.email ? `${baseClass} invalid` : baseClass}
+					   onKeyDown={this.onKeyDown}
 					   onChange={this.onChange}
 					   onClick={this.onClick}
 					   placeholder="Электронная почта" tabIndex="3" required />
@@ -108,16 +119,18 @@ class Register extends React.Component {
 							name="password"
 							id="password"
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
+							onKeyDown={this.onKeyDown}
 							onChange={this.onChange}
-							onClick={this.onClick} placeholder="Пароль"/>
+							onClick={this.onClick} placeholder="Пароль" tabIndex="4"/>
 				</div>
 				<div className="col-lg-6 col-sm-12 col-md-6">
 					<PasswordInput
 							name="confirm_pass"
 							id="confirm_pass"
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
+							onKeyDown={this.onKeyDown}
 							onChange={this.onChange}
-							onClick={this.onClick} placeholder="Подтвердите"/>
+							onClick={this.onClick} placeholder="Подтвердите" tabIndex="5"/>
 				</div>
 			</div>
 			<div className="btn btn-primary btn-block" onClick={this.register}>Отправить</div>
