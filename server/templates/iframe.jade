@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
+  body
+    script(type='text/javascript').
+     console.log("--------iframe.jade worked")
+     window.onmessage = function(e) {
+      var data = JSON.parse(e.data);
+         console.log("--------iframe.jade onmessage", e.data,e.origin, localStorage.getItem('token'))
+      switch (data.method) {
+       case 'get':
+        var parent = window.parent;
+        var result = localStorage.getItem(data.key);
+        parent.postMessage(result, "*");
+        break;
+       case 'remove':
+        localStorage.removeItem(data.key);
+        break;
+      }
+     }

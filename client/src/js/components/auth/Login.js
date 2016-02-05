@@ -101,7 +101,6 @@ class Login extends React.Component {
                        className={this.state.errors.email ? `${baseClass} invalid` : baseClass}
                        onChange={this.onChange}
                        onClick={this.onClick}
-                       onKeyDown={this.onKeyDown}
                        placeholder="Электронная почта" tabIndex="1" />
 			</div>
             <div className="form-group">
@@ -111,7 +110,6 @@ class Login extends React.Component {
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
 							onChange={this.onChange}
                             onClick={this.onClick}
-                            onKeyDown={this.onKeyDown}
                             placeholder="Пароль" tabIndex="2"/>
 			</div>
 
