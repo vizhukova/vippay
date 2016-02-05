@@ -20,12 +20,12 @@ module.exports = {
     getById(id) {
         return new Promise(function (resolve, reject) {
 
-            Order.getById(id)
-                .then(function (order) {
+            Order.getById(id).then(function (order) {
                 resolve(order)
             }).catch(function (err) {
                 reject(err);
             });
+
         })
     },
 

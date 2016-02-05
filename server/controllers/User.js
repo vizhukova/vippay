@@ -58,6 +58,20 @@ module.exports = {
         })
     },
 
+    getFullById(id) {
+        return new Promise(function(resolve, reject){
+
+            var errors = {};
+
+            User.getFullById(id).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
+    },
+
     get(partner_id) {
         return new Promise(function(resolve, reject){
 

@@ -18,5 +18,6 @@ router.use(api_prefix, require('./statistics'));
 router.use(api_prefix, require('./orders'));
 router.use(api_prefix, require('./settings'));
 router.use(api_prefix, require('./currencies'));
+router.use(api_prefix, require('./payments'));
 
 module.exports = router;
