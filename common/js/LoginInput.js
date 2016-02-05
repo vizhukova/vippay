@@ -42,6 +42,8 @@ class LoginInput extends React.Component {
                       value={this.state.value}
                    onChange={this.onChange}
                    onClick={this.props.onClick}
+                   onKeyDown={this.props.onKeyDown}
+                   tabIndex={this.props.tabIndex}
             />
 
 

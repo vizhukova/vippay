@@ -10,6 +10,7 @@ class Login extends React.Component {
         super();
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
         this.login = this.login.bind(this);
         this.state = {
             errors: {},
@@ -27,6 +28,13 @@ class Login extends React.Component {
     onClick(e) {
         this.setState({error: {}});
     }
+
+    onKeyDown(e) {
+		if(e.keyCode == 13) {
+            this.login();
+            return;
+        }
+	}
 
     componentDidMount() {
 		var id = location.hash.slice(location.hash.lastIndexOf('/') + 1, location.hash.lastIndexOf('?'));
@@ -85,6 +93,7 @@ class Login extends React.Component {
 				<input type="text" name="email" id="email"
                        className={this.state.errors.email ? `${baseClass} invalid` : baseClass}
                        onChange={this.onChange}
+                       onKeyDown={this.onKeyDown}
                        onClick={this.onClick} placeholder="Электронная почта" tabIndex="1" />
 			</div>
             <div className="form-group">
@@ -94,6 +103,7 @@ class Login extends React.Component {
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
 							onChange={this.onChange}
                             onClick={this.onClick}
+                            onKeyDown={this.onKeyDown}
                             placeholder="Пароль"/>
 			</div>
 
