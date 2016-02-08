@@ -1,5 +1,7 @@
 import React from 'react'
 import ApiActions from './../../actions/ApiActions'
+import PasswordInput from './../../../../../common/js/PasswordInput';
+import Alert from './../../../../../common/js/Alert'
 
 
 class Register extends React.Component {
@@ -7,8 +9,12 @@ class Register extends React.Component {
     constructor() {
         super();
 		this.onChange = this.onChange.bind(this);
+		this.onClick = this.onClick.bind(this);
+		this.onKeyDown = this.onKeyDown.bind(this);
 		this.register = this.register.bind(this);
-		this.state = { errors: {} };
+		this.state = {
+			errors: {},
+			error: {}};
     }
 
 	componentDidMount() {
@@ -24,6 +30,17 @@ class Register extends React.Component {
 		this.setState(state);
     }
 
+	onClick(e) {
+        this.setState({error: {}});
+    }
+
+	onKeyDown(e) {
+		if(e.keyCode == 13) {
+            this.register();
+            return;
+        }
+	}
+
 	register() {
 
 		var self = this;
@@ -31,19 +48,21 @@ class Register extends React.Component {
 			this.setState({});
 			return;
 		}
-
         ApiActions.post('partner/register', this.state)
-			.then(function(data){
+			.then(function(obj){
+				var data = obj.user;
 				console.log(data)
 				console.log('Token: ' + data.token);
 				localStorage.setItem('token', data.token);
-				location.hash = '';
+				location.href = obj.redirect;
 			})
 			.catch(function(err){
-				console.log('error');
-				if(!err.message) return;
-				console.log(JSON.parse(err.message));
-				self.setState({errors: JSON.parse(err.message)})
+				console.log('ERROR:', err);
+                self.setState({error: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Такой пользователь уже существует'
+                }})
 			})
     }
 
@@ -71,14 +90,30 @@ class Register extends React.Component {
 		var baseClass = "form-control input-lg";
 
         return <div>
+			<Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title}
+				   onClick={this.onClick}/>
             <div className="form-group">
-				<input type="text" name="login" id="login" className={this.state.errors.login ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Логин" tabIndex="1"  required/>
+				<input type="text" name="login" id="login"
+					   className={this.state.errors.login ? `${baseClass} invalid` : baseClass}
+					   onChange={this.onChange}
+					   onClick={this.onClick}
+					   onKeyDown={this.onKeyDown}
+					   placeholder="Логин" tabIndex="1"  required/>
 			</div>
 			<div className="form-group">
-				<input type="text" name="name" id="full_name" className={this.state.errors.name ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="ФИО" tabIndex="2" />
+				<input type="text" name="name" id="full_name"
+					   className={this.state.errors.name ? `${baseClass} invalid` : baseClass}
+					   onChange={this.onChange}
+					   onClick={this.onClick}
+					   onKeyDown={this.onKeyDown}
+					   placeholder="ФИО" tabIndex="2" />
 			</div>
 			<div className="form-group">
-				<input type="email" name="email" id="email" className={this.state.errors.email ? `${baseClass} invalid` : baseClass}  onChange={this.onChange} placeholder="Электронная почта" tabIndex="3" required />
+				<input type="email" name="email" id="email"
+					   className={this.state.errors.email ? `${baseClass} invalid` : baseClass}
+					   onChange={this.onChange}
+					   onKeyDown={this.onKeyDown}
+					   onClick={this.onClick} placeholder="Электронная почта" tabIndex="3" required />
 			</div>
 			<div className="row">
 				<div className="col-lg-6 col-sm-12 col-md-6">
@@ -86,14 +121,18 @@ class Register extends React.Component {
 							name="password"
 							id="password"
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
-							onChange={this.onChange} placeholder="Пароль"/>
+							onChange={this.onChange}
+							onKeyDown={this.onKeyDown}
+							onClick={this.onClick} placeholder="Пароль"/>
 				</div>
 				<div className="col-lg-6 col-sm-12 col-md-6">
 					<PasswordInput
 							name="confirm_pass"
 							id="confirm_pass"
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
-							onChange={this.onChange} placeholder="Подтвердите"/>
+							onChange={this.onChange}
+							onKeyDown={this.onKeyDown}
+							onClick={this.onClick} placeholder="Подтвердите"/>
 				</div>
 			</div>
 			<div className="btn btn-primary btn-block" onClick={this.register}>Отправить</div>

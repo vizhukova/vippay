@@ -31,10 +31,9 @@ class Order extends React.Component {
 
     render() {
         return <div>
-                <div className="step"><span className="step-text">2</span></div>
                  <div className="content-step">
-                    <div className="order-num"><b>ID заказа: </b> {this.state.order.id}</div>
-                    <button type="button" className="btn btn-danger btn-lg order" onClick={this.onClick}>Заказать</button>
+                    <div className="order-num title"><b>ID заказа: </b> {this.state.order.id}</div>
+                    <button type="button" className="btn btn-danger btn-lg pull-right btn-order" onClick={this.onClick}>Оплатить</button>
                  </div>
            </div>
     }

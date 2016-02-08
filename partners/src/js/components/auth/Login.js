@@ -1,5 +1,7 @@
 import React from 'react'
 import ApiActions from './../../actions/ApiActions'
+import Alert from './../../../../../common/js/Alert'
+import PasswordInput from './../../../../../common/js/PasswordInput';
 
 
 class Login extends React.Component {
@@ -7,8 +9,13 @@ class Login extends React.Component {
     constructor() {
         super();
         this.onChange = this.onChange.bind(this);
+        this.onClick = this.onClick.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
         this.login = this.login.bind(this);
-        this.state = {errors: {}};
+        this.state = {
+            errors: {},
+            error: {}
+            };
     }
 
     onChange(e){
@@ -17,6 +24,17 @@ class Login extends React.Component {
         state[e.target.name] = e.target.value;
         this.setState(state);
     }
+
+    onClick(e) {
+        this.setState({error: {}});
+    }
+
+    onKeyDown(e) {
+		if(e.keyCode == 13) {
+            this.login();
+            return;
+        }
+	}
 
     componentDidMount() {
 		var id = location.hash.slice(location.hash.lastIndexOf('/') + 1, location.hash.lastIndexOf('?'));
@@ -32,17 +50,21 @@ class Login extends React.Component {
             return;
         }
 
-        debugger
         ApiActions.post('partner/login', this.state)
             .then(function(data){
                 localStorage.setItem('token', data.user.token);
-                //location.href = data.redirect;
-                location.hash = '';
+                location.href = data.redirect;
+                //location.hash = '';
                 console.log('Token: ' + data.user.token);
             })
             .catch(function(err){
-                console.log('error');
-                if(!err.message) return;
+                console.log('ERROR:', err);
+                self.setState({error: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Проверьте правильность заполнения данных'
+                }})
+
             })
     }
 
@@ -66,11 +88,23 @@ class Login extends React.Component {
 
         return <div>
 
+            <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
 			<div className="form-group">
-				<input type="text" name="email" id="email" className={this.state.errors.email ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Электронная почта" tabIndex="1" />
+				<input type="text" name="email" id="email"
+                       className={this.state.errors.email ? `${baseClass} invalid` : baseClass}
+                       onChange={this.onChange}
+                       onKeyDown={this.onKeyDown}
+                       onClick={this.onClick} placeholder="Электронная почта" tabIndex="1" />
 			</div>
             <div className="form-group">
-				<input type="password" name="password" id="password" className={this.state.errors.password ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Пароль" tabIndex="2" />
+				<PasswordInput
+							name="password"
+							id="password"
+							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
+							onChange={this.onChange}
+                            onClick={this.onClick}
+                            onKeyDown={this.onKeyDown}
+                            placeholder="Пароль"/>
 			</div>
 
             <div className="btn btn-primary btn-block" onClick={this.login}>Отправить</div>

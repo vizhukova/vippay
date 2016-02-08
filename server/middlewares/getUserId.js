@@ -8,8 +8,8 @@ module.exports = function(req, res, next){
         try{
             req.user = jwt.decode(req.headers.auth, 'secret');
         }catch(err){
-            res.status(401).send('Unathorized');
-            return;
+            /*res.status(401).send('Unathorized');
+            return;*/
         }
     }
 

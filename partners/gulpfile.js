@@ -60,8 +60,11 @@ gulp.task('vendor', function(){
 
 gulp.task('watch', function() {
     gulp.watch('./src/js/**/*.js', ['js', 'vendor']);
+    gulp.watch('./../common/js/*.js', ['js', 'vendor']);
     gulp.watch('./src/scss/**/*.scss', ['scss']);
+    gulp.watch('./../common/scss/*.scss', ['sass']);
     gulp.watch('./*.html', ['replaceHTML']);
+
 });
 
 gulp.task('sass', function () {

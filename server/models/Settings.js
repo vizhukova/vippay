@@ -38,6 +38,19 @@ var Rate = bookshelf.Model.extend({
         return knex('fee')
                 .insert({value: JSON.stringify({partner_first_level: data.fee}), client_id: data.client_id})
                 .returning('*')
+    }),
+
+    getPayment: Promise.method((user_id) => {
+        return knex('users')
+                .first('payment')
+                .where('id', '=', user_id)
+    }),
+
+    putPayment: Promise.method((data) => {
+        return knex('users')
+                .update({payment: JSON.stringify(data.payment)})
+                .where('id', '=', data.user_id)
+                .returning('payment')
     })
 
 })

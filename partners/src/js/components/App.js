@@ -68,9 +68,13 @@ class Application extends React.Component {
         this.setState({});
     }
 
-    Out() {
+    Out(e) {
+        e.preventDefault();
         localStorage.removeItem('token');
-        location.reload();
+        debugger
+        console.log('http://' + location.hostname + '/partner')
+        location.href = 'http://' + location.hostname + '/partner';
+        //location.reload();
     }
 
     render() {
@@ -93,7 +97,6 @@ class Application extends React.Component {
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
                             <li><Link to="/products">Продукты клиента</Link></li>
-                            <li><Link to={`/redirect/${8}-${11}`}>Redirect</Link></li>
                         </ul>
                        <ul className="nav navbar-nav navbar-right">
                             <li className="dropdown">

@@ -11,7 +11,7 @@ class CategoriesStore {
             id: null,
             name: ''
         };
-
+        this.error = {}
         this.currentPage = 1;
         this.perPage = 20;
 
@@ -30,12 +30,16 @@ class CategoriesStore {
     }
 
     onAddNewCat(category){
+        var self = this;
         if(category instanceof Error) {
             console.log(JSON.parse(category.message).category);
                 JSON.parse(category.message).category
-                .forEach(function(i){alert(i)})
+                .forEach(function(i){
+                    console.log(i)
+                })
         } else {
             this.categories.push({category: category.category, id: category.id})
+            self.error = {};
         }
         this.onResetCategory();
     }

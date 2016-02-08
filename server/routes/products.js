@@ -28,7 +28,7 @@ router.get('/product/:id', function(req, res){
     ProductController.getCurrentProduct(req.params.id).then(function(product){
         res.send(product)
     }).catch(function(err){
-        res.status(400).send(err.errors)
+        res.status(204).send(err.errors)
     })
 
 });

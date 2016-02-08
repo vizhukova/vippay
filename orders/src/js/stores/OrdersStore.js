@@ -27,6 +27,7 @@ class OrdersStore {
     }
 
     onGetProduct(product) {
+        if(!product.image) product.image = '/public/orders/images/noimage.png';
         this.product = product;
     }
 

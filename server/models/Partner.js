@@ -58,7 +58,7 @@ var Partner = bookshelf.Model.extend({
                 throw new Error('Неверный пароль');
             if(! customer.get('active'))
                 throw new Error('Партнер не активен');
-            if(customer.get('type') !== 'client')
+            if(customer.get('type') !== 'partner')
                 throw new Error('Вы нее зарегестрированы');
         });
     }),

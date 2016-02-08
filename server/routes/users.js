@@ -5,9 +5,9 @@ var PartnerController = require('../controllers/Partner');
 var RateController = require('../controllers/Rate');
 
 
-router.post('/client/register', function(req, res){
+router.post('/client/register', function (req, res) {
     Object.keys(req.body).map((k) => {
-        if(req.body[k] === '') req.body[k] = null
+        if (req.body[k] === '') req.body[k] = null
     })
 
     UserController.register({
@@ -16,30 +16,32 @@ router.post('/client/register', function(req, res){
         email: req.body.email,
         password: req.body.password,
         confirm_pass: req.body.confirm_pass,
-        basic_currency: 1
-    }).then(function(user){
+        basic_currency: 1,
+        domain: req.postdomain
+    }).then(function (user) {
 
         RateController.setDefault(user.modelData.id).then((rate) => {
             res.send(user);
         })
 
-    }).catch(function(err){
+    }).catch(function (err) {
         res.status(400).send(err.errors)
     })
 
 });
 
-router.post('/client/login', function(req, res){
+router.post('/client/login', function (req, res) {
     Object.keys(req.body).map((k) => {
-        if(req.body[k] === '') req.body[k] = null
-});
+        if (req.body[k] === '') req.body[k] = null
+    });
 
     UserController.login({
         email: req.body.email,
-        password: req.body.password
-    }).then(function(user){
-            res.send(user);
-    }).catch(function(err){
+        password: req.body.password,
+        domain: req.postdomain
+    }).then(function (user) {
+        res.send(user);
+    }).catch(function (err) {
         res.status(400).send(err.errors)
     })
 
@@ -49,9 +51,9 @@ router.post('/guest_login', (req, res) => {
 
     PartnerController.guestLogin({
         login: req.body.login
-    }).then(function(user){
+    }).then(function (user) {
         res.send(user)
-    }).catch(function(err){
+    }).catch(function (err) {
         res.status(400).send(err.errors)
     })
 
@@ -59,9 +61,9 @@ router.post('/guest_login', (req, res) => {
 
 router.get('/me', (req, res) => {
 
-    UserController.getById(req.user.id).then(function(user){
+    UserController.getById(req.user.id).then(function (user) {
         res.send(user)
-    }).catch(function(err){
+    }).catch(function (err) {
         res.status(400).send(err.errors)
     })
 
@@ -70,11 +72,11 @@ router.get('/me', (req, res) => {
 router.get('/client', (req, res) => { //get all clients for partner
 
     UserController.get(req.user.id)
-        .then(function(clients){
-        res.send(clients)
-        }).catch(function(err){
-            res.status(400).send(err.errors)
-        })
+        .then(function (clients) {
+            res.send(clients)
+        }).catch(function (err) {
+        res.status(400).send(err.errors)
+    })
 
 });
 

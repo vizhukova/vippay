@@ -1,7 +1,7 @@
 import React from 'react';
 import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore';
-import NumberInput from'./../ui/NumberInput';
+import NumberInput from'./../../../../../common/js/NumberInput';
 import _ from 'lodash';
 
 

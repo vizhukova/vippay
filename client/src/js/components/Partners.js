@@ -33,8 +33,7 @@ class PartnerItem extends React.Component {
                 <td>{this.props.partner.login}</td>
                 <td>{this.props.partner.email}</td>
                 <td>{this.props.partner.name}</td>
-                <td><button type="button" className={this.props.partner.active ? `btn btn-default ${available}` : `btn btn-default ${notAvailable}`} onClick={this.setActive}></button></td>
-                <td><a data-login={this.props.partner.login} onClick={this.login} href="#">Войти под именем</a></td>
+                <td><button type="button" className={this.props.partner.active ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setActive}></button></td>
             </tr>
     }
 
@@ -67,14 +66,13 @@ class Partners extends React.Component {
     render(){
         var self = this;
 
-        return  <table className="table">
+        return  <table className="table table-wrapper">
                 <thead>
                   <tr>
                     <th>Логин</th>
                     <th>Электронная почта</th>
                     <th>ФИО</th>
                     <th>Активность</th>
-                    <th>Ссылка</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -7,6 +7,7 @@ import CategoriesAction from'./../../actions/CategoriesAction';
 import SettingsStore from'./../../stores/SettingsStore';
 import CategorySelect from'./../ui/CategorySelect';
 import CurrencySelect from'./../ui/CurrencySelect';
+import Alert from './../../../../../common/js/Alert';
 import _  from 'lodash';
 
 
@@ -38,9 +39,16 @@ class AddFields extends React.Component {
         var self = this;
         return   <div className="form-group">
                     <label>Даные доставки</label>
-                    <input type='text' className="form-control" value={this.state.condition} name="condition" onChange={this.onChange}/>
+                    <input type='text' className="form-control" name="condition"
+                           value={this.state.condition}
+                           onChange={this.onChange}
+                           onClick={this.props.onClick}/>
+
                     <label>Цена</label>
-                    <input type='text' className="form-control" value={this.state.price} name="price" onChange={this.onChange}/>
+                    <input type='text' className="form-control" name="price"
+                           value={this.state.price}
+                           onChange={this.onChange}
+                           onClick={this.props.onClick}/>
                 </div>
     }
 
@@ -96,6 +104,7 @@ class AddForm extends React.Component {
         this.setState({
             delivery: state
         })
+        this.props.onClick();
     }
 
     onDel(e) {
@@ -105,6 +114,7 @@ class AddForm extends React.Component {
         this.setState({
             delivery: state
         })
+        this.props.onClick();
     }
 
     render(){
@@ -114,7 +124,7 @@ class AddForm extends React.Component {
         return  <div role="form" className={this.state.material ? '' : 'hide'}>
                   { this.state.delivery.map(function(item, index){
                     return  <div>
-                                <AddFields id={index} key={index} delivery={item} onChange={self.onChange}/>
+                                <AddFields id={index} key={index} delivery={item} onChange={self.onChange} onClick = {self.props.onClick}/>
                         <hr />
                         </div>
                     })}
@@ -135,6 +145,7 @@ class ProductForm extends React.Component {
         this.addNewProduct = this.addNewProduct.bind(this);
         this.editProduct = this.editProduct.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onClick = this.onClick.bind(this);
 
     }
 
@@ -182,17 +193,47 @@ class ProductForm extends React.Component {
     }
 
     addNewProduct() {
+        var self = this;
+
         if(this.checkFields()) {
-            ProductsAction.addNewProduct(this.state.product);
-            history.back();
+            ProductsAction.addNewProduct(this.state.product).then(() => {
+                debugger
+                history.back();
+
+            }).catch((err) => {
+                debugger
+                self.setState({
+                    error: {
+                        type: 'error',
+                        title: 'Ошибка',
+                        text: 'Проверьте правильность заполнения данных. Возможно такой товар уже существует'
+                    }
+                })
+
+            })
+
         }
     }
 
     editProduct() {
+        var self = this;
+
         if(this.checkFields()) {
-            ProductsAction.editProduct(this.state.product);
-            history.back();
-        }
+            ProductsAction.editProduct(this.state.product).then((data) => {
+                debugger
+                history.back();
+
+            }).catch((err) => {
+                debugger
+                self.setState({
+                    error: {
+                        type: 'error',
+                        title: 'Ошибка',
+                        text: 'Проверьте правильность заполнения данных.'
+                    }
+                })
+        })
+    }
     }
 
     update(state){
@@ -211,6 +252,10 @@ class ProductForm extends React.Component {
         this.setState({});
     }
 
+    onClick(e) {
+        this.setState({error: {}})
+    }
+
 
     render(){
         var self = this;
@@ -218,48 +263,96 @@ class ProductForm extends React.Component {
         console.log('ProductForm basicCurrency', this.state.basicCurrency)
         if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
 
-         return <form className="col-sm-7 form-ui">
+         return <form className="col-sm-7 form-ui table-wrapper">
+             <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
             <fieldset className="product-form">
+
                 <label className="text-warning">Новый продукт</label>
-                <input type="text" name="name" className="form-control" id="name" onChange={this.onChange}
-                       placeholder="Введите название нового продукта" value={this.state.product.name}/>
+                <input type="text" name="name"
+                       className="form-control" id="name"
+                       onChange={this.onChange}
+                       onClick = {this.onClick} placeholder="Введите название нового продукта"
+                       value={this.state.product.name}/>
+
                 <label className="text-warning">Цена</label>
-                <input type="text" name="price" className="form-control" id="price" onChange={this.onChange}
-                       placeholder="Введите цену" value={this.state.product.price}/>
+                <input type="text" name="price"
+                       className="form-control" id="price"
+                       onChange={this.onChange}
+                       onClick = {this.onClick} placeholder="Введите цену"
+                       value={this.state.product.price}/>
+
                  <label className="text-warning">Валюта</label>
-                <CurrencySelect currencies={this.state.currencies} onChange={this.onChange}
+                <CurrencySelect currencies={this.state.currencies}
+                                onChange={this.onChange}
+                                onClick = {this.onClick}
                                 current_currency={this.state.product.currency_id}/>
+
                 <label className="text-warning">Категория</label>
-                <CategorySelect categories={this.state.categories} current_category={this.state.product.category_id}
-                                onChange={this.onChange}/>
+                <CategorySelect categories={this.state.categories}
+                                current_category={this.state.product.category_id}
+                                onChange={this.onChange}
+                                onClick = {this.onClick}/>
+
                 <div className="checkbox">
-                  <label className="text-warning"><input name="available" checked={this.state.product.available}
-                  type="checkbox" onChange={this.onChange} />Доступность</label>
+                  <label className="text-warning">
+                      <input name="available"
+                         checked={this.state.product.available} type="checkbox"
+                         onChange={this.onChange}
+                         onClick = {this.onClick}/>
+                      Доступность</label>
                 </div>
+
                 <div className="checkbox">
-                  <label className="text-warning"><input name="active" checked={this.state.product.active}
-                  type="checkbox" onChange={this.onChange} />Активность</label>
+                  <label className="text-warning">
+                      <input name="active"
+                             checked={this.state.product.active}
+                             type="checkbox"
+                             onChange={this.onChange}
+                             onClick = {this.onClick}/>
+                      Активность</label>
                 </div>
+
                 <label className="text-warning">Ссылка на картинку</label>
-                <input type="text" name="image" className="form-control" id="image" onChange={this.onChange}
-                       placeholder="Введите ссылку на картинку" value={this.state.product.image}/>
+                <input type="text" name="image" className="form-control" id="image"
+                       onChange={this.onChange}
+                       onClick = {this.onClick}
+                       placeholder="Введите ссылку на картинку"
+                       value={this.state.product.image}/>
+
                 <label className="text-warning">Ссылка на продукт</label>
                 <input type="text" name="product_link" className="form-control" id="product_link"
                        onChange={this.onChange}
-                       placeholder="Введите ссылку на продукт" value={this.state.product.product_link}/>
+                       onClick = {this.onClick}
+                       placeholder="Введите ссылку на продукт"
+                       value={this.state.product.product_link}/>
+
                 <label className="text-warning">Описание:</label>
                 <textarea className="form-control" id="description" name="description"
-                          onChange={this.onChange} value={this.state.product.description}></textarea>
+                          onChange={this.onChange}
+                          onClick = {this.onClick}
+                          value={this.state.product.description}></textarea>
+
                 <div className="checkbox">
-                  <label className="text-warning"><input name="material" checked={this.state.product.material}
-                  type="checkbox" onChange={this.onChange} />Доставляемый</label>
+                  <label className="text-warning">
+                      <input name="material"  type="checkbox"
+                             checked={this.state.product.material}
+                             onChange={this.onChange}
+                             onClick = {this.onClick}/>
+                      Доставляемый</label>
                 </div>
-                 <AddForm onChange={this.onChange} product={this.state.product} />
+
+                 <AddForm onChange={this.onChange}
+                          onClick = {this.onClick}
+                          product={this.state.product} />
             </fieldset>
-             <Link to={`/category/${this.props.params.id}/products`}><button type="button" className="btn btn-danger pull-right">{
-                "Отмена"}
-            </button></Link>
-             <button type="button" className="btn btn-warning pull-left" onClick={edit ? this.editProduct : this.addNewProduct}>{
+
+             <Link to={`/category/${this.props.params.id}/products`}>
+                 <button type="button" className="btn btn-danger pull-right btn-submit">
+                     {"Отмена"}
+                 </button>
+             </Link>
+
+             <button type="button" className="btn btn-warning pull-left btn-submit" onClick={edit ? this.editProduct : this.addNewProduct}>{
                 edit ? "Редактировать" : "Добавить"}
             </button>
         </form>

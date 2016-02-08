@@ -3,6 +3,7 @@ import { Router, Route, IndexRoute, Link } from 'react-router';
 import ProductsStore from'./../../stores/ProductsStore';
 import ProductsAction from'./../../actions/ProductsAction';
 import SettingsStore from'./../../stores/SettingsStore';
+
 import _  from 'lodash';
 
 var getAbsoluteUrl = (function() {
@@ -23,7 +24,6 @@ class ProductItem extends React.Component {
         this.removeProduct = this.removeProduct.bind(this);
         this.setAvailable = this.setAvailable.bind(this);
         this.setActive = this.setActive.bind(this);
-        debugger;
     }
 
     removeProduct() {
@@ -118,7 +118,6 @@ class Products extends React.Component {
                             <Link to={`/category/${this.props.params.id}/products/new`}
                                   className="btn btn-action-big btn-default glyphicon glyphicon-plus" />
                         </div>
-
                         <table className="table table-hover">
                             <thead>
                               <tr>

@@ -1,5 +1,8 @@
 import React from 'react'
 import ApiActions from './../../actions/ApiActions'
+import PasswordInput from './../../../../../common/js/PasswordInput';
+import LoginInput from './../../../../../common/js/LoginInput';
+import Alert from './../../../../../common/js/Alert';
 
 
 class Login extends React.Component {
@@ -7,16 +10,35 @@ class Login extends React.Component {
     constructor() {
         super();
         this.onChange = this.onChange.bind(this);
+        this.onClick = this.onClick.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
         this.login = this.login.bind(this);
-        this.state = {errors: {}};
+        this.state = {
+            errors: {},
+            error: {}
+        };
     }
 
     onChange(e){
+        if(e.keyCode == 13) {
+            this.login();
+            return;
+        }
         var state = {};
         console.log(e.target.name)
         state[e.target.name] = e.target.value;
         this.setState(state);
     }
+
+    onClick(e) {
+        this.setState({error: {}});
+    }
+
+    onKeyDown(e) {
+		if(e.keyCode == 13) {
+            this.login();
+        }
+	}
 
     login() {
         var self = this;
@@ -26,17 +48,15 @@ class Login extends React.Component {
             this.setState({});
             return;
         }
-        debugger
 
         if(location.hash.split('/')[1] == 'partners') path = '/partner/login';
         else path = 'client/login';
 
         ApiActions.post(path, this.state)
             .then(function(data){
-                debugger
                 var result = {};
                 var redirect = '';
-                if(data.redirect) {
+                if(data.redirect) {//for partners login
                     result = data.user;
                     redirect = data.redirect;
                     localStorage.setItem('token', result.token);
@@ -44,13 +64,19 @@ class Login extends React.Component {
                 } else {
                     result = data;
                     localStorage.setItem('token', result.token);
-                    location.hash = redirect;
+                    location.assign('http://' + data.domain)
+                    //location.hash = redirect;
                 }
                 console.log('Token: ' + result.token);
 
             })
             .catch(function(err){
-                console.log('error');
+                console.log('ERROR:', err);
+                self.setState({error: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Проверьте правильность заполнения данных'
+                }})
             })
     }
 
@@ -69,12 +95,22 @@ class Login extends React.Component {
         var baseClass = "form-control input-lg";
 
         return <div>
-
+            <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
 			<div className="form-group">
-				<input type="text" name="email" id="email" className={this.state.errors.email ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Электронная почта" tabIndex="1" />
+                <input type="text" name="email" id="email"
+                       className={this.state.errors.email ? `${baseClass} invalid` : baseClass}
+                       onChange={this.onChange}
+                       onClick={this.onClick}
+                       placeholder="Электронная почта" tabIndex="1" />
 			</div>
             <div className="form-group">
-				<input type="password" name="password" id="password" className={this.state.errors.password ? `${baseClass} invalid` : baseClass} onChange={this.onChange} placeholder="Пароль" tabIndex="2" />
+                <PasswordInput
+							name="password"
+							id="password"
+							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
+							onChange={this.onChange}
+                            onClick={this.onClick}
+                            placeholder="Пароль" tabIndex="2"/>
 			</div>
 
             <div className="btn btn-primary btn-block" onClick={this.login}>Отправить</div>

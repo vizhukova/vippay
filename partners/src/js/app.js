@@ -9,7 +9,6 @@ import App from './components/App';
 import Auth from './components/Auth';
 import Home from './components/Home';
 import Products from './components/Products';
-import Redirect from './components/Redirect';
 
 
     ReactDOM.render((
@@ -17,7 +16,6 @@ import Redirect from './components/Redirect';
             <Route path="/" component={App} >
                 <IndexRoute component={Home} />
                 <Route path="/products" component={Products} />
-                <Route path="/redirect/:id" component={Redirect} />
             </Route>
             <Route path="/auth/:id" component={Auth} />
             <Route path="/auth" component={Auth} />
