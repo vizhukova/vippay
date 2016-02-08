@@ -30,15 +30,11 @@ class SettingsAction {
     setBasicCurrency(id) {
 
          var self = this;
-        new Promise((resolve, reject) => {
             ApiActions.put(`basicCurrency`, {id: id}).then(function(data){
                 self.dispatch(data);
-                resolve(data);
             }).catch(function(err){
-                //self.dispatch(err);
-                reject(err);
+                self.dispatch(err);
             })
-        })
     }
 
     getBasicCurrency() {

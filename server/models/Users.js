@@ -61,7 +61,10 @@ var User = bookshelf.Model.extend({
 
     register: Promise.method(function (user) {
 
-        var record = new this({name: user.name, login: user.login, email: user.email, password: user.password, type: 'client', basic_currency: 1});
+        var record = new this({name: user.name, login: user.login,
+            email: user.email, password: user.password,
+            type: 'client', basic_currency: 1,
+            payment: JSON.stringify([])});
 
         return record.save();
     }),
@@ -98,6 +101,7 @@ var User = bookshelf.Model.extend({
         return knex('users')
             .update({'basic_currency': data.id})
             .where('id', '=', data.user_id)
+            .returning('basic_currency')
 
     }),
 

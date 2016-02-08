@@ -1,3 +1,5 @@
+var config = require('./../config');
+var auth_domain = config.get('auth_domain');
 var express = require('express');
 var router = express.Router();
 var SettingsController = require('../controllers/Settings');
@@ -8,7 +10,7 @@ var _ = require('lodash');
 router.get('/settings', function(req, res){
 
     var link = `http://${req.subdomain}.${req.postdomain}/partners`;
-    res.send({link: link});
+    res.send({link: link, auth_domain: auth_domain});
 
 });
 

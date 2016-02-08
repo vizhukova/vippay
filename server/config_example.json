@@ -1,5 +1,7 @@
 {
   "port": 3050,
+  "domain": "vippay.loc",
+  "auth_domain": "auth.vippay.loc",
   "db": {
     "client": "postgresql",
     "debug": true,

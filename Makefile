@@ -3,7 +3,7 @@
 refresh_db:
 	psql -h 127.0.0.1 -U postgres -d template1 -f server/drop.sql && \
 	psql -h 127.0.0.1 -U postgres -d template1 -f server/init.sql && \
-	cd server && knex migrate:latest && cd .. \
+	cd server && knex migrate:latest && cd ../ \
 	psql -h 127.0.0.1 -U vippay -d vippay -f server/seed.sql
 
 build_static:

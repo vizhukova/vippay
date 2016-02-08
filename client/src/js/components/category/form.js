@@ -121,6 +121,7 @@ class CategoryForm extends React.Component {
     onKeyDown(e) {
 		if(e.keyCode == 13) {
             this.props.params.id  ? this.editCategory() : this.addNewCategory();
+            e.preventDefault();
         }
 	}
 

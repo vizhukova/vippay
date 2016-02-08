@@ -25,7 +25,7 @@ router.get('/basicCurrency', function(req, res){
 router.put('/basicCurrency', function(req, res){
 
     CurrencyController.setBasic({id: req.body.id, user_id: req.user.id}).then(function(currency){
-        res.send(currency)
+        res.send({id: currency[0]})
     }).catch(function(err){
         res.status(400).send(err.errors)
     })

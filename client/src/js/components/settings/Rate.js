@@ -32,7 +32,6 @@ class Rate extends React.Component {
 
     onChange(e) {
         if(e.target.name === "basicCurrency") {
-            debugger
             SettingsAction.setBasicCurrency(e.target.dataset.currency);
         }
         else if(e.target.name === "rate") {

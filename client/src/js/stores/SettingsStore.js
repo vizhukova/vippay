@@ -26,7 +26,7 @@ class SettingsStore {
     }
 
     onGetAll(state){
-        console.log('SettingsStore link', state.link);
+        console.log('SettingsStore settings', state);
         this.link = state.link;
     }
 
