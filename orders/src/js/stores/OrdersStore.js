@@ -9,12 +9,14 @@ class OrdersStore {
         this.order = {};
         this.delivery_id = 0;
         this.delivery = {};
+        this.method = {};
         this.payed = false;
         this.bindListeners({
             onAdd: OrdersActions.ADD,
             onGet: OrdersActions.GET,
             onPay: OrdersActions.PAY,
-            onGetProduct: OrdersActions.GET_PRODUCT
+            onGetProduct: OrdersActions.GET_PRODUCT,
+            onGetMethod: OrdersActions.GET_METHOD
         });
     }
 
@@ -34,6 +36,10 @@ class OrdersStore {
     onPay(order) {
         console.log('PAYYYYY');
         this.payed = true;
+    }
+
+    onGetMethod(data) {
+        this.method = data;
     }
 
 }

@@ -39,6 +39,15 @@ class ProductsAction {
             self.dispatch(err);
         })
     }
+
+    getMethod(data) {
+        var self = this;
+        ApiActions.get(`payments/data/${data.order_id}/${data.method}`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
+    }
 }
 
 export default alt.createActions(ProductsAction);
