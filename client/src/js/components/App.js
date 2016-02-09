@@ -3,6 +3,7 @@ import {RoutingContext, Link} from 'react-router'
 import  AuthActions from '../actions/AuthActions';
 import  SettingsActions from '../actions/SettingsAction';
 import AuthStore from './../stores/AuthStore';
+import SettingsStore from './../stores/SettingsStore';
 import IFrame from './IFrame';
 
 class Application extends React.Component {
@@ -14,6 +15,7 @@ class Application extends React.Component {
         };
 
         this.update = this.update.bind(this);
+        this.updateSettings = this.updateSettings.bind(this);
         this.Out = this.Out.bind(this);
     }
 
@@ -25,11 +27,15 @@ class Application extends React.Component {
             localStorage.setItem('token', e.data);
         }
 
+        SettingsActions.get();
+
         AuthStore.listen(this.update);
+        SettingsStore.listen(this.updateSettings);
     }
 
     componentWillUnmount() {
         AuthStore.unlisten(this.update)
+        SettingsStore.unlisten(this.update)
     }
 
     Out(e) {
@@ -58,9 +64,11 @@ class Application extends React.Component {
     update(state){
         if(!state.auth){
             location.hash = 'auth';
-        }else{
-           this.setState(state);
         }
+    }
+
+    updateSettings(state) {
+        this.setState(state);
     }
 
     render() {
@@ -108,7 +116,7 @@ class Application extends React.Component {
                 </div>
             </nav>
             <div>{this.props.children}</div>
-            <IFrame src={`http://auth.vippay.loc/iframe`} onLoad={this.onLoadIFrame} />
+            <IFrame src={`http://${this.state.auth_domain}/iframe`} onLoad={this.onLoadIFrame} />
         </div>
     }
 }

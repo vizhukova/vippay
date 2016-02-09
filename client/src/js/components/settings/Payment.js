@@ -3,6 +3,7 @@ import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore';
 import PasswordInput from'./../../../../../common/js/PasswordInput';
 import Alert from './../../../../../common/js/Alert';
+import paymentSettings from './../../../../paymentSettings';
 import _ from 'lodash';
 
 
@@ -36,17 +37,12 @@ class PaymentItem extends React.Component {
     }
 
     onChange(e) {
-        if(_.indexOf( this.state.payment.fields, e.target.name) > -1) {
-            _.assign(this.state.payment.dataFields, {[e.target.name]: e.target.value});
-
-        }
-
-        else if(e.target.name == 'active') {
+        if(e.target.name == 'active') {
             this.state.payment.active = !this.state.payment.active;
         }
 
         else {
-            this.state.payment[e.target.name] = e.target.value;
+            this.state.payment.fields[e.target.name] = e.target.value;
         }
         this.setState({});
 
@@ -68,40 +64,32 @@ class PaymentItem extends React.Component {
 
     save() {
         console.log(this.state.payment)
-        if(this.state.payment.dataFields.password !== this.state.payment.dataFields.confirmPassword) {
-
-            this.setState({error: {
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Проверьте правильность заполнения данных'
-                }})
-
-        } else {
-
             this.props.save(this.props.id);
-
-        }
     }
 
 
     render() {
-        return <div className="boxed">
+        return <div className="">
                 <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
-                      <div className="table-wrapper col-sm-12">
-                           <div className="table-head">
-                            <span className="title">
-                                {this.props.payment.name}
-                            </span>
+                      <div className="block">
+                           <div className="block-title">
+                            <h3>
+                                { paymentSettings[this.props.payment.name] }
+                            </h3>
                            </div>
-                          <div className="row">
+                          <div className="row block-inner">
                               <div className="col-sm-6">
-                                  {this.props.payment.fields.map((item, index) => {
-                                      return <input
-                                                className="form-control input-lg" type="text"
-                                                value={this.state.payment.dataFields[item]}
-                                                key={index} placeholder={item}
-                                                name={item} onChange={this.onChange}
-                                                onClick={this.hideError}/>
+                                  {Object.keys(this.props.payment.fields).map((item, index) => {
+
+                                      return <div className="form-group">
+                                              <input
+                                                    className="field-text" type="text"
+                                                    value={this.props.payment.fields[item]}
+                                                    key={index} placeholder={paymentSettings[item]}
+                                                    name={item} onChange={this.onChange}
+                                                    onClick={this.hideError}/>
+                                              </div>
+
                                   })}
                                   <div className="checkbox">
                                       <label className="text-warning">
@@ -113,18 +101,22 @@ class PaymentItem extends React.Component {
                                     </div>
                               </div>
                               <div className="col-sm-6">
-                                  <span>Детали: </span><br/>
-                                   <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span>
+                                  <span>Детали: </span>{ paymentSettings[`${this.props.payment.name}_details`] }<br/>
+                                   <span></span>
                               </div>
-                           <button className="btn btn-default btn-submit pull-left" onClick={this.onClick}>Подробнее..</button>
-                          <button className="btn btn-default btn-submit pull-right" onClick={this.save}>Сохранить</button>
-
                           </div>
+                          <div className="row-footer row">
+                              <div className={` more ${this.state.isMoreInformation ? '' : 'hide'}`}>
+                                  <span>{ paymentSettings[`${this.props.payment.name}_more_info`] }</span>
+                              </div>
+                                    <div className="col-sm-6 left">
+                                        <button className="btn" onClick={this.onClick}>Подробнее..</button>
+                                    </div>
+                                    <div className="col-sm-6 right">
+                                        <button className="btn" onClick={this.save}>Сохранить</button>
+                                    </div>
+                            </div>
                           </div>
-
-                      <div className={`table-wrapper col-sm-12 ${this.state.isMoreInformation ? '' : 'hide'}`}>
-                          <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span>
-                      </div>
                     </div>
     }
 }

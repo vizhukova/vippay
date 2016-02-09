@@ -203,21 +203,4 @@ INSERT INTO rate ("from", "to", "result", "client_id") VALUES ('1', '2', '1', '1
                                                              ('4', '3', '12', '11');
 
 
-UPDATE users SET  payment = '[
-                              {"name": "robokassa",
-                             "active": "true",
-                             "fields": ["login", "password", "confirmPassword"]
-                            },
-                            {"name": "privat24",
-                             "active": "true",
-                             "fields": ["login", "password", "confirmPassword"]
-                            },
-                            {"name": "panda",
-                             "active": "true",
-                             "fields": ["login", "password", "confirmPassword"]
-                            },
-                            {"name": "bank",
-                             "active": "true",
-                             "fields": ["login", "password", "confirmPassword"]
-                            }
-                            ]'
+UPDATE users SET  payment = '[]'
