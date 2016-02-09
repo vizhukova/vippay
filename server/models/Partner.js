@@ -107,6 +107,8 @@ var Partner = bookshelf.Model.extend({
     edit(partner){
         return new Promise((resolve, reject) => {
 
+            partner.payment = JSON.stringify(partner.payment);
+
             knex('users')
                 .where({id: partner.id})
                 .update(partner)

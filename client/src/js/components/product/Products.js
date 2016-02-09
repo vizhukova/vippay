@@ -21,14 +21,18 @@ class ProductItem extends React.Component {
 
     constructor(){
         super();
-        this.state = {};
+
+        this.state = SettingsStore.getState();
+
         this.removeProduct = this.removeProduct.bind(this);
         this.setAvailable = this.setAvailable.bind(this);
         this.setActive = this.setActive.bind(this);
+        this.update = this.update.bind(this);
+
+        SettingsStore.listen(this.update);
     }
 
     componentDidMount() {
-        SettingsStore.listen(this.update);
     }
 
     componentWillUnmount() {
@@ -58,7 +62,6 @@ class ProductItem extends React.Component {
     render(){
         var available = "glyphicon glyphicon-ok-circle";
         var notAvailable = "glyphicon glyphicon-ban-circle";
-        debugger
         var currency = _.findWhere(this.state.currencies, {id: +this.props.item.currency_id});
         currency = currency ? currency.name : currency;
 
@@ -125,12 +128,11 @@ class Products extends React.Component {
 
         return <List
             title="Продукты"
-            add_link="/category/${this.props.params.id}/products/new"
+            add_link={`/category/${this.props.params.id}/products/new`}
             error={this.state.error}
             items={this.state.products}
             perPage={5}
-            currentPage={this.state.page}
-            itemCategory={ProductItem}
+            itemComponent={ProductItem}
             thead={['Товар', 'Цена', 'Валюта', 'Ссылка на продукт', 'Доступность', 'Активность', '']}
         />
     }

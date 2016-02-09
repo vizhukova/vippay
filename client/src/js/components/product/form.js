@@ -197,7 +197,6 @@ class ProductForm extends React.Component {
 
         if(this.checkFields()) {
             ProductsAction.addNewProduct(this.state.product).then(() => {
-                debugger
                 history.back();
 
             }).catch((err) => {
@@ -220,7 +219,6 @@ class ProductForm extends React.Component {
 
         if(this.checkFields()) {
             ProductsAction.editProduct(this.state.product).then((data) => {
-                debugger
                 history.back();
 
             }).catch((err) => {
