@@ -31,6 +31,13 @@ var Order = bookshelf.Model.extend({
             .from('orders') .where('orders.client_id', client_id)
     }),
 
+    setComplete: Promise.method(function (data) {
+        return knex('orders')
+        .update({step: data.step})
+        .where('id', '=', data.id)
+        .returning('*')
+    }),
+
     getById: Promise.method(function (id) {
         return knex('orders')
                 .first()

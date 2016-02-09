@@ -48,7 +48,8 @@ class SettingsStore {
     }
 
     onAddRate(rate) {
-        this.rate = rate;
+        debugger
+        this.rate = _.flatten(rate);
     }
 
     onGetRate(rate) {

@@ -15,7 +15,6 @@ class AuthActions {
                 self.dispatch(true);
                 resolve(data);
             }).catch(function(err){
-                debugger
                 self.dispatch(false);
                 reject(err);
             })

@@ -54,55 +54,6 @@ class Category extends React.Component {
 
     }
 
-
 }
-
-/*
- <div>
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className="table-wrapper">
-
-                        <div className="table-head">
-                        <span className="title">
-                            Категории
-                        </span>
-                            <Link to="/category/new"
-                                  className="btn btn-action-big btn-default glyphicon glyphicon-plus" />
-                        </div>
-                        <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
-                        <table className="table table-hover">
-                            <tbody>
-                            { categories.map(function (item, index) {
-                                return <CategoryItem id={item.id} category={item.category} key={index} onError={self.onError}/>
-                            })}
-                            </tbody>
-                        </table>
-
-                        <div className="table-footer">
-                            { isPagination ? <div className="inner">
-
-
-                                {!isFirst ? <a className="page_prev" href={`#/categories/${+this.state.currentPage - 1}`}><span></span></a>:null}
-
-                                {pageArray.map(function(el, i){
-
-                                    var activeClass = +self.state.currentPage === i+1 ? 'page_current':'';
-
-                                   return  <a href={`#/categories/${i+1}`} className={`page-numbers ${activeClass}`}>{i+1}</a>
-                                })}
-
-                                { !isLast ? <a className="page_next" href={`#/categories/${+this.state.currentPage +1}`}><span></span></a>: null}
-                            </div>: null}
-                        </div>
-
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-* */
-
 
 export default Category;

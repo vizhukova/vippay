@@ -21,7 +21,7 @@ html
         parent.postMessage({method: 'request', key: data.key}, "*");
         break;
        case 'set':
-        localStorage.setItem(data.key, JSON.stringify(data.data));
+        localStorage.setItem(data.key, data.data);
         parent.postMessage({method: 'request', key: data.key}, "*");
         break;
       }

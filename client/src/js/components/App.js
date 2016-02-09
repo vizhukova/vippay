@@ -5,6 +5,7 @@ import  SettingsActions from '../actions/SettingsAction';
 import AuthStore from './../stores/AuthStore';
 import SettingsStore from './../stores/SettingsStore';
 import IFrame from './../../../../common/js/IFrame';
+import cookie from'./../../../../common/Cookies';
 
 class Application extends React.Component {
 
@@ -42,7 +43,11 @@ class Application extends React.Component {
         e.preventDefault();
         var win = document.getElementsByTagName('iframe')[0].contentWindow;
         win.postMessage(JSON.stringify({key: 'token', method: 'remove'}), "*");
-        localStorage.removeItem('token');
+
+        cookie.setCookie('token', '', {
+                    domain: '.vippay.loc'
+                });
+
         location.reload();
     }
 
@@ -105,7 +110,6 @@ class Application extends React.Component {
                           <li className="dropdown">
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.user.name}</a>
                                   <ul className="dropdown-menu">
-                                    <li><Link to="/rate">Курсы</Link></li>
                                     <li><a href="#" onClick={this.Out}>Выход</a></li>
                                   </ul>
 
@@ -116,7 +120,9 @@ class Application extends React.Component {
                 </div>
             </nav>
             <div>{this.props.children}</div>
-            <IFrame src={`http://${this.state.auth_domain}/iframe`} onLoad={this.onLoadIFrame} />
+            { this.state.auth_domain ?
+                <IFrame src={`http://${this.state.auth_domain}/iframe`} onLoad={this.onLoadIFrame} />
+                : null }
         </div>
     }
 }

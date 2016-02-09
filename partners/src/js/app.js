@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import { createHashHistory } from 'history/lib';
-var history = createHashHistory();
+var history = createHashHistory({
+  queryKey: false
+});
 import $ from 'jquery';
 import Promise from 'bluebird';
 import App from './components/App';

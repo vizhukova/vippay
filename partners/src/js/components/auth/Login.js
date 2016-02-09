@@ -1,7 +1,8 @@
-import React from 'react'
-import ApiActions from './../../actions/ApiActions'
-import Alert from './../../../../../common/js/Alert'
+import React from 'react';
+import ApiActions from './../../actions/ApiActions';
+import Alert from './../../../../../common/js/Alert';
 import PasswordInput from './../../../../../common/js/PasswordInput';
+import cookie from'./../../../../../common/Cookies';
 
 
 class Login extends React.Component {
@@ -49,10 +50,11 @@ class Login extends React.Component {
 
         ApiActions.post('partner/login', this.state)
             .then(function(data){
-                localStorage.setItem('token', data.user.token);
+                cookie.setCookie('token', data.user.token, {
+                    domain: '.vippay.loc'
+                });
+
                 location.href = data.redirect;
-                //location.hash = '';
-                console.log('Token: ' + data.user.token);
             })
             .catch(function(err){
                 console.log('ERROR:', err);

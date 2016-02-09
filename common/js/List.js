@@ -9,23 +9,20 @@ class List extends React.Component {
         super();
         this.state = {
             page: 2,
-            currentPage: 1
+            currentPage: 1,
+            perPage: 10
         };
         this.changePage = this.changePage.bind(this);
     }
 
      componentDidMount() {
-        var page = 1;
-       /*if(this.props.params.page){
-            page = this.props.params.page;
-        }*/
+        this.state.perPage = this.props.perPage ? this.props.perPage : this.state.perPage;
+         this.setState({});
     }
 
     componentWillReceiveProps(props){
-        var page = 1;
-        /*if (props.params.page){
-            page = props.params.page;
-        }*/
+        this.state.perPage = this.props.perPage ? this.props.perPage : this.state.perPage;
+        this.setState({});
     }
 
     changePage(page){
@@ -37,8 +34,8 @@ class List extends React.Component {
     render(){
         var Item = this.props.itemComponent;
         if (!this.props.items) return;
-        var items =this.props.items.slice((this.state.currentPage - 1) * this.props.perPage , ((this.state.currentPage - 1) * this.props.perPage + this.props.perPage));
-        var pages = Math.ceil(this.props.items.length/this.props.perPage);
+        var items =this.props.items.slice((this.state.currentPage - 1) * this.state.perPage , ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
+        var pages = Math.ceil(this.props.items.length/this.state.perPage);
 
         var isPagination = pages > 1;
         var isLast = this.state.currentPage == pages;
