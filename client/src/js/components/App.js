@@ -4,7 +4,7 @@ import  AuthActions from '../actions/AuthActions';
 import  SettingsActions from '../actions/SettingsAction';
 import AuthStore from './../stores/AuthStore';
 import SettingsStore from './../stores/SettingsStore';
-import IFrame from './IFrame';
+import IFrame from './../../../../common/js/IFrame';
 
 class Application extends React.Component {
 
@@ -52,7 +52,6 @@ class Application extends React.Component {
         win.postMessage(JSON.stringify({key: 'token', method: 'get'}), "*");
 
         AuthActions.check(localStorage.getItem('token'))
-
             .then(function() {
                 AuthActions.getMe();
                 SettingsActions.getAllCurrencies();
@@ -69,7 +68,6 @@ class Application extends React.Component {
     }
 
     updateSettings(state) {
-        console.log('App updateSettings:', state)
         this.setState(state);
     }
 

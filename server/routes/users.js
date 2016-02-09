@@ -69,7 +69,7 @@ router.get('/me', (req, res) => {
 
 });
 
-router.get('/client', (req, res) => { //get all clients for partner
+router.get('/clients', (req, res) => { //get all clients for partner
 
     UserController.get(req.user.id)
         .then(function (clients) {
@@ -78,6 +78,10 @@ router.get('/client', (req, res) => { //get all clients for partner
         res.status(400).send(err.errors)
     })
 
+});
+
+router.get('/client', (req, res) => { //get current client for partner
+        res.send(req.clientObj);
 });
 
 

@@ -5,26 +5,20 @@ import  SettingsActions from '../actions/SettingsActions';
 import  ProductsActions from '../actions/ProductsActions';
 import SettingsStore from './../stores/SettingsStore';
 import AuthStore from './../stores/AuthStore';
+import IFrame from './../../../../common/js/IFrame';
 var _ = require('lodash');
 
 
 
-class ProductItem extends React.Component {
+class ClientItem extends React.Component {
 
     constructor(){
         super();
         this.state={};
-        this.onChange = this.onChange.bind(this);
-    }
-
-    onChange(e) {
-        e.preventDefault();
-        SettingsActions.setCurrentClient(this.props.client);
-        ProductsActions.getAll();
     }
 
     render(){
-        return  <li onClick={this.onChange}><a>{this.props.client.login}</a></li>
+        return  <li><a href={this.props.href}>{this.props.client.login}</a></li>
     }
 
 
@@ -38,14 +32,19 @@ class Application extends React.Component {
         this.state = SettingsStore.getState();
 
         this.update = this.update.bind(this);
+        this.updateSettings = this.updateSettings.bind(this);
         this.Out = this.Out.bind(this);
     }
 
     componentDidMount() {
+
+        this.IFrameRequests();
         AuthStore.listen(this.update)
-        SettingsStore.listen(this.update)
-        AuthActions.check();
+        SettingsStore.listen(this.updateSettings)
         SettingsActions.getCurrentPartner();
+        SettingsActions.getCurrentClient();
+        SettingsActions.getClients();
+        SettingsActions.get();
     }
 
     componentWillUnmount() {
@@ -59,26 +58,48 @@ class Application extends React.Component {
             if (!state.auth) {
                 location.hash = 'auth';
             }
-            else {
-                SettingsActions.get();
-            }
         }
 
         _.assign(this.state, state);
         this.setState({});
     }
 
+    updateSettings(state){
+        this.setState(state);
+    }
+
     Out(e) {
         e.preventDefault();
         localStorage.removeItem('token');
-        debugger
         console.log('http://' + location.hostname + '/partner')
         location.href = 'http://' + location.hostname + '/partner';
         //location.reload();
     }
 
+    onLoadIFrame() {
+        console.log('-------main window send post')
+        var token = localStorage.getItem('token');
+        var win = document.getElementsByTagName('iframe')[0].contentWindow;
+        if (token) win.postMessage(JSON.stringify({key: 'token', data: token, method: 'set'}), "*");
+        else win.postMessage(JSON.stringify({key: 'token', method: 'get'}), "*");
+    }
+
+    IFrameRequests() {
+        window.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            switch(data.method) {
+             case 'set': localStorage.setItem(data.key, data.data);
+                         break;
+            }
+            console.log('onmessage:', e.data);
+            AuthActions.check(localStorage.getItem('token'))
+        }
+    }
+
     render() {
-        console.log(this.state)
+        console.log('App state: ', this.state)
+        console.log('IFRAME::::', this.state.auth_domain)
+
         var self = this;
 
         return <div className="app">
@@ -103,7 +124,7 @@ class Application extends React.Component {
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.current_client.login}<span className="caret"></span></a>
                               <ul className="dropdown-menu">
                                   {this.state.clients.map((item, index) => {
-                                      return <ProductItem key={index} client={item} />
+                                      return <ClientItem key={index} client={item} href={`http://${item.login}.${this.state.domain}#/products`}/>
                                   })}
                               </ul>
                             </li>
@@ -119,6 +140,9 @@ class Application extends React.Component {
                 </div>
             </nav>
             <div>{this.props.children}</div>
+            { this.state.auth_domain ?
+                <IFrame src={`http://${this.state.auth_domain}/iframe`} onLoad={this.onLoadIFrame} />
+                : null }
         </div>
     }
 }
