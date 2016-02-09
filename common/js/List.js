@@ -35,10 +35,9 @@ class List extends React.Component {
     }
 
     render(){
-        var Item = this.props.itemCategory;
+        var Item = this.props.itemComponent;
         if (!this.props.items) return;
         var items =this.props.items.slice((this.state.currentPage - 1) * this.props.perPage , ((this.state.currentPage - 1) * this.props.perPage + this.props.perPage));
-
         var pages = Math.ceil(this.props.items.length/this.props.perPage);
 
         var isPagination = pages > 1;
@@ -54,8 +53,8 @@ class List extends React.Component {
                         <span className="title">
                             {this.props.title}
                         </span>
-                            <Link to={this.props.add_link}
-                                  className="btn btn-action-big btn-default glyphicon glyphicon-plus" />
+                            {this.props.add_link ? <Link to={this.props.add_link}
+                                  className="btn btn-action-big btn-default glyphicon glyphicon-plus" /> : null }
                         </div>
 
                         <table className="table table-hover">

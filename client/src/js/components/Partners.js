@@ -2,6 +2,7 @@ import React from 'react';
 import PartnersAction from './../actions/PartnersAction';
 import AuthAction from './../actions/AuthActions';
 import PartnersStore from './../stores/PartnersStore';
+import List from'./../../../../common/js/List';
 import _  from 'lodash';
 
 
@@ -13,7 +14,7 @@ class PartnerItem extends React.Component {
     }
 
     setActive() {
-        var partner = _.cloneDeep(this.props.partner);
+        var partner = _.cloneDeep(this.props.item);
         partner.active = !partner.active;
         PartnersAction.edit(partner);
     }
@@ -30,10 +31,10 @@ class PartnerItem extends React.Component {
         var notAvailable = "glyphicon glyphicon-ban-circle";
 
         return <tr>
-                <td>{this.props.partner.login}</td>
-                <td>{this.props.partner.email}</td>
-                <td>{this.props.partner.name}</td>
-                <td><button type="button" className={this.props.partner.active ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setActive}></button></td>
+                <td>{this.props.item.login}</td>
+                <td>{this.props.item.email}</td>
+                <td>{this.props.item.name}</td>
+                <td><button type="button" className={this.props.item.active ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setActive}></button></td>
             </tr>
     }
 
@@ -66,7 +67,26 @@ class Partners extends React.Component {
     render(){
         var self = this;
 
-        return  <table className="table table-wrapper">
+        return  <List
+            title="Партнеры"
+            error={this.state.error}
+            items={this.state.partners}
+            perPage={4}
+            itemComponent={PartnerItem}
+            thead={['Логин', 'Электронная почта', 'ФИО', 'Активность']}
+        />
+
+    }
+
+
+}
+
+
+export default Partners;
+
+
+/*
+ <table className="table table-wrapper">
                 <thead>
                   <tr>
                     <th>Логин</th>
@@ -81,11 +101,4 @@ class Partners extends React.Component {
                  })}
                 </tbody>
               </table>
-
-    }
-
-
-}
-
-
-export default Partners;
+ */

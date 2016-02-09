@@ -1,19 +1,37 @@
 import React from 'react';
 import StaticStore from './../stores/StatisticStore';
 import StaticActions from './../actions/StatisticAction';
+import List from'./../../../../common/js/List';
 
-class Statistics extends React.Component {
 
-    constructor(){
+class StatisticItem extends React.Component {
+    
+    constructor() {
         super();
-        this.state = StaticStore.getState();
-        this.update = this.update.bind(this);
         this.statuses = {
             follow_link: 'Прошел по ссылке',
             start_order: 'Заказал',
             pending_order: 'Оплатил',
             complete_order: 'Завершил'
         }
+    }
+    
+    render() {
+        return <tr>
+            <td>{this.props.item.customer_id}</td>
+            <td>{this.props.item.partner_login}</td>
+            <td><img src={this.props.item.product.image} alt="image" width="200px" height="auto"/></td>
+            <td>{this.props.item.product.name}</td>
+            <td>{this.statuses[this.props.item.action]}</td>
+        </tr>
+    }
+}
+class Statistics extends React.Component {
+
+    constructor(){
+        super();
+        this.state = StaticStore.getState();
+        this.update = this.update.bind(this);
     }
 
     componentDidMount() {
@@ -32,7 +50,23 @@ class Statistics extends React.Component {
 
     render(){
         var self = this;
-        return <table className="table table-wrapper">
+        return <List
+            title="Статистика"
+            error={this.state.error}
+            items={this.state.statistic}
+            perPage={1}
+            itemComponent={StatisticItem}
+            thead={['Номер заказчика', 'Ник партнера', 'Товар', 'Название', 'Дейсвие']}
+            />
+    }
+
+}
+
+
+export default Statistics;
+
+/*
+<table className="table table-wrapper">
                 <thead>
                   <tr>
                     <th>Номер заказчика</th>
@@ -54,10 +88,4 @@ class Statistics extends React.Component {
                  })}
                 </tbody>
               </table>
-
-    }
-
-}
-
-
-export default Statistics;
+ */

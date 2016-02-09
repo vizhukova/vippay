@@ -28,6 +28,7 @@ class SettingsStore {
     onGetAll(state){
         console.log('SettingsStore settings', state);
         this.link = state.link;
+        this.auth_domain = state.auth_domain;
     }
 
     onGetAllCurrencies(currencies) {

@@ -40,15 +40,6 @@ class Category extends React.Component {
         this.setState({});
     }
 
-    updatePage(){
-
-        //get page from search string
-        this.setState({
-            page: 1
-        })
-
-    }
-
     render() {
 
         return <List
@@ -57,8 +48,7 @@ class Category extends React.Component {
             error={this.state.error}
             items={this.state.categories}
             perPage={5}
-            currentPage={this.state.page}
-            itemCategory={CategoryItem}
+            itemComponent={CategoryItem}
         />
 
 
