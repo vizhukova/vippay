@@ -28,7 +28,7 @@ import NewProductForm from './components/product/form';
             <Route path="/" component={App} >
                 <IndexRoute component={Home} />
                 <Route path="/home" component={Home} />
-                <Route path="/categories/:page" component={Category} />
+                <Route path="/categories" component={Category} />
                 <Route path="/category">
 
                     <Route path="new" component={NewCategoryForm} />

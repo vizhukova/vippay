@@ -9,36 +9,41 @@ class List extends React.Component {
         super();
         this.state = {
             page: 2,
-            currentPage: 2
+            currentPage: 1
         };
+        this.changePage = this.changePage.bind(this);
     }
 
      componentDidMount() {
         var page = 1;
-       if(this.props.params.page){
+       /*if(this.props.params.page){
             page = this.props.params.page;
-        }
+        }*/
     }
 
     componentWillReceiveProps(props){
         var page = 1;
-        if (props.params.page){
+        /*if (props.params.page){
             page = props.params.page;
-        }
+        }*/
+    }
+
+    changePage(page){
+        this.setState({
+            currentPage: page
+        })
     }
 
     render(){
         var Item = this.props.itemCategory;
-        debugger;
-        var self = this;
         if (!this.props.items) return;
         var items =this.props.items.slice((this.state.currentPage - 1) * this.props.perPage , ((this.state.currentPage - 1) * this.props.perPage + this.props.perPage));
 
         var pages = Math.ceil(this.props.items.length/this.props.perPage);
 
         var isPagination = pages > 1;
-        var isLast = false;
-        var isFirst = false;
+        var isLast = this.state.currentPage == pages;
+        var isFirst = this.state.currentPage == 1;
 
         return <div>
             <div className="row">
@@ -54,6 +59,15 @@ class List extends React.Component {
                         </div>
 
                         <table className="table table-hover">
+                            {this.props.thead ?
+                                 <thead>
+                                     <tr>
+                                     {this.props.thead.map((item) => {
+                                         return <th>{item}</th>
+                                     })}
+                                      </tr>
+                                 </thead> : null
+                            }
                             <tbody>
                             { items.map(function (item, index) {
                                 return <Item item={item} key={index}/>
@@ -66,8 +80,8 @@ class List extends React.Component {
                                 first={isFirst}
                                 pages={pages}
                                 last={isLast}
-                                type="categories"
                                 currentPage={this.state.currentPage}
+                                onChangePage={this.changePage}
                             />
                         </div>
                     </div>
