@@ -83,22 +83,3 @@ class Partners extends React.Component {
 
 
 export default Partners;
-
-
-/*
- <table className="table table-wrapper">
-                <thead>
-                  <tr>
-                    <th>Логин</th>
-                    <th>Электронная почта</th>
-                    <th>ФИО</th>
-                    <th>Активность</th>
-                  </tr>
-                </thead>
-                <tbody>
-                 { this.state.partners.map(function(item, index) {
-                     return <PartnerItem key={index} partner={item}/>
-                 })}
-                </tbody>
-              </table>
- */

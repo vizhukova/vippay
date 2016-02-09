@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import Promise from 'bluebird';
+import cookie from'./../../../../common/Cookies';
 
 function getDomain(){
     return '/api/';
@@ -12,7 +13,7 @@ class ApiActions{
 
         var BASE_URL = getDomain();
 
-        var token = localStorage.getItem('token') || '';
+        var token = cookie.getCookie('token') || '';
 
         return new Promise(function (resolve, reject) {
             $.ajax({
@@ -38,7 +39,7 @@ class ApiActions{
     static post(path, data) {
 
         var BASE_URL = getDomain();
-        var token = localStorage.getItem('token') || '';
+        var token = cookie.getCookie('token') || '';
 
         return new Promise(function (resolve, reject) {
             $.ajax({
@@ -65,7 +66,7 @@ class ApiActions{
     static put(path, data) {
 
         var BASE_URL = getDomain();
-        var token = localStorage.getItem('token') || '';
+        var token = cookie.getCookie('token') || '';
 
         return new Promise(function (resolve, reject) {
             $.ajax({
@@ -91,7 +92,7 @@ class ApiActions{
     static remove(path, data) {
 
         var BASE_URL = getDomain();
-        var token = localStorage.getItem('token') || '';
+        var token = cookie.getCookie('token') || '';
 
         return new Promise(function (resolve, reject) {
             $.ajax({

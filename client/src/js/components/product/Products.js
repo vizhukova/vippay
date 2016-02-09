@@ -74,8 +74,8 @@ class ProductItem extends React.Component {
                      <td className="action"><button type="button" className={this.props.item.available ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setAvailable}></button></td>
                      <td className="action"><button type="button" className={this.props.item.active ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setActive}></button></td>
                     <td className="action">
-                        <Link to={`/category/${this.props.item.category_id}/items/${this.props.item.id}`} className="btn btn-default btn-action glyphicon glyphicon-pencil" />
-                        <button type="button" className="btn btn-danger btn-action pull-right glyphicon glyphicon-remove" onClick={this.removeitem} />
+                        <Link to={`/category/${this.props.item.category_id}/products/${this.props.item.id}`} className="btn btn-default btn-action glyphicon glyphicon-pencil" />
+                        <button type="button" className="btn btn-danger btn-action pull-right glyphicon glyphicon-remove" onClick={this.removeProduct} />
                     </td>
                 </tr>
     }
@@ -137,57 +137,5 @@ class Products extends React.Component {
         />
     }
 }
-
-
-/*
- <div>
-
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className="table-wrapper">
-
-                        <div className="table-head">
-                        <span className="title">
-                            Продукты
-                        </span>
-                            <Link to={`/category/${this.props.params.id}/products/new`}
-                                  className="btn btn-action-big btn-default glyphicon glyphicon-plus" />
-                        </div>
-                        <table className="table table-hover">
-                            <thead>
-                              <tr>
-                                <th>Товар</th>
-                                <th>Цена</th>
-                                <th>Валюта</th>
-                                <th>Ссылка на продукт</th>
-                                <th>Доступность</th>
-                                <th>Активность</th>
-                                <th></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            { this.state.products.map(function(item, index){
-                                var currency = _.findWhere(self.state.currencies, {id: +item.currency_id});
-                                console.log('currency_render:', currency, self.state.currencies,  item.currency_id);
-                                currency  = currency  ? currency.name : currency;
-
-                                return <ProductItem key={index} product={item} currency={currency} />
-                            })}
-                            </tbody>
-                        </table>
-
-                        <div className="table-footer">
-
-                        </div>
-
-                    </div>
-                </div>
-
-
-            </div>
-
-            </div>
- */
-
 
 export default Products;

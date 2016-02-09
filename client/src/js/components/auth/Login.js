@@ -3,6 +3,7 @@ import ApiActions from './../../actions/ApiActions'
 import PasswordInput from './../../../../../common/js/PasswordInput';
 import LoginInput from './../../../../../common/js/LoginInput';
 import Alert from './../../../../../common/js/Alert';
+import cookie from'./../../../../../common/Cookies';
 
 
 class Login extends React.Component {
@@ -57,14 +58,19 @@ class Login extends React.Component {
                 var result = {};
                 var redirect = '';
                 if(data.redirect) {//for partners login
+
                     result = data.user;
                     redirect = data.redirect;
-                    localStorage.setItem('token', result.token);
                     location.href = redirect;
+
                 } else {
+
                     result = data;
-                    localStorage.setItem('token', result.token);
+                    cookie.setCookie('token', result.token, {
+                        domain: '.vippay.loc'
+                     });
                     location.assign('http://' + data.domain)
+
                     //location.hash = redirect;
                 }
                 console.log('Token: ' + result.token);

@@ -1,5 +1,6 @@
 import React from 'react'
-import {RoutingContext, Link} from 'react-router'
+import {RoutingContext, Link} from 'react-router';
+import cookie from'./../../../../common/Cookies';
 import  AuthActions from '../actions/AuthActions';
 import  SettingsActions from '../actions/SettingsActions';
 import  ProductsActions from '../actions/ProductsActions';
@@ -24,7 +25,6 @@ class ClientItem extends React.Component {
 
 }
 
-
 class Application extends React.Component {
 
     constructor() {
@@ -41,10 +41,13 @@ class Application extends React.Component {
         this.IFrameRequests();
         AuthStore.listen(this.update)
         SettingsStore.listen(this.updateSettings)
-        SettingsActions.getCurrentPartner();
-        SettingsActions.getCurrentClient();
-        SettingsActions.getClients();
         SettingsActions.get();
+
+        AuthActions.check().then(() => {
+                SettingsActions.getClients();
+                SettingsActions.getCurrentClient();
+                SettingsActions.getCurrentPartner();
+            })
     }
 
     componentWillUnmount() {
@@ -70,35 +73,41 @@ class Application extends React.Component {
 
     Out(e) {
         e.preventDefault();
-        localStorage.removeItem('token');
+        cookie.setCookie('token', '', {
+                    domain: '.vippay.loc'
+                });
+
         console.log('http://' + location.hostname + '/partner')
         location.href = 'http://' + location.hostname + '/partner';
-        //location.reload();
     }
 
     onLoadIFrame() {
         console.log('-------main window send post')
         var token = localStorage.getItem('token');
         var win = document.getElementsByTagName('iframe')[0].contentWindow;
+        debugger
         if (token) win.postMessage(JSON.stringify({key: 'token', data: token, method: 'set'}), "*");
         else win.postMessage(JSON.stringify({key: 'token', method: 'get'}), "*");
+
     }
 
     IFrameRequests() {
         window.onmessage = function(e) {
-            var data = JSON.parse(e.data);
+
+            var data = e.data;
+            console.log('iframe request^', e.data);
+
             switch(data.method) {
-             case 'set': localStorage.setItem(data.key, data.data);
+             case 'set': localStorage.setItem(data.key, data.data); console.log('Data', data.data)
                          break;
             }
-            console.log('onmessage:', e.data);
-            AuthActions.check(localStorage.getItem('token'))
+            console.log('token before check', localStorage.getItem('token'))
+
         }
     }
 
     render() {
         console.log('App state: ', this.state)
-        console.log('IFRAME::::', this.state.auth_domain)
 
         var self = this;
 
@@ -124,7 +133,7 @@ class Application extends React.Component {
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.current_client.login}<span className="caret"></span></a>
                               <ul className="dropdown-menu">
                                   {this.state.clients.map((item, index) => {
-                                      return <ClientItem key={index} client={item} href={`http://${item.login}.${this.state.domain}#/products`}/>
+                                      return <ClientItem key={index} client={item} href={`http://${item.login}.${this.state.domain}/${this.state.partner.login}#/products`}/>
                                   })}
                               </ul>
                             </li>
@@ -140,9 +149,7 @@ class Application extends React.Component {
                 </div>
             </nav>
             <div>{this.props.children}</div>
-            { this.state.auth_domain ?
-                <IFrame src={`http://${this.state.auth_domain}/iframe`} onLoad={this.onLoadIFrame} />
-                : null }
+
         </div>
     }
 }

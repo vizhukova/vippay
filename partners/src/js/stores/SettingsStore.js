@@ -21,7 +21,7 @@ class SettingsStore {
     }
 
     onGet(settings) {
-        this.domain = `${settings.domain}/${this.partner.login}`;
+        this.domain = settings.domain;
         this.auth_domain = settings.auth_domain;
         console.log('clients SettingsStore', this.clients)
         console.log('domain SettingsStore', this.auth_domain)

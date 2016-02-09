@@ -51,7 +51,7 @@ var Rate = bookshelf.Model.extend({
                     .where('from', '=', +item.from)
                     .andWhere('to', '=', +item.to)
                     .andWhere('client_id', '=', +data.client_id)
-                    .returning('from', 'to', 'result')
+                    .returning('*')
 
             }).then((result) => {
                 resolve(result)

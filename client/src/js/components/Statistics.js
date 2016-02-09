@@ -17,10 +17,11 @@ class StatisticItem extends React.Component {
     }
     
     render() {
+        console.log('Statistic render', this.props.item)
         return <tr>
             <td>{this.props.item.customer_id}</td>
-            <td>{this.props.item.partner_login}</td>
-            <td><img src={this.props.item.product.image} alt="image" width="200px" height="auto"/></td>
+            <td>{this.props.item.partner_login ? this.props.item.partner_login : 'партнер отсутствует'}</td>
+            <td><a href={this.props.item.product.product_link}>{this.props.item.product.name}</a></td>
             <td>{this.props.item.product.name}</td>
             <td>{this.statuses[this.props.item.action]}</td>
         </tr>
@@ -54,7 +55,6 @@ class Statistics extends React.Component {
             title="Статистика"
             error={this.state.error}
             items={this.state.statistic}
-            perPage={1}
             itemComponent={StatisticItem}
             thead={['Номер заказчика', 'Ник партнера', 'Товар', 'Название', 'Дейсвие']}
             />
@@ -64,28 +64,3 @@ class Statistics extends React.Component {
 
 
 export default Statistics;
-
-/*
-<table className="table table-wrapper">
-                <thead>
-                  <tr>
-                    <th>Номер заказчика</th>
-                    <th>Ник партнера</th>
-                    <th>Товар</th>
-                    <th>Название</th>
-                    <th>Дейсвие</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    { this.state.statistic.map(function(item, index) {
-                     return <tr key={index}>
-                         <td>{item.customer_id}</td>
-                         <td>{item.partner_login}</td>
-                         <td><img src={item.product.image} alt="image" width="200px" height="auto"/></td>
-                         <td>{item.product.name}</td>
-                         <td>{self.statuses[item.action]}</td>
-                     </tr>
-                 })}
-                </tbody>
-              </table>
- */
