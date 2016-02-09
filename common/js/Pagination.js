@@ -4,47 +4,48 @@ import { Router, Route, IndexRoute, Link } from 'react-router';
 
 class Pagination extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = {
             page: 1,
             currentPage: 1
         };
+        this.changePage = this.changePage.bind(this);
     }
 
-     componentDidMount() {
-        var page = 1;
-       /* if(this.props.params.page){
-            page = this.props.params.page;
-        }*/
+    componentDidMount() {
+
     }
 
-    componentWillReceiveProps(props){
-        var page = 1;
-        /*if(props.params.page){
-            page = props.params.page;
-        }*/
+    changePage(e) {
+        e.preventDefault();
+        this.props.onChangePage(e.target.dataset.page);
     }
 
-    render(){
+    render() {
         var self = this;
-
-        var pageArray = Array.apply(null, Array(this.props.pages)).map(function () {});
+        var pageArray = Array.apply(null, Array(this.props.pages)).map(function () {
+        });
 
         return <div>
             { this.props.show ? <div className="inner">
 
-                {!this.props.first ? <a className="page_prev" href={`#/${this.props.type}/${+this.state.currentPage - 1}`}><span/></a> : null}
+                {!this.props.first ? <a onClick={this.changePage} className="page_prev"
+                                        data-page={+this.props.currentPage - 1}><span/></a> : null}
 
                 {pageArray.map(function (el, i) {
 
-                    var activeClass = +self.state.currentPage === i + 1 ? 'page_current' : '';
+                    var activeClass = +self.props.currentPage === i + 1 ? 'page_current' : '';
 
-                    return <a href={`#/${self.props.type}/${i+1}`} className={`page-numbers ${activeClass}`}>{i + 1}</a>
+                    return <a key={i} onClick={self.changePage} data-page={i + 1}
+                              className={`page-numbers ${activeClass}`}>{i + 1}</a>
                 })}
 
                 { !this.props.last ? <a className="page_next"
-                               href={`#/${this.props.type}/${+this.state.currentPage +1}`}><span/></a> : null}
+                                        onClick={this.changePage}
+                                        data-page={+this.props.currentPage + 1}>
+                                        <span/>
+                                    </a> : null}
             </div> : null}
         </div>
     }
