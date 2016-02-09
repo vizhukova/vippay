@@ -10,10 +10,15 @@ class AuthActions {
 
     check() {
         var self = this;
-        ApiActions.get('check', {role: 'partner'}).then(function(data){
-            self.dispatch(true);
-        }).catch(function(err){
-            self.dispatch(false);
+        return new Promise ((resolve, reject) => {
+            ApiActions.get('check', {role: 'partner'}).then(function(data){
+                self.dispatch(true);
+                resolve(data);
+            }).catch(function(err){
+                debugger
+                self.dispatch(false);
+                reject(err);
+            })
         })
     }
 

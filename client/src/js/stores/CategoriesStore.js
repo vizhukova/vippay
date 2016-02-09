@@ -8,7 +8,6 @@ class CategoriesStore {
     constructor() {
         this.categories = [];
         this.category = {
-            id: null,
             name: ''
         };
         this.error = {}

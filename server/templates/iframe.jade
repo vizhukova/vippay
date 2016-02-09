@@ -6,16 +6,23 @@ html
     script(type='text/javascript').
      console.log("--------iframe.jade worked")
      window.onmessage = function(e) {
+
       var data = JSON.parse(e.data);
+      var parent = window.parent;
          console.log("--------iframe.jade onmessage", e.data,e.origin, localStorage.getItem('token'))
+
       switch (data.method) {
        case 'get':
-        var parent = window.parent;
         var result = localStorage.getItem(data.key);
-        parent.postMessage(result, "*");
+        parent.postMessage({method: 'set', key: data.key, data: result}, "*");
         break;
        case 'remove':
         localStorage.removeItem(data.key);
+        parent.postMessage({method: 'request', key: data.key}, "*");
+        break;
+       case 'set':
+        localStorage.setItem(data.key, JSON.stringify(data.data));
+        parent.postMessage({method: 'request', key: data.key}, "*");
         break;
       }
      }

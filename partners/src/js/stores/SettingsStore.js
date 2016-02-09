@@ -10,28 +10,31 @@ class SettingsStore {
         this.partner = {};
         this.bindListeners({
             onGet: SettingsActions.GET,
-            setCurrentClient: SettingsActions.SET_CURRENT_CLIENT,
-            getCurrentPartner: SettingsActions.GET_CURRENT_PARTNER
+            onGetClients: SettingsActions.GET_CLIENTS,
+            getCurrentPartner: SettingsActions.GET_CURRENT_PARTNER,
+            getCurrentClient: SettingsActions.GET_CURRENT_CLIENT
         });
     }
 
-    onGet(clients){
-        var id = localStorage.getItem('current_client') ? localStorage.getItem('current_client') : localStorage.getItem('current_client_id');
-        var current_client = _.findWhere(clients, {id: +id});
-
+    onGetClients(clients){
         this.clients = clients;
-        this.current_client = current_client ? current_client : {};
-        console.log('current_client SettingsStore', this.current_client)
     }
 
-    setCurrentClient(client) {
-        this.current_client = client;
-         localStorage.setItem('current_client', client.id);
-         console.log('current_client SettingsStore', this.current_client)
+    onGet(settings) {
+        this.domain = `${settings.domain}/${this.partner.login}`;
+        this.auth_domain = settings.auth_domain;
+        console.log('clients SettingsStore', this.clients)
+        console.log('domain SettingsStore', this.auth_domain)
     }
 
     getCurrentPartner(partner) {
         this.partner = partner;
+        console.log('partner SettingsStore', this.partner)
+    }
+
+    getCurrentClient(client) {
+        this.current_client = client;
+        console.log('current_client SettingsStore', this.current_client)
     }
 
 }

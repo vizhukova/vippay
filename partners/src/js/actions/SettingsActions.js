@@ -6,20 +6,34 @@ class SettingsAction {
 
     get() {
         var self = this;
-        ApiActions.get(`client`).then(function(data){
+        ApiActions.get(`settings/partner`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);
         })
     }
 
-    setCurrentClient(client) {
-        this.dispatch(client);
+    getClients() {
+        var self = this;
+        ApiActions.get(`clients`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
     }
 
     getCurrentPartner() {
         var self = this;
         ApiActions.get(`partner`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
+    }
+
+    getCurrentClient() {
+        var self = this;
+        ApiActions.get(`client`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);

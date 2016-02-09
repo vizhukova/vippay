@@ -14,6 +14,12 @@ router.get('/settings', function(req, res){
 
 });
 
+router.get('/settings/partner', function(req, res){
+
+    res.send({domain: req.postdomain, auth_domain: auth_domain});
+
+});
+
 router.put('/rate', function(req, res) {
 
     RateController.edit({rate: req.body, client_id: req.user.id})
