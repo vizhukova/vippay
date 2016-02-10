@@ -5,15 +5,15 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-class AddNewCategory(unittest.TestCase, Helpers, AuthHelpers):
+class AddCategoryDeleteCategory(unittest.TestCase,  Helpers, AuthHelpers):
 
     def setUp(self):
         self.driver = webdriver.Firefox()
 
-    def create_category(self):
+
+    def add_category(self):
+
         driver = self.driver
-
-
         add_category = driver.find_element_by_xpath('//*[@id="app-container"]/div/div/div/div/div/div/div[1]/a')
         add_category.click()
         name_input = driver.find_element_by_id('newCategory')
@@ -23,11 +23,19 @@ class AddNewCategory(unittest.TestCase, Helpers, AuthHelpers):
         button_add_category = driver.find_element_by_xpath('//*[@id="app-container"]/div/div/div/form/button')
         button_add_category.click()
 
+
+    def delete_category(self):
+
+        driver = self.driver
+        driver.implicitly_wait(5)
+        all_categories = driver.find_elements_by_css_selector('.table-hover tbody>tr')
+        for elem_category in all_categories:
+            danger_button = elem_category.find_element_by_class_name('btn-danger')
+            danger_button.click()
+
     def test_login_logout(self):
 
-
         mock_user = [
-
 
             {
                 'driver': 'http://111.vippay.test',
@@ -47,9 +55,6 @@ class AddNewCategory(unittest.TestCase, Helpers, AuthHelpers):
 
             ]
 
-
-
-
         for user in mock_user:
 
             driver = self.driver
@@ -57,15 +62,12 @@ class AddNewCategory(unittest.TestCase, Helpers, AuthHelpers):
             driver.implicitly_wait(5)
             category = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[1]/a')
             category.click()
-
-            for i in xrange(8):
-                self.create_category()
+            self.add_category()
+            self.delete_category()
             self.logout()
-
 
     def tearDown(self):
         self.driver.close()
-
 
 if __name__ == '__main__':
     unittest.main()

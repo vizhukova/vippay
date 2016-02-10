@@ -7,35 +7,37 @@ from selenium.webdriver.common.keys import Keys
 
 class Login(unittest.TestCase, Helpers, AuthHelpers):
 
-    def setUp(self):
-        self.driver = webdriver.Firefox()
-
     def test_login_logout(self):
-
-        mock_users = [
-            {
-                'email': 'ivan@gmail.com',
-                'password': '111'
-            },
-            {
-                'email': 'piter',
-                'password': '111'
-            },
-
-            {
-                'email': 'natali',
-                'password': '111'
-            }
-        ]
-
+        self.driver = webdriver.Firefox()
         driver = self.driver
-        driver.get("http://188.166.116.177")
-        driver.implicitly_wait(5)
 
-        for user in mock_users:
+        mock_user = [
+
+
+            {
+                'driver': 'http://111.vippay.test',
+                'email': '111',
+                'password': '111'
+            },
+            {
+                'driver': 'http://222.vippay.test',
+                'email': '222',
+                'password': '222'
+            },
+            {
+                'driver': 'http://333.vippay.test',
+                'email': '333',
+                'password': '333'
+            }
+
+            ]
+
+
+        for user in mock_user:
+
+            driver = self.driver
             self.login(user)
             self.logout()
-
 
 
     def tearDown(self):
