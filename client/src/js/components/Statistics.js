@@ -20,9 +20,8 @@ class StatisticItem extends React.Component {
         console.log('Statistic render', this.props.item)
         return <tr>
             <td>{this.props.item.customer_id}</td>
-            <td>{this.props.item.partner_login ? this.props.item.partner_login : 'партнер отсутствует'}</td>
+            <td>{this.props.item.partner_login ? this.props.item.partner_login : '-'}</td>
             <td><a href={this.props.item.product.product_link}>{this.props.item.product.name}</a></td>
-            <td>{this.props.item.product.name}</td>
             <td>{this.statuses[this.props.item.action]}</td>
         </tr>
     }
@@ -56,7 +55,7 @@ class Statistics extends React.Component {
             error={this.state.error}
             items={this.state.statistic}
             itemComponent={StatisticItem}
-            thead={['Номер заказчика', 'Ник партнера', 'Товар', 'Название', 'Дейсвие']}
+            thead={['Номер заказчика', 'Ник партнера', 'Товар', 'Дейсвие']}
             />
     }
 

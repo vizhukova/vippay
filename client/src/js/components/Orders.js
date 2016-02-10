@@ -28,7 +28,7 @@ class OrderItem extends React.Component {
         var notComplete = "glyphicon glyphicon-ban-circle";
 
         return <tr>
-            <td>{this.props.item.login ? this.props.item.login : "отсутствует"}</td>
+            <td>{this.props.item.login ? this.props.item.login : "-"}</td>
             <td><a href={this.props.item.product.product_link} target="_blank">{this.props.item.product.name}</a></td>
             <td>{this.props.item.product.price}</td>
             <td>{this.props.item.product.currency_name}</td>

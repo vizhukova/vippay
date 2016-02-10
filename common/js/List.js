@@ -33,6 +33,8 @@ class List extends React.Component {
 
     render(){
         var Item = this.props.itemComponent;
+        var Head = this.props.theadComponent;
+
         if (!this.props.items) return;
         var items =this.props.items.slice((this.state.currentPage - 1) * this.state.perPage , ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
         var pages = Math.ceil(this.props.items.length/this.state.perPage);
@@ -55,13 +57,9 @@ class List extends React.Component {
                         </div>
 
                         <table className="table table-hover">
-                            {this.props.thead ?
+                            {this.props.theadComponent ?
                                  <thead>
-                                     <tr>
-                                     {this.props.thead.map((item) => {
-                                         return <th>{item}</th>
-                                     })}
-                                      </tr>
+                                     <Head sort={this.props.sort} />
                                  </thead> : null
                             }
                             <tbody>
