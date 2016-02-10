@@ -34,7 +34,7 @@ class CategoryForm extends React.Component {
             this.setState({
                 category: {
                     id: null,
-                    name: ''
+                    category: ''
                 }
             })
         }
@@ -79,6 +79,7 @@ class CategoryForm extends React.Component {
     }
 
     editCategory() {
+        console.log('CATEGORY', this.state.category)
         var self = this;
         if (this.state.category.category.length == 0) {
             self.setState({
@@ -126,7 +127,9 @@ class CategoryForm extends React.Component {
 	}
 
     update(state){
-        this.setState(state);
+        if(state.category) _.assign(this.state.category, state.category);
+        _.assign(this.state, _.omit(state, ['category']));
+        this.setState({});
     }
 
     render(){
@@ -135,7 +138,9 @@ class CategoryForm extends React.Component {
             <form className="">
               <fieldset className="form-group">
 
-                  <label htmlFor="newCategory" className="text-primary">Новая категория</label>
+                  <label htmlFor="newCategory" className="text-primary">
+                      {this.props.params.id  ? "Редактировать категорию" : "Новая категория"}
+                  </label>
                 <input type="text" name="category" className="form-control" id="newCategory"
                        placeholder="Введите название новой категории"
                        onChange={this.onChange}

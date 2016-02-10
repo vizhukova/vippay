@@ -84,7 +84,7 @@ class Application extends React.Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <a className="navbar-brand" href="#">VIPPAY</a>
+                        <a className="navbar-brand" href="#"><i className="glyphicon glyphicon-home"></i></a>
                     </div>
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

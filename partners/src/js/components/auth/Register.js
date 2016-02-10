@@ -125,6 +125,7 @@ class Register extends React.Component {
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
 							onChange={this.onChange}
 							onKeyDown={this.onKeyDown}
+							tabIndex="4"
 							onClick={this.onClick} placeholder="Пароль"/>
 				</div>
 				<div className="col-lg-6 col-sm-12 col-md-6">
@@ -134,10 +135,11 @@ class Register extends React.Component {
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
 							onChange={this.onChange}
 							onKeyDown={this.onKeyDown}
+							tabIndex="5"
 							onClick={this.onClick} placeholder="Подтвердите"/>
 				</div>
 			</div>
-			<div className="btn btn-primary btn-block" onClick={this.register}>Отправить</div>
+			<div className="btn btn-primary btn-block" tabIndex="6" onClick={this.register}>Отправить</div>
             </div>
     }
 }

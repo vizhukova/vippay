@@ -100,10 +100,11 @@ class Login extends React.Component {
 							onChange={this.onChange}
                             onClick={this.onClick}
                             onKeyDown={this.onKeyDown}
+                            tabIndex="2"
                             placeholder="Пароль"/>
 			</div>
 
-            <div className="btn btn-primary btn-block" onClick={this.login}>Отправить</div>
+            <div className="btn btn-primary btn-block" tabIndex="3" onClick={this.login}>Отправить</div>
             </div>
 
     }

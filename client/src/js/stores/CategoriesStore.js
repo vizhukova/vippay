@@ -8,7 +8,7 @@ class CategoriesStore {
     constructor() {
         this.categories = [];
         this.category = {
-            name: ''
+            category: ''
         };
         this.error = {}
         this.currentPage = 1;
@@ -70,7 +70,7 @@ class CategoriesStore {
     onResetCategory(){
         this.category = {
             id: null,
-            name: ''
+            category: ''
         };
     }
 
