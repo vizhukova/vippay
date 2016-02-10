@@ -137,7 +137,7 @@ class Register extends React.Component {
 							onClick={this.onClick} placeholder="Подтвердите" tabIndex="5"/>
 				</div>
 			</div>
-			<div className="btn btn-primary btn-block" onClick={this.register}>Отправить</div>
+			<div className="btn btn-primary btn-block" tabIndex="6" onClick={this.register}>Отправить</div>
             </div>
     }
 }

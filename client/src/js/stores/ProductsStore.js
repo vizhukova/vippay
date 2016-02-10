@@ -34,15 +34,7 @@ class ProductsStore {
     onEditProduct(product) {
         var self = this;
         if(product instanceof Error) {
-            console.log(JSON.parse(product.message).category)
-                JSON.parse(product.message).category
-                .forEach(function(i){
-                    self.error = {
-                        type: 'danger',
-                        title: 'Ошибка',
-                        text: i
-                    }
-                })
+
         } else {
             var index = _.findIndex(this.products, { 'id': product.id });
             this.products[index] = product;

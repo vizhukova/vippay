@@ -4,7 +4,9 @@ import Payment from './Payment'
 import OrderActions from'./../../actions/OrdersActions'
 import ApiActions from'./../../actions/ApiActions'
 import OrdersStore from'./../../stores/OrdersStore'
+import Alert from'./../../../../../common/js/Alert'
 import _  from 'lodash';
+import $  from 'jquery';
 
 class DeliverySelect extends React.Component {
 
@@ -99,10 +101,26 @@ class Pending extends React.Component {
 
         if(order_num) OrderActions.get(order_num);
         else*/
+         var reg = new RegExp(/^\d[\d\(\)\ -]{4,14}\d$/);
+
         if(!this.state.delivery.telephone || this.state.delivery.telephone.length == 0) {
-            this.setState({error:
-            {telephone: "Поле 'Телефон' обязательно для заполнения"
-            }})
+            this.setState({
+                 error: {
+                     type: 'error',
+                     title: 'Ошибка',
+                     text: 'Проверьте правильность заполнения поле "телефон"'
+                 }
+             })
+        }
+        else if(! reg.test(this.state.delivery.telephone) ) {
+             this.setState({
+                 error: {
+                     type: 'error',
+                     title: 'Ошибка',
+                     text: 'Проверьте правильность заполнения поле "телефон"'
+                 }
+             })
+
         }
         else {
             var delivery = this.state.product.delivery ? this.state.product.delivery[this.state.delivery_id] : {};
@@ -119,6 +137,7 @@ class Pending extends React.Component {
         return <div>
             <div>
                 <div className="content-step row">
+                     <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
                     <div className="col-md-6">
                         <img className="img-responsive img-thumbnail image" src={this.state.product.image} />
                         <div className="field"><b>Название: </b> {this.state.product.name}</div>
@@ -139,9 +158,9 @@ class Pending extends React.Component {
                                    placeholder="Введите ФИО" />
                         </div>
                          <div className="form-group">
-                            <label>Телефон<span className="text-danger"> * </span>: </label>
+                            <label>Телефон: <span className="text-danger"> * </span> </label>
                             <input type="text" name="telephone" className="form-control" onChange={this.onChange}
-                                   placeholder="(ХХХ) ХХ ХХ ХХХ" />
+                                   id="telephone" placeholder="(ХХХ) ХХ ХХ ХХХ" />
                         </div>
                         <div className={this.state.error.telephone ? 'alert alert-danger' : 'alert alert-danger hide'}>
                           <strong>Ошибка!</strong> {this.state.error.telephone}

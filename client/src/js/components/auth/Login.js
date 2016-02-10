@@ -119,7 +119,7 @@ class Login extends React.Component {
                             placeholder="Пароль" tabIndex="2"/>
 			</div>
 
-            <div className="btn btn-primary btn-block" onClick={this.login}>Отправить</div>
+            <div className="btn btn-primary btn-block" tabIndex="3" onClick={this.login}>Отправить</div>
             </div>
 
     }
