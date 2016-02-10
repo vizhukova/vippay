@@ -3,7 +3,11 @@ import {RoutingContext, Link} from 'react-router'
 import  AuthActions from '../actions/AuthActions';
 import  SettingsActions from '../actions/SettingsAction';
 import AuthStore from './../stores/AuthStore';
-import IFrame from './IFrame';
+import SettingsStore from './../stores/SettingsStore';
+import Loader from'./../../../../common/js/Loader';
+import cookie from'./../../../../common/Cookies';
+import _  from 'lodash';
+
 
 class Application extends React.Component {
 
@@ -14,53 +18,39 @@ class Application extends React.Component {
         };
 
         this.update = this.update.bind(this);
-        this.Out = this.Out.bind(this);
+        this.updateSettings = this.updateSettings.bind(this);
     }
 
     componentDidMount() {
 
-        window.onmessage = function(e) {
-            console.log(e.origin)
-            console.log('onmessage:', e.data);
-            localStorage.setItem('token', e.data);
-        }
-
-        AuthStore.listen(this.update);
-    }
-
-    componentWillUnmount() {
-        AuthStore.unlisten(this.update)
-    }
-
-    Out(e) {
-        e.preventDefault();
-        var win = document.getElementsByTagName('iframe')[0].contentWindow;
-        win.postMessage(JSON.stringify({key: 'token', method: 'remove'}), "*");
-        localStorage.removeItem('token');
-        location.reload();
-    }
-
-    onLoadIFrame() {
-        console.log('-------main window send post')
-        var win = document.getElementsByTagName('iframe')[0].contentWindow;
-        win.postMessage(JSON.stringify({key: 'token', method: 'get'}), "*");
-
-        AuthActions.check(localStorage.getItem('token'))
-
+        AuthActions.check()
             .then(function() {
                 AuthActions.getMe();
                 SettingsActions.getAllCurrencies();
                 return SettingsActions.getBasicCurrency();
 
             })
+
+        SettingsActions.get();
+
+        AuthStore.listen(this.update);
+        SettingsStore.listen(this.updateSettings);
+    }
+
+    componentWillUnmount() {
+        AuthStore.unlisten(this.update)
+        SettingsStore.unlisten(this.update)
     }
 
     update(state){
         if(!state.auth){
             location.hash = 'auth';
-        }else{
-           this.setState(state);
         }
+        this.setState(state);
+    }
+
+    updateSettings(state) {
+        this.setState(state);
     }
 
     render() {
@@ -79,7 +69,7 @@ class Application extends React.Component {
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
-                            <li><Link to="/categories/1" activeClassName="active">Каталог</Link></li>
+                            <li><Link to="/categories" activeClassName="active">Каталог</Link></li>
                             <li><Link to="/partners" activeClassName="active">Партнеры</Link></li>
                             <li><Link to="/statistics" activeClassName="active">Статистика</Link></li>
                             <li><Link to="/orders" activeClassName="active">Заказы</Link></li>
@@ -97,8 +87,7 @@ class Application extends React.Component {
                           <li className="dropdown">
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.user.name}</a>
                                   <ul className="dropdown-menu">
-                                    <li><Link to="/rate">Курсы</Link></li>
-                                    <li><a href="#" onClick={this.Out}>Выход</a></li>
+                                    <li><a href={this.state.out_link} >Выход</a></li>
                                   </ul>
 
 
@@ -107,8 +96,8 @@ class Application extends React.Component {
                     </div>
                 </div>
             </nav>
+            {this.state.auth ? null : <Loader />}
             <div>{this.props.children}</div>
-            <IFrame src={`http://auth.vippay.loc/iframe`} onLoad={this.onLoadIFrame} />
         </div>
     }
 }

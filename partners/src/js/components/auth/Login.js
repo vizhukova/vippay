@@ -1,7 +1,8 @@
-import React from 'react'
-import ApiActions from './../../actions/ApiActions'
-import Alert from './../../../../../common/js/Alert'
+import React from 'react';
+import ApiActions from './../../actions/ApiActions';
+import Alert from './../../../../../common/js/Alert';
 import PasswordInput from './../../../../../common/js/PasswordInput';
+import cookie from'./../../../../../common/Cookies';
 
 
 class Login extends React.Component {
@@ -37,10 +38,7 @@ class Login extends React.Component {
 	}
 
     componentDidMount() {
-		var id = location.hash.slice(location.hash.lastIndexOf('/') + 1, location.hash.lastIndexOf('?'));
-		this.setState({client_id: id});
-        console.log('client ID: ', id)
-        localStorage.setItem('current_client_id', id);
+
 	}
 
     login() {
@@ -52,10 +50,8 @@ class Login extends React.Component {
 
         ApiActions.post('partner/login', this.state)
             .then(function(data){
-                localStorage.setItem('token', data.user.token);
+
                 location.href = data.redirect;
-                //location.hash = '';
-                console.log('Token: ' + data.user.token);
             })
             .catch(function(err){
                 console.log('ERROR:', err);

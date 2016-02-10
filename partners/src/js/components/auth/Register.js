@@ -51,9 +51,11 @@ class Register extends React.Component {
         ApiActions.post('partner/register', this.state)
 			.then(function(obj){
 				var data = obj.user;
-				console.log(data)
 				console.log('Token: ' + data.token);
-				localStorage.setItem('token', data.token);
+                //cookie.setCookie('token', data.user.token, {
+                //    domain: '.vippay.loc'
+                //});
+
 				location.href = obj.redirect;
 			})
 			.catch(function(err){

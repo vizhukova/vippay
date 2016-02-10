@@ -1,35 +1,29 @@
 import React from 'react'
-import {RoutingContext, Link} from 'react-router'
+import {RoutingContext, Link} from 'react-router';
+import cookie from'./../../../../common/Cookies';
 import  AuthActions from '../actions/AuthActions';
 import  SettingsActions from '../actions/SettingsActions';
 import  ProductsActions from '../actions/ProductsActions';
 import SettingsStore from './../stores/SettingsStore';
 import AuthStore from './../stores/AuthStore';
+import Loader from'./../../../../common/js/Loader';
 var _ = require('lodash');
 
 
 
-class ProductItem extends React.Component {
+class ClientItem extends React.Component {
 
     constructor(){
         super();
         this.state={};
-        this.onChange = this.onChange.bind(this);
-    }
-
-    onChange(e) {
-        e.preventDefault();
-        SettingsActions.setCurrentClient(this.props.client);
-        ProductsActions.getAll();
     }
 
     render(){
-        return  <li onClick={this.onChange}><a>{this.props.client.login}</a></li>
+        return  <li><a href={this.props.href}>{this.props.client.login}</a></li>
     }
 
 
 }
-
 
 class Application extends React.Component {
 
@@ -38,14 +32,20 @@ class Application extends React.Component {
         this.state = SettingsStore.getState();
 
         this.update = this.update.bind(this);
-        this.Out = this.Out.bind(this);
+        this.updateSettings = this.updateSettings.bind(this);
     }
 
     componentDidMount() {
+
         AuthStore.listen(this.update)
-        SettingsStore.listen(this.update)
-        AuthActions.check();
-        SettingsActions.getCurrentPartner();
+        SettingsStore.listen(this.updateSettings)
+        SettingsActions.get();
+
+        AuthActions.check().then(() => {
+                SettingsActions.getClients();
+                SettingsActions.getCurrentClient();
+                SettingsActions.getCurrentPartner();
+            })
     }
 
     componentWillUnmount() {
@@ -59,26 +59,19 @@ class Application extends React.Component {
             if (!state.auth) {
                 location.hash = 'auth';
             }
-            else {
-                SettingsActions.get();
-            }
         }
 
         _.assign(this.state, state);
         this.setState({});
     }
 
-    Out(e) {
-        e.preventDefault();
-        localStorage.removeItem('token');
-        debugger
-        console.log('http://' + location.hostname + '/partner')
-        location.href = 'http://' + location.hostname + '/partner';
-        //location.reload();
+    updateSettings(state){
+        this.setState(state);
     }
 
     render() {
-        console.log(this.state)
+        console.log('App state: ', this.state)
+
         var self = this;
 
         return <div className="app">
@@ -103,24 +96,25 @@ class Application extends React.Component {
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.current_client.login}<span className="caret"></span></a>
                               <ul className="dropdown-menu">
                                   {this.state.clients.map((item, index) => {
-                                      return <ProductItem key={index} client={item} />
+                                      return <ClientItem key={index} client={item} href={`http://${item.login}.${this.state.domain}/${this.state.partner.login}#/products`}/>
                                   })}
                               </ul>
                             </li>
                              <li className="dropdown">
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.partner.name}</a>
                                   <ul className="dropdown-menu">
-                                    <li><Link to="/rate">Курсы</Link></li>
-                                    <li><a href="#" onClick={this.Out}>Выход</a></li>
+                                    <li><a href={this.state.out_link}>Выход</a></li>
                                   </ul>
                           </li>
                         </ul>
                     </div>
                 </div>
             </nav>
+              {this.state.auth ? null : <Loader />}
             <div>{this.props.children}</div>
+
+
         </div>
     }
 }
-
 export default Application;

@@ -124,7 +124,6 @@ module.exports = {
         return new Promise(function(resolve, reject){
 
             var errors = {};
-
             Partner.edit(partner).then(function(model){
                 resolve(model);
             }).catch(function(err){

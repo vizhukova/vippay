@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import Promise from 'bluebird';
+import cookie from'./../../../../common/Cookies';
 
 function getDomain(){
     return '/api/';
@@ -12,9 +13,7 @@ class ApiActions{
 
         var BASE_URL = getDomain();
 
-        var token = localStorage.getItem('token') || '';
-        var client_id = localStorage.getItem('current_client') ? localStorage.getItem('current_client') : localStorage.getItem('current_client_id');
-        console.log('ApiActions client_id:', client_id)
+        var token = cookie.getCookie('token') || '';
 
         return new Promise(function (resolve, reject) {
             $.ajax({
@@ -27,8 +26,7 @@ class ApiActions{
                     resolve(res);
                 },
                  headers: {
-                    auth: token,
-                    client_id: client_id
+                    auth: token
                 },
                 error(response){
                     var error = new Error(response.responseJSON.msg);
@@ -41,8 +39,7 @@ class ApiActions{
     static post(path, data) {
 
         var BASE_URL = getDomain();
-        var token = localStorage.getItem('token') || '';
-        var client_id = localStorage.getItem('current_client') ? localStorage.getItem('current_client') : localStorage.getItem('current_client_id');
+        var token = cookie.getCookie('token') || '';
 
         return new Promise(function (resolve, reject) {
             $.ajax({
@@ -55,8 +52,7 @@ class ApiActions{
                     resolve(response);
                 },
                 headers: {
-                    auth: token,
-                    client_id: client_id
+                    auth: token
                 },
                 error(response){
                     var error = new Error(response.responseText);
@@ -70,8 +66,7 @@ class ApiActions{
     static put(path, data) {
 
         var BASE_URL = getDomain();
-        var token = localStorage.getItem('token') || '';
-        var client_id = localStorage.getItem('current_client') ? localStorage.getItem('current_client') : localStorage.getItem('current_client_id');
+        var token = cookie.getCookie('token') || '';
 
         return new Promise(function (resolve, reject) {
             $.ajax({
@@ -81,8 +76,7 @@ class ApiActions{
                 data: JSON.stringify(data),
                 contentType: "application/json; charset=utf-8",
                 headers: {
-                    auth: token,
-                    client_id: client_id
+                    auth: token
                 },
                 success(response){
                     resolve(response);
@@ -98,8 +92,7 @@ class ApiActions{
     static remove(path, data) {
 
         var BASE_URL = getDomain();
-        var token = localStorage.getItem('token') || '';
-        var client_id = localStorage.getItem('current_client') ? localStorage.getItem('current_client') : localStorage.getItem('current_client_id');
+        var token = cookie.getCookie('token') || '';
 
         return new Promise(function (resolve, reject) {
             $.ajax({
@@ -108,8 +101,7 @@ class ApiActions{
                 url: BASE_URL + path,
                 data: data,
                 headers: {
-                    auth: token,
-                    client_id: client_id
+                    auth: token
                 },
                 success(response){
                     resolve(response);

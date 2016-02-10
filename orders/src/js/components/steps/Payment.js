@@ -2,6 +2,7 @@ import React from 'react'
 import {RoutingContext, Link} from 'react-router'
 import OrdersStore from'./../../stores/OrdersStore'
 import OrdersAction from'./../../actions/OrdersActions'
+import Interkassa from'./../Interkassa'
 
 class Order extends React.Component {
 
@@ -13,6 +14,7 @@ class Order extends React.Component {
     }
 
     componentDidMount() {
+        OrdersAction.getMethod({order_id: this.state.order.id, method: 'interkassa', client_id: this.state.order_client_id});
         OrdersStore.listen(this.update);
     }
 
@@ -30,9 +32,11 @@ class Order extends React.Component {
     }
 
     render() {
+        console.log('payment state', this.state)
         return <div>
                  <div className="content-step">
                     <div className="order-num title"><b>ID заказа: </b> {this.state.order.id}</div>
+                     <Interkassa method={this.state.method} />
                     <button type="button" className="btn btn-danger btn-lg pull-right btn-order" onClick={this.onClick}>Оплатить</button>
                  </div>
            </div>

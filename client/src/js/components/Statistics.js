@@ -1,6 +1,33 @@
 import React from 'react';
 import StaticStore from './../stores/StatisticStore';
 import StaticActions from './../actions/StatisticAction';
+import List from'./../../../../common/js/List';
+
+
+class StatisticItem extends React.Component {
+    
+    constructor() {
+        super();
+        this.statuses = {
+            follow_link: 'Прошел по ссылке',
+            start_order: 'Заказал',
+            pending_order: 'Оплатил',
+            complete_order: 'Завершил'
+        }
+    }
+    
+    render() {
+        console.log('Statistic render', this.props.item)
+        return <tr>
+            <td>{this.props.item.customer_id}</td>
+            <td>{this.props.item.partner_login ? this.props.item.partner_login : '-'}</td>
+            <td><a href={this.props.item.product.product_link}>{this.props.item.product.name}</a></td>
+            <td>{this.statuses[this.props.item.action]}</td>
+        </tr>
+    }
+}
+
+
 
 class Statistics extends React.Component {
 
@@ -8,12 +35,6 @@ class Statistics extends React.Component {
         super();
         this.state = StaticStore.getState();
         this.update = this.update.bind(this);
-        this.statuses = {
-            follow_link: 'Прошел по ссылке',
-            start_order: 'Заказал',
-            pending_order: 'Оплатил',
-            complete_order: 'Завершил'
-        }
     }
 
     componentDidMount() {
@@ -32,29 +53,18 @@ class Statistics extends React.Component {
 
     render(){
         var self = this;
-        return <table className="table table-wrapper">
-                <thead>
-                  <tr>
-                    <th>Номер заказчика</th>
-                    <th>Ник партнера</th>
-                    <th>Товар</th>
-                    <th>Название</th>
-                    <th>Дейсвие</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    { this.state.statistic.map(function(item, index) {
-                     return <tr key={index}>
-                         <td>{item.customer_id}</td>
-                         <td>{item.partner_login}</td>
-                         <td><img src={item.product.image} alt="image" width="200px" height="auto"/></td>
-                         <td>{item.product.name}</td>
-                         <td>{self.statuses[item.action]}</td>
-                     </tr>
-                 })}
-                </tbody>
-              </table>
-
+        return <List
+            title="Статистика"
+            error={this.state.error}
+            items={this.state.statistic}
+            itemComponent={StatisticItem}
+            thead={[
+                {name: 'Номер заказчика', key: 'customer_id'},
+                {name: 'Ник партнера', key: 'partner_login'},
+                {name: 'Товар', key: 'product.name'},//key = product.name ?
+                {name: 'Дейсвие', key: 'action'}
+            ]}
+            />
     }
 
 }

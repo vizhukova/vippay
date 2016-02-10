@@ -26,6 +26,17 @@ router.get('/order/:id', function(req, res) {
 
 });
 
+router.put('/order/:id', function(req, res) {
+
+    OrderController.setComplete({id:req.params.id, step: req.body.step})
+        .then(function (order) {
+            res.send(order)
+        }).catch(function (err) {
+            res.status(400).send(err);
+        })
+
+});
+
 router.post('/order', function(req, res) {
 
     ProductController.getCurrentProduct(req.body.prod_id).then(function(product){

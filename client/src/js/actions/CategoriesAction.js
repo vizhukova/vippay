@@ -50,10 +50,14 @@ class CategoriesAction {
 
     deleteCategory(id) {
         var self = this;
-        ApiActions.remove(`category/${id}`).then(function(data){
+        return new Promise((resolve, reject) => {
+            ApiActions.remove(`category/${id}`).then(function(data){
             self.dispatch(data);
-        }).catch(function(err){
-            self.dispatch(err);
+                resolve(data);
+            }).catch(function(err){
+                //self.dispatch(err);
+                reject(err);
+            })
         })
     }
 }

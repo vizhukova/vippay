@@ -25,6 +25,7 @@ class InterKassa{
                 payment_data.ik_cur = order.product.currency;
                 payment_data.ik_am = order.product.price;
                 payment_data.ik_desc = order.product.description;
+                payment_data.action = 'https://sci.interkassa.com/';
 
                 return UserController.getById(user_id);
 
@@ -45,3 +46,5 @@ class InterKassa{
     }
 
 }
+
+module.exports = InterKassa;

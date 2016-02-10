@@ -1,12 +1,13 @@
+'use strict';
 var express = require('express');
 var router = express.Router();
 
-var InterKassa = require('../payments/interkassa');
+var InterKassa = require('./../payments/interkassa');
 
 
-router.get('payments/data/:order/:method', function(req, res){
+router.get('/payments/data/:order/:method', function(req, res){
 
-    InterKassa.getData(req.params.order, req.user.id).then((payment_data) => {
+    InterKassa.getData(req.params.order, 1).then((payment_data) => {
 
         res.send(payment_data);
 

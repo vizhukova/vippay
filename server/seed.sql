@@ -4,7 +4,7 @@ INSERT INTO currency (name) VALUES ('UAH'),
                                     ('RUB');
 
 INSERT INTO users (login, email, password, name, basic_currency, type) VALUES ('client1', 'email1@sss.ss', '1', 'name1', '1', 'client'),
-                                                                          ('login2', 'email2@sss.ss', 'password2', 'name2', '1', 'client'),
+                                                                          ('client2', 'email2@sss.ss', 'password2', 'name2', '1', 'client'),
                                                                           ('login3', 'email3@sss.ss', 'password3', 'name3', '1', 'client'),
                                                                           ('login4', 'email4@sss.ss', 'password4', 'name4', '1', 'client'),
                                                                           ('login5', 'email5@sss.ss', 'password5', 'name5', '1', 'client'),
@@ -203,21 +203,4 @@ INSERT INTO rate ("from", "to", "result", "client_id") VALUES ('1', '2', '1', '1
                                                              ('4', '3', '12', '11');
 
 
-UPDATE users SET  payment = '[
-                              {"name": "robokassa",
-                             "active": "true",
-                             "fields": ["login", "password", "confirmPassword"]
-                            },
-                            {"name": "privat24",
-                             "active": "true",
-                             "fields": ["login", "password", "confirmPassword"]
-                            },
-                            {"name": "panda",
-                             "active": "true",
-                             "fields": ["login", "password", "confirmPassword"]
-                            },
-                            {"name": "bank",
-                             "active": "true",
-                             "fields": ["login", "password", "confirmPassword"]
-                            }
-                            ]'
+UPDATE users SET  payment = '[]'

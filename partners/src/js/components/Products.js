@@ -1,7 +1,26 @@
 import React from 'react';
 import ProductsActions from'./../actions/ProductsActions';
 import ProductsStore from'./../stores/ProductsStore';
+import List from'./../../../../common/js/List';
 
+
+class ProductItem extends React.Component {
+
+    constructor() {
+        super();
+    }
+
+    render() {
+        return <tr>
+            <td><img src={this.props.item.image} alt="image" width="200px" height="auto"/></td>
+            <td>{this.props.item.name}</td>
+            <td>{this.props.item.price}</td>
+            <td>{this.props.item.currency_name}</td>
+            <td>{this.props.item.description}</td>
+            <td><a href={this.props.item.ref_link}>Ссылка</a></td>
+        </tr>
+    }
+}
 
 class Products extends React.Component {
 
@@ -27,10 +46,34 @@ class Products extends React.Component {
 
 
     render(){
-        var available = "glyphicon glyphicon-ok-circle";
-        var notAvailable = "glyphicon glyphicon-ban-circle";
 
-        return <div>
+        return <List
+            title="Продукты"
+            error={this.state.error}
+            items={this.state.products}
+            perPage={3}
+            itemComponent={ProductItem}
+            thead={['Изображение', 'Товар', 'Цена', 'Валюта', 'Описание', 'Ссылка на продукт']}
+            thead={[
+                {name: 'Изображение', key: ''},
+                {name: 'Товар', key: 'name'},
+                {name: 'Цена', key: 'price'},
+                {name: 'Валюта', key: 'currency_name'},
+                {name: 'Описание', key: ''},
+                {name: 'Ссылка на продукт', key: ''}
+            ]}
+            />
+
+    }
+
+
+}
+
+
+export default Products;
+
+/*
+<div>
                 <table className="table table-hover table-wrapper">
                     <thead>
                       <tr>
@@ -56,11 +99,4 @@ class Products extends React.Component {
                     </tbody>
                 </table>
                 </div>
-
-    }
-
-
-}
-
-
-export default Products;
+ */

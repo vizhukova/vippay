@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute, Link } from 'react-router';
 import ProductsStore from'./../../stores/ProductsStore';
 import ProductsAction from'./../../actions/ProductsAction';
 import SettingsStore from'./../../stores/SettingsStore';
-
+import List from'./../../../../../common/js/List';
 import _  from 'lodash';
 
 var getAbsoluteUrl = (function() {
@@ -21,23 +21,40 @@ class ProductItem extends React.Component {
 
     constructor(){
         super();
+
+        this.state = SettingsStore.getState();
+
         this.removeProduct = this.removeProduct.bind(this);
         this.setAvailable = this.setAvailable.bind(this);
         this.setActive = this.setActive.bind(this);
+        this.update = this.update.bind(this);
+
+        SettingsStore.listen(this.update);
+    }
+
+    componentDidMount() {
+    }
+
+    componentWillUnmount() {
+        SettingsStore.unlisten(this.update);
+    }
+
+    update(state) {
+        this.setState(state);
     }
 
     removeProduct() {
-        ProductsAction.removeProduct(this.props.product.id);
+        ProductsAction.removeProduct(this.props.item.id);
     }
 
     setAvailable() {
-        var product = _.cloneDeep(this.props.product);
+        var product = _.cloneDeep(this.props.item);
         product.available = !product.available;
         ProductsAction.editProduct(product);
     }
 
     setActive() {
-        var product = _.cloneDeep(this.props.product);
+        var product = _.cloneDeep(this.props.item);
         product.active = !product.active;
         ProductsAction.editProduct(product);
     }
@@ -45,16 +62,19 @@ class ProductItem extends React.Component {
     render(){
         var available = "glyphicon glyphicon-ok-circle";
         var notAvailable = "glyphicon glyphicon-ban-circle";
+        var currency = _.findWhere(this.state.currencies, {id: +this.props.item.currency_id});
+        currency = currency ? currency.name : currency;
+
 
         return <tr>
-                    <td>{this.props.product.name}</td>
-                    <td>{this.props.product.price}</td>
-                    <td>{this.props.currency}</td>
-                    <td><a href={`/order/${this.props.product.id}`} target="_blank">{getAbsoluteUrl(`/order/${this.props.product.id}`)}</a></td>
-                     <td className="action"><button type="button" className={this.props.product.available ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setAvailable}></button></td>
-                     <td className="action"><button type="button" className={this.props.product.active ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setActive}></button></td>
+                    <td>{this.props.item.name}</td>
+                    <td>{this.props.item.price}</td>
+                    <td>{currency}</td>
+                    <td><a href={`/order/${this.props.item.id}`} target="_blank">{getAbsoluteUrl(`/order/${this.props.item.id}`)}</a></td>
+                     <td className="action"><button type="button" className={this.props.item.available ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setAvailable}></button></td>
+                     <td className="action"><button type="button" className={this.props.item.active ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setActive}></button></td>
                     <td className="action">
-                        <Link to={`/category/${this.props.product.category_id}/products/${this.props.product.id}`} className="btn btn-default btn-action glyphicon glyphicon-pencil" />
+                        <Link to={`/category/${this.props.item.category_id}/products/${this.props.item.id}`} className="btn btn-default btn-action glyphicon glyphicon-pencil" />
                         <button type="button" className="btn btn-danger btn-action pull-right glyphicon glyphicon-remove" onClick={this.removeProduct} />
                     </td>
                 </tr>
@@ -105,57 +125,25 @@ class Products extends React.Component {
 
     render(){
         var self = this;
-        return <div>
 
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className="table-wrapper">
-
-                        <div className="table-head">
-                        <span className="title">
-                            Продукты
-                        </span>
-                            <Link to={`/category/${this.props.params.id}/products/new`}
-                                  className="btn btn-action-big btn-default glyphicon glyphicon-plus" />
-                        </div>
-                        <table className="table table-hover">
-                            <thead>
-                              <tr>
-                                <th>Товар</th>
-                                <th>Цена</th>
-                                <th>Валюта</th>
-                                <th>Ссылка на продукт</th>
-                                <th>Доступность</th>
-                                <th>Активность</th>
-                                <th></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            { this.state.products.map(function(item, index){
-                                var currency = _.findWhere(self.state.currencies, {id: +item.currency_id});
-                                console.log('currency_render:', currency, self.state.currencies,  item.currency_id);
-                                currency  = currency  ? currency.name : currency;
-
-                                return <ProductItem key={index} product={item} currency={currency} />
-                            })}
-                            </tbody>
-                        </table>
-
-                        <div className="table-footer">
-
-                        </div>
-
-                    </div>
-                </div>
-
-
-            </div>
-
-            </div>
+        return <List
+            title="Продукты"
+            add_link={`/category/${this.props.params.id}/products/new`}
+            error={this.state.error}
+            items={this.state.products}
+            perPage={5}
+            itemComponent={ProductItem}
+            thead={[
+                {name: 'Товар', key: 'name'},
+                {name: 'Цена', key: 'price'},
+                {name: 'Валюта', key: ''},
+                {name: 'Ссылка на продукт', key: ''},
+                {name: 'Доступность', key: 'available'},
+                {name: 'Активность', key: 'active'},
+                {name: '', key: ''}
+            ]}
+        />
     }
-
-
 }
-
 
 export default Products;

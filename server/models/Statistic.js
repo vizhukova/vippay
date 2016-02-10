@@ -37,7 +37,7 @@ var Order = bookshelf.Model.extend({
         return new Promise((resolve, reject) => {
 
             return knex.select(knex.raw(`statistics.*,
-              (SELECT partners.login as partner_login from partners WHERE partners.id = statistics.partner_id)`))
+              (SELECT users.login as partner_login from users WHERE users.id = statistics.partner_id)`))
                 .from('statistics') .where('statistics.client_id', client_id)
                 .then((res) => {
                     resolve(res);

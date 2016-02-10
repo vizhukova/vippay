@@ -8,12 +8,18 @@ class OrdersStore {
     constructor() {
         this.orders = [];
         this.bindListeners({
-            onGet: OrdersAction.GET
+            onGet: OrdersAction.GET,
+            setComplete: OrdersAction.SET_COMPLETE
         });
     }
 
     onGet(orders){
         this.orders = orders;
+    }
+
+    setComplete(order) {
+        var index = _.findIndex(this.orders, { 'id': order.id });
+        this.orders[index] = order;
     }
 
 }

@@ -13,6 +13,7 @@ var getSubdomain = require('./middlewares/getSubdomain');
 var getClientObj = require('./middlewares/getClientObj');
 var getUserId = require('./middlewares/getUserId');
 var getClientId = require('./middlewares/getClientId')
+var getInterkassaId = require('./middlewares/getInterkassaId')
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -25,10 +26,12 @@ app.use(getSubdomain);
 app.use(getClientObj);
 app.use(getUserId);
 app.use(getClientId);
+app.use(getInterkassaId);
 var timestamp = Date.now();
 
+
 app.get('/', function(req, res){
-   res.render('client', {timestamp: timestamp})
+   res.render('client', {timestamp: timestamp}, req.payment)
 });
 app.use(require('./routes/api'));
 app.use(require('./routes/redirect'));

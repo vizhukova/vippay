@@ -7,6 +7,7 @@
   box-shadow: 0 0 12px rgba(58, 51, 46, 0.26);
   background-color: #f8f8f8;
   border-color: #e7e7e7;
+  margin-bottom: 20px;
 
   .table-head {
     padding: 8px;
@@ -27,6 +28,15 @@
 
   .table {
     margin-bottom: 0;
+  }
+
+  thead {
+    .check {
+      background-color: #f6f0ec;
+    }
+    .uncheck {
+      background-color: #F8F8F8;
+    }
   }
 
   tbody {

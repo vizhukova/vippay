@@ -8,12 +8,11 @@ class CategoriesStore {
     constructor() {
         this.categories = [];
         this.category = {
-            id: null,
             name: ''
         };
         this.error = {}
         this.currentPage = 1;
-        this.perPage = 20;
+        this.perPage = 5;
 
         this.bindListeners({
             onCheck: CategoriesAction.GET_ALL_CATEGORIES,
@@ -64,7 +63,7 @@ class CategoriesStore {
     onDeleteCat(category) {
         if(!category) return;
         this.categories = _.filter(this.categories, function(obj) {
-            return obj.id != category.id;
+            return obj.id != +category.id;
         })
     }
 

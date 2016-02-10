@@ -26,8 +26,10 @@ class SettingsStore {
     }
 
     onGetAll(state){
-        console.log('SettingsStore link', state.link);
+        console.log('SettingsStore settings', state);
         this.link = state.link;
+        this.auth_domain = state.auth_domain;
+        this.out_link = state.out_link;
     }
 
     onGetAllCurrencies(currencies) {
@@ -47,7 +49,8 @@ class SettingsStore {
     }
 
     onAddRate(rate) {
-        this.rate = rate;
+        debugger
+        this.rate = _.flatten(rate);
     }
 
     onGetRate(rate) {

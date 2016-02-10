@@ -17,6 +17,18 @@ module.exports = {
         })
     },
 
+    setComplete(data) {
+        return new Promise(function (resolve, reject) {
+
+            Order.setComplete(data)
+                .then(function (order) {
+                resolve(order[0])
+            }).catch(function (err) {
+                reject(err);
+            });
+        })
+    },
+
     getById(id) {
         return new Promise(function (resolve, reject) {
 

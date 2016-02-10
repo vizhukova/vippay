@@ -7,7 +7,6 @@ env.roledefs['stage'] = ['root@188.166.116.177']
 
 project_root = '/var/www/vippay'
 
-
 def prepare_branch():
     local('git checkout master')
     local('git push -u origin master')
