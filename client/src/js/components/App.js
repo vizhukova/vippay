@@ -4,8 +4,10 @@ import  AuthActions from '../actions/AuthActions';
 import  SettingsActions from '../actions/SettingsAction';
 import AuthStore from './../stores/AuthStore';
 import SettingsStore from './../stores/SettingsStore';
-import IFrame from './../../../../common/js/IFrame';
+import Loader from'./../../../../common/js/Loader';
 import cookie from'./../../../../common/Cookies';
+import _  from 'lodash';
+
 
 class Application extends React.Component {
 
@@ -17,7 +19,6 @@ class Application extends React.Component {
 
         this.update = this.update.bind(this);
         this.updateSettings = this.updateSettings.bind(this);
-        this.Out = this.Out.bind(this);
     }
 
     componentDidMount() {
@@ -39,16 +40,6 @@ class Application extends React.Component {
     componentWillUnmount() {
         AuthStore.unlisten(this.update)
         SettingsStore.unlisten(this.update)
-    }
-
-    Out(e) {
-        e.preventDefault();
-
-        cookie.setCookie('token', '', {
-                    domain: '.vippay.loc'
-                });
-
-        location.reload();
     }
 
     update(state){
@@ -96,7 +87,7 @@ class Application extends React.Component {
                           <li className="dropdown">
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.user.name}</a>
                                   <ul className="dropdown-menu">
-                                    <li><a href="#" onClick={this.Out}>Выход</a></li>
+                                    <li><a href={this.state.out_link} >Выход</a></li>
                                   </ul>
 
 
@@ -105,6 +96,7 @@ class Application extends React.Component {
                     </div>
                 </div>
             </nav>
+            {this.state.auth ? null : <Loader />}
             <div>{this.props.children}</div>
         </div>
     }

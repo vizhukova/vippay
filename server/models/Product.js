@@ -3,6 +3,13 @@ var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
 
+function replacePrice(products) {
+    products.map((product) => {
+        product.price = parseFloat(product.price);
+    })
+    return products;
+}
+
 var Product = bookshelf.Model.extend({
 
     tableName: 'products',
@@ -41,7 +48,7 @@ var Product = bookshelf.Model.extend({
                 .select()
                 .where({'category_id': id}).orderBy('id', 'asc')
             .then((res) => {
-                resolve(res);
+                resolve(replacePrice(res));
             }).catch((err) => {
                 reject(err);
             })
@@ -53,7 +60,7 @@ var Product = bookshelf.Model.extend({
             return knex('products').where({'user_id': id, 'available': true})
             .orderBy('id', 'asc')
             .then((res) => {
-                resolve(res);
+                resolve(replacePrice(res));
             }).catch((err) => {
                 reject(err);
             })
@@ -69,7 +76,7 @@ var Product = bookshelf.Model.extend({
             .join('currency', 'products.currency_id', '=', 'currency.id')
             .orderBy('id', 'asc')
             .then((res) => {
-                resolve(res);
+                resolve(replacePrice(res));
             }).catch((err) => {
                 reject(err);
             })

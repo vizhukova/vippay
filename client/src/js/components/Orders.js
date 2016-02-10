@@ -73,6 +73,14 @@ class Orders extends React.Component {
             items={this.state.orders}
             itemComponent={OrderItem}
             thead={['Партнер', 'Продукт', 'Цена', 'Валюта', 'Статус', 'Оплачен']}
+            thead={[
+                {name: 'Партнер', key: 'login'},
+                {name: 'Продукт', key: 'product.product_link'},
+                {name: 'Цена', key: 'product.price'},
+                {name: 'Валюта', key: 'product.currency_name'},
+                {name: 'Статус', key: 'step'},
+                {name: 'Оплачен', key: ''}
+            ]}
             />
     }
 

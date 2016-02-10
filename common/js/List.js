@@ -10,9 +10,13 @@ class List extends React.Component {
         this.state = {
             page: 2,
             currentPage: 1,
-            perPage: 10
+            perPage: 10,
+            sort: {
+                type: 1
+            }
         };
         this.changePage = this.changePage.bind(this);
+        this.sort = this.sort.bind(this);
     }
 
      componentDidMount() {
@@ -31,9 +35,48 @@ class List extends React.Component {
         })
     }
 
+    sort(e) {
+        var key = e.target.dataset.name;
+         if(! key) return;
+        var sortBy = e.target.dataset.name.split('.');
+
+
+            this.props.items.sort((a, b) => {
+                if(sortBy.length > 1) {
+                    a = a[sortBy[0]][sortBy[1]];
+                    b = b[sortBy[0]][sortBy[1]];
+                } else {
+                    a = a[sortBy[0]];
+                    b = b[sortBy[0]];
+                }
+
+                    a = a ? a : '';
+                    b = b ? b : '';
+
+                if(typeof a == 'string') {
+
+                    if (key == this.state.sort.name && this.state.sort.type == -1) {
+                        return a.localeCompare(b);
+                    } else return b.localeCompare(a);
+
+                } else {
+
+                    if (key == this.state.sort.name && this.state.sort.type == -1) {
+                        return a - b;
+                    } else return b - a;
+
+                }
+
+            })
+
+            this.setState({sort: {
+                name: key,
+                type: this.state.sort.type * (-1)
+             }});
+    }
+
     render(){
         var Item = this.props.itemComponent;
-        var Head = this.props.theadComponent;
 
         if (!this.props.items) return;
         var items =this.props.items.slice((this.state.currentPage - 1) * this.state.perPage , ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
@@ -57,9 +100,17 @@ class List extends React.Component {
                         </div>
 
                         <table className="table table-hover">
-                            {this.props.theadComponent ?
+                            {this.props.thead ?
                                  <thead>
-                                     <Head sort={this.props.sort} />
+                                     <tr>
+                                     {this.props.thead.map((item) => {
+                                         return <th className={this.state.sort.name == item.key  ? 'check' : 'uncheck'}
+                                                    data-name={item.key}
+                                                    onClick={this.props.sort ? this.props.sort : this.sort}>
+                                                 {item.name}
+                                             </th>
+                                     })}
+                                     </tr>
                                  </thead> : null
                             }
                             <tbody>
