@@ -41,33 +41,6 @@ class PartnerItem extends React.Component {
 
 }
 
-class PartnerHead extends React.Component {
-
-    constructor(){
-        super();
-        this.state = {
-            sort: ''
-        };
-    }
-
-    sort(e) {
-        debugger
-    }
-
-   
-    render(){
-        
-        return <tr>
-                 <th className={this.state.sort == 'login' ? 'check' : 'uncheck'} data-name="login" onClick={this.sort}>Логин</th>
-                 <th className={this.state.sort == 'email' ? 'check' : 'uncheck'} name="email" onClick={this.sort}>Электронная почта</th>
-                 <th className={this.state.sort == 'name' ? 'check' : 'uncheck'} name="name" onClick={this.sort}>ФИО</th>
-                 <th  name="active">Активность</th>
-        </tr>
-    }
-
-
-}
-
 class Partners extends React.Component {
 
     constructor(){
@@ -75,10 +48,10 @@ class Partners extends React.Component {
         this.state = PartnersStore.getState();
 
         this.update = this.update.bind(this);
-        this.sort = this.sort.bind(this);
     }
 
     componentDidMount() {
+        this.setState({sort: ''});
         PartnersAction.getAll();
         PartnersStore.listen(this.update)
     }
@@ -89,10 +62,6 @@ class Partners extends React.Component {
 
     update(state) {
         this.setState(state);
-    }
-
-    sort(e) {
-        debugger
     }
 
 
@@ -106,7 +75,12 @@ class Partners extends React.Component {
             perPage={4}
             sort={this.sort}
             itemComponent={PartnerItem}
-            theadComponent={PartnerHead}
+            thead={[
+                {name: 'Логин', key: 'login'},
+                {name: 'Электронная почта', key: 'email'},
+                {name: 'ФИО', key: 'name'},
+                {name: 'Активность', key: 'active'}
+            ]}
         />
 
     }

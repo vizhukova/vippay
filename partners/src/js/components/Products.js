@@ -54,6 +54,14 @@ class Products extends React.Component {
             perPage={3}
             itemComponent={ProductItem}
             thead={['Изображение', 'Товар', 'Цена', 'Валюта', 'Описание', 'Ссылка на продукт']}
+            thead={[
+                {name: 'Изображение', key: ''},
+                {name: 'Товар', key: 'name'},
+                {name: 'Цена', key: 'price'},
+                {name: 'Валюта', key: 'currency_name'},
+                {name: 'Описание', key: ''},
+                {name: 'Ссылка на продукт', key: ''}
+            ]}
             />
 
     }

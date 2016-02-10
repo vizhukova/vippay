@@ -23,6 +23,7 @@ class SettingsStore {
     onGet(settings) {
         this.domain = settings.domain;
         this.auth_domain = settings.auth_domain;
+        this.out_link = settings.out_link;
         console.log('clients SettingsStore', this.clients)
         console.log('domain SettingsStore', this.auth_domain)
     }

@@ -26,6 +26,9 @@ class StatisticItem extends React.Component {
         </tr>
     }
 }
+
+
+
 class Statistics extends React.Component {
 
     constructor(){
@@ -55,7 +58,12 @@ class Statistics extends React.Component {
             error={this.state.error}
             items={this.state.statistic}
             itemComponent={StatisticItem}
-            thead={['Номер заказчика', 'Ник партнера', 'Товар', 'Дейсвие']}
+            thead={[
+                {name: 'Номер заказчика', key: 'customer_id'},
+                {name: 'Ник партнера', key: 'partner_login'},
+                {name: 'Товар', key: 'product.name'},//key = product.name ?
+                {name: 'Дейсвие', key: 'action'}
+            ]}
             />
     }
 

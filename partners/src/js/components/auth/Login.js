@@ -50,9 +50,6 @@ class Login extends React.Component {
 
         ApiActions.post('partner/login', this.state)
             .then(function(data){
-                //cookie.setCookie('token', data.user.token, {
-                //    domain: '.vippay.loc'
-                //});
 
                 location.href = data.redirect;
             })

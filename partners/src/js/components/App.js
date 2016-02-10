@@ -6,6 +6,7 @@ import  SettingsActions from '../actions/SettingsActions';
 import  ProductsActions from '../actions/ProductsActions';
 import SettingsStore from './../stores/SettingsStore';
 import AuthStore from './../stores/AuthStore';
+import Loader from'./../../../../common/js/Loader';
 var _ = require('lodash');
 
 
@@ -32,7 +33,6 @@ class Application extends React.Component {
 
         this.update = this.update.bind(this);
         this.updateSettings = this.updateSettings.bind(this);
-        this.Out = this.Out.bind(this);
     }
 
     componentDidMount() {
@@ -69,16 +69,6 @@ class Application extends React.Component {
         this.setState(state);
     }
 
-    Out(e) {
-        e.preventDefault();
-        cookie.setCookie('token', '', {
-                    domain: '.vippay.loc'
-                });
-
-        console.log('http://' + location.hostname + '/partner')
-        location.href = 'http://' + location.hostname + '/partner';
-    }
-
     render() {
         console.log('App state: ', this.state)
 
@@ -113,18 +103,18 @@ class Application extends React.Component {
                              <li className="dropdown">
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.partner.name}</a>
                                   <ul className="dropdown-menu">
-                                    <li><Link to="/rate">Курсы</Link></li>
-                                    <li><a href="#" onClick={this.Out}>Выход</a></li>
+                                    <li><a href={this.state.out_link}>Выход</a></li>
                                   </ul>
                           </li>
                         </ul>
                     </div>
                 </div>
             </nav>
+              {this.state.auth ? null : <Loader />}
             <div>{this.props.children}</div>
+
 
         </div>
     }
 }
-
 export default Application;

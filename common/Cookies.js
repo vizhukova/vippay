@@ -1,10 +1,6 @@
-class Cookie {
+ var Cookie = {
 
-    constructior() {
-
-    }
-
-    static setCookie(name, value, options) {
+     setCookie(name, value, options) {
         options = options || {};
 
         var expires = options.expires;
@@ -31,15 +27,15 @@ class Cookie {
         }
 
         document.cookie = updatedCookie;
-    }
+    },
 
-    static deleteCookie(name) {
+     deleteCookie(name) {
         this.setCookie(name, "", {
             expires: -1
         })
-    }
+    },
 
-    static getCookie(name) {
+     getCookie(name) {
         var matches = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
         ));

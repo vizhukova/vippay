@@ -133,7 +133,15 @@ class Products extends React.Component {
             items={this.state.products}
             perPage={5}
             itemComponent={ProductItem}
-            thead={['Товар', 'Цена', 'Валюта', 'Ссылка на продукт', 'Доступность', 'Активность', '']}
+            thead={[
+                {name: 'Товар', key: 'name'},
+                {name: 'Цена', key: 'price'},
+                {name: 'Валюта', key: ''},
+                {name: 'Ссылка на продукт', key: ''},
+                {name: 'Доступность', key: 'available'},
+                {name: 'Активность', key: 'active'},
+                {name: '', key: ''}
+            ]}
         />
     }
 }

@@ -10,13 +10,13 @@ var _ = require('lodash');
 router.get('/settings', function(req, res){
 
     var link = `http://${req.subdomain}.${req.postdomain}/partners`;
-    res.send({link: link, auth_domain: auth_domain});
+    res.send({link: link, auth_domain: auth_domain, out_link: `http://${req.subdomain}.${req.postdomain}/api/out`});
 
 });
 
 router.get('/settings/partner', function(req, res){
 
-    res.send({domain: req.postdomain, auth_domain: auth_domain});
+    res.send({domain: req.postdomain, auth_domain: auth_domain, out_link: `http://${req.subdomain}.${req.postdomain}/api/partner/out`});
 
 });
 
