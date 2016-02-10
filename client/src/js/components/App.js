@@ -22,11 +22,13 @@ class Application extends React.Component {
 
     componentDidMount() {
 
-        window.onmessage = function(e) {
-            console.log(e.origin)
-            console.log('onmessage:', e.data);
-            localStorage.setItem('token', e.data);
-        }
+        AuthActions.check(localStorage.getItem('token'))
+            .then(function() {
+                AuthActions.getMe();
+                SettingsActions.getAllCurrencies();
+                return SettingsActions.getBasicCurrency();
+
+            })
 
         SettingsActions.get();
 
@@ -41,28 +43,12 @@ class Application extends React.Component {
 
     Out(e) {
         e.preventDefault();
-        var win = document.getElementsByTagName('iframe')[0].contentWindow;
-        win.postMessage(JSON.stringify({key: 'token', method: 'remove'}), "*");
 
         cookie.setCookie('token', '', {
                     domain: '.vippay.loc'
                 });
 
         location.reload();
-    }
-
-    onLoadIFrame() {
-        console.log('-------main window send post')
-        var win = document.getElementsByTagName('iframe')[0].contentWindow;
-        win.postMessage(JSON.stringify({key: 'token', method: 'get'}), "*");
-
-        AuthActions.check(localStorage.getItem('token'))
-            .then(function() {
-                AuthActions.getMe();
-                SettingsActions.getAllCurrencies();
-                return SettingsActions.getBasicCurrency();
-
-            })
     }
 
     update(state){
@@ -120,9 +106,6 @@ class Application extends React.Component {
                 </div>
             </nav>
             <div>{this.props.children}</div>
-            { this.state.auth_domain ?
-                <IFrame src={`http://${this.state.auth_domain}/iframe`} onLoad={this.onLoadIFrame} />
-                : null }
         </div>
     }
 }

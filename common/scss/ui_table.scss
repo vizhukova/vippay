@@ -30,6 +30,15 @@
     margin-bottom: 0;
   }
 
+  thead {
+    .check {
+      background-color: #f6f0ec;
+    }
+    .uncheck {
+      background-color: #F8F8F8;
+    }
+  }
+
   tbody {
     tr {
       border-left: 3px solid #f8f8f8;
