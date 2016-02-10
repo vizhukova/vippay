@@ -19,37 +19,48 @@ class DeleteCategory(unittest.TestCase, Helpers, AuthHelpers):
          #   danger_button = elem_category.find_element_by_xpath('../..').find_element_by_class_name('btn-danger')
           #  danger_button.click()
 
-    def test_delete_category(self):
-
-        mock_users = [
-            {
-                'email': 'ivan@gmail.com',
-                'password': '111'
-            },
-            {
-                'email': 'piter',
-                'password': '111'
-            },
-
-            {
-                'email': 'natali',
-                'password': '111'
-            }
-        ]
-
+    def delete_category(self):
         driver = self.driver
-        driver.get("http://188.166.116.177")
         driver.implicitly_wait(5)
+        all_categories = driver.find_elements_by_css_selector('.table-hover tbody>tr')
+        for elem_category in all_categories:
+            danger_button = elem_category.find_element_by_class_name('btn-danger')
+            danger_button.click()
 
-        for user in mock_users:
+
+
+
+    def test_login_logout(self):
+
+        mock_user = [
+
+
+            {
+                'driver': 'http://111.vippay.test',
+                'email': '111',
+                'password': '111'
+            },
+            {
+                'driver': 'http://222.vippay.test',
+                'email': '222',
+                'password': '222'
+            },
+            {
+                'driver': 'http://333.vippay.test',
+                'email': '333',
+                'password': '333'
+            }
+
+            ]
+
+        for user in mock_user:
+
+            driver = self.driver
             self.login(user)
+            driver.implicitly_wait(5)
             category = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[1]/a')
             category.click()
-
-            all_categories = driver.find_elements_by_css_selector('.table-hover tbody>tr')
-            for elem_category in all_categories:
-                danger_button = elem_category.find_element_by_class_name('btn-danger')
-                danger_button.click()
+            self.delete_category()
             self.logout()
 
 
