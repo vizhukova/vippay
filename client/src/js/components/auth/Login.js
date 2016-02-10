@@ -66,9 +66,9 @@ class Login extends React.Component {
                 } else {
 
                     result = data;
-                    cookie.setCookie('token', result.token, {
-                        domain: '.vippay.loc'
-                     });
+                    //cookie.setCookie('token', result.token, {
+                    //    domain: '.vippay.loc'
+                    // });
                     location.assign('http://' + data.domain)
 
                     //location.hash = redirect;

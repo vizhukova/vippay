@@ -6,7 +6,6 @@ import  SettingsActions from '../actions/SettingsActions';
 import  ProductsActions from '../actions/ProductsActions';
 import SettingsStore from './../stores/SettingsStore';
 import AuthStore from './../stores/AuthStore';
-import IFrame from './../../../../common/js/IFrame';
 var _ = require('lodash');
 
 
@@ -38,7 +37,6 @@ class Application extends React.Component {
 
     componentDidMount() {
 
-        this.IFrameRequests();
         AuthStore.listen(this.update)
         SettingsStore.listen(this.updateSettings)
         SettingsActions.get();
@@ -79,31 +77,6 @@ class Application extends React.Component {
 
         console.log('http://' + location.hostname + '/partner')
         location.href = 'http://' + location.hostname + '/partner';
-    }
-
-    onLoadIFrame() {
-        console.log('-------main window send post')
-        var token = localStorage.getItem('token');
-        var win = document.getElementsByTagName('iframe')[0].contentWindow;
-        debugger
-        if (token) win.postMessage(JSON.stringify({key: 'token', data: token, method: 'set'}), "*");
-        else win.postMessage(JSON.stringify({key: 'token', method: 'get'}), "*");
-
-    }
-
-    IFrameRequests() {
-        window.onmessage = function(e) {
-
-            var data = e.data;
-            console.log('iframe request^', e.data);
-
-            switch(data.method) {
-             case 'set': localStorage.setItem(data.key, data.data); console.log('Data', data.data)
-                         break;
-            }
-            console.log('token before check', localStorage.getItem('token'))
-
-        }
     }
 
     render() {

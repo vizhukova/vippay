@@ -58,9 +58,9 @@ class PartnerHead extends React.Component {
     render(){
         
         return <tr>
-                 <th className={this.state.sort == 'login' ? 'check' : 'uncheck'} onClick={this.sort} name="login">Логин</th>
-                 <th className={this.state.sort == 'email' ? 'check' : 'uncheck'} onClick={this.sort} name="email">Электронная почта</th>
-                 <th className={this.state.sort == 'name' ? 'check' : 'uncheck'} onClick={this.sort} name="name">ФИО</th>
+                 <th className={this.state.sort == 'login' ? 'check' : 'uncheck'} data-name="login" onClick={this.sort}>Логин</th>
+                 <th className={this.state.sort == 'email' ? 'check' : 'uncheck'} name="email" onClick={this.sort}>Электронная почта</th>
+                 <th className={this.state.sort == 'name' ? 'check' : 'uncheck'} name="name" onClick={this.sort}>ФИО</th>
                  <th  name="active">Активность</th>
         </tr>
     }

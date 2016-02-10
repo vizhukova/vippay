@@ -52,10 +52,9 @@ class Register extends React.Component {
 			.then(function(obj){
 				var data = obj.user;
 				console.log('Token: ' + data.token);
-
-				cookie.setCookie('token', data.user.token, {
-                    domain: '.vippay.loc'
-                });
+                //cookie.setCookie('token', data.user.token, {
+                //    domain: '.vippay.loc'
+                //});
 
 				location.href = obj.redirect;
 			})

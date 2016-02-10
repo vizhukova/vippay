@@ -3,12 +3,14 @@ var router = express.Router();
 var UserController = require('../controllers/User');
 var PartnerController = require('../controllers/Partner');
 var RateController = require('../controllers/Rate');
+var config = require('../config');
 
 
 router.post('/client/register', function (req, res) {
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
     })
+    var user;
 
     UserController.register({
         name: req.body.name,
@@ -18,12 +20,13 @@ router.post('/client/register', function (req, res) {
         confirm_pass: req.body.confirm_pass,
         basic_currency: 1,
         domain: req.postdomain
-    }).then(function (user) {
+    }).then(function (userObj) {
+        user = userObj;
+        return RateController.setDefault(userObj.modelData.id)
 
-        RateController.setDefault(user.modelData.id).then((rate) => {
-            res.send(user);
-        })
-
+    }).then((rate) => {
+        res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
+        res.send(user);
     }).catch(function (err) {
         res.status(400).send(err.errors)
     })
@@ -40,6 +43,7 @@ router.post('/client/login', function (req, res) {
         password: req.body.password,
         domain: req.postdomain
     }).then(function (user) {
+        res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
         res.send(user);
     }).catch(function (err) {
         res.status(400).send(err.errors)
