@@ -17,11 +17,7 @@ var Category = bookshelf.Model.extend({
 
     validateSave: function () {
         return checkit({
-            'category': [function (val) {
-                return knex('categories').where('category', '=', val).then(function (resp) {
-                    if (resp.length > 0) throw new Error('Такая категория уже существует')
-                })
-            }, {
+            'category': [{
                 rule: 'required',
                 message: 'Поле "категория" обязательно для заполнения'
             }]
