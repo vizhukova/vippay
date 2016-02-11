@@ -30,6 +30,18 @@ var Product = bookshelf.Model.extend({
             'category_id': [{
                 rule: 'required',
                 message: 'Поле "категория" обязательно для заполнения'
+            }],
+            'price': [{
+                rule: 'required',
+                message: 'Поле "цена" обязательно для заполнения'
+            }],
+            'product_link': [{
+                rule: 'required',
+                message: 'Поле "ссылка на продукт" обязательно для заполнения'
+            }],
+            'currency_id': [{
+                rule: 'required',
+                message: 'Поле "валюта" обязательно для заполнения'
             }]
         }).run(this.attributes);
     }
@@ -95,14 +107,15 @@ var Product = bookshelf.Model.extend({
         return new Promise((resolve, reject) => {
             product.delivery = JSON.stringify(product.delivery);
 
-            knex('products')
-                .where({id: product.id})
-                .update(product)
-                .then((res) => {
-                    resolve(product);
-                }).catch((err) => {
-                    reject(err);
-                })
+            if(product.name == '' || product.price == '' || product.product_link == '') reject(err);
+            else knex('products')
+                    .where({id: product.id})
+                    .update(product)
+                    .then((res) => {
+                        resolve(product);
+                    }).catch((err) => {
+                        reject(err);
+                    })
         })
     },
 

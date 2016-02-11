@@ -86,13 +86,13 @@ class Pending extends React.Component {
     }
 
     onChange(e) {
-        console.log(e.target.name + ' == ' + e.target.value)
-        if(this.state.delivery.telephone && this.state.delivery.telephone.length > 0) {
-            this.setState({ error : _.omit(this.state.error, ['telephone']) });
-        }
         var state = {};
+
+        if(e.target.name == 'delivery_id')  _.assign(this.state, {delivery_id: e.target.value});
+
         state[e.target.name] = e.target.value;
         _.assign(this.state.delivery, state);
+
         this.setState({});
     }
 

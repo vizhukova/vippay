@@ -42,7 +42,7 @@ class ProductsAction {
                     self.dispatch(data);
                     resolve(data)
                 }).catch(function(err){
-                    self.dispatch(err);
+                    //self.dispatch(err);
                     reject(err)
                 })
         })

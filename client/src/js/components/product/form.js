@@ -47,7 +47,7 @@ class AddFields extends React.Component {
                            onKeyDown={this.props.onKeyDown}/>
 
                     <label>Цена</label>
-                    <input type='text' className="form-control" name="price"
+                    <NumberInput type='text' className="form-control" name="price"
                            value={this.state.price}
                            onChange={this.onChange}
                            onClick={this.props.onClick}
@@ -178,7 +178,8 @@ class ProductForm extends React.Component {
                 category_id: this.props.params.id,
                 available: true,
                 active: true,
-                material: false
+                material: false,
+                description: ''
             }
             });
 
@@ -207,7 +208,6 @@ class ProductForm extends React.Component {
     }
 
     checkFields() {
-        debugger
         if(this.state.product.material ) {
 
            if( !this.state.product.delivery) return false;
@@ -219,18 +219,19 @@ class ProductForm extends React.Component {
             if (result.length > 0) return false;
         }
 
-        return true;
+        return this.state.product.name &&  this.state.product.product_link &&
+                this.state.product.price && this.state.product.name.length > 0
+                && this.state.product.product_link.length > 0 && this.state.product.price.length > 0
+
     }
 
     addNewProduct() {
         var self = this;
-        debugger
         if(this.checkFields()) {
             ProductsAction.addNewProduct(this.state.product).then(() => {
                 history.back();
 
             }).catch((err) => {
-                debugger
                 self.setState({
                     error: {
                         type: 'error',
@@ -320,7 +321,7 @@ class ProductForm extends React.Component {
              <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
             <fieldset className="product-form">
 
-                <label className="text-warning">Новый продукт</label>
+                <label className="text-warning">Новый продукт <span className="text-danger"> * </span></label>
                 <input type="text" name="name"
                        className="form-control" id="name"
                        onChange={this.onChange}
@@ -328,7 +329,7 @@ class ProductForm extends React.Component {
                        onClick = {this.onClick} placeholder="Введите название нового продукта"
                        value={this.state.product.name}/>
 
-                <label className="text-warning">Цена</label>
+                <label className="text-warning">Цена  <span className="text-danger"> * </span></label>
                 <NumberInput type="text" name="price"
                        className="form-control" id="price"
                        onChange={this.onChange}
@@ -375,7 +376,7 @@ class ProductForm extends React.Component {
                        placeholder="Введите ссылку на картинку"
                        value={this.state.product.image}/>
 
-                <label className="text-warning">Ссылка на продукт</label>
+                <label className="text-warning">Ссылка на продукт <span className="text-danger"> * </span></label>
                 <input type="text" name="product_link" className="form-control" id="product_link"
                        onChange={this.onChange}
                        onKeyDown={this.onKeyDown}
@@ -404,7 +405,10 @@ class ProductForm extends React.Component {
                           onKeyDown={this.onKeyDown}
                           product={this.state.product}
                           onError={this.onError}  />
+
             </fieldset>
+             <fieldset><div className="text-danger small">*Поля обязательные для заполнения</div></fieldset>
+
 
              <Link to={`/category/${this.props.params.id}/products`}>
                  <button type="button" className="btn btn-danger pull-right btn-submit">
