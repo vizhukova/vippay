@@ -20,10 +20,9 @@ class Select extends React.Component {
 
 
     render(){
-        console.log('Select props: ', this.props)
 
         var self = this;
-        return <div className="col-md-3 pull-right">
+        return <div className={this.props.className ? this.props.className : ''}>
             <select className="form-control" id="sell" name="currency_id"
                     value={this.props.current_value}
                     onChange={self.onChange}>

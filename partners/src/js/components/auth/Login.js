@@ -71,7 +71,11 @@ class Login extends React.Component {
         if(!this.state.password || this.state.password.length == 0) {this.state.errors.password = ["Поле 'пароль' должно быть заполнено"]; empty = true;}
 
         if( empty ) {
-            //alert('Все поля должны быть заполнены');
+             this.setState({error: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Проверьте правильность введенных данных'
+                }})
             return false;
         }
 
@@ -104,7 +108,7 @@ class Login extends React.Component {
                             placeholder="Пароль"/>
 			</div>
 
-            <div className="btn btn-primary btn-block" tabIndex="3" onClick={this.login}>Отправить</div>
+            <div className="btn btn-primary btn-block" tabIndex="3" onClick={this.login} onKeyDown={this.onKeyDown}>Отправить</div>
             </div>
 
     }
