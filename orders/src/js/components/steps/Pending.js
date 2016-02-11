@@ -127,7 +127,7 @@ class Pending extends React.Component {
             var total = this.state.product.delivery ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
             _.assign(delivery, this.state.delivery, {total: total});
             console.log('Delivery', delivery);
-            OrderActions.add({prod_id: this.state.prod_id, delivery: this.state.delivery});
+            OrderActions.add({prod_id: this.state.prod_id, delivery: delivery});
         }
     }
 

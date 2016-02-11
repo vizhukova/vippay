@@ -2,6 +2,8 @@ doctype html
 html
   head
     meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
+    if id_confirm
+      meta(name="interkassa-verification" content=id_confirm)
     link(href="/public/client/app.css?timestamp=#{timestamp}", rel="stylesheet")
   body
     #app-container

@@ -59,7 +59,15 @@ var Rate = bookshelf.Model.extend({
                 reject(err)
             })
         })
-    }
+    },
+
+    getResult: Promise.method((data) => {
+            return knex('rate')
+            .first('result')
+            .where('client_id', '=', data.client_id)
+            .andWhere('from', '=', data.from)
+            .andWhere('to', '=', data.to)
+    })
 });
 
 module.exports = Rate;

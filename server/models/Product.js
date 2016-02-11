@@ -95,13 +95,13 @@ var Product = bookshelf.Model.extend({
         })
     },
 
-    getCurrentProduct: Promise.method(function (id) {
+    getCurrentProduct(id) {
         return knex
             .first('products.*', 'currency.name as currency_name')
             .from('products')
             .where('products.id', id)
             .join('currency', 'products.currency_id', '=', 'currency.id')
-    }),
+    },
 
     editProduct(product){
         return new Promise((resolve, reject) => {

@@ -15,6 +15,7 @@ class OrdersStore {
 
     onGet(orders){
         this.orders = orders;
+        console.log('OrdersStore orders:', orders);
     }
 
     setComplete(order) {

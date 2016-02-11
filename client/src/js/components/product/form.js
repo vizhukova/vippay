@@ -9,6 +9,7 @@ import CategorySelect from'./../ui/CategorySelect';
 import CurrencySelect from'./../ui/CurrencySelect';
 import Alert from './../../../../../common/js/Alert';
 import NumberInput from './../../../../../common/js/NumberInput';
+import Select from './../../../../../common/js/Select';
 import _  from 'lodash';
 
 
@@ -338,6 +339,14 @@ class ProductForm extends React.Component {
                        value={this.state.product.price}/>
 
                  <label className="text-warning">Валюта</label>
+                <Select values={this.state.currencies}
+                    current_value={this.state.product.currency_id}
+                    fields={{
+                        name: 'currency_id',
+                        value: 'name'
+                    }}
+                    onChange={this.onChange}
+                />
                 <CurrencySelect currencies={this.state.currencies}
                                 onChange={this.onChange}
                                 onClick = {this.onClick}

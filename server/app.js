@@ -5,15 +5,18 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser')
 var morgan = require('morgan')
 var config = require('./config');
+var _ = require('lodash');
 
 
 var app = express();
 var http = require('http').Server(app);
+
 var getSubdomain = require('./middlewares/getSubdomain');
 var getClientObj = require('./middlewares/getClientObj');
 var getUserId = require('./middlewares/getUserId');
-var getClientId = require('./middlewares/getClientId')
-var getInterkassaId = require('./middlewares/getInterkassaId')
+var getClientId = require('./middlewares/getClientId');
+var getInterkassaId = require('./middlewares/getInterkassaId');
+
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -31,7 +34,8 @@ var timestamp = Date.now();
 
 
 app.get('/', function(req, res){
-   res.render('client', {timestamp: timestamp}, req.payment)
+    var payment = req.clientObj ? _.findWhere(req.clientObj.payment, {name: 'interkassa'}) : {};
+   res.render('client', {timestamp: timestamp, id_confirm: payment.fields.id_confirm})
 });
 app.use(require('./routes/api'));
 app.use(require('./routes/redirect'));

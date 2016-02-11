@@ -47,6 +47,9 @@ var Order = bookshelf.Model.extend({
     add: Promise.method(function (data) {
         var partnerId = data.customer.partner_product_id.partner_id;
         var lastPartnerId = partnerId ? partnerId[partnerId.length - 1] : null;
+        var delivery_price = data.delivery.price ? parseFloat(data.delivery.price, 8) : 0;
+        var product_price = data.product.price ? parseFloat(data.product.price, 8) : 0;
+        var convert = parseFloat(data.convert, 8);
 
         var record = new this({customer_id: data.customer.id,
                                partner_id: lastPartnerId,
@@ -54,7 +57,14 @@ var Order = bookshelf.Model.extend({
                                product_id: data.product.id,
                                product: JSON.stringify(data.product),
                                step: "pending",
-                               delivery: JSON.stringify(data.delivery)
+                               delivery: JSON.stringify(data.delivery),
+                               product_price_order_rate: product_price,
+                               product_price_base_rate: product_price * data.convert,
+                               delivery_price_order_rate: delivery_price,
+                               delivery_price_base_rate: delivery_price * data.convert,
+                               total_price_order_rate: delivery_price + product_price,
+                               total_price_base_rate: (delivery_price + product_price) * data.convert,
+                               basic_currency_id: data.basic_currency_id
         });
 
         return record.save();
