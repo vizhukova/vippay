@@ -1,7 +1,10 @@
 import React from 'react';
 import OrdersActions from'./../actions/OrdersAction';
 import OrdersStore from'./../stores/OrdersStore';
+import SettingsStore from'./../stores/SettingsStore';
 import List from'./../../../../common/js/List';
+import Select from'./../../../../common/js/Select';
+import _  from 'lodash';
 
 
 class OrderItem extends React.Component {
@@ -16,6 +19,11 @@ class OrderItem extends React.Component {
         }
 
         this.setComplete = this.setComplete.bind(this);
+        this.update = this.update.bind(this);
+    }
+
+    update(state) {
+        this.setState(state);
     }
 
     setComplete() {
@@ -30,10 +38,13 @@ class OrderItem extends React.Component {
         return <tr>
             <td>{this.props.item.login ? this.props.item.login : "-"}</td>
             <td><a href={this.props.item.product.product_link} target="_blank">{this.props.item.product.name}</a></td>
-            <td>{this.props.item.product.price}</td>
-            <td>{this.props.item.product.currency_name}</td>
+            <td>{this.props.item.product_price}</td>
+            <td>{this.props.item.delivery_price}</td>
+            <td>{this.props.item.currency}</td>
             <td>{this.statuses[this.props.item.step]}</td>
             <td><button type="button" className={`btn btn-default btn-action ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
+            <td>{this.props.item.total_price}</td>
+            <td>{this.props.item.currency}</td>
         </tr>
     }
     
@@ -45,16 +56,34 @@ class Orders extends React.Component {
     constructor(){
         super();
         this.state = OrdersStore.getState();
+        _.assign(this.state, SettingsStore.getState());
+        _.assign(this.state, {
+            isBasicRate: "false",
+            values: [
+                {
+                    isBasicRate: 'в валюте заказа',
+                    basic: 'false'
+                },
+                {
+                    isBasicRate: 'в основной валюте',
+                    basic: 'true'
+                }
+
+            ]
+        });
         this.update = this.update.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
         OrdersStore.listen(this.update);
+        SettingsStore.listen(this.update);
         OrdersActions.get();
     }
 
     componentWillUnmount() {
         OrdersStore.unlisten(this.update);
+        SettingsStore.unlisten(this.update);
     }
 
     update(state) {
@@ -62,26 +91,63 @@ class Orders extends React.Component {
         this.setState(state);
     }
 
+    onChange(e) {
+        var state = {}
+        state[e.target.name] = e.target.value;
+        console.log(state)
+        _.assign(this.state, state);
+        this.setState({});
+    }
+
 
 
     render(){
         var self = this;
+        var isBasicRate = this.state.isBasicRate === 'true';
+        this.state.orders.map((order) => {
+            if(isBasicRate) {
+
+                var basic_currency = this.state.currencies[order.basic_currency_id - 1];
+                basic_currency = basic_currency ? basic_currency.name : '';
+
+                order.product_price = order.product_price_base_rate;
+                order.delivery_price = order.delivery_price_base_rate;
+                order.total_price = order.total_price_base_rate;
+                order.currency = basic_currency;
+            } else {
+                order.product_price = order.product_price_order_rate;
+                order.delivery_price = order.delivery_price_order_rate;
+                order.total_price = order.total_price_order_rate;
+                order.currency = order.product.currency_name;
+            }
+        })
         
         return <List
             title="Заказы"
             error={this.state.error}
             items={this.state.orders}
             itemComponent={OrderItem}
-            thead={['Партнер', 'Продукт', 'Цена', 'Валюта', 'Статус', 'Оплачен']}
             thead={[
                 {name: 'Партнер', key: 'login'},
                 {name: 'Продукт', key: 'product.product_link'},
-                {name: 'Цена', key: 'product.price'},
+                {name: 'Цена', key: isBasicRate ? 'product_price_base_rate' : 'product_price_order_rate'},
+                {name: 'Стоимость доставки', key: isBasicRate ? 'delivery_price_base_rate' : 'delivery_price_order_rate'},
                 {name: 'Валюта', key: 'product.currency_name'},
                 {name: 'Статус', key: 'step'},
-                {name: 'Оплачен', key: ''}
+                {name: 'Оплачен', key: ''},
+                {name: 'Сумма', key: isBasicRate ? 'total_price_base_rate' : 'total_price_order_rate'},
+                {name: 'Валюта', key: ''}
             ]}
+            >
+            <Select values={this.state.values}
+                    current_value={ _.findWhere(this.state.values, {isBasicRate: this.state.isBasicRate}) }
+                    fields={{
+                        name: 'isBasicRate',
+                        value: 'basic'
+                    }}
+                    onChange={this.onChange}
             />
+    </List>
     }
 
 

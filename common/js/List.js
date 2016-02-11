@@ -77,6 +77,7 @@ class List extends React.Component {
 
     render(){
         var Item = this.props.itemComponent;
+        var ChildrenComponents = this.props.ChildrenComponents;
 
         if (!this.props.items) return;
         var items =this.props.items.slice((this.state.currentPage - 1) * this.state.perPage , ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
@@ -95,6 +96,7 @@ class List extends React.Component {
                         <span className="title">
                             {this.props.title}
                         </span>
+                            {this.props.children}
                             {this.props.add_link ? <Link to={this.props.add_link}
                                   className="btn btn-action-big btn-default glyphicon glyphicon-plus" /> : null }
                         </div>
