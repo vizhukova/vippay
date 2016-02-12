@@ -87,6 +87,7 @@ class Application extends React.Component {
                           <li className="dropdown">
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.user.name}</a>
                                   <ul className="dropdown-menu">
+                                    <li><Link to="/profile" activeClassName="active">Профиль</Link></li>
                                     <li><a href={this.state.out_link} >Выход</a></li>
                                   </ul>
 

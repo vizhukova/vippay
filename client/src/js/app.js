@@ -19,6 +19,7 @@ import Products from './components/product/Products';
 import Settings from './components/settings/Settings';
 import Rate from './components/settings/Rate';
 import Fee from './components/settings/Fee';
+import Profile from './components/settings/Profile';
 import Payment from './components/settings/Payment';
 import NewProductForm from './components/product/form';
 
@@ -49,6 +50,7 @@ import NewProductForm from './components/product/form';
                 <Route path="/rate" component={Rate} />
                 <Route path="/fee" component={Fee} />
                 <Route path="/payment" component={Payment} />
+                <Route path="/profile" component={Profile} />
             </Route>
             <Route path="/auth" component={Auth} />
             <Route path="/partners/:id" component={Auth} />

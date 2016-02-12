@@ -88,5 +88,16 @@ router.get('/client', (req, res) => { //get current client for partner
         res.send(req.clientObj);
 });
 
+router.get('/user/password', (req, res) => { //get all clients for partner
+
+    UserController.setPassword({passwords: req.body, user_id: req.user.id})
+        .then(function (data) {
+            res.send(data)
+        }).catch(function (err) {
+        res.status(400).send(err.errors)
+    })
+
+});
+
 
 module.exports = router;
