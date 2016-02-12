@@ -1,9 +1,7 @@
 from fabric.api import *
 
-
 env.roledefs['production'] = ['root@78.109.24.70']
 env.roledefs['stage'] = ['root@188.166.116.177']
-
 
 project_root = '/var/www/vippay'
 
@@ -27,6 +25,9 @@ def build_static():
 def run_migration():
     with(cd(project_root + '/server')):
         run('knex migrate:latest')
+
+    with(cd(project_root + '/server/payment_systems')):
+        run('node change_systems.js')
 
 
 def install_dependencies():
