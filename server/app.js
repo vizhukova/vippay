@@ -74,11 +74,15 @@ app.get('/order/:id*', function(req, res){
 });
 app.get('/:partner', getClientPartnerObj, function(req, res){
 
-    var result = _.findIndex(req.clientsObj, {login: req.subdomain});
+    if( !(req.clientObj && !req.userObj) ) {
+        var result =  _.findIndex(req.clientsObj, (item) => {
+            return item.login.toLowerCase() == req.subdomain;
+        });
 
         if(result == -1) {
             res.redirect(`http://auth.${req.postdomain}`);
         }
+    }
 
     res.render('partner', {timestamp: timestamp});
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import CategoriesStore from'./../../stores/CategoriesStore';
 import CategoriesAction from'./../../actions/CategoriesAction';
-import Alert from './../../../../../common/js/Alert';
+import AlertActions from './../../../../../common/js/AlertActions';
 import _  from 'lodash';
 
 class CategoryForm extends React.Component {
@@ -22,6 +22,13 @@ class CategoryForm extends React.Component {
     componentDidMount() {
         if(this.props.params.id) {
             this.getCurrentCategory(this.props.params.id);
+        } else {
+            this.setState({
+                category: {
+                    id: null,
+                    category: ''
+                }
+            })
         }
 
         CategoriesStore.listen(this.update);
@@ -51,29 +58,25 @@ class CategoryForm extends React.Component {
     addNewCategory() {
         var self = this;
         if (!this.state.category.category || this.state.category.category.length == 0) {
-            self.setState({
-                error: {
+           AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Поле "категория" обязательно для заполнения.'
-                }
-            })
+                });
+
             return;
         }
 
-        if(this.state.category.length == 0) {alert('Поле "категория" обязательно для заполнения'); return;}
         CategoriesAction.addNewCategory(this.state).then((data) => {
 
             history.back();
 
         }).catch((err) => {
-            self.setState({
-                error: {
+            AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Такая категория уже существует.'
-                }
-            })
+                })
 
         })
     }
@@ -82,13 +85,11 @@ class CategoryForm extends React.Component {
         console.log('CATEGORY', this.state.category)
         var self = this;
         if (this.state.category.category.length == 0) {
-            self.setState({
-                error: {
+            AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Поле "категория" обязательно для заполнения.'
-                }
-            })
+                })
             return;
         }
         CategoriesAction.editCategory(this.state.category).then((data) => {
@@ -96,13 +97,12 @@ class CategoryForm extends React.Component {
             history.back();
 
         }).catch((err) => {
-            self.setState({
-                error: {
+
+            AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
-                    text: 'Такая категория уже существует.'
-                }
-            })
+                    text: 'акая категория уже существует.'
+                })
         })
     }
 
@@ -114,9 +114,7 @@ class CategoryForm extends React.Component {
     }
 
     onClick(e) {
-        this.setState({
-            error: {}
-        })
+        AlertActions.hide();
     }
 
     onKeyDown(e) {
@@ -134,7 +132,6 @@ class CategoryForm extends React.Component {
 
     render(){
         return  <div className="col-sm-7 form-ui table-wrapper">
-            <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
             <form className="">
               <fieldset className="form-group">
 

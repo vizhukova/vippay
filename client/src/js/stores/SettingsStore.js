@@ -10,6 +10,7 @@ class SettingsStore {
         this.fee = '';
         this.rate={};
         this.payment = [];
+        this.tariff = {};
 
         this.bindListeners({
             onGetAll: SettingsAction.GET,
@@ -21,7 +22,8 @@ class SettingsStore {
             onGetFee: SettingsAction.GET_FEE,
             onEditFee: SettingsAction.EDIT_FEE,
             onGetPayment: SettingsAction.GET_PAYMENT,
-            onEditPayment: SettingsAction.EDIT_PAYMENT
+            onEditPayment: SettingsAction.EDIT_PAYMENT,
+            onGetTariff: SettingsAction.GET_TARIFF
         });
     }
 
@@ -76,6 +78,11 @@ class SettingsStore {
     onEditPayment(payment) {
         this.payment = payment;
          console.log('SettingsStore payment = ', payment);
+    }
+
+    onGetTariff(tariff) {
+        this.tariff = tariff;
+        console.log('SettingStore tariff', tariff)
     }
 
 }

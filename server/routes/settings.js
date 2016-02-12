@@ -86,6 +86,15 @@ router.put('/payment', function(req, res) {
 
 });
 
+router.get('/settings/tariff', function(req, res) {
+    res.send({
+       'base': [{time: '12', price: '100'}],
+        'ultimate': [{time: '3', price: '40'}, {time: '6', price: '65'}, {time: '12', price: '80'}],
+        'premium': [{time: '3', price: '50'}, {time: '6', price: '70'}, {time: '12', price: '90'}]
+    });
+
+});
+
 
 
 module.exports = router;

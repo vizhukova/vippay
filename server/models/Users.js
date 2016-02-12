@@ -112,6 +112,15 @@ var User = bookshelf.Model.extend({
             .from('users')
             .where('id', '=', data.user_id)
 
+    }),
+
+    setPassword: Promise.method(function (data) {
+
+        return knex('users')
+            .update({'password': data.passwords.new_pass})
+            .where('id', '=', data.user_id)
+            .returning('*')
+
     })
 
 

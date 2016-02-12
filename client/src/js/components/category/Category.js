@@ -4,7 +4,6 @@ import CategoriesStore from'./../../stores/CategoriesStore';
 import CategoryItem from './CategoryItem';
 import CategoriesAction from'./../../actions/CategoriesAction';
 import List from'./../../../../../common/js/List';
-import Alert from './../../../../../common/js/Alert';
 import _  from 'lodash';
 
 
@@ -45,7 +44,6 @@ class Category extends React.Component {
         return <List
             title="Категории"
             add_link="/category/new"
-            error={this.state.error}
             items={this.state.categories}
             perPage={5}
             itemComponent={CategoryItem}

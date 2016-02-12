@@ -1,34 +1,45 @@
 import React from 'react';
+import AlertStore from './AlertStore';
 
 
 class Alert extends React.Component {
 
     constructor(){
         super();
-        this.state = {
-            visible: false
-        };
-
+        this.state = AlertStore.getState();
         this.hide = this.hide.bind(this);
+        this.update = this.update.bind(this);
 
+    }
+
+    componentDidMount() {
+        AlertStore.listen(this.update)
+    }
+
+    componentWillUnmount() {
+        AlertStore.unlisten(this.update)
+    }
+
+    update(state) {
+        this.setState(state);
     }
 
     hide(e){
         e.preventDefault();
-        this.setState({visible: false})
+        this.setState({show: false})
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.type) this.setState({visible: true});
-        else this.setState({visible: false});
+        if(nextProps.type) this.setState({show: true});
+        else this.setState({show: false});
     }
 
     render(){
-        console.log('Alert this.props', this.props)
-        return <div onClick={this.hide} className={`alert boxed alert-${this.props.type} ${this.state.visible ? '' : 'hide'}`}>
+        console.log('Alert this.state', this.state)
+        return <div onClick={this.hide} className={`alert boxed alert-${this.state.message.type} ${this.state.show ? '' : 'hide'}`}>
             <div className="alert-body">
-                <span>{this.props.title}</span>
-                <p>{this.props.text}</p>
+                <span>{this.state.message.title}</span>
+                <p>{this.state.message.text}</p>
             </div>
             <span className="alert-label" />
             <a href="#" className="close" />

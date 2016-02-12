@@ -7,6 +7,7 @@ import  ProductsActions from '../actions/ProductsActions';
 import SettingsStore from './../stores/SettingsStore';
 import AuthStore from './../stores/AuthStore';
 import Loader from'./../../../../common/js/Loader';
+import Alert from'./../../../../common/js/Alert';
 var _ = require('lodash');
 
 
@@ -103,6 +104,7 @@ class Application extends React.Component {
                              <li className="dropdown">
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.partner.name}</a>
                                   <ul className="dropdown-menu">
+                                    <li><Link to="/profile" activeClassName="active">Профиль</Link></li>
                                     <li><a href={this.state.out_link}>Выход</a></li>
                                   </ul>
                           </li>
@@ -110,6 +112,7 @@ class Application extends React.Component {
                     </div>
                 </div>
             </nav>
+            <Alert />
               {this.state.auth ? null : <Loader />}
             <div>{this.props.children}</div>
 

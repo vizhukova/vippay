@@ -10,7 +10,6 @@ class CategoriesStore {
         this.category = {
             category: ''
         };
-        this.error = {}
         this.currentPage = 1;
         this.perPage = 5;
 
@@ -37,8 +36,7 @@ class CategoriesStore {
                     console.log(i)
                 })
         } else {
-            this.categories.push({category: category.category, id: category.id})
-            self.error = {};
+            this.categories.push({category: category.category, id: category.id});
         }
         this.onResetCategory();
     }
