@@ -112,13 +112,22 @@ class SettingsAction {
     setNewPassword(data) {
         return new Promise((resolve, reject) => {
             ApiActions.put(`user/password`, data).then(function(result){
-                self.dispatch(result);
+
                 resolve(result);
             }).catch(function(err){
-                //self.dispatch(err);
+
                 reject(err);
             })
         })
+    }
+
+    getTariff() {
+        var self = this;
+         ApiActions.get(`settings/tariff`).then(function(result){
+                 self.dispatch(result);
+            }).catch(function(err){
+                debugger
+            })
     }
 }
 

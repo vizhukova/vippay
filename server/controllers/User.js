@@ -84,6 +84,25 @@ module.exports = {
             })
 
         })
+    },
+
+    setPassword(data) {
+        return new Promise(function(resolve, reject){
+
+            var errors = {};
+
+             User.getById(data.user_id).then(function(user){
+                if(user.password != data.passwords.old_pass) reject({});
+                 else {
+                    return User.setPassword(data).then((result) => {
+                        resolve(result);
+                    })
+                 }
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
     }
 
 };

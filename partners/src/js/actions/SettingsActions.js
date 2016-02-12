@@ -39,6 +39,18 @@ class SettingsAction {
             self.dispatch(err);
         })
     }
+
+    setNewPassword(data) {
+        return new Promise((resolve, reject) => {
+            ApiActions.put(`user/password`, data).then(function(result){
+
+                resolve(result);
+            }).catch(function(err){
+
+                reject(err);
+            })
+        })
+    }
 }
 
 export default alt.createActions(SettingsAction);

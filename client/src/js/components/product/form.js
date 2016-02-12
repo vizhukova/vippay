@@ -10,6 +10,7 @@ import CurrencySelect from'./../ui/CurrencySelect';
 import Alert from './../../../../../common/js/Alert';
 import NumberInput from './../../../../../common/js/NumberInput';
 import Select from './../../../../../common/js/Select';
+import AlertActions from './../../../../../common/js/AlertActions';
 import _  from 'lodash';
 
 
@@ -104,8 +105,9 @@ class AddForm extends React.Component {
     onAdd(e) {
         e.preventDefault();
         var lastItem = this.state.delivery[this.state.delivery.length - 1];
-        if(lastItem.condition.length == 0 || lastItem.price.length == 0) {
-            this.props.onError({
+        if(lastItem.condition.length == 0 || lastItem.price.length == 0
+            || _.trim(lastItem.condition).length == 0 || _.trim(lastItem.price).length == 0) {
+            AlertActions.set({
                 type: 'error',
                 title: 'Ошибка',
                 text: 'Все поля доставки должны быть заполнены'
@@ -216,7 +218,8 @@ class ProductForm extends React.Component {
            if( !this.state.product.delivery) return false;
 
             var result = this.state.product.delivery.filter((item) => {
-                return item.condition.length == 0 || item.price.length == 0;
+                return item.condition.length == 0 || item.price.length == 0 ||
+                    _.trim(item.condition).length == 0 || _.trim(item.price).length == 0
             })
 
             if (result.length > 0) return false;
@@ -235,23 +238,19 @@ class ProductForm extends React.Component {
                 history.back();
 
             }).catch((err) => {
-                self.setState({
-                    error: {
+                AlertActions.set({
                         type: 'error',
                         title: 'Ошибка',
                         text: 'Проверьте правильность заполнения данных. Возможно такой товар уже существует'
-                    }
                 })
 
             })
 
         } else {
-            self.setState({
-                    error: {
+           AlertActions.set({
                         type: 'error',
                         title: 'Ошибка',
                         text: 'Проверьте правильность заполнения данных. Возможно такой товар уже существует'
-                    }
                 })
         }
     }
@@ -265,21 +264,17 @@ class ProductForm extends React.Component {
 
             }).catch((err) => {
                 debugger
-                self.setState({
-                    error: {
+               AlertActions.set({
                         type: 'error',
                         title: 'Ошибка',
                         text: 'Проверьте правильность заполнения данных.'
-                    }
                 })
         })
     } else {
-            self.setState({
-                    error: {
+           AlertActions.set({
                         type: 'error',
                         title: 'Ошибка',
                         text: 'Проверьте правильность заполнения данных. Возможно такой товар уже существует'
-                    }
                 })
         }
     }
@@ -305,8 +300,6 @@ class ProductForm extends React.Component {
 		else state[e.target.name] =  e.target.value;
         _.assign(this.state.product, state);
         this.setState({});
-
-        console.log('FORM ONCHANGE------------------------------------', this.state.product)
     }
 
     onChangeCurrency(e) {
@@ -325,7 +318,7 @@ class ProductForm extends React.Component {
     }
 
     onClick(e) {
-        this.setState({error: {}})
+        AlertActions.hide();
     }
 
 
@@ -336,7 +329,6 @@ class ProductForm extends React.Component {
         if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
 
          return <form className="col-sm-7 form-ui table-wrapper">
-             <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
             <fieldset className="product-form">
 
                 <label className="text-warning">Новый продукт <span className="text-danger"> * </span></label>

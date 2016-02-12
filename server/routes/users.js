@@ -88,7 +88,7 @@ router.get('/client', (req, res) => { //get current client for partner
         res.send(req.clientObj);
 });
 
-router.get('/user/password', (req, res) => { //get all clients for partner
+router.put('/user/password', (req, res) => { //get all clients for partner
 
     UserController.setPassword({passwords: req.body, user_id: req.user.id})
         .then(function (data) {

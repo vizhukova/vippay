@@ -5,6 +5,7 @@ import  SettingsActions from '../actions/SettingsAction';
 import AuthStore from './../stores/AuthStore';
 import SettingsStore from './../stores/SettingsStore';
 import Loader from'./../../../../common/js/Loader';
+import Alert from'./../../../../common/js/Alert';
 import cookie from'./../../../../common/Cookies';
 import _  from 'lodash';
 
@@ -97,6 +98,7 @@ class Application extends React.Component {
                     </div>
                 </div>
             </nav>
+            <Alert />
             {this.state.auth ? null : <Loader />}
             <div>{this.props.children}</div>
         </div>

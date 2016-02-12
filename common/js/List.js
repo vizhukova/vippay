@@ -50,8 +50,8 @@ class List extends React.Component {
                     b = b[sortBy[0]];
                 }
 
-                    a = a ? a : '';
-                    b = b ? b : '';
+                    a = a || '';
+                    b = b || '';
 
                 if(typeof a == 'string') {
 
