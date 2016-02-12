@@ -139,7 +139,7 @@ class Orders extends React.Component {
                 {name: 'Валюта', key: ''}
             ]}
             >
-            <Select values={this.state.values}
+            <Select values={this.state.values} className="col-md-3 pull-right"
                     current_value={ _.findWhere(this.state.values, {isBasicRate: this.state.isBasicRate}) }
                     fields={{
                         name: 'isBasicRate',

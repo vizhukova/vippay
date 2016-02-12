@@ -163,6 +163,8 @@ class ProductForm extends React.Component {
         this.addNewProduct = this.addNewProduct.bind(this);
         this.editProduct = this.editProduct.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onChangeCurrency = this.onChangeCurrency.bind(this);
+        this.onChangeCategory = this.onChangeCategory.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onError = this.onError.bind(this);
@@ -307,6 +309,21 @@ class ProductForm extends React.Component {
         console.log('FORM ONCHANGE------------------------------------', this.state.product)
     }
 
+    onChangeCurrency(e) {
+        var state = {};
+        state['currency_id'] =  e.target.value;
+        _.assign(this.state.product, state);
+        this.setState({});
+    }
+
+    onChangeCategory(e) {
+        debugger
+        var state = {};
+        state['category_id'] =  e.target.value;
+        _.assign(this.state.product, state);
+        this.setState({});
+    }
+
     onClick(e) {
         this.setState({error: {}})
     }
@@ -339,24 +356,24 @@ class ProductForm extends React.Component {
                        value={this.state.product.price}/>
 
                  <label className="text-warning">Валюта</label>
-                <Select values={this.state.currencies}
+                 <Select values={this.state.currencies}
                     current_value={this.state.product.currency_id}
                     fields={{
-                        name: 'currency_id',
-                        value: 'name'
+                        name: 'name',
+                        value: 'id'
                     }}
-                    onChange={this.onChange}
-                />
-                <CurrencySelect currencies={this.state.currencies}
-                                onChange={this.onChange}
-                                onClick = {this.onClick}
-                                current_currency={this.state.product.currency_id}/>
+                    onChange={this.onChangeCurrency}
+                 />
 
                 <label className="text-warning">Категория</label>
-                <CategorySelect categories={this.state.categories}
-                                current_category={this.state.product.category_id}
-                                onChange={this.onChange}
-                                onClick = {this.onClick}/>
+                <Select values={this.state.categories}
+                    current_value={this.state.product.category_id}
+                    fields={{
+                        name: 'category',
+                        value: 'id'
+                    }}
+                    onChange={this.onChangeCategory}
+                 />
 
                 <div className="checkbox">
                   <label className="text-warning">

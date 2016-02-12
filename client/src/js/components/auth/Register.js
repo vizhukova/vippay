@@ -75,12 +75,20 @@ class Register extends React.Component {
 		if(!this.state.password || this.state.password.length == 0) {this.state.errors.password = ["Поле 'пароль' должно быть заполнено"]; empty = true;}
 
 		if( empty ) {
-			//alert('Все поля должны быть заполнены');
+			this.setState({error: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Все поля должны быть заполнены'
+                }})
 			return false;
 		}
 
 		if(this.state.password !== this.state.confirm_pass) {
-			//alert('Пароли не совпадают');
+			this.setState({error: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Пароли не совпадают'
+                }})
 			return false;
 		}
 
@@ -137,7 +145,7 @@ class Register extends React.Component {
 							onClick={this.onClick} placeholder="Подтвердите" tabIndex="5"/>
 				</div>
 			</div>
-			<div className="btn btn-primary btn-block" tabIndex="6" onClick={this.register}>Отправить</div>
+			<div className="btn btn-primary btn-block" tabIndex="6" onClick={this.register} onKeyDown={this.onKeyDown}>Отправить</div>
             </div>
     }
 }
