@@ -63,6 +63,7 @@ app.get('/', getClientPartnerObj, function(req, res){
     }
 
     var payment = req.clientObj ? _.findWhere(req.clientObj.payment, {name: 'interkassa'}) : {};
+    payment = payment || {};
     var id_confirm = payment.fields ? payment.fields.id_confirm : payment.fields;
    res.render('client', {timestamp: timestamp, id_confirm: id_confirm})
 });

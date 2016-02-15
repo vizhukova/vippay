@@ -13,7 +13,9 @@ class NumberInput extends React.Component {
     }
 
     onKeyDown(e) {
-        if(e.keyCode == 107 || e.keyCode == 109 || e.keyCode == 69 || e.keyCode == 189) e.preventDefault();
+        console.log(e.keyCode)
+        if(e.keyCode == 107 || e.keyCode == 109 || e.keyCode == 69 || e.keyCode == 189 || e.keyCode == 187)
+            e.preventDefault();
     }
 
     render(){

@@ -1,4 +1,5 @@
 import React from 'react';
+import Orders from './Orders';
 
 
 class Home extends React.Component {
@@ -12,7 +13,7 @@ class Home extends React.Component {
     render(){
 
         return <div>
-            Главная страница
+            <Orders isPaginate={false} />
         </div>
 
     }

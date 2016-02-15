@@ -103,6 +103,7 @@ class Orders extends React.Component {
     render(){
         var self = this;
         var isBasicRate = this.state.isBasicRate === 'true';
+        var isPaginate = this.props.isPaginate != undefined ? this.props.isPaginate : true;
         this.state.orders.map((order) => {
             if(isBasicRate) {
 
@@ -126,6 +127,7 @@ class Orders extends React.Component {
             error={this.state.error}
             items={this.state.orders}
             itemComponent={OrderItem}
+            isPaginate={isPaginate}
             thead={[
                 {name: 'Партнер', key: 'login'},
                 {name: 'Продукт', key: 'product.product_link'},

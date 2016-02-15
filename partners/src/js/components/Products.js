@@ -53,6 +53,7 @@ class Products extends React.Component {
             items={this.state.products}
             perPage={3}
             itemComponent={ProductItem}
+            isPaginate={true}
             thead={['Изображение', 'Товар', 'Цена', 'Валюта', 'Описание', 'Ссылка на продукт']}
             thead={[
                 {name: 'Изображение', key: ''},

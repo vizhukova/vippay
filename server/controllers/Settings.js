@@ -62,5 +62,17 @@ module.exports = {
             })
 
         })
+    },
+
+    setTariff(tariff) {
+        return new Promise(function (resolve, reject) {
+
+            Settings.putPayment(data).then((result) => {
+                resolve(result[0]);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
     }
 };

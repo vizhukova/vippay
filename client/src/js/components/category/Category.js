@@ -47,6 +47,7 @@ class Category extends React.Component {
             items={this.state.categories}
             perPage={5}
             itemComponent={CategoryItem}
+            isPaginate={true}
         />
 
 

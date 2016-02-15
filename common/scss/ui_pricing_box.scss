@@ -1,11 +1,16 @@
 
+.pricing-box {
+  padding: 0px;
+}
+
 .price-list {
-  padding: 25px;
+  padding: 25px 0px;
+  text-align: center;
 }
 
 .price_col {
-  width: 33%;
-  list-style: none;
+  width: 30%;
+  margin: 0px 10px;
   text-align: center;
   background-color: #f2fafe;
   display: inline-block;
@@ -14,9 +19,16 @@
   transition: 0.3s;
 }
 
+.price_body_inner ul.description {
+  padding: 25px;
+  list-style: square outside;
+  text-align: left;
+}
+
 li.price_col:hover {
   transform: scale(1.2);
   z-index: 5;
+  margin-bottom: 20px;
 }
 
 .pricing_box li.price_col {
@@ -51,6 +63,10 @@ li.price_col:hover {
   box-shadow: inset 0 -6px 6px -3px rgba(73, 73, 73, .3);
 }
 
+.price_col_body {
+  padding: 0px 27px;
+}
+
 .pricing_box li.price_col {
   display: inline-block;
   width: 220px;
@@ -68,6 +84,12 @@ li.price_col:hover {
   margin: 38px auto;
   background: #6e9bb7;
   color: #f2fafe;
+}
+
+.price_body_inner {
+  .select {
+
+  }
 }
 
 .price_body_top span {
@@ -106,4 +128,25 @@ li.price_col:hover {
 .price_body_inner ul li:first-child {
   margin-top: 10px;
 }
+
+.price_col_foot .btn {
+  visibility: hidden;
+}
+
+.price_col_foot .btn.visible {
+  visibility: visible;
+}
+
+li.price_col.chosen {
+  transform: scale(1.2);
+  z-index: 5;
+  margin-bottom: 20px;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+
+
 
