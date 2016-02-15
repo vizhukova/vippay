@@ -4,6 +4,7 @@ import ApiActions from './../../actions/ApiActions'
 import PasswordInput from './../../../../../common/js/PasswordInput';
 import LoginInput from './../../../../../common/js/LoginInput';
 import Alert from './../../../../../common/js/Alert';
+import AlertActions from './../../../../../common/js/AlertActions';
 
 
 class Register extends React.Component {
@@ -15,8 +16,7 @@ class Register extends React.Component {
 		this.onKeyDown = this.onKeyDown.bind(this);
 		this.register = this.register.bind(this);
 		this.state = {
-			errors: {},
-			error: {}
+			errors: {}
 		};
     }
 
@@ -34,7 +34,7 @@ class Register extends React.Component {
 	}
 
 	 onClick(e) {
-        this.setState({error: {}});
+        AlertActions.hide();
     }
 
 	register() {
@@ -59,11 +59,11 @@ class Register extends React.Component {
 			})
 			.catch(function(err){
 				console.log('ERROR:', err);
-                self.setState({error: {
+                AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Такой пользователь уже существует'
-                }})
+                })
 			})
     }
 
@@ -75,20 +75,20 @@ class Register extends React.Component {
 		if(!this.state.password || this.state.password.length == 0) {this.state.errors.password = ["Поле 'пароль' должно быть заполнено"]; empty = true;}
 
 		if( empty ) {
-			this.setState({error: {
+			AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Все поля должны быть заполнены'
-                }})
+                })
 			return false;
 		}
 
 		if(this.state.password !== this.state.confirm_pass) {
-			this.setState({error: {
+			AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Пароли не совпадают'
-                }})
+                })
 			return false;
 		}
 
@@ -99,7 +99,7 @@ class Register extends React.Component {
 		var baseClass = "form-control input-lg";
 
         return <div>
-			 <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
+			 <Alert />
             <div className="form-group">
 				<LoginInput
 					class={this.state.errors.login ? `${baseClass} invalid` : baseClass}

@@ -30,8 +30,7 @@ class Alert extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.type) this.setState({show: true});
-        else this.setState({show: false});
+
     }
 
     render(){

@@ -40,7 +40,6 @@ class OrderItem extends React.Component {
             <td><a href={this.props.item.product.product_link} target="_blank">{this.props.item.product.name}</a></td>
             <td>{this.props.item.product_price}</td>
             <td>{this.props.item.delivery_price}</td>
-            <td>{this.props.item.currency}</td>
             <td>{this.statuses[this.props.item.step]}</td>
             <td><button type="button" className={`btn btn-default btn-action ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
             <td>{this.props.item.total_price}</td>
@@ -132,7 +131,6 @@ class Orders extends React.Component {
                 {name: 'Продукт', key: 'product.product_link'},
                 {name: 'Цена', key: isBasicRate ? 'product_price_base_rate' : 'product_price_order_rate'},
                 {name: 'Стоимость доставки', key: isBasicRate ? 'delivery_price_base_rate' : 'delivery_price_order_rate'},
-                {name: 'Валюта', key: 'product.currency_name'},
                 {name: 'Статус', key: 'step'},
                 {name: 'Оплачен', key: ''},
                 {name: 'Сумма', key: isBasicRate ? 'total_price_base_rate' : 'total_price_order_rate'},

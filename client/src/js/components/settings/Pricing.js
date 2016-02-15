@@ -6,19 +6,19 @@ import Select from'./../../../../../common/js/Select';
 import _ from 'lodash';
 
 
-class Pricing extends React.Component{
+class PricingItem extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
+        this.state = {};
     }
 
-    render(){
+    onChange(e) {
 
-        return <div className="col-sm-12 clearfix pricing-box">
-                <ul className="clearfix price-list">
-                    {Object.keys(this.props.tariff).map((key) => {
-                        var value = this.props.tariff[key];
-                        return <li className="price_col price_col_blue  first">
+    }
+
+    render() {
+        return <li className="price_col price_col_blue  first">
                             <div className="price_item">
                                 <div className="price_col_head">
                                     <div className="price">12121212</div>
@@ -27,16 +27,17 @@ class Pricing extends React.Component{
                                     <div className="price_body_inner">
                                         <div className="price_body_top">
                                             <span>some text</span>
-                                            <strong>1111</strong>
-                                            <span>2222</span>
+                                            <strong>{key}</strong>
+                                            <span>{this.props.currentTariff[this.props.key].price}</span>
                                             <div className="line"></div>
                                         </div>
-                                        <Select values={[{name: 3, id: 1},{name: 6, id: 2}, {name: 12, id: 3}]}
-                                                current_value={1}
+                                        <Select values={value}
+                                                current_value={this.props.currentTariff[this.props.key].time}
                                                 fields={{
-                                            name: 'name',
-                                            value: 'id'
-                                        }}
+                                                name: 'time',
+                                                value: 'price'
+                                                }}
+                                                onChange={this.onChange}
                                         />
                                         <ul>
                                             <li>some info1</li>
@@ -53,6 +54,31 @@ class Pricing extends React.Component{
                                 </div>
                             </div>
                         </li>
+    }
+}
+
+class Pricing extends React.Component{
+
+    constructor(){
+        super();
+        this.state={
+            current: []
+        };
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onChange(e) {
+    debugger
+    }
+
+    render(){
+        var self = this;
+        console.log('this.props', this.props)
+        return <div className="col-sm-12 clearfix pricing-box">
+                <ul className="clearfix price-list">
+                    {Object.keys(this.props.tariff).map((key) => {
+                        var values = self.props.tariff[key];
+                        return <PricingItem values={values} key={key} currentTariff={self.props.currentTariff}/>
                     })}
                 </ul>
             </div>
