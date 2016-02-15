@@ -3,6 +3,7 @@ import ApiActions from './../../actions/ApiActions'
 import PasswordInput from './../../../../../common/js/PasswordInput';
 import LoginInput from './../../../../../common/js/LoginInput';
 import Alert from './../../../../../common/js/Alert';
+import AlertActions from './../../../../../common/js/AlertActions';
 import cookie from'./../../../../../common/Cookies';
 
 
@@ -15,8 +16,7 @@ class Login extends React.Component {
         this.onKeyDown = this.onKeyDown.bind(this);
         this.login = this.login.bind(this);
         this.state = {
-            errors: {},
-            error: {}
+            errors: {}
         };
     }
 
@@ -32,7 +32,7 @@ class Login extends React.Component {
     }
 
     onClick(e) {
-        this.setState({error: {}});
+        AlertActions.hide();
     }
 
     onKeyDown(e) {
@@ -78,11 +78,11 @@ class Login extends React.Component {
             })
             .catch(function(err){
                 console.log('ERROR:', err);
-                self.setState({error: {
+                AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Проверьте правильность заполнения данных'
-                }})
+                })
             })
     }
 
@@ -93,11 +93,11 @@ class Login extends React.Component {
         if(!this.state.password || this.state.password.length == 0) {this.state.errors.password = ["Поле 'пароль' должно быть заполнено"]; empty = true;}
 
         if(empty) {
-            this.setState({error: {
+            AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Проверьте правильность заполнения данных'
-                }})
+                })
         }
 
         return !empty;
@@ -109,7 +109,7 @@ class Login extends React.Component {
         var baseClass = "form-control input-lg";
 
         return <div>
-            <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
+            <Alert />
 			<div className="form-group">
                 <input type="text" name="email" id="email"
                        className={this.state.errors.email ? `${baseClass} invalid` : baseClass}

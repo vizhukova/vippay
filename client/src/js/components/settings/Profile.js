@@ -14,13 +14,15 @@ class Profile extends React.Component {
             old_password: '',
             new_password: '',
             confirm_new_password: '',
-            tariff: {}
+            tariff: {},
+            currentTariffPrice: {}
         };
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.checkFields = this.checkFields.bind(this);
+        this.setCurrentTariff = this.setCurrentTariff.bind(this);
 
     }
 
@@ -33,7 +35,26 @@ class Profile extends React.Component {
         SettingsStore.unlisten(this.update)
     }
 
+    setCurrentTariff(state) {
+        var obj = {};
+
+         Object.keys(state.tariff).map((key) => {
+                obj[key] = {
+                    name: key,
+                    price: state.tariff[key][0].price,
+                    time: state.tariff[key][0].time
+                };
+            });
+
+            this.setState({
+                currentTariff: obj
+            })
+    }
+
     update(state) {
+        if(state.tariff) {
+           this.setCurrentTariff(state);
+        }
         this.setState(state);
     }
 
@@ -124,7 +145,7 @@ class Profile extends React.Component {
 
             </form>
 
-
+            <Pricing tariff={this.state.tariff} currentTariff={this.state.currentTariff} />
             </div>
 
 

@@ -41,14 +41,14 @@ class AddFields extends React.Component {
     render(){
         var self = this;
         return   <div className="form-group">
-                    <label>Даные доставки</label>
+                    <label>Даные доставки<span className="text-danger"> * </span></label>
                     <input type='text' className="form-control" name="condition"
                            value={this.state.condition}
                            onChange={this.onChange}
                            onClick={this.props.onClick}
                            onKeyDown={this.props.onKeyDown}/>
 
-                    <label>Цена</label>
+                    <label>Цена<span className="text-danger"> * </span></label>
                     <NumberInput type='text' className="form-control" name="price"
                            value={this.state.price}
                            onChange={this.onChange}
@@ -331,7 +331,7 @@ class ProductForm extends React.Component {
          return <form className="col-sm-7 form-ui table-wrapper">
             <fieldset className="product-form">
 
-                <label className="text-warning">Новый продукт <span className="text-danger"> * </span></label>
+                <label className="text-warning">{edit ? 'Редактируемый продукт' : 'Новый продукт'} <span className="text-danger"> * </span></label>
                 <input type="text" name="name"
                        className="form-control" id="name"
                        onChange={this.onChange}
