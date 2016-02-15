@@ -4,12 +4,12 @@ var UserController = require('../controllers/User');
 var PartnerController = require('../controllers/Partner');
 var RateController = require('../controllers/Rate');
 var config = require('../config');
-
+var payments = require('../payment_systems/payment_systems');
 
 router.post('/client/register', function (req, res) {
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
-    })
+    });
     var user;
 
     UserController.register({
@@ -19,7 +19,8 @@ router.post('/client/register', function (req, res) {
         password: req.body.password,
         confirm_pass: req.body.confirm_pass,
         basic_currency: 1,
-        domain: req.postdomain
+        domain: req.postdomain,
+        payments: JSON.stringify(payments)
     }).then(function (userObj) {
         user = userObj;
         return RateController.setDefault(userObj.modelData.id)
