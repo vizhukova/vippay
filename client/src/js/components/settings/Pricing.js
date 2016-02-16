@@ -4,6 +4,7 @@ import SettingsStore from'./../../stores/SettingsStore';
 import AlertActions from'./../../../../../common/js/AlertActions';
 import Select from'./../../../../../common/js/Select';
 import _ from 'lodash';
+import moment from 'moment';
 
 
 class PricingItem extends React.Component {
@@ -35,23 +36,30 @@ class PricingItem extends React.Component {
     
 
     render() {
-        console.log(this.props.isVisible)
+        var tariff_date = this.props.tariff_payed.tariff_date;
+        var day_end = moment(tariff_date).add(this.props.tariff_payed.tariff_duration, 'month');
+        var days = day_end.diff(moment(), 'days')
+
+        //if(this.props.tariff_payed.tariff_name) debugger
+        console.log(this.props.tariff_payed.tariff_name, this.props.item)
+
         return <li className={`price_col price_col_blue  first ${this.props.isVisible ? 'chosen' : ''}`} onClick={this.onChoose}>
                             <div className="price_item">
                                 <div className="price_col_head">
-                                    <div className="price">{this.props.currentTariff[this.props.item].price} руб</div>
+                                    <div className="price">{this.props.tariff_payed.tariff_name == this.props.item ? `Осталось ${days} дней` : `${this.props.currentTariff[this.props.item].price} руб`}</div>
                                 </div>
                                 <div className="price_col_body clearfix">
                                     <div className="price_body_inner">
                                         <div className="price_body_top">
                                             <span>тариф</span>
                                             <strong>{this.props.tariffs[this.props.item].name}</strong>
-                                            <span>{`${(this.props.currentTariff[this.props.item].price/this.props.currentTariff[this.props.item].time).toFixed(2)} руб / мес`}</span>
+                                            <span>{`${(this.props.currentTariff[this.props.item].price/this.props.currentTariff[this.props.item].time).toFixed(2)} руб / мес`}</span><br />
+                                            <span></span>
                                             <div className="line"></div>
                                         </div>
                                         <div className="form-inline">
                                             <div className="form-group">
-                                                  <div class="input-group-addon">Срок: </div>
+                                                  <div className="input-group-addon">Срок: </div>
                                                   <Select values={this.props.values}
                                                         current_value={this.props.currentTariff[this.props.item].price}
                                                         fields={{
@@ -60,7 +68,7 @@ class PricingItem extends React.Component {
                                                         }}
                                                         onChange={this.onChange}
                                                   />
-                                                  <div class="input-group-addon">месяцев</div>
+                                                  <div className="input-group-addon">месяцев</div>
                                             </div>
                                         </div>
                                         <ul className="description">
@@ -70,6 +78,10 @@ class PricingItem extends React.Component {
                                              {this.props.tariffs[this.props.item].off_description.map((item) => {
                                                 return <li className="line-through">{item}</li>
                                             })}
+                                             {this.props.tariffs[this.props.item].limitation.map((item) => {
+                                                return <li className="text-danger">{item}</li>
+                                            })}
+
                                         </ul>
 
                                     </div>
@@ -93,6 +105,8 @@ class Pricing extends React.Component{
             currentTariff: {},
             chosenTariff: null
         };
+        _.assign(this.state, SettingsStore.getState());
+
         this.tariff = {
           'start': {
               name: 'Старт',
@@ -113,7 +127,8 @@ class Pricing extends React.Component{
                   'Совладельцы, соавторы',
                   'Финансы'
               ],
-              off_description: []
+              off_description: [],
+              limitation:['ограничение по сумме заказов 150 000 руб.']
 
           },
           'business': {
@@ -138,7 +153,8 @@ class Pricing extends React.Component{
                   'Напоминание клиентам о получении и оплате заказа',
                   'Совладельцы, соавторы',
                   'Финансы'
-              ]
+              ],
+              limitation: ['сумма заказов не ограниченна']
           },
           'magnate': {
             name: 'Магнат',
@@ -161,14 +177,24 @@ class Pricing extends React.Component{
                 'Совладельцы, соавторы',
                 'Финансы'
               ],
-              off_description: []
+              off_description: [],
+              limitation: ['сумма заказов не ограниченна']
           }
         };
         this.onChange = this.onChange.bind(this);
         this.onChoose = this.onChoose.bind(this);
         this.setCurrentTariff = this.setCurrentTariff.bind(this);
+        this.update = this.update.bind(this);
 
         this.setCurrentTariff(this.tariff);
+    }
+
+    componentDidMount() {
+        SettingsStore.listen(this.update)
+    }
+
+    update(state) {
+        this.setState(state);
     }
 
     onChange(e) {
@@ -212,6 +238,7 @@ class Pricing extends React.Component{
                                             onChange={this.onChange}
                                             onChoose={this.onChoose}
                                             isVisible={this.state.chosenTariff == key}
+                                            tariff_payed={this.state.tariff}
                         />
                     })}
                 </ul>

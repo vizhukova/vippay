@@ -3,6 +3,7 @@ var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
 var _ = require('lodash');
+var moment = require('moment');
 
 var Rate = bookshelf.Model.extend({
 
@@ -51,6 +52,22 @@ var Rate = bookshelf.Model.extend({
                 .update({payment: JSON.stringify(data.payment)})
                 .where('id', '=', data.user_id)
                 .returning('payment')
+    }),
+
+    setTariff: Promise.method((data) => {
+        return knex('users')
+                .update({tariff_duration: data.tariff.time,
+                        tariff_name: data.tariff.name,
+                        tariff_date: moment(),
+                        tariff_payed: true})
+                .where('id', '=', data.user_id)
+                .returning('*')
+    }),
+
+    getTariff: Promise.method((user_id) => {
+        return knex('users')
+                .first('tariff_duration', 'tariff_name', 'tariff_date', 'tariff_payed')
+                .where('id', '=', user_id)
     })
 
 })

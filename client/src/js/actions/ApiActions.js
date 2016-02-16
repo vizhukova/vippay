@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import Promise from 'bluebird';
 import cookie from'./../../../../common/Cookies';
+import checkError from './../../../checkError';
 
 function getDomain(){
     return '/api/';
@@ -54,8 +55,10 @@ class ApiActions{
                     auth: token
                 },
                 error(response){
-                    var error = new Error(response.responseText);
-                    reject(error);
+                    debugger
+                    checkError.check(response);
+                    //var error = new Error(response.responseText);
+                    //reject(error);
                 }
 
             });

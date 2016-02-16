@@ -36,7 +36,7 @@ router.post('/category', function(req, res){
     }).then(function(category){
         res.send(category)
     }).catch(function(err){
-        res.status(400).send(err.errors)
+        res.status(400).send('Такая категория уже существует')
     })
 
 });

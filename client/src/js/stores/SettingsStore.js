@@ -23,7 +23,8 @@ class SettingsStore {
             onEditFee: SettingsAction.EDIT_FEE,
             onGetPayment: SettingsAction.GET_PAYMENT,
             onEditPayment: SettingsAction.EDIT_PAYMENT,
-            onGetTariff: SettingsAction.GET_TARIFF
+            onGetTariff: SettingsAction.GET_TARIFF,
+            onSetTariff: SettingsAction.SET_TARIFF
         });
     }
 
@@ -81,6 +82,11 @@ class SettingsStore {
     }
 
     onGetTariff(tariff) {
+        this.tariff = tariff;
+        console.log('SettingStore tariff', tariff)
+    }
+
+    onSetTariff(tariff) {
         this.tariff = tariff;
         console.log('SettingStore tariff', tariff)
     }

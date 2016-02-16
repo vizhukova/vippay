@@ -226,8 +226,8 @@ class ProductForm extends React.Component {
         }
 
         return this.state.product.name &&  this.state.product.product_link &&
-                this.state.product.price && this.state.product.name.length > 0
-                && this.state.product.product_link.length > 0 && this.state.product.price.length > 0
+                this.state.product.price && _.trim(this.state.product.name).length > 0
+                && _.trim(this.state.product.product_link).length > 0 && _.trim(this.state.product.price).length > 0
 
     }
 

@@ -16,9 +16,6 @@ router.use(api_prefix, require('./orders'));
 router.use(api_prefix, require('./settings'));
 router.use(api_prefix, require('./currencies'));
 router.use(api_prefix, require('./payments'));
-
-router.get('/iframe', function(req, res){
-    res.render('iframe');
-});
+router.use(api_prefix, require('./messages'));
 
 module.exports = router;

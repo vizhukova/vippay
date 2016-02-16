@@ -19,7 +19,20 @@ knex('users').select('*').then((users) => {
 
             var array_to_update = old_fields.concat(payments_to_concat);
 
-            return knex('users').update({payment: JSON.stringify(array_to_update)}).where({id: user.id});
+            return new Promise((resolve, reject) => {
+                if(difference.length == 0) {resolve();}
+                else {
+                    return knex('users')
+                            .update({payment: JSON.stringify(array_to_update)})
+                            .where({id: user.id})
+                            .then((res) => {
+                                resolve(res);
+                            })
+                            .catch((err) => {
+                                reject(err);
+                            })
+                }
+            })
 
         })
     })

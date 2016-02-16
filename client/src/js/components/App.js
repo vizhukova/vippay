@@ -28,6 +28,8 @@ class Application extends React.Component {
             .then(function() {
                 AuthActions.getMe();
                 SettingsActions.getAllCurrencies();
+                SettingsActions.getTariff();
+                SettingsActions.getMessages();
                 return SettingsActions.getBasicCurrency();
 
             })

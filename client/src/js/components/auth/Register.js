@@ -103,7 +103,7 @@ class Register extends React.Component {
             <div className="form-group">
 				<LoginInput
 					class={this.state.errors.login ? `${baseClass} invalid` : baseClass}
-					tabIndex="1"
+					tabIndex="3"
 					onKeyDown={this.onKeyDown}
 					onChange={this.onChange}
 					onClick={this.onClick}
@@ -115,7 +115,7 @@ class Register extends React.Component {
 					   onKeyDown={this.onKeyDown}
 					   onChange={this.onChange}
 					   onClick={this.onClick}
-					   placeholder="ФИО" tabIndex="2" />
+					   placeholder="ФИО" tabIndex="4" />
 			</div>
 			<div className="form-group">
 				<input type="email" name="email" id="email"
@@ -123,7 +123,7 @@ class Register extends React.Component {
 					   onKeyDown={this.onKeyDown}
 					   onChange={this.onChange}
 					   onClick={this.onClick}
-					   placeholder="Электронная почта" tabIndex="3" required />
+					   placeholder="Электронная почта" tabIndex="5" required />
 			</div>
 			<div className="row">
 				<div className="col-lg-6 col-sm-12 col-md-6">
@@ -133,7 +133,7 @@ class Register extends React.Component {
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
 							onKeyDown={this.onKeyDown}
 							onChange={this.onChange}
-							onClick={this.onClick} placeholder="Пароль" tabIndex="4"/>
+							onClick={this.onClick} placeholder="Пароль" tabIndex="6"/>
 				</div>
 				<div className="col-lg-6 col-sm-12 col-md-6">
 					<PasswordInput
@@ -142,10 +142,10 @@ class Register extends React.Component {
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
 							onKeyDown={this.onKeyDown}
 							onChange={this.onChange}
-							onClick={this.onClick} placeholder="Подтвердите" tabIndex="5"/>
+							onClick={this.onClick} placeholder="Подтвердите" tabIndex="7"/>
 				</div>
 			</div>
-			<div className="btn btn-primary btn-block" tabIndex="6" onClick={this.register} onKeyDown={this.onKeyDown}>Отправить</div>
+			<div className="btn btn-primary btn-block" tabIndex="8" onClick={this.register} onKeyDown={this.onKeyDown}>Отправить</div>
             </div>
     }
 }

@@ -21,7 +21,7 @@ class NumberInput extends React.Component {
     render(){
         var self = this;
         return  <div>
-                    <input type="number" className="form-control input-lg" name={this.props.name} value={this.props.value} onKeyDown={this.onKeyDown} onChange={this.props.onChange}/>
+                    <input type="number" id={this.props.id} className="form-control input-lg" name={this.props.name} value={this.props.value} onKeyDown={this.onKeyDown} onChange={this.props.onChange}/>
                 </div>
     }
 
