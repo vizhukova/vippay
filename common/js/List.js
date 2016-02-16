@@ -122,6 +122,7 @@ class List extends React.Component {
                             </tbody>
                         </table>
                         <div className="table-footer">
+                            {this.props.isPaginate ?
                             <Pagination
                                 show={isPagination}
                                 first={isFirst}
@@ -129,7 +130,7 @@ class List extends React.Component {
                                 last={isLast}
                                 currentPage={this.state.currentPage}
                                 onChangePage={this.changePage}
-                            />
+                            /> : null}
                         </div>
                     </div>
                 </div>

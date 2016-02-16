@@ -75,6 +75,7 @@ class Partners extends React.Component {
             perPage={4}
             sort={this.sort}
             itemComponent={PartnerItem}
+            isPaginate={true}
             thead={[
                 {name: 'Логин', key: 'login'},
                 {name: 'Электронная почта', key: 'email'},

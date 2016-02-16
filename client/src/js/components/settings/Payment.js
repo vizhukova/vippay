@@ -3,6 +3,7 @@ import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore';
 import PasswordInput from'./../../../../../common/js/PasswordInput';
 import Alert from './../../../../../common/js/Alert';
+import AlertActions from './../../../../../common/js/AlertActions';
 import paymentSettings from './../../../../paymentSettings';
 import _ from 'lodash';
 
@@ -15,8 +16,7 @@ class PaymentItem extends React.Component {
             isMoreInformation: false,
             payment: {
                 dataFields: {}
-            },
-            error: {}
+            }
         }
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -50,9 +50,7 @@ class PaymentItem extends React.Component {
     }
 
     hideError() {
-        this.setState({
-            error: {}
-        })
+        AlertActions.hide();
     }
 
     onClick(e) {
@@ -70,7 +68,6 @@ class PaymentItem extends React.Component {
 
     render() {
         return <div className="">
-                <Alert type={this.state.error.type} text={this.state.error.text} title={this.state.error.title} />
                       <div className="block">
                            <div className="block-title">
                             <h3>

@@ -129,6 +129,15 @@ class SettingsAction {
                 debugger
             })
     }
+
+    setTariff(obj) {
+        var self = this;
+         ApiActions.post(`settings/tariff`, obj).then(function(result){
+                 self.dispatch(result);
+            }).catch(function(err){
+                debugger
+            })
+    }
 }
 
 export default alt.createActions(SettingsAction);

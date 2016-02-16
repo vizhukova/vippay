@@ -57,6 +57,7 @@ class Statistics extends React.Component {
             title="Статистика"
             error={this.state.error}
             items={this.state.statistic}
+            isPaginate={true}
             itemComponent={StatisticItem}
             thead={[
                 {name: 'Номер заказчика', key: 'customer_id'},

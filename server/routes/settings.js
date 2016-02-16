@@ -88,11 +88,15 @@ router.put('/payment', function(req, res) {
 
 router.get('/settings/tariff', function(req, res) {
     res.send({
-       'base': [{time: '12', price: '100'}],
-        'ultimate': [{time: '3', price: '40'}, {time: '6', price: '65'}, {time: '12', price: '80'}],
-        'premium': [{time: '3', price: '50'}, {time: '6', price: '70'}, {time: '12', price: '90'}]
+       'base': [{time: '12', price: '2500'}],
+        'ultimate': [{time: '3', price: '3000'}, {time: '6', price: '5250'}, {time: '12', price: '9000'}],
+        'premium': [{time: '3', price: '6000'}, {time: '6', price: '9000'}, {time: '12', price: '18000'}]
     });
 
+});
+
+router.post('/settings/tariff', function(req, res) {
+    SettingsController.setTariff(req.data);
 });
 
 
