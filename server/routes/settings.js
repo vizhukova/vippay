@@ -87,18 +87,20 @@ router.put('/payment', function(req, res) {
 });
 
 router.get('/settings/tariff', function(req, res) {
-    res.send({
-       'base': [{time: '12', price: '2500'}],
-        'ultimate': [{time: '3', price: '3000'}, {time: '6', price: '5250'}, {time: '12', price: '9000'}],
-        'premium': [{time: '3', price: '6000'}, {time: '6', price: '9000'}, {time: '12', price: '18000'}]
-    });
+    SettingsController.getTariff(req.user.id).then((result) => {
+        res.send(result)
+    }).catch((err) => {
+        res.status(404).send(err.errors)
+    })
 
 });
 
 router.post('/settings/tariff', function(req, res) {
-    SettingsController.setTariff(req.data);
+    SettingsController.setTariff({tariff: req.body, user_id: req.user.id}).then((result) => {
+        res.send(result)
+    }).catch((err) => {
+        res.status(404).send(err.error)
+    })
 });
-
-
 
 module.exports = router;

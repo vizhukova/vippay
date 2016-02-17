@@ -7,7 +7,7 @@ var RoboKassa = require('../payments/robokassa');
 
 router.get('/check', function(req, res){
 
-    if(req.user.role != req.query.role) {
+    if(!req.user || req.user.role != req.query.role) {
         res.status(401).send({msg: 'not ok'});
     } else {
         UserController.getById(req.user.id).then(function(data){

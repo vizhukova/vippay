@@ -28,7 +28,10 @@ var Order = bookshelf.Model.extend({
               (SELECT partners.name from partners WHERE partners.id = orders.partner_id),
               (SELECT partners.login from partners WHERE partners.id = orders.partner_id),
               (SELECT partners.email from partners WHERE partners.id = orders.partner_id)`))
-            .from('orders') .where('orders.client_id', client_id)
+            .from('orders')
+            .where('orders.client_id', client_id)
+            .orderBy('id', 'desc')
+
     }),
 
     setComplete: Promise.method(function (data) {

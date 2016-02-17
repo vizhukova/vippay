@@ -57,7 +57,7 @@ class CategoryForm extends React.Component {
 
     addNewCategory() {
         var self = this;
-        if (!this.state.category.category || this.state.category.category.length == 0) {
+        if (!this.state.category.category || _.trim(this.state.category.category).length == 0) {
            AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
@@ -84,7 +84,7 @@ class CategoryForm extends React.Component {
     editCategory() {
         console.log('CATEGORY', this.state.category)
         var self = this;
-        if (this.state.category.category.length == 0) {
+        if (! this.state.category.category || _.trim(this.state.category.category).length == 0) {
             AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
@@ -101,7 +101,7 @@ class CategoryForm extends React.Component {
             AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
-                    text: 'акая категория уже существует.'
+                    text: 'Такая категория уже существует.'
                 })
         })
     }

@@ -6,6 +6,7 @@
 .price-list {
   padding: 25px 0px;
   text-align: center;
+  margin: 0px -75px;
 }
 
 .price_col {
@@ -31,11 +32,8 @@ li.price_col:hover {
   margin-bottom: 20px;
 }
 
-.pricing_box li.price_col {
+li.price_col {
   display: inline-block;
-  width: 220px;
-  padding: 0;
-  margin: 0 -4px;
   text-align: center;
   vertical-align: top;
 }
@@ -131,6 +129,7 @@ li.price_col:hover {
 
 .price_col_foot .btn {
   visibility: hidden;
+  margin-bottom: 15px;
 }
 
 .price_col_foot .btn.visible {

@@ -94,7 +94,7 @@ class Login extends React.Component {
                        className={this.state.errors.email ? `${baseClass} invalid` : baseClass}
                        onChange={this.onChange}
                        onKeyDown={this.onKeyDown}
-                       onClick={this.onClick} placeholder="Электронная почта" tabIndex="1" />
+                       onClick={this.onClick} placeholder="Электронная почта" tabIndex="3" />
 			</div>
             <div className="form-group">
 				<PasswordInput
@@ -104,11 +104,11 @@ class Login extends React.Component {
 							onChange={this.onChange}
                             onClick={this.onClick}
                             onKeyDown={this.onKeyDown}
-                            tabIndex="2"
+                            tabIndex="4"
                             placeholder="Пароль"/>
 			</div>
 
-            <div className="btn btn-primary btn-block" tabIndex="3" onClick={this.login} onKeyDown={this.onKeyDown}>Отправить</div>
+            <div className="btn btn-primary btn-block" tabIndex="5" onClick={this.login} onKeyDown={this.onKeyDown}>Отправить</div>
             </div>
 
     }

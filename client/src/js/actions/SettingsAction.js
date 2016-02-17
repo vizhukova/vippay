@@ -138,6 +138,24 @@ class SettingsAction {
                 debugger
             })
     }
+
+    getMessages() {
+        var self = this;
+         ApiActions.get(`messages`).then(function(result){
+                 self.dispatch(result);
+            }).catch(function(err){
+                debugger
+            })
+    }
+
+    setMessage(data) {
+        var self = this;
+         ApiActions.put(`messages/${data.id}`, data.data).then(function(result){
+                 self.dispatch(result);
+            }).catch(function(err){
+                debugger
+            })
+    }
 }
 
 export default alt.createActions(SettingsAction);

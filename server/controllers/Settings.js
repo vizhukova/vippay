@@ -67,8 +67,44 @@ module.exports = {
     setTariff(tariff) {
         return new Promise(function (resolve, reject) {
 
-            Settings.putPayment(data).then((result) => {
+            Settings.setTariff(tariff).then((result) => {
                 resolve(result[0]);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+    },
+
+    getTariff(user_id) {
+        return new Promise(function (resolve, reject) {
+
+            Settings.getTariff(user_id).then((model) => {
+                resolve(model);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+    },
+
+    getMessages(user_id) {
+        return new Promise(function (resolve, reject) {
+
+            Messages.get(user_id).then((model) => {
+                resolve(model);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+    },
+
+    setDeliveredMessages(id) {
+        return new Promise(function (resolve, reject) {
+
+            Messages.setDelivered(id).then((model) => {
+                resolve(model);
             }).catch((err) => {
                 reject(err);
             })

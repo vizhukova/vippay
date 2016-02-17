@@ -1,32 +1,56 @@
 import alt from '../../client/src/js/alt';
 import AlertActions from './AlertActions';
+import SettingsAction from './../../client/src/js/actions/SettingsAction';
 var _ = require('lodash');
 
 
 class AlertStore {
 
     constructor() {
-        this.message={};
-        this.show=false;
+        this.messages = [];
         this.types = ['error', 'success', 'info', 'warning'];
 
         this.bindListeners({
             onSet: AlertActions.SET,
-            onHide: AlertActions.HIDE
+            onHide: AlertActions.HIDE,
+            onGetMessages: SettingsAction.GET_MESSAGES,
+            onSetMessage: SettingsAction.SET_MESSAGE,
+            onLeave: AlertActions.ON_LEAVE
         });
     }
 
     onSet(message) {
+        var filter = _.filter(this.messages, (item) => message.text == item.text);
+        if(filter.length > 0) return;//if there is such messages in the list
+
         var result = this.types.filter((item) => { return item === message.type; })
         if( result.length == 0 ) message.type = 'info';
-        this.message = message;
-        this.show = true;
+
+        this.messages.push(message);
     }
 
-    onHide() {
-        this.show = false;
+    onHide(data) {
+        if(! data.id) this.onLeave();
+        else this.messages = _.filter(this.messages, (item, index) => index != data.id );
     }
 
+    onGetMessages(messages) {
+        var wrapped = _(this.messages).concat(messages);
+        this.messages = wrapped.value();
+
+        console.log('AlertStore messages:', this.messages);
+    }
+
+    onSetMessage(messages) {
+        messages.map((item) => {
+            var index = _.findIndex(this.messages, { 'id': item.id });
+            this.messages.splice(index, 1);
+        })
+    }
+
+    onLeave() {
+        this.messages = _.filter(this.messages, (m) => m.id);
+    }
 
 }
 

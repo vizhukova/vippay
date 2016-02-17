@@ -1,6 +1,7 @@
 import React from 'react'
 import Login from './auth/Login';
 import Register from './auth/Register';
+import AlertActions from './../../../../common/js/AlertActions';
 
 
 class Auth extends React.Component {
@@ -11,11 +12,17 @@ class Auth extends React.Component {
             tab: 'login'
         };
         this.changeTab = this.changeTab.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     changeTab(e){
         e.preventDefault();
+        AlertActions.hide();
         this.setState({tab: e.target.dataset.tab});
+    }
+
+    onKeyDown(e) {
+        if(e.keyCode == '13') this.changeTab(e);
     }
 
     render() {
@@ -27,11 +34,19 @@ class Auth extends React.Component {
                 <div className="tab-container col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3 auth-form">
                     <ul className="tabs clearfix">
 
-                        <li className={this.state.tab === 'login' ? `${baseClass} active` : baseClass} data-tab="login" onClick={this.changeTab}>
+                        <li className={this.state.tab === 'login' ? `${baseClass} active` : baseClass} data-tab="login"
+                            onClick={this.changeTab}
+                            onKeyDown={this.onKeyDown}
+                            tabIndex="1">
                             Логин
                         </li>
 
-                        <li className={this.state.tab === 'register' ? `${baseClass} active` : baseClass} data-tab="register" onClick={this.changeTab}>Регистрация</li>
+                        <li className={this.state.tab === 'register' ? `${baseClass} active` : baseClass} data-tab="register"
+                            onClick={this.changeTab}
+                            onKeyDown={this.onKeyDown}
+                            tabIndex="2">
+                            Регистрация
+                        </li>
 
                     </ul>
 

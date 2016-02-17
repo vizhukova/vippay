@@ -116,7 +116,7 @@ class Login extends React.Component {
                        onChange={this.onChange}
                        onClick={this.onClick}
                        onKeyDown={this.onKeyDown}
-                       placeholder="Электронная почта" tabIndex="1" />
+                       placeholder="Электронная почта" tabIndex="3" />
 			</div>
             <div className="form-group">
                 <PasswordInput
@@ -126,10 +126,10 @@ class Login extends React.Component {
 							onChange={this.onChange}
                             onClick={this.onClick}
                             onKeyDown={this.onKeyDown}
-                            placeholder="Пароль" tabIndex="2"/>
+                            placeholder="Пароль" tabIndex="4"/>
 			</div>
 
-            <div className="btn btn-primary btn-block" tabIndex="3" onClick={this.login} onKeyDown={this.onKeyDown}>Отправить</div>
+            <div className="btn btn-primary btn-block" tabIndex="5" onClick={this.login} onKeyDown={this.onKeyDown}>Отправить</div>
             </div>
 
     }

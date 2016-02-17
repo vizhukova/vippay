@@ -17,6 +17,8 @@ var getUserId = require('./middlewares/getUserId');
 var getClientId = require('./middlewares/getClientId');
 var getInterkassaId = require('./middlewares/getInterkassaId');
 var getClientPartnerObj = require('./middlewares/getClientPartnerObj');
+var getTariff = require('./middlewares/getTariff');
+var checkTrialTariff = require('./middlewares/checkTrialTariff');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
@@ -32,6 +34,8 @@ app.use(getClientObj);
 app.use(getUserId);
 app.use(getClientId);
 app.use(getInterkassaId);
+app.use(getTariff);
+app.use(checkTrialTariff);
 
 var timestamp = Date.now();
 

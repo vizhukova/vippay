@@ -108,7 +108,7 @@ class Register extends React.Component {
 					   onChange={this.onChange}
 					   onClick={this.onClick}
 					   onKeyDown={this.onKeyDown}
-					   placeholder="Логин" tabIndex="1"  required/>
+					   placeholder="Логин" tabIndex="3"  required/>
 			</div>
 			<div className="form-group">
 				<input type="text" name="name" id="full_name"
@@ -116,14 +116,14 @@ class Register extends React.Component {
 					   onChange={this.onChange}
 					   onClick={this.onClick}
 					   onKeyDown={this.onKeyDown}
-					   placeholder="ФИО" tabIndex="2" />
+					   placeholder="ФИО" tabIndex="4" />
 			</div>
 			<div className="form-group">
 				<input type="email" name="email" id="email"
 					   className={this.state.errors.email ? `${baseClass} invalid` : baseClass}
 					   onChange={this.onChange}
 					   onKeyDown={this.onKeyDown}
-					   onClick={this.onClick} placeholder="Электронная почта" tabIndex="3" required />
+					   onClick={this.onClick} placeholder="Электронная почта" tabIndex="5" required />
 			</div>
 			<div className="row">
 				<div className="col-lg-6 col-sm-12 col-md-6">
@@ -133,7 +133,7 @@ class Register extends React.Component {
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
 							onChange={this.onChange}
 							onKeyDown={this.onKeyDown}
-							tabIndex="4"
+							tabIndex="6"
 							onClick={this.onClick} placeholder="Пароль"/>
 				</div>
 				<div className="col-lg-6 col-sm-12 col-md-6">
@@ -143,11 +143,11 @@ class Register extends React.Component {
 							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
 							onChange={this.onChange}
 							onKeyDown={this.onKeyDown}
-							tabIndex="5"
+							tabIndex="7"
 							onClick={this.onClick} placeholder="Подтвердите"/>
 				</div>
 			</div>
-			<div className="btn btn-primary btn-block" tabIndex="6" onClick={this.register} onKeyDown={this.onKeyDown}>Отправить</div>
+			<div className="btn btn-primary btn-block" tabIndex="8" onClick={this.register} onKeyDown={this.onKeyDown}>Отправить</div>
             </div>
     }
 }

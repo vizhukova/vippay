@@ -25,7 +25,7 @@ import NewProductForm from './components/product/form';
 import AlertActions from './../../../common/js/AlertActions';
 
     function onLeave() {
-        AlertActions.hide();
+        AlertActions.onLeave();
     }
 
     ReactDOM.render((

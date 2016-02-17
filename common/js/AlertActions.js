@@ -7,8 +7,21 @@ class AlertActions {
         this.dispatch(data);
     }
 
-    hide() {
-        this.dispatch({});
+    hide(id) {
+        this.dispatch({id: id});
+    }
+
+    onLeave() {
+        this.dispatch();
+    }
+
+    setMessage(data) {
+        var self = this;
+         ApiActions.put(`messages/${data.id}`, data.data).then(function(result){
+                 self.dispatch(result);
+            }).catch(function(err){
+                debugger
+            })
     }
 
 }
