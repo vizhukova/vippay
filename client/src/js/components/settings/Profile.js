@@ -22,6 +22,7 @@ class Profile extends React.Component {
         this.onClick = this.onClick.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.checkFields = this.checkFields.bind(this);
+        this.cancel = this.cancel.bind(this);
 
     }
 
@@ -40,11 +41,7 @@ class Profile extends React.Component {
     onSubmit(e) {
         e.preventDefault();
         if(! this.checkFields() ) {
-            AlertActions.set({
-                        type: 'error',
-                        title: 'Ошибка',
-                        text: 'Проверьте заполнение всех полей или новый пароль и подтверждение не совпадают.'
-                })
+            return;
         } else {
             SettingsAction.setNewPassword({old_pass: this.state.old_password, new_pass: this.state.new_password})
                 .then((data) => {
@@ -53,13 +50,8 @@ class Profile extends React.Component {
                         title: '',
                         text: 'Пароль установлен.'
                     })
-                }).catch((err) =>  {
-                AlertActions.set({
-                        type: 'error',
-                        title: 'Ошибка',
-                        text: 'Проверьте правильность написания старого пароля.'
                 })
-            })
+            this.onClick();
         }
     }
 
@@ -68,13 +60,33 @@ class Profile extends React.Component {
             .filter((item) => {
                 return _.trim(item).length <= 0
             })
-        if (result.length > 0) return false;
-        if (this.state.new_password !== this.state.confirm_new_password) return false;
+        if (result.length > 0) {
+            AlertActions.set({
+                        type: 'error',
+                        title: 'Ошибка',
+                        text: 'Проверьте заполнение всех полей'
+                })
+            return false;
+        }
+        if (this.state.new_password !== this.state.confirm_new_password) {
+             AlertActions.set({
+                        type: 'error',
+                        title: 'Ошибка',
+                        text: 'Новый пароль и его подтверждение не совпадают'
+                })
+            return false;
+        }
         return true;
     }
 
     onClick() {
         AlertActions.hide();
+    }
+
+    cancel() {
+        this.state.old_password = this.state.new_password = this.state.confirm_new_password = '';
+        this.setState({});
+        this.onClick();
     }
 
     onChange(e) {
@@ -94,6 +106,7 @@ class Profile extends React.Component {
                 <input type="text" name="old_password"
                        className="form-control" id="name"
                        placeholder="Введите старый пароль"
+                       value={this.state.old_password}
                        onChange={this.onChange}
                        onClick={this.onClick}
                 />
@@ -102,6 +115,7 @@ class Profile extends React.Component {
                 <input type="text" name="new_password"
                        className="form-control" id="name"
                        placeholder="Введите новый пароль"
+                       value={this.state.new_password}
                        onChange={this.onChange}
                        onClick={this.onClick}
                 />
@@ -110,16 +124,16 @@ class Profile extends React.Component {
                 <input type="text" name="confirm_new_password"
                        className="form-control" id="name"
                        placeholder="Введите новый пароль повторно"
+                       value={this.state.confirm_new_password}
                        onChange={this.onChange}
                        onClick={this.onClick}
                 />
             </fieldset>
             <div className="row-footer clearfix">
-                <button type="button" className="btn btn-danger pull-right btn-submit">
+                <input type="submit" className="btn btn-warning pull-left btn-submit" value="Сохранить"/>
+                <button type="button" className="btn btn-danger pull-right btn-submit" onClick={this.cancel}>
                     Отмена
                 </button>
-
-                <input type="submit" className="btn btn-warning pull-left btn-submit" value="Сохранить"/>
             </div>
 
             </form>

@@ -27,13 +27,25 @@ class CategoryItem extends React.Component {
     }
 
     deleteCategory(e) {
-        CategoriesAction.deleteCategory(this.props.item.id).catch((err) => {
-            this.props.onError({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Вы не можете удалить эту категорию.Возможно она связана с какими то продуктами.'
-            })
-        })
+        if(! this.props.isActiveTariff) return;
+
+        CategoriesAction.deleteCategory(this.props.item.id);
+    }
+
+    cancelClick(isDisabled){
+
+        if(isDisabled){
+
+            return function(e){
+                e.preventDefault();
+            }
+
+        }else{
+
+            return function(){}
+
+        }
+
     }
 
     render() {
@@ -46,11 +58,15 @@ class CategoryItem extends React.Component {
                           onClick={this.onClickCat}>{this.props.item.category}</Link></td>
 
                 <td className="actions">
-                    <button type="button" className={baseClassDel} data-t={this.props.id}
+
+                    <button type="button" className={`${baseClassDel} ${this.props.isActiveTariff ? '' : 'disabled'}`}
+                            data-t={this.props.id}
                             onClick={this.deleteCategory}></button>
-                    <Link to={`/category/${this.props.item.id}`}>
-                        <button type="button" className={baseClassEdit}></button>
+
+                    <Link to={`/category/${this.props.item.id}`} onClick={this.cancelClick(!this.props.isActiveTariff)}>
+                        <button type="button" className={`${baseClassEdit } ${this.props.isActiveTariff ? '' : 'disabled'}`}></button>
                     </Link>
+
                 </td>
             </tr>
     }

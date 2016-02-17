@@ -44,6 +44,7 @@ class ProductItem extends React.Component {
     }
 
     removeProduct() {
+        if(! this.props.isActiveTariff) return;
         ProductsAction.removeProduct(this.props.item.id);
     }
 
@@ -74,8 +75,11 @@ class ProductItem extends React.Component {
                      <td className="action"><button type="button" className={this.props.item.available ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setAvailable}></button></td>
                      <td className="action"><button type="button" className={this.props.item.active ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setActive}></button></td>
                     <td className="action">
-                        <Link to={`/category/${this.props.item.category_id}/products/${this.props.item.id}`} className="btn btn-default btn-action glyphicon glyphicon-pencil" />
-                        <button type="button" className="btn btn-danger btn-action pull-right glyphicon glyphicon-remove" onClick={this.removeProduct} />
+                        <Link to={`/category/${this.props.item.category_id}/products/${this.props.item.id}`}
+                              className={`btn btn-default btn-action glyphicon glyphicon-pencil
+                              ${this.props.isActiveTariff ? '' : 'disabled'}`}/>
+                        <button type="button" className={`btn btn-danger btn-action pull-right glyphicon glyphicon-remove
+                        ${this.props.isActiveTariff ? '' : 'disabled'}`} onClick={this.removeProduct} />
                     </td>
                 </tr>
     }

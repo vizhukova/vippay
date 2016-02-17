@@ -1,6 +1,7 @@
 import alt from '../alt';
 import SettingsAction from './../actions/SettingsAction';
 var _ = require('lodash');
+var moment = require('moment');
 
 class SettingsStore {
 
@@ -11,6 +12,7 @@ class SettingsStore {
         this.rate={};
         this.payment = [];
         this.tariff = {};
+        this.isActiveTariff = true;
 
         this.bindListeners({
             onGetAll: SettingsAction.GET,
@@ -82,8 +84,15 @@ class SettingsStore {
     }
 
     onGetTariff(tariff) {
+        debugger
         this.tariff = tariff;
         console.log('SettingStore tariff', tariff)
+
+        var today = moment();
+        var end_tariff = moment(tariff.tariff_date).add(tariff.tariff_duration, 'months');
+
+        this.isActiveTariff = moment.min(today, end_tariff) == today;
+        console.log('SettingStore isActiveTariff', this.isActiveTariff)
     }
 
     onSetTariff(tariff) {
