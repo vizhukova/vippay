@@ -95,7 +95,7 @@ router.get('/settings/tariff', function(req, res) {
 
 });
 
-router.post('/settings/tariff', function(req, res) {
+router.put('/settings/tariff', function(req, res) {
     SettingsController.setTariff({tariff: req.body, user_id: req.user.id}).then((result) => {
         res.send(result)
     }).catch((err) => {

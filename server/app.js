@@ -7,7 +7,6 @@ var morgan = require('morgan')
 var config = require('./config');
 var _ = require('lodash');
 
-
 var app = express();
 var http = require('http').Server(app);
 
@@ -17,25 +16,23 @@ var getUserId = require('./middlewares/getUserId');
 var getClientId = require('./middlewares/getClientId');
 var getInterkassaId = require('./middlewares/getInterkassaId');
 var getClientPartnerObj = require('./middlewares/getClientPartnerObj');
-var getTariff = require('./middlewares/getTariff');
-var checkTrialTariff = require('./middlewares/checkTrialTariff');
+var checkError = require('./middlewares/checkError');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 app.use(bodyParser.json({limit: '50mb'}));
-app.use(cookieParser())
+app.use(cookieParser());
 app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'templates'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
+
 
 app.use(getSubdomain);
 app.use(getClientObj);
 app.use(getUserId);
 app.use(getClientId);
 app.use(getInterkassaId);
-app.use(getTariff);
-app.use(checkTrialTariff);
 
 var timestamp = Date.now();
 
@@ -43,8 +40,9 @@ var timestamp = Date.now();
 app.get('/', getClientPartnerObj, function(req, res){
 
 
+    if(req.subdomain == 'payments') {}
 
-    if(req.subdomain == 'auth' && req.userObj) {
+    else if(req.subdomain == 'auth' && req.userObj) {
         var link ='';
         if(req.userObj.type == 'client') {
             link = `http://${req.userObj.login}.${req.postdomain}`;
@@ -91,6 +89,25 @@ app.get('/:partner', getClientPartnerObj, function(req, res){
 
     res.render('partner', {timestamp: timestamp});
 });
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  next(err);
+});
+
+app.use((err, req, res, next) => {
+  if (req.xhr) {
+    checkError(err, res);
+  } else {
+    next(err);
+  }
+});
+
+app.use((err, req, res, next) => {
+  res.status(500);
+  res.render('error', { error: err });
+});
+
 var server = http.listen(config.get('port'), function() {
     console.log("Listening %s on port: %s", server.address().address, server.address().port)
 });

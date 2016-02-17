@@ -64,26 +64,13 @@ class Login extends React.Component {
                     location.href = redirect;
 
                 } else {
-
                     result = data;
-                    //cookie.setCookie('token', result.token, {
-                    //    domain: '.vippay.loc'
-                    // });
                     location.assign('http://' + data.domain)
-
-                    //location.hash = redirect;
                 }
                 console.log('Token: ' + result.token);
 
             })
-            .catch(function(err){
-                console.log('ERROR:', err);
-                AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Проверьте правильность заполнения данных'
-                })
-            })
+
     }
 
     isCorrectField() {

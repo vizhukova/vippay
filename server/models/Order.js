@@ -25,9 +25,9 @@ var Order = bookshelf.Model.extend({
 
     get: Promise.method(function (client_id) {
         return knex.select(knex.raw(`orders.*,
-              (SELECT partners.name from partners WHERE partners.id = orders.partner_id),
-              (SELECT partners.login from partners WHERE partners.id = orders.partner_id),
-              (SELECT partners.email from partners WHERE partners.id = orders.partner_id)`))
+              (SELECT users.name from users WHERE users.id = orders.partner_id),
+              (SELECT users.login from users WHERE users.id = orders.partner_id),
+              (SELECT users.email from users WHERE users.id = orders.partner_id)`))
             .from('orders')
             .where('orders.client_id', client_id)
             .orderBy('id', 'desc')
