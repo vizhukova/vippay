@@ -1,5 +1,5 @@
 var jwt = require('jwt-simple');
-var Settings = require('./../models/Settings');
+var Settings = require('./../../models/Settings');
 
 module.exports = function(req, res, next){
 
@@ -7,7 +7,7 @@ module.exports = function(req, res, next){
 
     Settings.getTariff(req.user.id).then((result) => {
         req.tariff = result;
+        next();
     })
 
-    next();
 };

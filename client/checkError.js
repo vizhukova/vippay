@@ -22,11 +22,11 @@ module.exports = {
             }
 
                 case 401: {
-                AlertActions.set({
+                /*AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Вы не авторизованы'
-                });
+                });*/
                 break;
             }
         }

@@ -132,7 +132,7 @@ class SettingsAction {
 
     setTariff(obj) {
         var self = this;
-         ApiActions.post(`settings/tariff`, obj).then(function(result){
+         ApiActions.put(`settings/tariff`, obj).then(function(result){
                  self.dispatch(result);
             }).catch(function(err){
                 debugger

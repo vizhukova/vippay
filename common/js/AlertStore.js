@@ -35,7 +35,9 @@ class AlertStore {
     }
 
     onGetMessages(messages) {
-        var wrapped = _(this.messages).concat(messages);
+        debugger
+        var oldMessages = _.filter(this.messages, (m) => !m.id);
+        var wrapped = _(oldMessages).concat(messages);
         this.messages = wrapped.value();
 
         console.log('AlertStore messages:', this.messages);

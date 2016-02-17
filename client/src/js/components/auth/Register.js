@@ -1,6 +1,5 @@
 import React from 'react'
 import ApiActions from './../../actions/ApiActions'
-
 import PasswordInput from './../../../../../common/js/PasswordInput';
 import LoginInput from './../../../../../common/js/LoginInput';
 import Alert from './../../../../../common/js/Alert';
@@ -16,13 +15,12 @@ class Register extends React.Component {
 		this.onKeyDown = this.onKeyDown.bind(this);
 		this.register = this.register.bind(this);
 		this.state = {
-			errors: {}
+			errors:{}
 		};
     }
 
 	onChange(e){
 		var state = {};
-		console.log(e.target.name)
 		state[e.target.name] = e.target.value;
 		this.setState(state);
     }
@@ -47,23 +45,8 @@ class Register extends React.Component {
 
         ApiActions.post('client/register', this.state)
 			.then(function(data){
-				console.log(data)
 				console.log('Token: ' + data.token);
-
-                //cookie.setCookie('token', data.user.token, {
-                //    domain: '.vippay.loc'
-                //});
-
 				location.assign('http://' + data.domain)
-				//location.hash = '';
-			})
-			.catch(function(err){
-				console.log('ERROR:', err);
-                AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Такой пользователь уже существует'
-                })
 			})
     }
 

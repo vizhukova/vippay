@@ -2,6 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import CategoriesStore from'./../../stores/CategoriesStore';
 import CategoriesAction from'./../../actions/CategoriesAction';
+import SettingsActions from'./../../actions/SettingsAction';
 import AlertActions from './../../../../../common/js/AlertActions';
 import _  from 'lodash';
 
@@ -68,16 +69,7 @@ class CategoryForm extends React.Component {
         }
 
         CategoriesAction.addNewCategory(this.state).then((data) => {
-
             history.back();
-
-        }).catch((err) => {
-            AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Такая категория уже существует.'
-                })
-
         })
     }
 
@@ -93,16 +85,7 @@ class CategoryForm extends React.Component {
             return;
         }
         CategoriesAction.editCategory(this.state.category).then((data) => {
-
             history.back();
-
-        }).catch((err) => {
-
-            AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Такая категория уже существует.'
-                })
         })
     }
 

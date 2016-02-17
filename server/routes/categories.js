@@ -24,7 +24,7 @@ router.get('/category', function(req, res){
 });
 
 
-router.post('/category', function(req, res){
+router.post('/category', function(req, res, next){
 
     Object.keys(req.body).map((k) => {
         if(req.body[k] === '') req.body[k] = null
@@ -36,7 +36,7 @@ router.post('/category', function(req, res){
     }).then(function(category){
         res.send(category)
     }).catch(function(err){
-        res.status(400).send('Такая категория уже существует')
+        next(err);
     })
 
 });

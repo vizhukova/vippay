@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Promise from 'bluebird';
 import cookie from'./../../../../common/Cookies';
 import checkError from './../../../checkError';
+import SettingsActions from './SettingsAction';
 
 function getDomain(){
     return '/api/';
@@ -29,8 +30,9 @@ class ApiActions{
                     auth: token
                 },
                 error(response){
-                    var error = new Error(response.responseJSON.msg);
-                    reject(error);
+                    checkError.check(response);
+                    //var error = new Error(response.responseJSON.msg);
+                    reject(response);
                 }
             });
         })
@@ -57,8 +59,8 @@ class ApiActions{
                 error(response){
                     debugger
                     checkError.check(response);
-                    //var error = new Error(response.responseText);
-                    //reject(error);
+                    SettingsActions.getMessages();
+                    reject(response);
                 }
 
             });
@@ -84,7 +86,9 @@ class ApiActions{
                     resolve(response);
                 },
                 error(response){
-                    reject()
+                    checkError.check(response);
+                    SettingsActions.getMessages();
+                    reject(response)
                 }
 
             });
@@ -109,8 +113,9 @@ class ApiActions{
                     resolve(response);
                 },
                 error(response){
-                    var error = new Error(response.text);
-                    reject(error)
+                    checkError.check(response);
+                    SettingsActions.getMessages();
+                    reject(response)
                 }
 
             });

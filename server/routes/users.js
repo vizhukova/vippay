@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var checkLoginAccess = require('./../middlewares/checkLoginAccess');
 var UserController = require('../controllers/User');
 var PartnerController = require('../controllers/Partner');
 var RateController = require('../controllers/Rate');
 var config = require('../config');
 var payments = require('../payment_systems/payment_systems');
 
-router.post('/client/register', function (req, res) {
+router.post('/client/register', checkLoginAccess, function (req, res, next) {
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
     });
@@ -29,12 +30,13 @@ router.post('/client/register', function (req, res) {
         res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
         res.send(user);
     }).catch(function (err) {
-        res.status(400).send(err.errors)
+        if(! err.constraint) err.constraint = 'check_this_data';
+        next(err);
     })
 
 });
 
-router.post('/client/login', function (req, res) {
+router.post('/client/login', function (req, res, next) {
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
     });
@@ -47,55 +49,56 @@ router.post('/client/login', function (req, res) {
         res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
         res.send(user);
     }).catch(function (err) {
-        res.status(400).send(err.errors)
+        if(! err.constraint) err.constraint = 'check_this_data';
+        next(err);
     })
 
 });
 
-router.post('/guest_login', (req, res) => {
+router.post('/guest_login', (req, res, next) => {
 
     PartnerController.guestLogin({
         login: req.body.login
     }).then(function (user) {
         res.send(user)
     }).catch(function (err) {
-        res.status(400).send(err.errors)
+        next();
     })
 
 });
 
-router.get('/me', (req, res) => {
+router.get('/me', (req, res, next) => {
 
     UserController.getById(req.user.id).then(function (user) {
         res.send(user)
     }).catch(function (err) {
-        res.status(400).send(err.errors)
+        next();
     })
 
 });
 
-router.get('/clients', (req, res) => { //get all clients for partner
+router.get('/clients', (req, res, next) => { //get all clients for partner
 
     UserController.get(req.user.id)
         .then(function (clients) {
             res.send(clients)
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+            next();
     })
 
 });
 
-router.get('/client', (req, res) => { //get current client for partner
+router.get('/client', (req, res, next) => { //get current client for partner
         res.send(req.clientObj);
 });
 
-router.put('/user/password', (req, res) => { //get all clients for partner
+router.put('/user/password', (req, res, next) => { //get all clients for partner
 
     UserController.setPassword({passwords: req.body, user_id: req.user.id})
         .then(function (data) {
             res.send(data)
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+            next();
     })
 
 });

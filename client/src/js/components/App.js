@@ -101,8 +101,8 @@ class Application extends React.Component {
                 </div>
             </nav>
             <Alert />
-            {this.state.auth ? null : <Loader />}
-            <div>{this.props.children}</div>
+            {this.state.auth ? <div>{this.props.children}</div> : <Loader />}
+
         </div>
     }
 }

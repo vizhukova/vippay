@@ -223,6 +223,9 @@ class ProductForm extends React.Component {
             })
 
             if (result.length > 0) return false;
+        } else {
+            var result =  !this.state.product.link_download || _.trim(this.state.product.link_download).length == 0
+            if (result) return false;
         }
 
         return this.state.product.name &&  this.state.product.product_link &&
@@ -236,13 +239,6 @@ class ProductForm extends React.Component {
         if(this.checkFields()) {
             ProductsAction.addNewProduct(this.state.product).then(() => {
                 history.back();
-
-            }).catch((err) => {
-                AlertActions.set({
-                        type: 'error',
-                        title: 'Ошибка',
-                        text: 'Проверьте правильность заполнения данных. Возможно такой товар уже существует'
-                })
 
             })
 
@@ -262,22 +258,15 @@ class ProductForm extends React.Component {
             ProductsAction.editProduct(this.state.product).then((data) => {
                 history.back();
 
-            }).catch((err) => {
-                debugger
+            })
+        } else {
                AlertActions.set({
-                        type: 'error',
-                        title: 'Ошибка',
-                        text: 'Проверьте правильность заполнения данных.'
-                })
-        })
-    } else {
-           AlertActions.set({
-                        type: 'error',
-                        title: 'Ошибка',
-                        text: 'Проверьте правильность заполнения данных. Возможно такой товар уже существует'
-                })
+                            type: 'error',
+                            title: 'Ошибка',
+                            text: 'Проверьте правильность заполнения данных.'
+                    })
+            }
         }
-    }
 
     onError(error) {
         this.setState({
@@ -418,6 +407,16 @@ class ProductForm extends React.Component {
                       Доставляемый</label>
                 </div>
 
+                {this.state.product.material ? null : <div>
+                    <label className="text-warning">Ссылка на скачивание продукта<span className="text-danger"> * </span></label>
+                    <input type="text" name="link_download" className="form-control" id="link_download"
+                           onChange={this.onChange}
+                           onKeyDown={this.onKeyDown}
+                           onClick = {this.onClick}
+                           placeholder="Введите ссылку на скачивание продукта"
+                           value={this.state.product.link_download}/>
+                </div>}
+
                  <AddForm onChange={this.onChange}
                           onClick = {this.onClick}
                           onKeyDown={this.onKeyDown}
@@ -428,15 +427,15 @@ class ProductForm extends React.Component {
              <fieldset><div className="text-danger small">*Поля обязательные для заполнения</div></fieldset>
 
 
-             <Link to={`/category/${this.props.params.id}/products`}>
+             <button type="button" className="btn btn-warning pull-left btn-submit" onClick={edit ? this.editProduct : this.addNewProduct}>{
+                edit ? "Редактировать" : "Добавить"}
+            </button>
+
+              <Link to={`/category/${this.props.params.id}/products`}>
                  <button type="button" className="btn btn-danger pull-right btn-submit">
                      {"Отмена"}
                  </button>
              </Link>
-
-             <button type="button" className="btn btn-warning pull-left btn-submit" onClick={edit ? this.editProduct : this.addNewProduct}>{
-                edit ? "Редактировать" : "Добавить"}
-            </button>
         </form>
     }
 }

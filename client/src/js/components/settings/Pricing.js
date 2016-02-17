@@ -38,7 +38,8 @@ class PricingItem extends React.Component {
     render() {
         var tariff_date = this.props.tariff_payed.tariff_date;
         var day_end = moment(tariff_date).add(this.props.tariff_payed.tariff_duration, 'month');
-        var days = day_end.diff(moment(), 'days')
+        var days = day_end.diff(moment(), 'days');
+        days = days < 0 ? 0 : days;
 
         //if(this.props.tariff_payed.tariff_name) debugger
         console.log(this.props.tariff_payed.tariff_name, this.props.item)

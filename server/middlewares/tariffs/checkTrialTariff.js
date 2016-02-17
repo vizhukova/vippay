@@ -3,7 +3,7 @@ var moment = require('moment');
 
 module.exports = function(req, res, next){
 
-    if(! req.tariff.tariff_name) {
+    if( req.tariff && !req.tariff.tariff_name ) {
         var today = moment();
         var registered_day =  moment(req.clientObj.created_at).add(3, 'day');
 

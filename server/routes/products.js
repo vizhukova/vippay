@@ -13,12 +13,12 @@ router.get('/products/:id', function(req, res){
 
 });
 
-router.post('/product', function(req, res){
+router.post('/product', function(req, res, next){
     req.body.user_id = req.user.id;
     ProductController.newProduct(req.body).then(function(product){
         res.send(product)
     }).catch(function(err){
-        res.status(400).send(err)
+        next(err);
     })
 });
 
@@ -33,7 +33,7 @@ router.get('/product/:id', function(req, res){
 
 });
 
-router.put('/product/:id', function(req, res){
+router.put('/product/:id', function(req, res, next){
 
     var product =_.omit(req.body, ['currency_name']);
     ProductController.editProduct(product).then(function(product){
@@ -41,7 +41,7 @@ router.put('/product/:id', function(req, res){
             res.send(data)
         })
     }).catch(function(err){
-        res.status(400).send(err.errors)
+        next(err);
     })
 
 });
