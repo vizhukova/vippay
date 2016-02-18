@@ -24,7 +24,7 @@ class Order extends React.Component {
     }
 
     onClick() {
-        OrdersAction.pay(this.state.order.id)
+        //OrdersAction.pay(this.state.order.id)
     }
 
     update(state) {

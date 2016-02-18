@@ -26,9 +26,9 @@ class PricingItem extends React.Component {
     }
 
     onClick(e) {
-        e.preventDefault();
+        /*e.preventDefault();
         this.props.currentTariff[this.props.item].name = this.props.item;
-        SettingsAction.setTariff( this.props.currentTariff[this.props.item]);
+        SettingsAction.setTariff( this.props.currentTariff[this.props.item]);*/
     }
     
     onChoose() {
@@ -53,15 +53,19 @@ class PricingItem extends React.Component {
                                 <div className="price_col_body clearfix">
                                     <div className="price_body_inner">
                                         <div className="price_body_top">
+
                                             <span>тариф</span>
                                             <strong>{this.props.tariffs[this.props.item].name}</strong>
                                             <span>{`${(this.props.currentTariff[this.props.item].price/this.props.currentTariff[this.props.item].time).toFixed(2)} руб / мес`}</span><br />
                                             <span></span>
+
                                             <div className="line"></div>
                                         </div>
                                         <div className="form-inline">
                                             <div className="form-group">
+
                                                   <div className="input-group-addon">Срок: </div>
+
                                                   <Select values={this.props.values}
                                                         current_value={this.props.currentTariff[this.props.item].price}
                                                         fields={{
@@ -70,9 +74,12 @@ class PricingItem extends React.Component {
                                                         }}
                                                         onChange={this.onChange}
                                                   />
+
                                                   <div className="input-group-addon">месяцев</div>
+
                                             </div>
                                         </div>
+
                                         <ul className="description">
                                             {this.props.tariffs[this.props.item].description.map((item) => {
                                                 return <li>{item}</li>
@@ -83,7 +90,6 @@ class PricingItem extends React.Component {
                                              {this.props.tariffs[this.props.item].limitation.map((item) => {
                                                 return <li className="text-danger">{item}</li>
                                             })}
-
                                         </ul>
 
                                     </div>
