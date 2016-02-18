@@ -118,7 +118,7 @@ module.exports = {
     },
 
     activateTariff(id){
-        User.activateTariff(id)
+        return User.activateTariff(id)
     }
 
 };

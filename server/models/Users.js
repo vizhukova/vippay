@@ -127,7 +127,7 @@ var User = bookshelf.Model.extend({
         return knex('users')
             .update({tariff_payed: true})
             .where('id', '=', id)
-            .returning('*')
+            .returning('*').debug()
     })
 
 
