@@ -3,6 +3,7 @@ import {RoutingContext, Link} from 'react-router'
 import OrdersStore from'./../../stores/OrdersStore'
 import OrdersAction from'./../../actions/OrdersActions'
 import Interkassa from'./../Interkassa'
+import Yandex from'./../Yandex'
 
 class Order extends React.Component {
 
@@ -14,7 +15,7 @@ class Order extends React.Component {
     }
 
     componentDidMount() {
-        OrdersAction.getMethod({order_id: this.state.order.id, method: 'interkassa', client_id: this.state.order_client_id});
+        OrdersAction.getMethod({order_id: this.state.order.id, method: 'yandex', client_id: this.state.order_client_id});
         OrdersStore.listen(this.update);
     }
 
@@ -23,7 +24,7 @@ class Order extends React.Component {
     }
 
     onClick() {
-        OrdersAction.pay(this.state.order.id)
+        //OrdersAction.pay(this.state.order.id)
     }
 
     update(state) {
@@ -36,7 +37,7 @@ class Order extends React.Component {
         return <div>
                  <div className="content-step">
                     <div className="order-num title"><b>ID заказа: </b> {this.state.order.id}</div>
-                     <Interkassa method={this.state.method} />
+                     <Yandex method={this.state.method} />
                     <button type="button" className="btn btn-danger btn-lg pull-right btn-order" onClick={this.onClick}>Оплатить</button>
                  </div>
            </div>

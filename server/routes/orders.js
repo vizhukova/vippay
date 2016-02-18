@@ -84,7 +84,7 @@ router.post('/order', function(req, res) {
 
 });
 
-router.put('/order', function(req, res) {
+router.put('/order', function(req, res) { //pay for the order
 
     OrderController.pay(req.body.id).then((order) => {
 

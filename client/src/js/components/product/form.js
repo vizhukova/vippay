@@ -61,7 +61,7 @@ class AddFields extends React.Component {
 }
 
 
-class AddForm extends React.Component {
+class AddDelivery extends React.Component {
 
     constructor(){
         super();
@@ -417,13 +417,18 @@ class ProductForm extends React.Component {
                            value={this.state.product.link_download}/>
                 </div>}
 
-                 <AddForm onChange={this.onChange}
+                 <AddDelivery onChange={this.onChange}
                           onClick = {this.onClick}
                           onKeyDown={this.onKeyDown}
                           product={this.state.product}
                           onError={this.onError}  />
 
             </fieldset>
+
+             <fieldset className="product-form">
+                 <div className="btn">Добавить материалы</div>
+             </fieldset>
+
              <fieldset><div className="text-danger small">*Поля обязательные для заполнения</div></fieldset>
 
 

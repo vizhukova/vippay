@@ -56,17 +56,14 @@ var Rate = bookshelf.Model.extend({
 
     setTariff: Promise.method((data) => {
         return knex('users')
-                .update({tariff_duration: data.tariff.time,
-                        tariff_name: data.tariff.name,
-                        tariff_date: moment(),
-                        tariff_payed: true})
-                .where('id', '=', data.user_id)
+                .update(data)
+                .where('id', '=', data.id)
                 .returning('*')
     }),
 
     getTariff: Promise.method((user_id) => {
         return knex('users')
-                .first('tariff_duration', 'tariff_name', 'tariff_date', 'tariff_payed')
+                .first('tariff_duration', 'tariff_name', 'tariff_date', 'tariff_payed', 'id')
                 .where('id', '=', user_id)
     })
 

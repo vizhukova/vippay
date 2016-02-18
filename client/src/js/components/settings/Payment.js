@@ -14,9 +14,7 @@ class PaymentItem extends React.Component {
         super();
         this.state = {
             isMoreInformation: false,
-            payment: {
-                dataFields: {}
-            }
+            payment: {}
         }
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -32,7 +30,6 @@ class PaymentItem extends React.Component {
 
     componentDidMount() {
         this.state.payment = this.props.payment;
-        this.state.payment.dataFields = this.state.payment.dataFields ? this.state.payment.dataFields : {};
         this.setState({});
     }
 
@@ -78,11 +75,11 @@ class PaymentItem extends React.Component {
                               <div className="col-sm-6">
                                   {Object.keys(this.props.payment.fields).map((item, index) => {
 
-                                      return <div className="form-group">
+                                      return <div className="form-group" key={index}>
                                               <input
                                                     className="field-text" type="text"
                                                     value={this.props.payment.fields[item]}
-                                                    key={index} placeholder={paymentSettings[item]}
+                                                     placeholder={paymentSettings[item]}
                                                     name={item} onChange={this.onChange}
                                                     onClick={this.hideError}/>
                                               </div>

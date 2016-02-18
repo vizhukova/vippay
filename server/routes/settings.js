@@ -5,6 +5,7 @@ var router = express.Router();
 var SettingsController = require('../controllers/Settings');
 var RateController = require('../controllers/Rate');
 var _ = require('lodash');
+var moment = require('moment');
 
 
 router.get('/settings', function(req, res){
@@ -97,7 +98,24 @@ router.get('/settings/tariff', function(req, res) {
 
 
 router.put('/settings/tariff', function(req, res) {
-    SettingsController.setTariff({tariff: req.body, user_id: req.user.id}).then((result) => {
+    SettingsController.setTariff({
+        tariff_duration: req.body.time,
+        tariff_name: req.body.name,
+        tariff_date: moment(),
+        id: req.user_id
+    }).then((result) => {
+        res.send(result)
+    }).catch((err) => {
+        res.status(404).send(err.error)
+    })
+});
+
+router.put('/settings/tariff/pay', function(req, res) {
+    SettingsController.setTariff({
+        tariff_payed: true,
+        tariff_date: moment(),
+        id: req.user.id
+    }).then((result) => {
         res.send(result)
     }).catch((err) => {
         res.status(404).send(err.error)
