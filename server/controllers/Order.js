@@ -2,8 +2,10 @@ var Order = require('../models/Order');
 var User = require('../models/Users');
 var Rate = require('../models/Rate');
 var Settings = require('../models/Settings');
+var Customer = require('../models/Customer');
 var Promise = require('bluebird');
 var _ = require('lodash');
+var email = require('../utils/email');
 
 module.exports = {
 
@@ -77,22 +79,28 @@ module.exports = {
             Order.pay(id)
                 .then(function (order) {
 
-                    if (order[0].partner_id) {
+                    return Customer.get(order.customer_id)
 
-                    return Settings.getFee(order[0].client_id).then((obj) => {
-                        return User.set({
-                            fee_added: obj.fee,
-                            id: order[0].client_id
-                        }).then((user) => {
-                            res.send(order);
-                        })
-                    })
+                }).then((customer) => {
+                email.send(customer.email, 'Успешная оплата заказа', `Спасибо за оплату заказ. Оплата прошла успешно`);
 
+                if (order[0].partner_id) {
+                    return Settings.getFee(order[0].client_id)
+                } else {
+                    res.send(order);
                 }
 
-                }).catch(function (err) {
-                reject(err);
-            });
+            }).then((obj) => {
+                return User.set({
+                    fee_added: obj.fee,
+                    id: order[0].client_id
+                })
+            }).then((user) => {
+                    res.send(order);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
         })
     }
 

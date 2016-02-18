@@ -27,6 +27,7 @@ router.post('/client/register', checkLoginAccess, function (req, res, next) {
         payments: JSON.stringify(payments)
     }).then(function (userObj) {
         user = userObj;
+        email.send(user.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${user.domain}`);
         return RateController.setDefault(userObj.modelData.id)
 
     }).then((rate) => {
