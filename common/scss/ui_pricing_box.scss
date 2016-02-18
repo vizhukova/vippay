@@ -127,12 +127,12 @@ li.price_col {
   margin-top: 10px;
 }
 
-.price_col_foot .btn {
+.price_col_foot .price-btn {
   visibility: hidden;
   margin-bottom: 15px;
 }
 
-.price_col_foot .btn.visible {
+.price_col_foot .visible .price-btn {
   visibility: visible;
 }
 

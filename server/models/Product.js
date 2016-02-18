@@ -69,7 +69,7 @@ var Product = bookshelf.Model.extend({
 
     getAllByUser(id){
         return new Promise((resolve, reject) => {
-            return knex('products').where({'user_id': id, 'available': true})
+            return knex('products').where({'user_id': id, 'available': true, 'active': true})
             .orderBy('id', 'asc')
             .then((res) => {
                 resolve(replacePrice(res));

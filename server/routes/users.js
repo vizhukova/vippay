@@ -7,6 +7,8 @@ var RateController = require('../controllers/Rate');
 var config = require('../config');
 var payments = require('../payment_systems/payment_systems');
 var email = require('../utils/email');
+var _ = require('lodash');
+
 
 router.post('/client/register', checkLoginAccess, function (req, res, next) {
     Object.keys(req.body).map((k) => {
@@ -71,7 +73,8 @@ router.post('/guest_login', (req, res, next) => {
 router.get('/me', (req, res, next) => {
 
     UserController.getById(req.user.id).then(function (user) {
-        res.send(user)
+
+        res.send(_.omit(user, ['password']))
     }).catch(function (err) {
         next();
     })

@@ -26,12 +26,12 @@ class PricingItem extends React.Component {
     }
 
     onClick(e) {
-        /*e.preventDefault();
+        e.stopPropagation();
         this.props.currentTariff[this.props.item].name = this.props.item;
-        SettingsAction.setTariff( this.props.currentTariff[this.props.item]);*/
+        SettingsAction.setTariff( this.props.currentTariff[this.props.item]);
     }
     
-    onChoose() {
+    onChoose(e) {
         this.props.onChoose(this.props.item);
     }
     
@@ -95,20 +95,21 @@ class PricingItem extends React.Component {
                                     </div>
                                 </div>
                                 <div className="price_col_foot">
-                                    <a href="#" className={`btn btn-blue ${this.props.isVisible ? 'visible' : ''}`} onClick={this.onClick}>
-
+                                    <a href="#" className={`${this.props.isVisible ? 'visible' : ''}`} >
+                                        <div onClick={this.onClick} className="price-btn">
                                         <Yandex method={ {
                                             action: 'https://money.yandex.ru/quickpay/confirm.xml',
                                             receiver: '410012638338487',
                                             formcomment: `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
                                             'short-dest': `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
-                                             label: `${this.props.tariffs[this.props.item].name} ${user_id}`,
+                                             label: `${this.props.tariffs[this.props.item].name}::${this.props.currentTariff[this.props.item].time}::${user_id}`,
                                              targets: `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
                                              sum: this.props.currentTariff[this.props.item].price,
                                              'need-fio': true,
                                              'need-email': true
-                                        } }/>
-
+                                        } }
+                                        />
+                                        </div>
                                     </a>
                                 </div>
                             </div>

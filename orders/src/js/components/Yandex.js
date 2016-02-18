@@ -2,7 +2,7 @@ import React from 'react'
 import OrdersStore from'./../stores/OrdersStore'
 import OrderActions from'./../actions/OrdersActions'
 
-class Order extends React.Component {
+class Yandex extends React.Component {
 
     constructor() {
         super();
@@ -38,4 +38,4 @@ class Order extends React.Component {
 
 //type="hidden"
 
-export default Order;
+export default Yandex;

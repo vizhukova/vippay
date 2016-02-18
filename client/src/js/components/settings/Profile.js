@@ -1,6 +1,7 @@
 import React from 'react';
 import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore';
+import AuthStore from'./../../stores/AuthStore';
 import AlertActions from'./../../../../../common/js/AlertActions';
 import Select from'./../../../../../common/js/Select';
 import _ from 'lodash';
@@ -8,15 +9,18 @@ import Pricing from './Pricing'
 
 class Profile extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
-        this.state={
+        this.state = {
             old_password: '',
             new_password: '',
             confirm_new_password: '',
             tariff: {},
-            currentTariff: {}
+            currentTariff: {},
+            user: {}
         };
+        _.assign(this.state, AuthStore.getState());
+
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -28,6 +32,7 @@ class Profile extends React.Component {
 
     componentDidMount() {
         SettingsStore.listen(this.update);
+        AuthStore.listen(this.update);
     }
 
     componentWillUnmount() {
@@ -40,9 +45,10 @@ class Profile extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        if(! this.checkFields() ) {
-            return;
-        } else {
+        if (this.checkFields()) {
+
+            AlertActions.hide();
+
             SettingsAction.setNewPassword({old_pass: this.state.old_password, new_pass: this.state.new_password})
                 .then((data) => {
                     AlertActions.set({
@@ -51,7 +57,6 @@ class Profile extends React.Component {
                         text: 'Пароль установлен.'
                     })
                 })
-            this.onClick();
         }
     }
 
@@ -62,18 +67,18 @@ class Profile extends React.Component {
             })
         if (result.length > 0) {
             AlertActions.set({
-                        type: 'error',
-                        title: 'Ошибка',
-                        text: 'Проверьте заполнение всех полей'
-                })
+                type: 'error',
+                title: 'Ошибка',
+                text: 'Проверьте заполнение всех полей'
+            })
             return false;
         }
         if (this.state.new_password !== this.state.confirm_new_password) {
-             AlertActions.set({
-                        type: 'error',
-                        title: 'Ошибка',
-                        text: 'Новый пароль и его подтверждение не совпадают'
-                })
+            AlertActions.set({
+                type: 'error',
+                title: 'Ошибка',
+                text: 'Новый пароль и его подтверждение не совпадают'
+            })
             return false;
         }
         return true;
@@ -86,61 +91,70 @@ class Profile extends React.Component {
     cancel() {
         this.state.old_password = this.state.new_password = this.state.confirm_new_password = '';
         this.setState({});
-        this.onClick();
+        AlertActions.hide();
     }
 
     onChange(e) {
-         this.state[e.target.name] = e.target.value;
+        this.state[e.target.name] = e.target.value;
         this.setState({});
     }
 
 
-    render(){
+    render() {
+        console.log('Profile render: ', this.state)
         var self = this;
         return <div>
-           <form className="col-sm-12 form-ui block boxed" onSubmit={this.onSubmit}>
-            <h3 className="block-title">Настройки профиля</h3>
-            <fieldset className="block-inner">
+            <form className="col-sm-12 form-ui block boxed" onSubmit={this.onSubmit}>
 
-                <label className="text-warning">Старый пароль</label>
-                <input type="text" name="old_password"
-                       className="form-control" id="name"
-                       placeholder="Введите старый пароль"
-                       value={this.state.old_password}
-                       onChange={this.onChange}
-                       onClick={this.onClick}
-                />
+                <h3 className="block-title">Информация пользователя</h3>
+                <ul className="profile-list">
+                    <li>Логин: {this.state.user.login}</li>
+                    <li>ФИО: {this.state.user.name}</li>
+                    <li>Электронная почта: {this.state.user.email}</li>
 
-                <label className="text-warning">Новый пароль</label>
-                <input type="text" name="new_password"
-                       className="form-control" id="name"
-                       placeholder="Введите новый пароль"
-                       value={this.state.new_password}
-                       onChange={this.onChange}
-                       onClick={this.onClick}
-                />
+                </ul>
 
-                <label className="text-warning">Подтвердите новый пароль</label>
-                <input type="text" name="confirm_new_password"
-                       className="form-control" id="name"
-                       placeholder="Введите новый пароль повторно"
-                       value={this.state.confirm_new_password}
-                       onChange={this.onChange}
-                       onClick={this.onClick}
-                />
-            </fieldset>
-            <div className="row-footer clearfix">
-                <input type="submit" className="btn btn-warning pull-left btn-submit" value="Сохранить"/>
-                <button type="button" className="btn btn-danger pull-right btn-submit" onClick={this.cancel}>
-                    Отмена
-                </button>
-            </div>
+                <h3 className="block-title">Настройки профиля</h3>
+                <fieldset className="block-inner">
+
+                    <label className="text-warning">Старый пароль</label>
+                    <input type="text" name="old_password"
+                           className="form-control" id="name"
+                           placeholder="Введите старый пароль"
+                           value={this.state.old_password}
+                           onChange={this.onChange}
+                           onClick={this.onClick}
+                    />
+
+                    <label className="text-warning">Новый пароль</label>
+                    <input type="text" name="new_password"
+                           className="form-control" id="name"
+                           placeholder="Введите новый пароль"
+                           value={this.state.new_password}
+                           onChange={this.onChange}
+                           onClick={this.onClick}
+                    />
+
+                    <label className="text-warning">Подтвердите новый пароль</label>
+                    <input type="text" name="confirm_new_password"
+                           className="form-control" id="name"
+                           placeholder="Введите новый пароль повторно"
+                           value={this.state.confirm_new_password}
+                           onChange={this.onChange}
+                           onClick={this.onClick}
+                    />
+                </fieldset>
+                <div className="row-footer clearfix">
+                    <input type="submit" className="btn btn-warning pull-left btn-submit" value="Сохранить"/>
+                    <button type="button" className="btn btn-danger pull-right btn-submit" onClick={this.cancel}>
+                        Отмена
+                    </button>
+                </div>
 
             </form>
 
             <Pricing />
-            </div>
-
+        </div>
 
 
     }

@@ -28,11 +28,10 @@ class ProductItem extends React.Component {
         this.setAvailable = this.setAvailable.bind(this);
         this.setActive = this.setActive.bind(this);
         this.update = this.update.bind(this);
-
-        SettingsStore.listen(this.update);
     }
 
     componentDidMount() {
+        SettingsStore.listen(this.update);
     }
 
     componentWillUnmount() {
