@@ -121,7 +121,32 @@ var User = bookshelf.Model.extend({
             .where('id', '=', data.user_id)
             .returning('*')
 
-    })
+    }),
+
+    getFee: Promise.method(function (id) {
+
+        return knex('users')
+                .first('fee')
+                .where('id', '=', id)
+
+    }),
+
+    editFee: Promise.method(function (obj) {
+
+        return knex('users')
+                .update(obj)
+                .where('id', '=', obj.id)
+                .returning(['fee'])
+
+
+    }),
+
+    set(obj) {
+         return knex('users')
+                .update(obj)
+                .where('id', '=', obj.id)
+                .returning('*')
+    }
 
 
 });

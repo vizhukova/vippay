@@ -54,13 +54,15 @@ router.get('/fee', function(req, res) {
 
 });
 
-router.put('/fee', function(req, res) {
+router.put('/fee', function(req, res, next) {
 
-    SettingsController.editFee({client_id: req.user.id, fee: req.body.fee})
+    SettingsController.editFee({id: req.user.id, fee: req.body.fee})
             .then(function(fee){
                 res.send(fee);
             }).catch(function(err) {
-                res.status(400).send(err.errors);
+                if( err.code == '22003')
+                err.constraint = 'too_big_value';
+                next(err);
             });
 
 });

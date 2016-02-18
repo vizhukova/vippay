@@ -23,6 +23,11 @@ class AlertStore {
         var filter = _.filter(this.messages, (item) => message.text == item.text);
         if(filter.length > 0) return;//if there is such messages in the list
 
+        if(message.type == 'success') {
+            var new_m = _.filter(this.messages, (item) =>  !(item.type == 'error' || item.type == 'warning'));
+            this.messages = new_m;
+        }
+
         var result = this.types.filter((item) => { return item === message.type; })
         if( result.length == 0 ) message.type = 'info';
 

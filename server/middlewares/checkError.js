@@ -20,6 +20,9 @@ module.exports = function(err, res){
         case 'check_old_password':
             res.status(400).send('Проверьте правильность написания старого пароля');
             break;
+        case 'too_big_value':
+            res.status(400).send('Слишком большое значение');
+            break;
         default:
             res.status(400).send('Упс, что то пошло не так');
     }

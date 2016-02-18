@@ -1,4 +1,5 @@
 var Settings = require('./../models/Settings');
+var Users = require('./../models/Users');
 var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
@@ -8,8 +9,7 @@ module.exports = {
     getFee(client_id){
         return new Promise(function (resolve, reject) {
 
-            Settings.getFee(client_id).then(function (model) {
-                var res = model ? model.value : {partner_first_level: ""};
+            Users.getFee(client_id).then(function (res) {
                 resolve(res);
 
             }).catch(function (err) {
@@ -21,22 +21,12 @@ module.exports = {
     editFee(data){
         return new Promise(function (resolve, reject) {
 
-            Settings.getFee(data.client_id).then(function (model) {
-
-                if(!model) {
-                    Settings.addFee(data).then(function (model) {
-                    resolve(model[0].value);
-                    })
-                } else {
-                    Settings.editFee(data).then(function (model) {
-                    resolve(model[0].value);
-                    })
-                }
-
+            Users.editFee(data).then((res) => {
+                resolve(res[0])
+            }).catch((err) => {
+                reject(err)
             })
-                .catch(function (err) {
-                reject(err);
-            })
+
         })
     },
 
@@ -104,6 +94,18 @@ module.exports = {
         return new Promise(function (resolve, reject) {
 
             Messages.setDelivered(id).then((model) => {
+                resolve(model);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+    },
+
+    set(data) {
+        return new Promise(function (resolve, reject) {
+
+            User.set(id).then((model) => {
                 resolve(model);
             }).catch((err) => {
                 reject(err);

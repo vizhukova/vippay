@@ -16,7 +16,8 @@ class Application extends React.Component {
     constructor() {
         super();
         this.state = {
-            user: {}
+            user: {},
+            isActiveTariff: true
         };
 
         this.update = this.update.bind(this);
@@ -66,9 +67,9 @@ class Application extends React.Component {
                     <div className="navbar-header">
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                             <span className="sr-only">Toggle navigation</span>
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
+                            <span className="icon-bar"/>
+                            <span className="icon-bar"/>
+                            <span className="icon-bar"/>
                         </button>
                         <a className="navbar-brand" href="#"><i className="glyphicon glyphicon-home"></i></a>
                     </div>
@@ -107,8 +108,8 @@ class Application extends React.Component {
             <Alert />
 
             {!this.state.isActiveTariff && location.hash.slice(2) !== 'profile' ?
-            <Error /> :
-            (this.state.auth ? <div>{this.props.children}</div> : <Loader />) }
+                <Error /> :
+            (this.state.auth ? <div>{this.props.children}</div> : <Loader />)}
 
         </div>
     }

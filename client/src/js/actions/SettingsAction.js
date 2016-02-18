@@ -79,10 +79,15 @@ class SettingsAction {
 
     editFee(fee) {
         var self = this;
-            ApiActions.put(`fee`, {fee: fee}).then(function(data){
+        return new Promise((resolve, reject) => {
+             ApiActions.put(`fee`, {fee: fee}).then(function(data){
                 self.dispatch(data);
+                 resolve(data);
             }).catch(function(err){
-                self.dispatch(err);
+                //self.dispatch(err);
+                 debugger
+                 reject(err);
+            })
         })
     }
 

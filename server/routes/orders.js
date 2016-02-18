@@ -3,6 +3,8 @@ var router = express.Router();
 var OrderController = require('../controllers/Order');
 var ProductController = require('../controllers/Product');
 var CustomerController = require('../controllers/Customer');
+var UserController = require('../controllers/User');
+var SettingsController = require('../controllers/Settings');
 var StatisticController = require('../controllers/Statistic');
 
 router.get('/orders', function(req, res) {
@@ -88,14 +90,32 @@ router.put('/order', function(req, res) { //pay for the order
 
     OrderController.pay(req.body.id).then((order) => {
 
-        StatisticController.add({partner_id: order[0].partner_id,
-                                    product: JSON.stringify(order[0].product),
-                                    customer_id: order[0].customer_id,
-                                    client_id: order[0].client_id,
-                                    action: "pending_order"})
-                                    .then(() => {
-                                        res.send(order);
-                                    })
+
+        return StatisticController.add({
+                partner_id: order[0].partner_id,
+                product: JSON.stringify(order[0].product),
+                customer_id: order[0].customer_id,
+                client_id: order[0].client_id,
+                action: "pending_order"
+            })
+            .then(() => {
+
+                if (order[0].partner_id) {
+
+                    return SettingsController.getFee(order[0].client_id).then((obj) => {
+                        return UserController.set({
+                            fee_added: obj.fee,
+                            id: order[0].client_id
+                        }).then((user) => {
+                            res.send(order);
+                        })
+                    })
+
+                } else {
+                    res.send(order);
+                }
+
+            })
     }).catch(function(err){
         res.status(400).send(err.errors)
     })
