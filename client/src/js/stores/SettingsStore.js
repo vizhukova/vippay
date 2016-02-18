@@ -84,7 +84,6 @@ class SettingsStore {
     }
 
     onGetTariff(tariff) {
-        debugger
         this.tariff = tariff;
         console.log('SettingStore tariff', tariff)
 

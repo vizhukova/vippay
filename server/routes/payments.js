@@ -9,7 +9,7 @@ var Yandex = require('./../payments/yandex');
 router.get('/payments/data/:order/:method', function (req, res) {
 
     if (req.params.method === 'interkassa') {
-        InterKassa.getData(req.params.order, 1).then((payment_data) => {
+        InterKassa.getData(req.params.order, req.clientObj.id).then((payment_data) => {
 
             res.send(payment_data);
 
@@ -19,7 +19,7 @@ router.get('/payments/data/:order/:method', function (req, res) {
 
         })
     } else if (req.params.method === 'yandex') {
-        Yandex.getData(req.params.order, 1).then((payment_data) => {
+        Yandex.getData(req.params.order, req.clientObj.id).then((payment_data) => {
 
             res.send(payment_data);
 

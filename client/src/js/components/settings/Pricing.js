@@ -3,6 +3,7 @@ import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore';
 import AlertActions from'./../../../../../common/js/AlertActions';
 import Select from'./../../../../../common/js/Select';
+import Yandex from'./../../../../../orders/src/js/components/Yandex';
 import _ from 'lodash';
 import moment from 'moment';
 
@@ -40,9 +41,9 @@ class PricingItem extends React.Component {
         var day_end = moment(tariff_date).add(this.props.tariff_payed.tariff_duration, 'month');
         var days = day_end.diff(moment(), 'days');
         days = days < 0 ? 0 : days;
+        var user_id = this.props.tariff_payed.id;
 
         //if(this.props.tariff_payed.tariff_name) debugger
-        console.log(this.props.tariff_payed.tariff_name, this.props.item)
 
         return <li className={`price_col price_col_blue  first ${this.props.isVisible ? 'chosen' : ''}`} onClick={this.onChoose}>
                             <div className="price_item">
@@ -89,7 +90,19 @@ class PricingItem extends React.Component {
                                 </div>
                                 <div className="price_col_foot">
                                     <a href="#" className={`btn btn-blue ${this.props.isVisible ? 'visible' : ''}`} onClick={this.onClick}>
-                                        <span>Buy Now</span>
+
+                                        <Yandex method={ {
+                                            action: 'https://money.yandex.ru/quickpay/confirm.xml',
+                                            receiver: '410012638338487',
+                                            formcomment: `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
+                                            'short-dest': `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
+                                             label: `${this.props.tariffs[this.props.item].name} ${user_id}`,
+                                             targets: `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
+                                             sum: this.props.currentTariff[this.props.item].price,
+                                             'need-fio': true,
+                                             'need-email': true
+                                        } }/>
+
                                     </a>
                                 </div>
                             </div>

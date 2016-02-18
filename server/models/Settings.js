@@ -66,7 +66,7 @@ var Rate = bookshelf.Model.extend({
 
     getTariff: Promise.method((user_id) => {
         return knex('users')
-                .first('tariff_duration', 'tariff_name', 'tariff_date', 'tariff_payed')
+                .first('tariff_duration', 'tariff_name', 'tariff_date', 'tariff_payed', 'id')
                 .where('id', '=', user_id)
     })
 

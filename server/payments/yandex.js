@@ -4,6 +4,7 @@ var Promise = require('bluebird');
 var OrderController = require('../controllers/Order');
 var UserController = require('../controllers/User');
 var Rate = require('./../models/Rate');
+var _ = require('lodash');
 
 
 class YandexMoney {
@@ -15,10 +16,10 @@ class YandexMoney {
 
     static getData(order_id, user_id) {
 
-        return new Promise((resolve, reject) => {
+        var payment_data = {};
+        var order;
 
-            var payment_data = {};
-            var order;
+        return new Promise((resolve, reject) => {
 
             OrderController.getById(order_id).then(function (o) {
 
@@ -36,7 +37,7 @@ class YandexMoney {
 
             }).then((user) => {
 
-                payment_data.receiver = user.payment.yandex.receiver;
+                payment_data.receiver = _.findWhere(user.payment, {name: 'yandex'}).fields.receiver;
 
                 return Rate.getResult({
                     client_id: order.client_id,
