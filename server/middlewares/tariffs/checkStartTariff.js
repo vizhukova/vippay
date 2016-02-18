@@ -25,9 +25,9 @@ module.exports = function(req, res, next){
                         Messages.add({
                             user_id: req.user.id,
                             type: 'info',
-                            text: 'Ваш лимит заказов, выбранного вами тарифа 150 000 руб'
-                        })
-                        res.status(400).send('Общая сумма заказов исчерпала лимит.');
+                            text: 'Лимит заказов выбранного вами тарифа 150 000 руб'
+                        });
+                        res.status(400).send('Общая сумма заказов превысила лимит.');
                         return;
                     } else {
                         next();
