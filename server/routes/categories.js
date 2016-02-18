@@ -54,7 +54,7 @@ router.put('/category/:id', function(req, res) {
     })
 });
 
-router.delete('/category/:id', function(req, res){
+router.delete('/category/:id', function(req, res, next){
 
     Object.keys(req.body).map((k) => {
         if(req.body[k] === '') req.body[k] = null
@@ -63,7 +63,7 @@ router.delete('/category/:id', function(req, res){
     CategoryController.deleteCategory(req.params.id).then(function(category){
         res.send(category)
     }).catch(function(err){
-        res.status(400).send(err.errors)
+        next(err);
     })
 
 });

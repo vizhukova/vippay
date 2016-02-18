@@ -20,9 +20,11 @@ router.get('/payments/data/:order/:method', function(req, res){
 });
 
 
-router.post('payments/yandex', (req, res) => {
 
-    console.log(req.body);
+router.post('/payments/yandex', (req, res) => {
+
+    console.log(5)
+
 
 });
 

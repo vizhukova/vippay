@@ -37,10 +37,6 @@ class Login extends React.Component {
         }
 	}
 
-    componentDidMount() {
-
-	}
-
     login() {
         var self = this;
         if(!this.isCorrectField()) {
@@ -52,15 +48,6 @@ class Login extends React.Component {
             .then(function(data){
 
                 location.href = data.redirect;
-            })
-            .catch(function(err){
-                console.log('ERROR:', err);
-                AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Проверьте правильность заполнения данных'
-                })
-
             })
     }
 

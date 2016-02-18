@@ -59,14 +59,6 @@ class Register extends React.Component {
 
 				location.href = obj.redirect;
 			})
-			.catch(function(err){
-				console.log('ERROR:', err);
-               AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Такой пользователь уже существует'
-                })
-			})
     }
 
 	isCorrectField() {

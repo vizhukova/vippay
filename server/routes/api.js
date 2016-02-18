@@ -10,6 +10,8 @@ var checkBaseTariff = require('./../middlewares/tariffs/checkBaseTariff');
 var checkStartTariff = require('./../middlewares/tariffs/checkStartTariff');
 
 
+router.use(api_prefix, require('./users'));
+router.use(api_prefix, require('./partners'));
 router.use(api_prefix, require('./settings'));
 router.use(api_prefix, require('./messages'));
 
@@ -18,8 +20,6 @@ router.use(checkTrialTariff);
 router.use(checkBaseTariff);
 router.use(checkStartTariff);
 
-router.use(api_prefix, require('./users'));
-router.use(api_prefix, require('./partners'));
 router.use(api_prefix, require('./auth'));
 router.use(api_prefix, require('./products'));
 router.use(api_prefix, require('./categories'));

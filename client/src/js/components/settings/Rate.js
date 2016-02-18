@@ -1,6 +1,7 @@
 import React from 'react';
 import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore';
+import AlertActions from './../../../../../common/js/AlertActions';
 import _ from 'lodash';
 
 
@@ -14,6 +15,8 @@ class Rate extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.save = this.save.bind(this);
         this.cancel = this.cancel.bind(this);
+        this.checkFields = this.checkFields.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     componentDidMount() {
@@ -41,14 +44,32 @@ class Rate extends React.Component {
 
     }
 
+    checkFields() {
+        var result = this.state.rate.filter((item) => isNaN(parseInt(item.result)))
+        return result.length == 0;
+    }
+
     save() {
+        if(! this.checkFields() ) {
+            AlertActions.set({
+                type: 'error',
+                title: 'Ошибка',
+                text: 'Неверный формат ввода данных'
+            });
+            return;
+        }
         SettingsAction.addRate(this.state.rate);
+        this.onClick();
     }
 
     cancel() {
         SettingsAction.getRate();
+        this.onClick();
     }
 
+    onClick(e) {
+        AlertActions.hide();
+    }
 
 
     render(){
@@ -65,12 +86,13 @@ class Rate extends React.Component {
                 return <tr key={`${index}-${i}`}>
                     <td>{from.name}</td>
                     <td>{toEl.name}</td>
-                    <td><input type="text" name="rate" data-currency={`${counter++}`} value={`${result}`} onChange={self.onChange}/></td>
+                    <td><input type="text" name="rate" data-currency={`${counter++}`} value={`${result}`} onClick={this.onClick} onChange={self.onChange}/></td>
                 </tr>
             });
             res.push(arr);
 
         })
+
         return  <div>
 
                         <div className="table-wrapper boxed">
@@ -101,8 +123,8 @@ class Rate extends React.Component {
                           </table>
                           </div>
 
-                  <div className="btn btn-success pull-right" onClick={this.save}>Сохранить</div>
-                  <div className="btn btn-danger pull-left" onClick={this.cancel}>Отменить</div>
+                  <button className="btn btn-success pull-left" onClick={this.save} tabIndex={Math.pow(res.length, 2)}>Сохранить</button>
+                  <button className="btn btn-danger pull-right" onClick={this.cancel} tabIndex={Math.pow(res.length, 2) + 1}>Отменить</button>
 
             </div>
 

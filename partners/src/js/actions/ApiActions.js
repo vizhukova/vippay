@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import Promise from 'bluebird';
 import cookie from'./../../../../common/Cookies';
+import checkError from'./../../../checkError';
 
 function getDomain(){
     return '/api/';
@@ -29,8 +30,8 @@ class ApiActions{
                     auth: token
                 },
                 error(response){
-                    var error = new Error(response.responseJSON.msg);
-                    reject(error);
+                    checkError.check(response);
+                    reject(response);
                 }
             });
         })
@@ -55,8 +56,8 @@ class ApiActions{
                     auth: token
                 },
                 error(response){
-                    var error = new Error(response.responseText);
-                    reject(error);
+                    checkError.check(response);
+                    reject(response);
                 }
 
             });
@@ -82,7 +83,8 @@ class ApiActions{
                     resolve(response);
                 },
                 error(response){
-                    reject()
+                    checkError.check(response);
+                    reject(response)
                 }
 
             });
@@ -107,8 +109,8 @@ class ApiActions{
                     resolve(response);
                 },
                 error(response){
-                    var error = new Error(response.text);
-                    reject(error)
+                    checkError.check(response);
+                    reject(response)
                 }
 
             });

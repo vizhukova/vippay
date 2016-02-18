@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 var config = require('../config');
 var PartnerController = require('../controllers/Partner');
+var checkLoginAccess = require('./../middlewares/checkLoginAccess');
 
 
-router.post('/partner/register', function (req, res) {
+router.post('/partner/register', checkLoginAccess, function (req, res, next) {
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
     })
@@ -20,12 +21,13 @@ router.post('/partner/register', function (req, res) {
         res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
         res.send({user: user, redirect: `http://${req.hostname}/${user.modelData.login}`})
     }).catch(function (err) {
-        res.status(400).send(err.errors)
+        if(! err.constraint) err.constraint = 'check_this_data';
+        next(err);
     })
 
 });
 
-router.post('/partner/login', function (req, res) {
+router.post('/partner/login', function (req, res, next) {
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
     });
@@ -38,7 +40,8 @@ router.post('/partner/login', function (req, res) {
         res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
         res.send({user: user, redirect: `http://${req.hostname}/${user.modelData.login}`});
     }).catch(function (err) {
-        res.status(400).send(err.errors)
+        if(! err.constraint) err.constraint = 'check_this_data';
+        next(err);
     })
 
 });

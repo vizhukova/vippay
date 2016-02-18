@@ -98,7 +98,8 @@ router.put('/user/password', (req, res, next) => { //get all clients for partner
         .then(function (data) {
             res.send(data)
         }).catch(function (err) {
-            next();
+            if(! err.constraint) err.constraint = 'check_old_password';
+            next(err);
     })
 
 });
