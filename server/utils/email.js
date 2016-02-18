@@ -1,14 +1,10 @@
 var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 
-var transporter = nodemailer.createTransport({
-
-}, {
-    // default values for sendMail method
-    //from: 'sender@address',
-    headers: {
-        'My-Awesome-Header': '123'
-    }
-});
+var transporter = nodemailer.createTransport(smtpTransport({
+    host: 'localhost',
+    port: 25
+}));
 
 
 module.exports = {
