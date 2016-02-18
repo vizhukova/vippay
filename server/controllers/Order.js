@@ -12,8 +12,8 @@ module.exports = {
 
             Order.get(client_id)
                 .then(function (orders) {
-                resolve(orders)
-            }).catch(function (err) {
+                    resolve(orders)
+                }).catch(function (err) {
                 reject(err);
             });
         })
@@ -24,8 +24,8 @@ module.exports = {
 
             Order.setComplete(data)
                 .then(function (order) {
-                resolve(order[0])
-            }).catch(function (err) {
+                    resolve(order[0])
+                }).catch(function (err) {
                 reject(err);
             });
         })
@@ -48,16 +48,16 @@ module.exports = {
 
             User.getBasicCurrency({user_id: data.product.user_id}).then((result) => {
 
-                return Rate.getResult({
+                    return Rate.getResult({
                         client_id: data.product.user_id,
                         from: data.product.currency_id,
                         to: result.basic_currency
                     }).then((convert) => {
 
-                    data.convert = convert ? convert.result : 1;
-                    data.basic_currency_id = result.basic_currency;
+                        data.convert = convert ? convert.result : 1;
+                        data.basic_currency_id = result.basic_currency;
 
-                    return Order.add(data)
+                        return Order.add(data)
                             .then(function (order) {
                                 resolve(order.attributes)
                             })
@@ -76,8 +76,8 @@ module.exports = {
 
             Order.pay(id)
                 .then(function (order) {
-                resolve(order)
-            }).catch(function (err) {
+                    resolve(order)
+                }).catch(function (err) {
                 reject(err);
             });
         })

@@ -21,6 +21,6 @@ module.exports = function(err, res){
             res.status(400).send('Проверьте правильность написания старого пароля');
             break;
         default:
-            res.status(400).send('We can`t catch this error');
+            res.status(400).send('Упс, что то пошло не так');
     }
 };

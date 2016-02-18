@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser')
 var morgan = require('morgan')
 var config = require('./config');
 var _ = require('lodash');
+var Product = require('./models/Product');
 
 var app = express();
 var http = require('http').Server(app);
@@ -33,11 +34,12 @@ app.use(getClientObj);
 app.use(getUserId);
 app.use(getClientId);
 app.use(getInterkassaId);
+app.use(getClientPartnerObj);
 
 var timestamp = Date.now();
 
 
-app.get('/', getClientPartnerObj, function(req, res){
+app.get('/', function(req, res){
 
 
     if(req.subdomain == 'payments') {}
@@ -73,7 +75,18 @@ app.use(require('./routes/api'));
 app.use(require('./routes/redirect'));
 
 app.get('/order/:id*', function(req, res){
-    res.render('order', {timestamp: timestamp})
+
+    Product.getCurrentProduct(req.params.id).then((product) => {
+
+        if(req.tariff.active && product.active) res.render('order', {timestamp: timestamp})
+        else res.render('error', {timestamp: timestamp})
+
+    }).catch((err) => {
+
+        res.render('error', {timestamp: timestamp})
+
+    })
+
 });
 app.get('/:partner', getClientPartnerObj, function(req, res){
 

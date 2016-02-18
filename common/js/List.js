@@ -7,7 +7,7 @@ import _  from 'lodash';
 
 class List extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = {
             page: 2,
@@ -24,13 +24,13 @@ class List extends React.Component {
         this.update = this.update.bind(this);
     }
 
-     componentDidMount() {
-         SettingsStore.listen(this.update)
+    componentDidMount() {
+        SettingsStore.listen(this.update);
         this.state.perPage = this.props.perPage ? this.props.perPage : this.state.perPage;
-         this.setState({});
+        this.setState({});
     }
 
-    componentWillUnount() {
+    componentWillUnmount() {
         SettingsStore.unlisten(this.update)
     }
 
@@ -39,12 +39,12 @@ class List extends React.Component {
         this.setState({});
     }
 
-    componentWillReceiveProps(props){
+    componentWillReceiveProps(props) {
         this.state.perPage = props.perPage ? props.perPage : this.state.perPage;
         this.setState({});
     }
 
-    changePage(page){
+    changePage(page) {
         this.setState({
             currentPage: page
         })
@@ -52,52 +52,51 @@ class List extends React.Component {
 
     sort(e) {
         var key = e.target.dataset.name;
-         if(! key) return;
+        if (!key) return;
         var sortBy = e.target.dataset.name.split('.');
 
 
-            this.props.items.sort((a, b) => {
-                if(sortBy.length > 1) {
-                    a = a[sortBy[0]][sortBy[1]];
-                    b = b[sortBy[0]][sortBy[1]];
-                } else {
-                    a = a[sortBy[0]];
-                    b = b[sortBy[0]];
-                }
+        this.props.items.sort((a, b) => {
+            if (sortBy.length > 1) {
+                a = a[sortBy[0]][sortBy[1]];
+                b = b[sortBy[0]][sortBy[1]];
+            } else {
+                a = a[sortBy[0]];
+                b = b[sortBy[0]];
+            }
 
-                    a = a || '';
-                    b = b || '';
+            if (typeof a == 'string') {
 
-                if(typeof a == 'string') {
+                if (key == this.state.sort.name && this.state.sort.type == -1) {
+                    return a.localeCompare(b);
+                } else return b.localeCompare(a);
 
-                    if (key == this.state.sort.name && this.state.sort.type == -1) {
-                        return a.localeCompare(b);
-                    } else return b.localeCompare(a);
+            } else {
 
-                } else {
+                if (key == this.state.sort.name && this.state.sort.type == -1) {
+                    return a - b;
+                } else return b - a;
 
-                    if (key == this.state.sort.name && this.state.sort.type == -1) {
-                        return a - b;
-                    } else return b - a;
+            }
 
-                }
+        });
 
-            })
-
-            this.setState({sort: {
+        this.setState({
+            sort: {
                 name: key,
                 type: this.state.sort.type * (-1)
-             }});
+            }
+        });
     }
 
-    render(){
+    render() {
         var Item = this.props.itemComponent;
         var ChildrenComponents = this.props.ChildrenComponents;
 
         if (!this.props.items) return;
         var self = this;
-        var items =this.props.items.slice((this.state.currentPage - 1) * this.state.perPage , ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
-        var pages = Math.ceil(this.props.items.length/this.state.perPage);
+        var items = this.props.items.slice((this.state.currentPage - 1) * this.state.perPage, ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
+        var pages = Math.ceil(this.props.items.length / this.state.perPage);
 
         var isPagination = pages > 1;
         var isLast = this.state.currentPage == pages;
@@ -114,40 +113,40 @@ class List extends React.Component {
                         </span>
                             {this.props.children}
                             {this.props.add_link ? <Link to={this.props.add_link}
-                                  className={`btn btn-action-big btn-default glyphicon glyphicon-plus
-                                  ${this.state.isActiveTariff ? '' : 'disabled'}`} /> : null }
+                                                         className={`btn btn-action-big btn-default glyphicon glyphicon-plus
+                                  ${this.state.isActiveTariff ? '' : 'disabled'}`}/> : null }
                         </div>
 
                         <table className="table table-hover">
                             {this.props.thead ?
-                                 <thead>
-                                     <tr>
-                                     {this.props.thead.map((item) => {
-                                         return <th className={this.state.sort.name == item.key  ? 'check' : 'uncheck'}
-                                                    data-name={item.key}
-                                                    onClick={this.props.sort ? this.props.sort : this.sort}>
-                                                 {item.name}
-                                             </th>
-                                     })}
-                                     </tr>
-                                 </thead> : null
+                                <thead>
+                                <tr>
+                                    {this.props.thead.map((item) => {
+                                        return <th className={this.state.sort.name == item.key  ? 'check' : 'uncheck'}
+                                                   data-name={item.key}
+                                                   onClick={this.props.sort ? this.props.sort : this.sort}>
+                                            {item.name}
+                                        </th>
+                                    })}
+                                </tr>
+                                </thead> : null
                             }
                             <tbody>
                             { items.map(function (item, index) {
-                                return <Item item={item} key={index} isActiveTariff={self.state.isActiveTariff} />
+                                return <Item item={item} key={index} isActiveTariff={self.state.isActiveTariff}/>
                             })}
                             </tbody>
                         </table>
                         <div className="table-footer">
                             {this.props.isPaginate ?
-                            <Pagination
-                                show={isPagination}
-                                first={isFirst}
-                                pages={pages}
-                                last={isLast}
-                                currentPage={this.state.currentPage}
-                                onChangePage={this.changePage}
-                            /> : null}
+                                <Pagination
+                                    show={isPagination}
+                                    first={isFirst}
+                                    pages={pages}
+                                    last={isLast}
+                                    currentPage={this.state.currentPage}
+                                    onChangePage={this.changePage}
+                                /> : null}
                         </div>
                     </div>
                 </div>

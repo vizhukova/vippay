@@ -9,7 +9,7 @@ module.exports = function(req, res, next){
 
         var count = 0;
 
-        Order.get(req.user.id).then((orders) => {
+        Order.get(req.clientObj.id).then((orders) => {
 
             Promise.map(orders, (order) => {
                 return Rate.getResult({
@@ -21,9 +21,12 @@ module.exports = function(req, res, next){
                     })
             }).then((end_result) => {
                 if(count > 150000) {
+
+                    req.tariff.active = false;
+
                     if(req.method != 'GET') {
                         Messages.add({
-                            user_id: req.user.id,
+                            user_id: req.clientObj.id,
                             type: 'info',
                             text: 'Лимит заказов выбранного вами тарифа 150 000 руб'
                         });

@@ -7,6 +7,7 @@ import SettingsStore from './../stores/SettingsStore';
 import Loader from'./../../../../common/js/Loader';
 import Alert from'./../../../../common/js/Alert';
 import cookie from'./../../../../common/Cookies';
+import Error from'./../../../../common/js/Error';
 import _  from 'lodash';
 
 
@@ -41,19 +42,21 @@ class Application extends React.Component {
     }
 
     componentWillUnmount() {
-        AuthStore.unlisten(this.update)
-        SettingsStore.unlisten(this.update)
+        AuthStore.unlisten(this.update);
+        SettingsStore.unlisten(this.updateSettings);
     }
 
     update(state){
         if(!state.auth){
             location.hash = 'auth';
         }
-        this.setState(state);
+        _.assign(this.state, state);
+        this.setState({});
     }
 
     updateSettings(state) {
-        this.setState(state);
+        _.assign(this.state, state);
+        this.setState({});
     }
 
     render() {
@@ -100,8 +103,12 @@ class Application extends React.Component {
                     </div>
                 </div>
             </nav>
+
             <Alert />
-            {this.state.auth ? <div>{this.props.children}</div> : <Loader />}
+
+            {!this.state.isActiveTariff && location.hash.slice(2) !== 'profile' ?
+            <Error /> :
+            (this.state.auth ? <div>{this.props.children}</div> : <Loader />) }
 
         </div>
     }
