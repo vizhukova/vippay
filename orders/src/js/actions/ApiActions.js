@@ -117,4 +117,4 @@ class ApiActions{
 
 }
 
-module.exports = ApiActions;
+export default ApiActions;

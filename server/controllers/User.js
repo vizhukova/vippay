@@ -117,6 +117,7 @@ module.exports = {
         })
     },
 
+
     set(obj) {
          return new Promise(function(resolve, reject){
 
@@ -127,6 +128,10 @@ module.exports = {
             })
 
         })
-    }
 
+    },
+
+    activateTariff(id){
+        User.activateTariff(id)
+    }
 };

@@ -123,6 +123,7 @@ var User = bookshelf.Model.extend({
 
     }),
 
+
     getFee: Promise.method(function (id) {
 
         return knex('users')
@@ -146,7 +147,15 @@ var User = bookshelf.Model.extend({
                 .update(obj)
                 .where('id', '=', obj.id)
                 .returning('*')
-    }
+    },
+
+    activateTariff: Promise.method((id) => {
+        return knex('users')
+            .update({tariff_payed: true})
+            .where('id', '=', id)
+            .returning('*')
+    })
+
 
 
 });

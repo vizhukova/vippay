@@ -6,7 +6,9 @@ var PartnerController = require('../controllers/Partner');
 var RateController = require('../controllers/Rate');
 var config = require('../config');
 var payments = require('../payment_systems/payment_systems');
+var email = require('../utils/email');
 var _ = require('lodash');
+
 
 router.post('/client/register', checkLoginAccess, function (req, res, next) {
     Object.keys(req.body).map((k) => {
