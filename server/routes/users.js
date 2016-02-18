@@ -47,7 +47,6 @@ router.post('/client/login', function (req, res, next) {
         password: req.body.password,
         domain: req.postdomain
     }).then(function (user) {
-        email.send(user.modelData.email, 'You log in', 'No, really, you log in, get out here');
         res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
         res.send(user);
     }).catch(function (err) {

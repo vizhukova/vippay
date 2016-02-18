@@ -8,12 +8,13 @@ var transporter = nodemailer.createTransport(sendmailTransport({}));
 module.exports = {
     send(to, subject, text){
         transporter.sendMail({
-            from: 'test@vippay.info',
+            from: 'no-reply@vippay.info',
             to: to,
             subject: subject,
             text: text
         }, function(err, info){
-            var a;
+            console.log(err);
+            console.log(info);
         });
     }
 };
