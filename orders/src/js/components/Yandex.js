@@ -19,7 +19,7 @@ class Yandex extends React.Component {
                 <input type="hidden" name="label" value={this.props.method.label} />
                 <input type="hidden" name="targets" value={this.props.method.targets} />
                 <input type="hidden" name="quickpay-form" value='donate' />
-                <input type="hidden" name="sum" value={this.props.method.sum} data-type="number" />
+                <input type="hidden" name="sum" value="5" data-type="number" />
                 <input type="hidden" name="need-fio" value={ this.props.method['need-fio'] } />
                 <input type="hidden" name="need-email" value={ this.props.method['need-email'] } />
                 <label>

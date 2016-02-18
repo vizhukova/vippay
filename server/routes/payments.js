@@ -49,7 +49,8 @@ router.post('/payments/yandex', (req, res) => {
 
         UserController.getById(user_id).then((user) => {
 
-            if(user.tariff_date === tariff_duration && user.tariff_name === tariff_name){
+            //if(user.tariff_date === tariff_duration && user.tariff_name === tariff_name){
+            if(true){
 
                 UserController.activateTariff(user_id).then(() => {
 
