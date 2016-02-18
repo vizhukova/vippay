@@ -5,6 +5,8 @@ var router = express.Router();
 var InterKassa = require('./../payments/interkassa');
 var Yandex = require('./../payments/yandex');
 
+var OrderController = require('./../controllers/Order');
+
 
 router.get('/payments/data/:order/:method', function (req, res) {
 
@@ -36,7 +38,11 @@ router.get('/payments/data/:order/:method', function (req, res) {
 
 router.post('/payments/yandex', (req, res) => {
 
-    console.log(5)
+    OrderController.pay(+req.body.label).then(() => {
+        res.send('ok')
+    }).catch((err) => {
+        res.status(500).send('Error');
+    })
 
 
 });

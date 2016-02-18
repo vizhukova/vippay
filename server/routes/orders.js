@@ -86,7 +86,7 @@ router.post('/order', function(req, res) {
 
 router.put('/order', function(req, res) { //pay for the order
 
-    OrderController.pay(req.body.id).then((order) => {
+    //OrderController.pay(req.body.id).then((order) => {
 
         StatisticController.add({partner_id: order[0].partner_id,
                                     product: JSON.stringify(order[0].product),
@@ -95,10 +95,10 @@ router.put('/order', function(req, res) { //pay for the order
                                     action: "pending_order"})
                                     .then(() => {
                                         res.send(order);
-                                    })
-    }).catch(function(err){
-        res.status(400).send(err.errors)
-    })
+                                    }).catch(function(err) {
+            res.status(400).send(err.errors)
+        })
+    //})
 
 });
 
