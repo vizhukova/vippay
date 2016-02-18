@@ -39,12 +39,15 @@ class YandexMoney {
 
                 payment_data.receiver = _.findWhere(user.payment, {name: 'yandex'}).fields.receiver;
 
-                return Rate.getResult({
-                    client_id: order.client_id,
-                    from: order.product.currency_id,
-                    to: 4
-                })
-
+                if(order.product.currency_id !== 4){
+                    return Rate.getResult({
+                        client_id: order.client_id,
+                        from: order.product.currency_id,
+                        to: 4
+                    })
+                }else{
+                    return Promise.resolve({result: 1})
+                }
 
             }).then((data) => {
 
