@@ -41,7 +41,7 @@ router.post('/payments/yandex', (req, res) => {
 
     console.log(req.body);
 
-    var data = req.body.label.split('::');
+    var data = req.body.label.split(':');
 
     if(data.length === 3){
 
