@@ -115,6 +115,10 @@ module.exports = {
             })
 
         })
+    },
+
+    activateTariff(id){
+        User.activateTariff(id)
     }
 
 };

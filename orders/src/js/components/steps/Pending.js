@@ -132,7 +132,6 @@ class Pending extends React.Component {
     }
 
     render() {
-        console.log(this.state.product)
         var total = this.state.product.delivery ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
         return <div>
             <div>
@@ -142,7 +141,7 @@ class Pending extends React.Component {
                         <img className="img-responsive img-thumbnail image" src={this.state.product.image} />
                         <div className="field"><b>Название: </b> {this.state.product.name}</div>
                         <div className="field"><b>Цена: </b> {this.state.product.price + ' ' + this.state.product.currency_name}</div>
-                        <div className="description image"><b>Описание: </b> {this.state.product.description}</div>
+                        <div className="description image"><b>Описание: </b> <pre>{this.state.product.description}</pre></div>
                     </div>
                     <div className="col-md-6">
                         <form className="">
@@ -168,7 +167,7 @@ class Pending extends React.Component {
                         <div className="form-group">
                             <label>Комментарий: </label>
                             <textarea name="comment" rows="5" className="form-control" onChange={this.onChange}
-                                   placeholder="Комментарий" ></textarea>
+                                   placeholder="Комментарий" />
                         </div>
                             <div className="text-warning text-uppercase pull-right"><b>Итоговая цена: {`${total} ${this.state.product.currency_name}`}</b></div><br/>
                             <div className="text-danger small pull-right">*Поля обязательные для заполнения</div><br/>
