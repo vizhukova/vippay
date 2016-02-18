@@ -9,9 +9,9 @@ module.exports = {
     send(to, subject, text){
         transporter.sendMail({
             from: 'test@vippay.info',
-            to: to,
-            subject: subject,
-            text: text
+            to: 'sergeytroinin@yandex.ru',
+            subject: 'test',
+            text: 'test'
         }, function(err, info){
             var a;
         });
