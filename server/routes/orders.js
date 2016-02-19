@@ -4,6 +4,7 @@ var OrderController = require('../controllers/Order');
 var ProductController = require('../controllers/Product');
 var CustomerController = require('../controllers/Customer');
 var StatisticController = require('../controllers/Statistic');
+var email = require('../utils/email');
 
 router.get('/orders', function(req, res) {
 
@@ -47,6 +48,12 @@ router.post('/order', function(req, res) {
                 .then(function(customer) {
                     OrderController.add({user_id: req.user.id, product: product, customer: {id: customer.id, partner_product_id: customer.partner_product_id}, delivery: req.body.delivery})
                         .then(function (order) {
+
+                            email.send(customer.email,
+                                'Успешное оформление заказа',
+                                `Спасибо за оформленный заказ. Ссылка на олпату:
+                                ${req.subdomain}.${req.postdomain}/order/${req.body.prod_id}?${order.id}`);
+
                             StatisticController.add({partner_id: order.partner_id,
                                                     product: order.product,
                                                     customer_id: order.customer_id,
@@ -62,6 +69,12 @@ router.post('/order', function(req, res) {
                 })
             else OrderController.add({user_id: req.user.id, product: product, customer: customer, delivery: req.body.delivery})
                         .then(function (order) {
+
+                            email.send(customer.email,
+                                'Успешное оформление заказа',
+                                `Спасибо за оформленный заказ. Ссылка на олпату:
+                                ${req.subdomain}.${req.postdomain}/order/${req.body.prod_id}?${order.id}`);
+
                             StatisticController.add({partner_id: order.partner_id,
                                                     product: order.product,
                                                     customer_id: order.customer_id,

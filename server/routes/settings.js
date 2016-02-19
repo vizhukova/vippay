@@ -54,13 +54,15 @@ router.get('/fee', function(req, res) {
 
 });
 
-router.put('/fee', function(req, res) {
+router.put('/fee', function(req, res, next) {
 
-    SettingsController.editFee({client_id: req.user.id, fee: req.body.fee})
+    SettingsController.editFee({id: req.user.id, fee: req.body.fee})
             .then(function(fee){
                 res.send(fee);
             }).catch(function(err) {
-                res.status(400).send(err.errors);
+                if( err.code == '22003')
+                err.constraint = 'too_big_value';
+                next(err);
             });
 
 });
@@ -102,7 +104,7 @@ router.put('/settings/tariff', function(req, res) {
         tariff_duration: req.body.time,
         tariff_name: req.body.name,
         tariff_date: moment(),
-        id: req.user_id
+        id: req.user.id
     }).then((result) => {
         res.send(result)
     }).catch((err) => {

@@ -117,8 +117,21 @@ module.exports = {
         })
     },
 
+
+    set(obj) {
+         return new Promise(function(resolve, reject){
+
+             User.set(obj).then(function(user){
+               resolve(user)
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
+
+    },
+
     activateTariff(id){
         return User.activateTariff(id)
     }
-
 };

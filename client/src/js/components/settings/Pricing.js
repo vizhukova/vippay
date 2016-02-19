@@ -27,6 +27,7 @@ class PricingItem extends React.Component {
 
     onClick(e) {
         e.stopPropagation();
+        debugger
         this.props.currentTariff[this.props.item].name = this.props.item;
         SettingsAction.setTariff( this.props.currentTariff[this.props.item]);
     }

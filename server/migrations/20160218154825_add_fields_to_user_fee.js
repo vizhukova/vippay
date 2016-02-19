@@ -2,8 +2,8 @@
 exports.up = function(knex, Promise) {
   return knex.schema.table('users', function(t){
       t.decimal('fee').defaultTo(20).notNullable();
-      t.boolean('fee_added').defaultTo(false);
-      t.boolean('fee_payed').defaultTo(false);
+      t.decimal('fee_added');
+      t.decimal('fee_payed');
   });
 };
 

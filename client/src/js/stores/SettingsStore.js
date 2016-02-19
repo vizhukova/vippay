@@ -54,7 +54,6 @@ class SettingsStore {
     }
 
     onAddRate(rate) {
-        debugger
         this.rate = _.flatten(rate);
     }
 
@@ -63,14 +62,14 @@ class SettingsStore {
         console.log('SettingsStore rate = ', rate);
     }
 
-    onGetFee(fee) {
-        this.fee = fee.partner_first_level;
-        console.log('SettingsStore fee = ', fee);
+    onGetFee(obj) {
+        this.fee = obj.fee;
+        console.log('SettingsStore fee = ', obj.fee);
     }
 
-    onEditFee(fee) {
-        this.fee = fee.partner_first_level;
-        console.log('SettingsStore fee = ', fee);
+    onEditFee(obj) {
+        this.fee = obj.fee;
+        console.log('SettingsStore fee = ', obj.fee);
     }
 
     onGetPayment(payment) {
@@ -88,7 +87,10 @@ class SettingsStore {
         console.log('SettingStore tariff', tariff)
 
         var today = moment();
-        var end_tariff = moment(tariff.tariff_date).add(tariff.tariff_duration, 'months');
+        var end_tariff;
+
+        if(tariff.tariff_date) end_tariff = moment(tariff.tariff_date).add(tariff.tariff_duration, 'months');
+        else end_tariff = moment(tariff.created_at).add(3, 'days');
 
         this.isActiveTariff = moment.min(today, end_tariff) == today;
         console.log('SettingStore isActiveTariff', this.isActiveTariff)
