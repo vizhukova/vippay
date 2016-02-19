@@ -39,6 +39,8 @@ router.get('/payments/data/:order/:method', function (req, res) {
 
 router.post('/payments/yandex', (req, res) => {
 
+    console.log(req.body);
+
     var data = req.body.label.split('::');
 
     if(data.length === 3){
@@ -61,6 +63,8 @@ router.post('/payments/yandex', (req, res) => {
                 res.status(500).send('Error')
             }
 
+        }).then((err) => {
+            console.log(err.stack);
         })
 
     }else if(data.length === 1){
