@@ -100,7 +100,7 @@ class PricingItem extends React.Component {
                                         <div onClick={this.onClick} className="price-btn">
                                         <Yandex method={ {
                                             action: 'https://money.yandex.ru/quickpay/confirm.xml',
-                                            receiver: '410012779697688',
+                                            receiver: '410012638338487',
                                             formcomment: `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
                                             'short-dest': `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
                                              label: `${this.props.item}::${this.props.currentTariff[this.props.item].time}::${user_id}`,
