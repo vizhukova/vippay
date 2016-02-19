@@ -63,7 +63,7 @@ router.post('/payments/yandex', (req, res) => {
                 res.status(500).send('Error')
             }
 
-        }).then((err) => {
+        }).catch((err) => {
             console.log(err.stack);
         })
 

@@ -24,14 +24,6 @@ class Yandex extends React.Component {
                 <input type="hidden" name="targets" value={this.props.method.targets} />
                 <input type="hidden" name="quickpay-form" value='donate' />
                 <input type="hidden" name="sum" value="5" data-type="number" />
-                <label>
-                    <input type="radio" onClick={this.click} name="paymentType" value="PC" />
-                    Яндекс.Деньгами
-                </label><br/>
-                <label>
-                    <input type="radio" onClick={this.click} name="paymentType" value="AC" />
-                    Банковской картой
-                </label><br/>
                 <input type="submit" className="btn" value="Перевести" />
             </form>
             </div>
