@@ -1,6 +1,7 @@
 var Partner = require('../models/Partner');
 var User = require('../models/Users');
 var Product = require('../models/Product');
+var Fee = require('../models/Fee');
 var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
@@ -139,6 +140,42 @@ module.exports = {
             var errors = {};
 
             Partner.get(id).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
+    },
+
+    getFee(id) {
+        return new Promise(function(resolve, reject){
+
+            Fee.get(id).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
+    },
+
+    putFee(fee){
+        return new Promise(function(resolve, reject){
+
+            Fee.put(fee).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
+    },
+
+    setFee(fee){
+        return new Promise(function(resolve, reject){
+
+            Fee.set(fee).then(function(model){
                 resolve(model);
             }).catch(function(err){
                 reject(err);

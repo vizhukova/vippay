@@ -29,7 +29,15 @@ class Settings extends React.Component {
 
     render(){
 
-        return  <div><a href={`${this.state.link}`}>Ссылка</a></div>
+        return  <div>
+            <div className="boxed">
+                <h5 className="form-group">
+                     <a href={`${this.state.link}`}>{this.state.link}</a> <br/>
+                    По этой ссылке партер может зарегистрироваться и просматривать выставленные вами товары.
+                    Скопируйте ее и передайте вашему партнеру.
+                </h5>
+            </div>
+        </div>
 
     }
 //<a href={this.state.link}>Ссылка</a>

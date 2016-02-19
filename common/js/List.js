@@ -12,7 +12,7 @@ class List extends React.Component {
         this.state = {
             page: 2,
             currentPage: 1,
-            perPage: 10,
+            perPage: 20,
             sort: {
                 type: 1
             }
@@ -114,15 +114,16 @@ class List extends React.Component {
                             {this.props.children}
                             {this.props.add_link ? <Link to={this.props.add_link}
                                                          className={`btn btn-action-big btn-default glyphicon glyphicon-plus
-                                  ${this.state.isActiveTariff ? '' : 'disabled'}`}/> : null }
+                                  ${this.state.isActiveTariff ? '' : 'disabled'}`}>{this.props.add_link_name}</Link> : null }
                         </div>
 
                         <table className="table table-hover">
                             {this.props.thead ?
                                 <thead>
                                 <tr>
-                                    {this.props.thead.map((item) => {
+                                    {this.props.thead.map((item, index) => {
                                         return <th className={this.state.sort.name == item.key  ? 'check' : 'uncheck'}
+                                                   key={index}
                                                    data-name={item.key}
                                                    onClick={this.props.sort ? this.props.sort : this.sort}>
                                             {item.name}

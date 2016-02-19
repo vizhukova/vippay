@@ -40,6 +40,11 @@ def restart_server():
 
 
 @roles('production')
+def show_logs():
+    run('pm2 logs')
+
+
+@roles('production')
 def deploy_production():
     prepare_branch()
     update_code()

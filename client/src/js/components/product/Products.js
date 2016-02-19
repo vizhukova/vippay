@@ -60,8 +60,8 @@ class ProductItem extends React.Component {
     }
 
     render(){
-        var available = "glyphicon glyphicon-ok-circle";
-        var notAvailable = "glyphicon glyphicon-ban-circle";
+        var available = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
+        var notAvailable = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
         var currency = _.findWhere(this.state.currencies, {id: +this.props.item.currency_id});
         currency = currency ? currency.name : currency;
 
@@ -71,8 +71,8 @@ class ProductItem extends React.Component {
                     <td>{this.props.item.price}</td>
                     <td>{currency}</td>
                     <td><a href={`/order/${this.props.item.id}`} target="_blank">{getAbsoluteUrl(`/order/${this.props.item.id}`)}</a></td>
-                     <td className="action"><button type="button" className={this.props.item.available ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setAvailable}></button></td>
-                     <td className="action"><button type="button" className={this.props.item.active ? `btn btn-default btn-action ${available}` : `btn btn-default btn-action ${notAvailable}`} onClick={this.setActive}></button></td>
+                     <td className="action"><button type="button" className={this.props.item.available ? available : notAvailable} onClick={this.setAvailable} /></td>
+                     <td className="action"><button type="button" className={this.props.item.active ? available : notAvailable} onClick={this.setActive} /></td>
                     <td className="action">
                         <Link to={`/category/${this.props.item.category_id}/products/${this.props.item.id}`}
                               className={`btn btn-default btn-action glyphicon glyphicon-pencil
@@ -130,11 +130,11 @@ class Products extends React.Component {
         var self = this;
 
         return <List
-            title="Продукты"
+            title="Товары"
             add_link={`/category/${this.props.params.id}/products/new`}
+            add_link_name = 'Добавить товар'
             error={this.state.error}
             items={this.state.products}
-            perPage={5}
             itemComponent={ProductItem}
             isPaginate={true}
             thead={[

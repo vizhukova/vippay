@@ -76,14 +76,18 @@ class Application extends React.Component {
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
-                            <li><Link to="/categories" activeClassName="active">Каталог</Link></li>
-                            <li><Link to="/partners" activeClassName="active">Партнеры</Link></li>
-                            <li><Link to="/statistics" activeClassName="active">Статистика</Link></li>
+                            <li><Link to="/categories" activeClassName="active">Каталог товаров</Link></li>
+                            <li className="dropdown">
+                              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Партнерская программа</a>
+                                  <ul className="dropdown-menu">
+                                    <li><Link to="/settings" activeClassName="active">Настройка</Link></li>
+                                    <li><Link to="/partners" activeClassName="active">Партнеры</Link></li>
+                                  </ul>
+                          </li>
                             <li><Link to="/orders" activeClassName="active">Заказы</Link></li>
                             <li className="dropdown">
                                   <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Настройка</a>
                                   <ul className="dropdown-menu">
-                                    <li><Link to="/settings" activeClassName="active">Ссылка</Link></li>
                                     <li><Link to="/rate" activeClassName="active">Курсы</Link></li>
                                     <li><Link to="/fee" activeClassName="active">Комиссия</Link></li>
                                     <li><Link to="/payment" activeClassName="active">Платежи</Link></li>
@@ -97,8 +101,6 @@ class Application extends React.Component {
                                     <li><Link to="/profile" activeClassName="active">Профиль</Link></li>
                                     <li><a href={this.state.out_link} >Выход</a></li>
                                   </ul>
-
-
                           </li>
                         </ul>
                     </div>

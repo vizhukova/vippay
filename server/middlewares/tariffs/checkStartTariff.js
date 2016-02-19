@@ -11,6 +11,8 @@ module.exports = function(req, res, next){
 
         Order.get(req.clientObj.id).then((orders) => {
 
+            orders = orders || [];
+
             Promise.map(orders, (order) => {
                 return Rate.getResult({
                     client_id: order.client_id,
@@ -31,11 +33,12 @@ module.exports = function(req, res, next){
                             text: 'Лимит заказов выбранного вами тарифа 150 000 руб'
                         });
                         res.status(400).send('Общая сумма заказов превысила лимит.');
-                        return;
                     } else {
                         next();
                     }
-                }
+                } else {
+                        next();
+                    }
             })
 
         })
