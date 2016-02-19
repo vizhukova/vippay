@@ -103,7 +103,7 @@ class PricingItem extends React.Component {
                                             receiver: '410012779697688',
                                             formcomment: `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
                                             'short-dest': `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
-                                             label: `${this.props.tariffs[this.props.item].name}::${this.props.currentTariff[this.props.item].time}::${user_id}`,
+                                             label: `${this.props.item}::${this.props.currentTariff[this.props.item].time}::${user_id}`,
                                              targets: `${this.props.tariffs[this.props.item].name} ${this.props.currentTariff[this.props.item].time}`,
                                              sum: this.props.currentTariff[this.props.item].price,
                                              'need-fio': true,
