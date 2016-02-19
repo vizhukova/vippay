@@ -3,6 +3,8 @@ var User = require('../models/Users');
 var Rate = require('../models/Rate');
 var Settings = require('../models/Settings');
 var Customer = require('../models/Customer');
+var Statistic = require('../models/Statistic');
+var Fee = require('../models/Fee');
 var Promise = require('bluebird');
 var _ = require('lodash');
 var email = require('../utils/email');
@@ -76,27 +78,43 @@ module.exports = {
     pay(id) {
         return new Promise(function (resolve, reject) {
 
-            Order.pay(id)
-                .then(function (order) {
+            var order;
 
+            Order.pay(id)
+                .then(function (orderObj) {
+
+                    order = orderObj[0];
                     return Customer.get(order.customer_id)
 
                 }).then((customer) => {
-                email.send(customer.email, 'Успешная оплата заказа', `Спасибо за оплату заказ. Оплата прошла успешно`);
+                email.send(customer.email, 'Успешная оплата заказа', `Спасибо за оплату заказа. Оплата прошла успешно`);
 
-                if (order[0].partner_id) {
-                    return Settings.getFee(order[0].client_id)
+                if (order.partner_id) {
+                    return Settings.getFee(order.client_id)
                 } else {
                     res.send(order);
                 }
 
             }).then((obj) => {
-                return User.set({
+                return Fee.set({
                     fee_added: obj.fee,
-                    id: order[0].client_id
+                    client_id: order.client_id,
+                    partner_id: order.partner_id
                 })
-            }).then((user) => {
-                    res.send(order);
+            }).then((fee) => {
+                    Statistic.add({
+                            partner_id: order.partner_id,
+                            product: JSON.stringify(order.product),
+                            customer_id: order.customer_id,
+                            client_id: order.client_id,
+                            action: "pending_order"
+            }).then(() => {
+
+                 res.send(order);
+
+            }).catch(function (err) {
+                        res.status(400).send(err.errors)
+                    })
                 })
                 .catch(function (err) {
                     reject(err);

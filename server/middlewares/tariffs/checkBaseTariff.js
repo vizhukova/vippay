@@ -10,7 +10,7 @@ module.exports = function(req, res, next){
         var today = moment();
         var end_tariff = moment(req.tariff.tariff_date).add(req.tariff.tariff_duration, 'months');
 
-        if( moment.max(today, end_tariff) == today) {//if trial period end
+        if( moment.max(today, end_tariff) == today ) {//if trial period end
 
             req.tariff.active = false;
             if(req.method != 'GET') {res.status(402).send(); return;}

@@ -47,3 +47,16 @@ body{
   padding: 130px;
   background-color: rgba(232, 97, 58, 0.43);
 }
+
+
+.input-group-inline input.form-control.input-lg {
+    height: 30px;
+    font-size: 14pt;
+    padding: 3px;
+}
+
+.input-group-btn:last-child>.btn {
+   line-height: 27px;
+}
+
+

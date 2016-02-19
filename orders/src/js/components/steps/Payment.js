@@ -38,7 +38,6 @@ class Order extends React.Component {
                  <div className="content-step">
                     <div className="order-num title"><b>ID заказа: </b> {this.state.order.id}</div>
                      <Yandex method={this.state.method} />
-                    <button type="button" className="btn btn-danger btn-lg pull-right btn-order" onClick={this.onClick}>Оплатить</button>
                  </div>
            </div>
     }

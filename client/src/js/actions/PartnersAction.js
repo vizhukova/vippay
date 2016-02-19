@@ -22,6 +22,28 @@ class PartnersAction {
         })
     }
 
+    getFee() {
+        var self = this;
+        ApiActions.get(`partner/fee`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
+    }
+
+    setFee(obj) {
+        return new Promise((resolve, reject) => {
+            var self = this;
+        ApiActions.put(`partner/fee`, obj).then(function(data){
+            self.dispatch(data);
+            resolve(data);
+        }).catch(function(err){
+            //self.dispatch(err);
+            reject(err);
+        })
+        })
+    }
+
 }
 
 export default alt.createActions(PartnersAction);

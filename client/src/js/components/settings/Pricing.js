@@ -27,7 +27,7 @@ class PricingItem extends React.Component {
 
     onClick(e) {
         e.stopPropagation();
-        debugger
+        if(! this.props.isVisible) return;
         this.props.currentTariff[this.props.item].name = this.props.item;
         SettingsAction.setTariff( this.props.currentTariff[this.props.item]);
     }
@@ -43,8 +43,10 @@ class PricingItem extends React.Component {
         var days = day_end.diff(moment(), 'days');
         days = days < 0 ? 0 : days;
         var user_id = this.props.tariff_payed.id;
+        var durationCurrentTariff = this.props.tariff_payed.tariff_name == this.props.item
+            ? _.findWhere(this.props.tariffs[this.props.item].prices, {time: +this.props.tariff_payed.tariff_duration}).price
+            : null;
 
-        //if(this.props.tariff_payed.tariff_name) debugger
 
         return <li className={`price_col price_col_blue  first ${this.props.isVisible ? 'chosen' : ''}`} onClick={this.onChoose}>
                             <div className="price_item">
@@ -68,7 +70,7 @@ class PricingItem extends React.Component {
                                                   <div className="input-group-addon">Срок: </div>
 
                                                   <Select values={this.props.values}
-                                                        current_value={this.props.currentTariff[this.props.item].price}
+                                                        current_value={durationCurrentTariff}
                                                         fields={{
                                                         name: 'time',
                                                         value: 'price'
@@ -96,7 +98,7 @@ class PricingItem extends React.Component {
                                     </div>
                                 </div>
                                 <div className="price_col_foot">
-                                    <a href="#" className={`${this.props.isVisible ? 'visible' : ''}`} >
+                                    <a className={`${this.props.isVisible ? 'visible' : ''}`} >
                                         <div onClick={this.onClick} className="price-btn">
                                         <Yandex method={ {
                                             action: 'https://money.yandex.ru/quickpay/confirm.xml',

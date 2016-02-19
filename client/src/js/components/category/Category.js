@@ -42,10 +42,10 @@ class Category extends React.Component {
     render() {
 
         return <List
-            title="Категории"
+            title="Каталог товаров"
             add_link="/category/new"
+            add_link_name = 'Добавить категорию'
             items={this.state.categories}
-            perPage={5}
             itemComponent={CategoryItem}
             isPaginate={true}
         />

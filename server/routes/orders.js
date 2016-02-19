@@ -51,7 +51,7 @@ router.post('/order', function(req, res) {
 
                             email.send(customer.email,
                                 'Успешное оформление заказа',
-                                `Спасибо за оформленный заказ. Ссылка на олпату:
+                                `Спасибо за оформленный заказ. Ссылка на оплату:
                                 ${req.subdomain}.${req.postdomain}/order/${req.body.prod_id}?${order.id}`);
 
                             StatisticController.add({partner_id: order.partner_id,
@@ -72,7 +72,7 @@ router.post('/order', function(req, res) {
 
                             email.send(customer.email,
                                 'Успешное оформление заказа',
-                                `Спасибо за оформленный заказ. Ссылка на олпату:
+                                `Спасибо за оформленный заказ. Ссылка на оплату:
                                 ${req.subdomain}.${req.postdomain}/order/${req.body.prod_id}?${order.id}`);
 
                             StatisticController.add({partner_id: order.partner_id,
