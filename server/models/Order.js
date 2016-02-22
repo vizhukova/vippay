@@ -4,6 +4,13 @@ var bookshelf = require('../db');
 var knex = require('../knex_connection');
 var _ = require('lodash');
 
+function replacePrice(orders) {
+    orders.map((order) => {
+        order.product.price = +parseFloat(order.product.price)
+    })
+    return orders;
+}
+
 var Order = bookshelf.Model.extend({
 
     tableName: 'orders',
@@ -24,13 +31,20 @@ var Order = bookshelf.Model.extend({
 }, {
 
     get: Promise.method(function (client_id) {
-        return knex.select(knex.raw(`orders.*,
+        return new Promise((resolve, reject) => {
+            knex.select(knex.raw(`orders.*,
               (SELECT users.name from users WHERE users.id = orders.partner_id),
               (SELECT users.login from users WHERE users.id = orders.partner_id),
               (SELECT users.email from users WHERE users.id = orders.partner_id)`))
             .from('orders')
             .where('orders.client_id', client_id)
             .orderBy('id', 'desc')
+            .then((res) => {
+                resolve(replacePrice(res));
+            }).catch((err) => {
+                reject(err);
+            })
+        })
 
     }),
 
@@ -48,6 +62,7 @@ var Order = bookshelf.Model.extend({
     }),
 
     add: Promise.method(function (data) {
+        data.delivery = data.delivery || {};
         var partnerId = data.customer.partner_product_id.partner_id;
         var lastPartnerId = partnerId ? partnerId[partnerId.length - 1] : null;
         var delivery_price = data.delivery.price ? parseFloat(data.delivery.price, 8) : 0;

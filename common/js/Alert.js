@@ -12,8 +12,21 @@ class AlertItem extends React.Component {
         this.hide = this.hide.bind(this);
     }
 
+    componentDidMount() {
+         if(this.props.item.isAutoHide) this.idTimeout = setTimeout(()=> {
+                                                            console.log('autoDelete');
+                                                            AlertActions.hide(this.props.item);
+                                                        }, 7000);
+    }
+
+    componentWillUnmount() {
+         if(this.idTimeout) clearTimeout(this.idTimeout);
+    }
+
     hide(e) {
         e.preventDefault();
+        if(this.idTimeout) clearTimeout(this.idTimeout);
+
         if(this.props.item.id) SettingsAction.setMessage({id: this.props.item.id, data: {delivered: true}});
         else {
             this.props.hide(this.props.id);

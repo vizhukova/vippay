@@ -5,7 +5,7 @@ var knex = require('../knex_connection');
 
 function replacePrice(products) {
     products.map((product) => {
-        product.price = parseFloat(product.price).toFixed(2);
+        product.price = parseFloat(product.price);
     })
     return products;
 }

@@ -102,11 +102,8 @@ class Pending extends React.Component {
     }
 
     onContinue() {
-        /*var order_num = localStorage.getItem('order_num');
 
-        if(order_num) OrderActions.get(order_num);
-        else*/
-         var telephone = new RegExp(/^\d[\d\(\)\ -]{4,14}\d$/);
+        var telephone = new RegExp(/^\d[\d\(\)\ -]{4,14}\d$/);
         var email = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
         if(!this.state.delivery.telephone || _.trim(this.state.delivery.telephone).length == 0 ||
@@ -136,7 +133,7 @@ class Pending extends React.Component {
         }
         else {
             var delivery = this.state.product.delivery ? this.state.product.delivery[this.state.delivery_id] : {};
-            var total = this.state.product.delivery ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
+            var total = this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
             _.assign(delivery, this.state.delivery, {total: total});
             console.log('Delivery', delivery);
             OrderActions.add({prod_id: this.state.prod_id, delivery: delivery});
@@ -144,7 +141,7 @@ class Pending extends React.Component {
     }
 
     render() {
-        var total = this.state.product.delivery ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
+        var total = this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
         return <div>
             <div>
                 <div className="content-step row">

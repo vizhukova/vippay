@@ -55,7 +55,7 @@ class Profile extends React.Component {
                         type: 'success',
                         title: '',
                         text: 'Пароль установлен.'
-                    })
+                    }, true)
                 })
         }
     }
@@ -70,7 +70,7 @@ class Profile extends React.Component {
                 type: 'error',
                 title: 'Ошибка',
                 text: 'Проверьте заполнение всех полей'
-            })
+            }, true)
             return false;
         }
         if (this.state.new_password !== this.state.confirm_new_password) {
@@ -78,7 +78,7 @@ class Profile extends React.Component {
                 type: 'error',
                 title: 'Ошибка',
                 text: 'Новый пароль и его подтверждение не совпадают'
-            })
+            }, true)
             return false;
         }
         return true;

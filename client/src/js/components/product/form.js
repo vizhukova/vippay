@@ -60,7 +60,6 @@ class AddFields extends React.Component {
 
 }
 
-
 class AddDelivery extends React.Component {
 
     constructor(){
@@ -81,7 +80,7 @@ class AddDelivery extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.product.delivery) {
+        if(nextProps.product.delivery && nextProps.product.delivery.length > 0) {
             _.assign(this.state, {delivery: nextProps.product.delivery}, {material: nextProps.product.material});
         }
         else {
@@ -111,7 +110,7 @@ class AddDelivery extends React.Component {
                 type: 'error',
                 title: 'Ошибка',
                 text: 'Все поля доставки должны быть заполнены'
-            })
+            }, true)
             return;
         }
         var state = this.state.delivery;
@@ -199,7 +198,6 @@ class AddMaterialFields extends React.Component {
 
 }
 
-
 class AddMaterials extends React.Component {
 
     constructor(){
@@ -241,7 +239,7 @@ class AddMaterials extends React.Component {
                 type: 'error',
                 title: 'Ошибка',
                 text: 'Все поля материалов должны быть заполнены'
-            })
+            }, true)
             return;
         }
         this.state.materials.push({name: '', description:''});
@@ -341,6 +339,8 @@ class ProductForm extends React.Component {
 
         if (this.state.product.material) {
 
+            this.state.product.link_download = '';
+
             if (!this.state.product.delivery) return false;
 
             result = this.state.product.delivery.filter((item) => {
@@ -348,6 +348,7 @@ class ProductForm extends React.Component {
             });
             result = result.length > 0;
         } else {
+            this.state.product.delivery = [];
             result = !this.state.product.link_download || _.trim(this.state.product.link_download).length == 0
         }
         if (result) return false;
@@ -376,7 +377,7 @@ class ProductForm extends React.Component {
                         type: 'error',
                         title: 'Ошибка',
                         text: 'Проверьте правильность заполнения данных. Возможно такой товар уже существует'
-                })
+                }, true)
         }
     }
 
@@ -393,7 +394,7 @@ class ProductForm extends React.Component {
                             type: 'error',
                             title: 'Ошибка',
                             text: 'Проверьте правильность заполнения данных.'
-                    })
+                    }, true)
             }
         }
 

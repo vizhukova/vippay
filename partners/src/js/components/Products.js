@@ -14,7 +14,7 @@ class ProductItem extends React.Component {
         return <tr>
             <td><img src={this.props.item.image} alt="image" width="200px" height="auto"/></td>
             <td>{this.props.item.name}</td>
-            <td>{this.props.item.price}</td>
+            <td>{this.props.item.price.toFixed(2)}</td>
             <td>{this.props.item.currency_name}</td>
             <td>{this.props.item.description}</td>
             <td><a href={this.props.item.ref_link}>Ссылка</a></td>
@@ -51,7 +51,6 @@ class Products extends React.Component {
             title="Продукты"
             error={this.state.error}
             items={this.state.products}
-            perPage={3}
             itemComponent={ProductItem}
             isPaginate={true}
             thead={['Изображение', 'Товар', 'Цена', 'Валюта', 'Описание', 'Ссылка на продукт']}

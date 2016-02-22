@@ -18,9 +18,8 @@ class OrdersStore {
         console.log('OrdersStore orders:', orders);
     }
 
-    setComplete(order) {
-        var index = _.findIndex(this.orders, { 'id': order.id });
-        this.orders[index] = order;
+    setComplete(orders) {
+        this.orders = orders;
     }
 
 }

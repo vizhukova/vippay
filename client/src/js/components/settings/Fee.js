@@ -41,7 +41,7 @@ class Fee extends React.Component {
                 type: 'success',
                 text: 'Новая сумма комиссии успешно установлена',
                 title: 'Успех'
-            })
+            }, true)
         })
     }
 

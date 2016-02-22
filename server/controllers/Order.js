@@ -28,8 +28,10 @@ module.exports = {
 
             Order.setComplete(data)
                 .then(function (order) {
-                    resolve(order[0])
-                }).catch(function (err) {
+                    return Order.get(order[0].client_id)
+                }).then((orders) => {
+                resolve(orders);
+            }).catch(function (err) {
                 reject(err);
             });
         })

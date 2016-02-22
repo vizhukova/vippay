@@ -19,13 +19,13 @@ class AlertStore {
         });
     }
 
+
     onSet(message) {
         var filter = _.filter(this.messages, (item) => message.text == item.text);
         if(filter.length > 0) return;//if there is such messages in the list
 
         if(message.type == 'success') {
-            var new_m = _.filter(this.messages, (item) =>  !(item.type == 'error' || item.type == 'warning'));
-            this.messages = new_m;
+            this.messages = _.filter(this.messages, (item) =>  !(item.type == 'error' || item.type == 'warning'));
         }
 
         var result = this.types.filter((item) => { return item === message.type; })
@@ -34,9 +34,12 @@ class AlertStore {
         this.messages.push(message);
     }
 
-    onHide(data) {
-        if(! data.id) this.onLeave();
-        else this.messages = _.filter(this.messages, (item, index) => index != data.id );
+    onHide(obj) {
+        if(! obj.data) this.onLeave();
+        else if(typeof(obj.data)  == 'object') {
+            this.messages = _.filter(this.messages, (mess) => mess != obj.data);
+        }
+        else this.messages = _.filter(this.messages, (item, index) => index != obj.data );
     }
 
     onGetMessages(messages) {
