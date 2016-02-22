@@ -101,7 +101,7 @@ module.exports = {
                 if (order.partner_id) {
                     return Settings.getFee(order.client_id)
                 } else {
-                    res.send(order);
+                    resolve(order);
                 }
 
             }).then((obj) => {
@@ -119,10 +119,10 @@ module.exports = {
                         action: "pending_order"
                     }).then(() => {
 
-                        res.send(order);
+                        resolve(order);
 
                     }).catch(function (err) {
-                        res.status(400).send(err.errors)
+                        reject(err)
                     })
                 })
                 .catch(function (err) {
