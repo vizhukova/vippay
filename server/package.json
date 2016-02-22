@@ -1,9 +1,0 @@
-{
-  "name": "application-name",
-  "version": "0.0.1",
-  "dependencies": {
-    "bluebird": "latest",
-    "jwt-simple": "^0.4.0",
-    "nodemailer": "^2.1.0"
-  }
-}

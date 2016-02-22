@@ -87,7 +87,16 @@ module.exports = {
                     return Customer.get(order.customer_id)
 
                 }).then((customer) => {
-                email.send(customer.email, 'Успешная оплата заказа', `Спасибо за оплату заказа. Оплата прошла успешно`);
+
+                var text;
+
+                if(order.product.material){
+                    text = 'Спасибо за оплату заказа. Оплата прошла успешно';
+                }else{
+                    text = `Спасибо за оплату заказа. Оплата прошла успешно. Ссылка на товар: ${order.product.link_download}`
+                }
+
+                email.send(customer.email, 'Успешная оплата заказа', text);
 
                 if (order.partner_id) {
                     return Settings.getFee(order.client_id)
