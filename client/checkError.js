@@ -21,14 +21,14 @@ module.exports = {
                 break;
             }
 
-                case 401: {
-                /*AlertActions.set({
+            default: {
+                 AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
-                    text: 'Вы не авторизованы'
-                });*/
-                break;
+                    text: 'Похоже что то пошло не так'
+                });
             }
+
         }
     }
 }

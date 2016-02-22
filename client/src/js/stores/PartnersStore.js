@@ -20,8 +20,9 @@ class PartnersStore {
     }
 
     onEdit(partner) {
+
         var index = _.findIndex(this.partners, { 'id': partner.id });
-        this.partners[index] = partner;
+        _.assign(this.partners[index], partner);
     }
 
     onGetFee(fee) {
@@ -29,11 +30,9 @@ class PartnersStore {
             partner.fee = _.findWhere(fee, {partner_id: partner.id});
         });
 
-        //this.fee = fee;
     }
 
     onSetFee(fee) {
-        debugger
         var index = _.findIndex(this.partners, {id: fee.partner_id});
         if(index >= 0)this.partners[index].fee = fee;
 

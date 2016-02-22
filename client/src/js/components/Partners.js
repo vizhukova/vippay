@@ -4,6 +4,7 @@ import AuthAction from './../actions/AuthActions';
 import PartnersStore from './../stores/PartnersStore';
 import List from'./../../../../common/js/List';
 import NumberInput from'./../../../../common/js/NumberInput';
+import AlertActions from'./../../../../common/js/AlertActions';
 import _  from 'lodash';
 
 
@@ -44,7 +45,13 @@ class PartnerItem extends React.Component {
     }
 
     onClick() {
-        PartnersAction.setFee(this.state.partner);
+        PartnersAction.setFee(this.state.partner).then((result) => {
+            AlertActions.set({
+                type: 'success',
+                title: 'Успех',
+                text: 'Выплата прошла успешно'
+            })
+        })
     }
 
     render(){

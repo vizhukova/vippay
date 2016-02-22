@@ -5,20 +5,29 @@ class NumberInput extends React.Component {
 
     constructor(){
         super();
-        this.state = {};
+        this.state = {
+            value: 0
+        };
 
         this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
         this.setState({
-            value: this.props.value || 0
+            value: this.props.value || this.state.value
+        })
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({
+            value: props.value || this.state.value
         })
     }
 
     onChange(e) {
         if(e.target.value < 0) return;
-        this.setState({value: e.target.value});
+        this.state.value = e.target.value;
+        this.setState({});
         if (this.props.onChange) this.props.onChange(e);
     }
 

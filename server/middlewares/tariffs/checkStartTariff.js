@@ -18,8 +18,8 @@ module.exports = function(req, res, next){
                     client_id: order.client_id,
                     from: order.product.currency_id,
                     to: 4
-                    }).then((data) => {
-                        count += data.result * order.total_price_order_rate;
+                    }).then((rate) => {
+                        count += rate.result * order.total_price_order_rate;
                     })
             }).then((end_result) => {
                 if(count > 150000) {

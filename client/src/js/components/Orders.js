@@ -32,8 +32,8 @@ class OrderItem extends React.Component {
     }
     
     render() {
-        var complete = "glyphicon glyphicon-ok-circle";
-        var notComplete = "glyphicon glyphicon-ban-circle";
+        var complete = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
+        var notComplete = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
 
         return <tr>
             <td>{this.props.item.login ? this.props.item.login : "-"}</td>
@@ -41,7 +41,7 @@ class OrderItem extends React.Component {
             <td>{this.props.item.product_price}</td>
             <td>{this.props.item.delivery_price}</td>
             <td>{this.statuses[this.props.item.step]}</td>
-            <td><button type="button" className={`btn btn-default btn-action ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
+            <td><button type="button" className={` ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
             <td>{this.props.item.total_price}</td>
             <td>{this.props.item.currency}</td>
         </tr>

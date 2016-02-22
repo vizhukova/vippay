@@ -31,8 +31,7 @@ class ApiActions{
                 },
                 error(response){
                     checkError.check(response);
-                    //var error = new Error(response.responseJSON.msg);
-                    reject(response);
+                    reject(new Error());
                 }
             });
         })
@@ -59,8 +58,8 @@ class ApiActions{
                 error(response){
                     debugger
                     checkError.check(response);
-                    SettingsActions.getMessages();
-                    reject(response);
+                    SettingsActions.getMessages(); // get error-messages from server
+                    reject(new Error());
                 }
 
             });
@@ -87,8 +86,8 @@ class ApiActions{
                 },
                 error(response){
                     checkError.check(response);
-                    SettingsActions.getMessages();
-                    reject(response)
+                    SettingsActions.getMessages();// get error-messages from server
+                    reject(new Error())
                 }
 
             });
@@ -114,8 +113,8 @@ class ApiActions{
                 },
                 error(response){
                     checkError.check(response);
-                    SettingsActions.getMessages();
-                    reject(response)
+                    SettingsActions.getMessages();// get error-messages from server
+                    reject(new Error())
                 }
 
             });

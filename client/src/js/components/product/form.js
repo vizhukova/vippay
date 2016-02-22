@@ -307,7 +307,8 @@ class ProductForm extends React.Component {
                 available: true,
                 active: true,
                 material: false,
-                description: ''
+                description: '',
+                materials: []
             }
             });
 
