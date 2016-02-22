@@ -112,16 +112,16 @@ module.exports = {
                 })
             }).then((fee) => {
                     Statistic.add({
-                            partner_id: order.partner_id,
-                            product: JSON.stringify(order.product),
-                            customer_id: order.customer_id,
-                            client_id: order.client_id,
-                            action: "pending_order"
-            }).then(() => {
+                        partner_id: order.partner_id,
+                        product: JSON.stringify(order.product),
+                        customer_id: order.customer_id,
+                        client_id: order.client_id,
+                        action: "pending_order"
+                    }).then(() => {
 
-                 res.send(order);
+                        res.send(order);
 
-            }).catch(function (err) {
+                    }).catch(function (err) {
                         res.status(400).send(err.errors)
                     })
                 })
