@@ -23,8 +23,9 @@ router.post('/client/register', checkLoginAccess, function (req, res, next) {
         password: req.body.password,
         confirm_pass: req.body.confirm_pass,
         basic_currency: 1,
+        type: 'client',
         domain: req.postdomain,
-        payments: JSON.stringify(payments)
+        payment: JSON.stringify(payments)
     }).then(function (userObj) {
         user = userObj;
         email.send(user.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${user.domain}`);

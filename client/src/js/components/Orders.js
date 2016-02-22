@@ -5,6 +5,7 @@ import SettingsStore from'./../stores/SettingsStore';
 import List from'./../../../../common/js/List';
 import Select from'./../../../../common/js/Select';
 import _  from 'lodash';
+import moment  from 'moment';
 
 
 class OrderItem extends React.Component {
@@ -32,18 +33,16 @@ class OrderItem extends React.Component {
     }
     
     render() {
-        var complete = "glyphicon glyphicon-ok-circle";
-        var notComplete = "glyphicon glyphicon-ban-circle";
+        var complete = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
+        var notComplete = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
 
         return <tr>
             <td>{this.props.item.login ? this.props.item.login : "-"}</td>
+            <td>{moment(this.props.item.created_at).format("MM.DD.YY HH:mm")}</td>
             <td><a href={this.props.item.product.product_link} target="_blank">{this.props.item.product.name}</a></td>
-            <td>{this.props.item.product_price}</td>
             <td>{this.props.item.delivery_price}</td>
-            <td>{this.statuses[this.props.item.step]}</td>
-            <td><button type="button" className={`btn btn-default btn-action ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
-            <td>{this.props.item.total_price}</td>
-            <td>{this.props.item.currency}</td>
+            <td><button type="button" className={` ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
+            <td>{`${this.props.item.product_price} ${this.props.item.currency}`}</td>
         </tr>
     }
     
@@ -130,13 +129,11 @@ class Orders extends React.Component {
             isPaginate={isPaginate}
             thead={[
                 {name: 'Партнер', key: 'login'},
+                {name: 'Дата', key: 'created_at'},
                 {name: 'Продукт', key: 'product.product_link'},
-                {name: 'Цена', key: isBasicRate ? 'product_price_base_rate' : 'product_price_order_rate'},
-                {name: 'Стоимость доставки', key: isBasicRate ? 'delivery_price_base_rate' : 'delivery_price_order_rate'},
-                {name: 'Статус', key: 'step'},
+                {name: 'Доставка', key: 'product.delivery.price'},
                 {name: 'Оплачен', key: ''},
-                {name: 'Сумма', key: isBasicRate ? 'total_price_base_rate' : 'total_price_order_rate'},
-                {name: 'Валюта', key: ''}
+                {name: 'Цена', key: 'product.price'}
             ]}
             >
             <Select values={this.state.values} className="col-md-3 pull-right"

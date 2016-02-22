@@ -61,10 +61,7 @@ var User = bookshelf.Model.extend({
 
     register: Promise.method(function (user) {
 
-        var record = new this({name: user.name, login: user.login,
-            email: user.email, password: user.password,
-            type: 'client', basic_currency: 1,
-            payment: JSON.stringify([])});
+        var record = new this(user);
 
         return record.save();
     }),

@@ -16,7 +16,7 @@ class SettingsAction {
     getAllCurrencies() {
 
         var self = this;
-        new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             ApiActions.get(`currency`).then(function(data){
                 self.dispatch(data);
                 resolve(data);
@@ -39,7 +39,7 @@ class SettingsAction {
 
     getBasicCurrency() {
          var self = this;
-        new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             ApiActions.get(`basicCurrency`).then(function(data){
                 self.dispatch(data);
                 resolve(data);
@@ -52,11 +52,15 @@ class SettingsAction {
 
     addRate(rate) {
         var self = this;
-            ApiActions.put(`rate`, rate).then(function(data){
-                self.dispatch(data);
-            }).catch(function(err){
-                self.dispatch(err);
-        })
+         return new Promise((resolve, reject) => {
+             ApiActions.put(`rate`, rate).then(function (data) {
+                 self.dispatch(data);
+                 resolve(data);
+             }).catch(function (err) {
+                 self.dispatch(err);
+                  reject(err);
+             })
+         })
     }
 
     getRate() {
@@ -103,7 +107,6 @@ class SettingsAction {
     editPayment(data) {
         var self = this;
         return new Promise((resolve, reject) => {
-            debugger
             ApiActions.put(`payment`, data).then(function(result){
                 self.dispatch(result);
                 resolve(result);

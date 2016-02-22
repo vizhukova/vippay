@@ -7,7 +7,6 @@ class ProductsStore {
     constructor() {
         this.products = [];
         this.product = {};
-        this.error = {};
         this.bindListeners({
             onGetAllProducts: ProductsAction.GET_ALL_PRODUCTS,
             onAddNewProduct: ProductsAction.ADD_NEW_PRODUCT,
@@ -28,6 +27,7 @@ class ProductsStore {
     }
 
     onGetCurrentProduct(product) {
+        product.materials = product.materials || [];
         this.product = product;
     }
 

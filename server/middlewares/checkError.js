@@ -9,7 +9,10 @@ module.exports = function(err, res){
             res.status(400).send('Проверьте правильность заполнения данных');
             break;
         case 'users_login_unique':
-            res.status(400).send('Такой пользователь уже существует');
+            res.status(400).send('Пользователь с таким логином уже существует');
+            break;
+         case 'users_email_unique':
+            res.status(400).send('Пользователь с такой электронной почтой уже существует');
             break;
         case 'product_user_uniq':
             res.status(400).send('Продукт с таким названием у данного пользователя уже существует');

@@ -63,7 +63,7 @@ class CategoryForm extends React.Component {
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Поле "категория" обязательно для заполнения.'
-                });
+                }, true);
 
             return;
         }
@@ -81,7 +81,7 @@ class CategoryForm extends React.Component {
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Поле "категория" обязательно для заполнения.'
-                })
+                }, true)
             return;
         }
         CategoriesAction.editCategory(this.state.category).then((data) => {

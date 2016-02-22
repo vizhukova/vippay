@@ -14,7 +14,7 @@ module.exports = {
                 errors.password = ['Пароли должны совпадать'];
             }
 
-            User.register(data).then(function(model){
+            return User.register(_.omit(data, ['domain', 'confirm_pass'])).then(function(model){
                 if(errors.password){
                     reject({
                         errors: errors

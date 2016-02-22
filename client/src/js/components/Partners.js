@@ -4,6 +4,7 @@ import AuthAction from './../actions/AuthActions';
 import PartnersStore from './../stores/PartnersStore';
 import List from'./../../../../common/js/List';
 import NumberInput from'./../../../../common/js/NumberInput';
+import AlertActions from'./../../../../common/js/AlertActions';
 import _  from 'lodash';
 
 
@@ -44,7 +45,13 @@ class PartnerItem extends React.Component {
     }
 
     onClick() {
-        PartnersAction.setFee(this.state.partner);
+        PartnersAction.setFee(this.state.partner).then((result) => {
+            AlertActions.set({
+                type: 'success',
+                title: 'Успех',
+                text: 'Выплата прошла успешно'
+            })
+        })
     }
 
     render(){
@@ -52,7 +59,10 @@ class PartnerItem extends React.Component {
         var notAvailable = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
 
         var fee = this.props.item.fee || {};
+        var fee_added = fee.fee_added || 0;
+        var fee_payed = fee.fee_payed || 0;
         console.log(fee.fee_added);
+
         return <tr>
                 <td>{this.props.item.login}</td>
                 <td>{this.props.item.email}</td>
@@ -72,8 +82,8 @@ class PartnerItem extends React.Component {
                 </div>
 
             </td>
-            <td>{fee.fee_added || '0.00'}</td>
-            <td>{fee.fee_payed || '0.00'}</td>
+            <td>{ fee_added.toFixed(2) }</td>
+            <td>{ fee_payed.toFixed(2) }</td>
         </tr>
     }
 
@@ -120,9 +130,9 @@ class Partners extends React.Component {
                 {name: 'Электронная почта', key: 'email'},
                 {name: 'ФИО', key: 'name'},
                 {name: 'Активность', key: 'active'},
-                {name: 'Выплатить', key: 'fee_added'},
-                {name: 'Должен', key: 'fee_added'},
-                {name: 'Выплачено', key: 'fee_added'}
+                {name: 'Выплатить', key: ''},
+                {name: 'Должен', key: 'fee.fee_added'},
+                {name: 'Выплачено', key: 'fee.fee_payed'}
             ]}
         />
 

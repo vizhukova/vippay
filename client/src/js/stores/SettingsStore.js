@@ -58,7 +58,7 @@ class SettingsStore {
     }
 
     onGetRate(rate) {
-        this.rate = rate;
+        this.rate = rate.sort((a, b) =>  a.from == b.from ? a.to - b.to : a.from - b.from );
         console.log('SettingsStore rate = ', rate);
     }
 

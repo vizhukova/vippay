@@ -21,14 +21,10 @@ module.exports = {
                 break;
             }
 
-                case 401: {
-                /*AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Вы не авторизованы'
-                });*/
-                break;
+            default: {
+                 // no AlertActions.set при регистрации/логине приходит ошибка что пользователь не зарегестрирован
             }
+
         }
     }
 }

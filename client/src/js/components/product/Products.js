@@ -68,12 +68,11 @@ class ProductItem extends React.Component {
 
         return <tr>
                     <td>{this.props.item.name}</td>
-                    <td>{this.props.item.price}</td>
-                    <td>{currency}</td>
                     <td><a href={`/order/${this.props.item.id}`} target="_blank">{getAbsoluteUrl(`/order/${this.props.item.id}`)}</a></td>
+                     <td>{`${parseFloat(this.props.item.price).toFixed(2)} ${currency}`}</td>
                      <td className="action"><button type="button" className={this.props.item.available ? available : notAvailable} onClick={this.setAvailable} /></td>
                      <td className="action"><button type="button" className={this.props.item.active ? available : notAvailable} onClick={this.setActive} /></td>
-                    <td className="action">
+                     <td className="action">
                         <Link to={`/category/${this.props.item.category_id}/products/${this.props.item.id}`}
                               className={`btn btn-default btn-action glyphicon glyphicon-pencil
                               ${this.props.isActiveTariff ? '' : 'disabled'}`}/>
@@ -139,9 +138,8 @@ class Products extends React.Component {
             isPaginate={true}
             thead={[
                 {name: 'Товар', key: 'name'},
-                {name: 'Цена', key: 'price'},
-                {name: 'Валюта', key: ''},
                 {name: 'Ссылка на продукт', key: ''},
+                {name: 'Цена', key: 'price'},
                 {name: 'Доступность', key: 'available'},
                 {name: 'Активность', key: 'active'},
                 {name: '', key: ''}

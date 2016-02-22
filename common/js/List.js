@@ -75,7 +75,9 @@ class List extends React.Component {
 
                 if (key == this.state.sort.name && this.state.sort.type == -1) {
                     return a - b;
-                } else return b - a;
+                } else {
+                    return b - a;
+                }
 
             }
 
@@ -122,11 +124,21 @@ class List extends React.Component {
                                 <thead>
                                 <tr>
                                     {this.props.thead.map((item, index) => {
-                                        return <th className={this.state.sort.name == item.key  ? 'check' : 'uncheck'}
+                                        var classItem;
+                                        if(this.state.sort.name == item.key) {
+                                            classItem = `${ this.state.sort.type > 0 ?  'glyphicon glyphicon-triangle-top' : 'glyphicon glyphicon-triangle-bottom'} check`;
+                                        } else {
+                                            classItem = item.key ? `glyphicon glyphicon-triangle-top` : '';
+                                        }
+                                        console.log(item.key)
+                                        return <th
                                                    key={index}
                                                    data-name={item.key}
-                                                   onClick={this.props.sort ? this.props.sort : this.sort}>
-                                            {item.name}
+                                                   onClick={this.props.sort ? this.props.sort : this.sort}
+                                                    className={this.state.sort.name == item.key ? 'check' : ''}>
+                                            <span className={classItem}  data-name={item.key}>
+                                                {item.name}
+                                            </span>
                                         </th>
                                     })}
                                 </tr>

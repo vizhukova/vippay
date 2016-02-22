@@ -2,6 +2,7 @@ import React from 'react';
 import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore';
 import AlertActions from './../../../../../common/js/AlertActions';
+import NumberInput from './../../../../../common/js/NumberInput';
 import _ from 'lodash';
 
 
@@ -55,10 +56,17 @@ class Rate extends React.Component {
                 type: 'error',
                 title: 'Ошибка',
                 text: 'Неверный формат ввода данных'
-            });
+            }, true);
             return;
         }
-        SettingsAction.addRate(this.state.rate);
+
+        SettingsAction.addRate(this.state.rate).then((result) => {
+            AlertActions.set({
+                type: 'success',
+                title: 'Успех',
+                text: 'Новый курс успешно установлен'
+            }, true);
+        })
         this.onClick();
     }
 
@@ -86,7 +94,14 @@ class Rate extends React.Component {
                 return <tr key={`${index}-${i}`}>
                     <td>{from.name}</td>
                     <td>{toEl.name}</td>
-                    <td><input type="text" name="rate" data-currency={`${counter++}`} value={`${result}`} onClick={this.onClick} onChange={self.onChange}/></td>
+                    <td className="input-group-inline">
+                        <NumberInput name="rate"
+                                     options={{'data-currency': counter++}}
+                                     onClick={this.onClick}
+                                     onChange={self.onChange}
+                                     value={parseFloat(result).toFixed(2)}
+                        />
+                    </td>
                 </tr>
             });
             res.push(arr);

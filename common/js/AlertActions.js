@@ -1,14 +1,15 @@
 import alt from '../../client/src/js/alt';
 import Promise from 'bluebird';
+import _ from 'lodash';
 
 class AlertActions {
 
-    set(data) {
-        this.dispatch(data);
+    set(data, isAutoHide) {
+        this.dispatch(_.assign(data, {isAutoHide: isAutoHide}));
     }
 
-    hide(id) {
-        this.dispatch({id: id});
+    hide(data) {
+        this.dispatch({data: data});
     }
 
     onLeave() {

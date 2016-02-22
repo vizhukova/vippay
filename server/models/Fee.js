@@ -4,7 +4,15 @@ var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
 
-var User = bookshelf.Model.extend({
+function replaceFee(fees) {
+    fees.map((fee) => {
+        fee.fee_payed = +parseFloat(fee.fee_payed)
+        fee.fee_added = +parseFloat(fee.fee_added)
+    })
+    return fees;
+}
+
+var Fee = bookshelf.Model.extend({
 
     tableName: 'fee',
 
@@ -37,12 +45,19 @@ var User = bookshelf.Model.extend({
     },
 
     get(id) {
-        return knex('fee')
-        .select('*')
-        .where('client_id', '=', id);
+        return new Promise((resolve, reject) => {
+            knex('fee')
+            .select('*')
+            .where('client_id', '=', id)
+            .then((res) => {
+                resolve(replaceFee(res));
+            }).catch((err) => {
+                reject(err);
+            })
+        })
     }
 
 });
 
-module.exports = User;
+module.exports = Fee;
 
