@@ -22,11 +22,7 @@ module.exports = {
             }
 
             default: {
-                 AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Похоже что то пошло не так'
-                });
+                 // no AlertActions.set при регистрации/логине приходит ошибка что пользователь не зарегестрирован
             }
 
         }
