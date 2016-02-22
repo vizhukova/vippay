@@ -49,7 +49,7 @@ router.post('/order', function(req, res) {
                     OrderController.add({user_id: req.user.id, product: product, customer: {id: customer.id, partner_product_id: customer.partner_product_id}, delivery: req.body.delivery})
                         .then(function (order) {
 
-                            email.send(customer.email,
+                            email.send(order.delivery.email,
                                 'Успешное оформление заказа',
                                 `Спасибо за оформленный заказ. Ссылка на оплату:
                                 ${req.subdomain}.${req.postdomain}/order/${req.body.prod_id}?${order.id}`);
@@ -66,11 +66,11 @@ router.post('/order', function(req, res) {
                         }).catch(function (err) {
                             res.status(400).send(err);
                         })
-                })
+                });
             else OrderController.add({user_id: req.user.id, product: product, customer: customer, delivery: req.body.delivery})
                         .then(function (order) {
 
-                            email.send(customer.email,
+                            email.send(order.delivery.email,
                                 'Успешное оформление заказа',
                                 `Спасибо за оформленный заказ. Ссылка на оплату:
                                 ${req.subdomain}.${req.postdomain}/order/${req.body.prod_id}?${order.id}`);
