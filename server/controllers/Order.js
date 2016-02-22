@@ -96,7 +96,7 @@ module.exports = {
                     text = `Спасибо за оплату заказа. Оплата прошла успешно. Ссылка на товар: ${order.product.link_download}`
                 }
 
-                email.send(customer.email, 'Успешная оплата заказа', text);
+                email.send(order.delivery.email, 'Успешная оплата заказа', text);
 
                 if (order.partner_id) {
                     return Settings.getFee(order.client_id)
