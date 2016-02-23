@@ -7,70 +7,64 @@ class NumberInput extends React.Component {
     constructor(){
         super();
         this.state = {
-            value: 0
+            value: null,
+            timeoutId: null
         };
 
         this.onChange = this.onChange.bind(this);
-        this.onPaste = this.onPaste.bind(this);
+        this.checkValue = this.checkValue.bind(this);
     }
 
     componentDidMount() {
         this.setState({
             value: this.props.value || this.state.value
         })
-
-        if(this.props.data) document.getElementById(this.props.id).setAttribute(this.props.data.name, this.props.data.value);
     }
 
     componentWillReceiveProps(props) {
         this.setState({
             value: props.value || this.state.value
         })
-        if(this.props.data) document.getElementById(this.props.id).setAttribute(this.props.data.name, this.props.data.value);
+    }
+
+    checkValue(e) {
+        var val = e.target.value;
+        val = val.replace(/[^0-9.,]/g,'')
+                .replace(',', '.')
+                .split('.')
+                .filter((item) => item.length)
+
+        val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
+        val = parseFloat(val).toFixed(2);
+
+        e.target.value = val;
+       this.props.onChange(e);
     }
 
     onChange(e) {
-        if(e.target.value < 0) return;
-        e.target.value = _.trim(e.target.value, 'e-+!@#$%^&*()_/ ');
+
+        if(this.state.timeoutId) clearTimeout(this.state.timeoutId);
+
         this.state.value = e.target.value;
         this.setState({});
-        if (this.props.onChange) this.props.onChange(e);
+
+        this.state.timeoutId = setTimeout(() => {
+           this.checkValue(e);
+        }, 1000);
+
     }
 
-    onPaste(e) {
-        /*var oldValue = this.state.value;
-        setTimeout(()=>{
-            var newValue = _.trim(this.state.value, 'e-+!@#$%^&*()_/ ');
-
-            if(newValue != this.state.value) {this.state.value = newValue; this.setState({});}
-        }, 50)*/
-    }
-
-    onKeyDown(e) {
-        console.log(e.keyCode);
-        console.log(e.ctrlKey);
-        if(e.keyCode == 107 || e.keyCode == 109 || e.keyCode == 69 || e.keyCode == 189 || e.keyCode == 187)
-            e.preventDefault();
-    }
 
     render(){
-        //var self = this;
-        //return  <div>
-        //            <input type="number" id={this.props.id} className="form-control input-lg"
-        //                   name={this.props.name}
-        //                   value={this.state.value}
-        //                   onKeyDown={this.onKeyDown}
-        //                   onChange={this.onChange}/>
-        //        </div>
+
         var options = {
-            type: 'number',
+            type: 'text',
             id: this.props.id,
             className: "form-control input-lg",
             name: this.props.name,
             value: this.state.value,
-            onKeyDown: this.onKeyDown,
-            onChange: this.onChange,
-            onPaste: this.onPaste
+            //onKeyDown: this.onKeyDown,
+            onChange: this.onChange
         };
 
         var propsOptions = _.clone(this.props.options) || {};

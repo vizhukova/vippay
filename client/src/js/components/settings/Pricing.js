@@ -29,7 +29,10 @@ class PricingItem extends React.Component {
         e.stopPropagation();
         if(! this.props.isVisible) return;
         this.props.currentTariff[this.props.item].name = this.props.item;
-        SettingsAction.setTariff( this.props.currentTariff[this.props.item]);
+        SettingsAction.setTariff( this.props.currentTariff[this.props.item])
+            .then((res) => {
+                SettingsAction.setIsActive(true);
+            })
     }
     
     onChoose(e) {

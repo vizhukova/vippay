@@ -7,6 +7,10 @@ var RateController = require('../controllers/Rate');
 var _ = require('lodash');
 var moment = require('moment');
 
+var checkTrialTariff = require('./../middlewares/tariffs/checkTrialTariff');
+var checkBaseTariff = require('./../middlewares/tariffs/checkBaseTariff');
+var checkStartTariff = require('./../middlewares/tariffs/checkStartTariff');
+
 
 router.get('/settings', function(req, res){
 
@@ -21,7 +25,7 @@ router.get('/settings/partner', function(req, res){
 
 });
 
-router.put('/rate', function(req, res) {
+router.put('/rate', checkTrialTariff, checkBaseTariff, checkStartTariff,  function(req, res) {
 
     RateController.edit({rate: req.body, client_id: req.user.id})
             .then(function(rate){
@@ -54,7 +58,7 @@ router.get('/fee', function(req, res) {
 
 });
 
-router.put('/fee', function(req, res, next) {
+router.put('/fee', checkTrialTariff, checkBaseTariff, checkStartTariff,  function(req, res, next) {
 
     SettingsController.editFee({id: req.user.id, fee: req.body.fee})
             .then(function(fee){
@@ -78,7 +82,7 @@ router.get('/payment', function(req, res) {
 
 });
 
-router.put('/payment', function(req, res) {
+router.put('/payment', checkTrialTariff, checkBaseTariff, checkStartTariff,   function(req, res) {
 
     SettingsController.putPayment({payment: req.body, user_id: req.user.id})
             .then(function(payment){
@@ -89,8 +93,11 @@ router.put('/payment', function(req, res) {
 
 });
 
-router.get('/settings/tariff', function(req, res) {
+router.get('/settings/tariff', checkTrialTariff, checkBaseTariff, checkStartTariff, function(req, res) {
+    var active = req.tariff.active;
+
     SettingsController.getTariff(req.user.id).then((result) => {
+        if(result.tariff_name === 'start') result.isActive = active;
         res.send(result)
     }).catch((err) => {
         res.status(404).send(err.errors)

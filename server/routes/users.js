@@ -110,5 +110,14 @@ router.put('/user/password', (req, res, next) => { //get all clients for partner
 
 });
 
+router.get('/partnerlinks', function (req, res) {
+    UserController.getPartnerLink(req.user.id)
+        .then(function (partnerLinks) {
+            res.send(partnerLinks)
+        }).catch(function (err) {
+        res.status(400).send(err.errors)
+    });
+});
+
 
 module.exports = router;

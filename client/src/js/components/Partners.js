@@ -82,8 +82,8 @@ class PartnerItem extends React.Component {
                 </div>
 
             </td>
-            <td>{ fee_added.toFixed(2) }</td>
-            <td>{ fee_payed.toFixed(2) }</td>
+            <td>{ parseFloat(fee_added).toFixed(2) }</td>
+            <td>{ parseFloat(fee_payed).toFixed(2) }</td>
         </tr>
     }
 

@@ -32,7 +32,7 @@ module.exports = function(req, res, next){
                             type: 'info',
                             text: 'Лимит заказов выбранного вами тарифа 150 000 руб'
                         });
-                        res.status(400).send('Общая сумма заказов превысила лимит.');
+                        res.status(403).send('Общая сумма заказов превысила лимит.');
                     } else {
                         next();
                     }

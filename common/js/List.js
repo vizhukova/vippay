@@ -130,7 +130,6 @@ class List extends React.Component {
                                         } else {
                                             classItem = item.key ? `glyphicon glyphicon-triangle-top` : '';
                                         }
-                                        console.log(item.key)
                                         return <th
                                                    key={index}
                                                    data-name={item.key}

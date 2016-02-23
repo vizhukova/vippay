@@ -26,7 +26,8 @@ class SettingsStore {
             onGetPayment: SettingsAction.GET_PAYMENT,
             onEditPayment: SettingsAction.EDIT_PAYMENT,
             onGetTariff: SettingsAction.GET_TARIFF,
-            onSetTariff: SettingsAction.SET_TARIFF
+            onSetTariff: SettingsAction.SET_TARIFF,
+            onSetIsActive: SettingsAction.SET_IS_ACTIVE
         });
     }
 
@@ -86,6 +87,8 @@ class SettingsStore {
         this.tariff = tariff;
         console.log('SettingStore tariff', tariff)
 
+        if(tariff.tariff_name === 'start') { this.isActiveTariff = tariff.isActive; return; }
+
         var today = moment();
         var end_tariff;
 
@@ -100,6 +103,11 @@ class SettingsStore {
         this.tariff = tariff;
         console.log('SettingStore tariff', tariff)
     }
+
+    onSetIsActive(data) {
+        this.isActiveTariff = data;
+    }
+
 
 }
 
