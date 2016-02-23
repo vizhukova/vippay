@@ -25,10 +25,10 @@ class YandexMoney {
 
                 order = o;
 
-                payment_data.formcomment = order.product.description.substring(0, 20);
+                payment_data.formcomment = order.product.name;
                 payment_data.label = order_id;
                 payment_data.targets = `Заказ № ${order_id}`;
-                payment_data['short-dest'] = order.product.description.substring(0, 20);
+                payment_data['short-dest'] = order.product.name;
                 payment_data['need-fio'] = true;
                 payment_data['need-email'] = true;
                 payment_data.action = 'https://money.yandex.ru/quickpay/confirm.xml';
