@@ -130,6 +130,7 @@ router.put('/partner/fee', function (req, res) {
         }).catch(function (err) {
         res.status(400).send(err.errors)
     });
+
 });
 
 

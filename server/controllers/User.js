@@ -1,5 +1,6 @@
 var User = require('../models/Users');
 var Messages = require('../models/Messages');
+var PartnerLinks = require('../models/PartnerLinks');
 var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
@@ -132,6 +133,21 @@ module.exports = {
     },
 
     activateTariff(id){
+
         return User.activateTariff(id)
+
+    },
+
+    getPartnerLink(user_id) {
+
+        return new Promise(function(resolve, reject) {
+
+            PartnerLinks.get(user_id).then((res) => {
+                resolve(res);
+            }).catch((err) => {
+                reject(err);
+            })
+        });
+
     }
 };

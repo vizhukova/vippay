@@ -1,4 +1,5 @@
 import AlertActions from './../common/js/AlertActions';
+import SettingsAction from './src/js/actions/SettingsAction';
 
 module.exports = {
     check(error) {
@@ -18,6 +19,15 @@ module.exports = {
                     title: 'Ошибка',
                     text: error.responseText
                 });
+                break;
+            }
+            case 403: {
+                AlertActions.set({
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: error.responseText
+                });
+                SettingsAction.setIsActive(false);
                 break;
             }
 

@@ -13,6 +13,11 @@ class OrderItem extends React.Component {
     constructor() {
         super();
 
+        this.state = {
+            commentLength: 50,
+            isCommentCut: 0 // 0-не выводить Подробнее; 1- Подробнее раскрыт; -1 - ПОдробнее закрыт
+        }
+
          this.statuses = {
             pending: 'Заказ оформлен',
             complete: 'Заказ оплачен',
@@ -21,10 +26,34 @@ class OrderItem extends React.Component {
 
         this.setComplete = this.setComplete.bind(this);
         this.update = this.update.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     update(state) {
         this.setState(state);
+    }
+
+    componentDidMount() {
+        if(this.props.item.delivery.comment && this.props.item.delivery.comment.length > this.state.commentLength) {
+            this.state.isCommentCut = -1;
+            this.setState({});
+        }
+    }
+
+    componentWillReceiveProps(props) {
+        if(props.item.delivery.comment && props.item.delivery.comment.length > this.state.commentLength) {
+            this.state.isCommentCut = -1;
+            this.setState({});
+        }
+    }
+
+    onClick(e) {
+        e.preventDefault();
+        this.state.commentLength = this.state.isCommentCut < 0 ? this.props.item.delivery.comment.length
+                                    : 50;
+        this.state.isCommentCut *= -1;
+        this.setState({});
+
     }
 
     setComplete() {
@@ -33,13 +62,29 @@ class OrderItem extends React.Component {
     }
     
     render() {
+        //if(this.state.isCommentCut) debugger
         var complete = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
         var notComplete = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
+        var delivery = this.props.item.delivery;
+        var comment = delivery.comment || '';
+
+        if(comment.length > this.state.commentLength) {
+            comment = comment.slice(0, this.state.commentLength);
+        }
 
         return <tr>
             <td>{this.props.item.login ? this.props.item.login : "-"}</td>
             <td>{moment(this.props.item.created_at).format("MM.DD.YY HH:mm")}</td>
-            <td><a href={this.props.item.product.product_link} target="_blank">{this.props.item.product.name}</a></td>
+            <td>
+                <a href={this.props.item.product.product_link} target="_blank">{this.props.item.product.name}</a>
+                <div>
+                    <span><b>ФИО:</b> {delivery.name}</span><br/>
+                    <span><b>Эл. почта:</b> {delivery.email}</span><br/>
+                    <span><b>Тел.:</b> {delivery.telephone}</span>
+                </div>
+            </td>
+            <td>{comment}
+                {this.state.isCommentCut ? <a href="" onClick={this.onClick}>...Подробнее</a> : ''}</td>
             <td>{this.props.item.delivery_price}</td>
             <td><button type="button" className={` ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
             <td>{`${this.props.item.product_price} ${this.props.item.currency}`}</td>
@@ -131,6 +176,7 @@ class Orders extends React.Component {
                 {name: 'Партнер', key: 'login'},
                 {name: 'Дата', key: 'created_at'},
                 {name: 'Продукт', key: 'product.product_link'},
+                {name: 'Комментарий', key: ''},
                 {name: 'Доставка', key: 'product.delivery.price'},
                 {name: 'Оплачен', key: ''},
                 {name: 'Цена', key: 'product.price'}

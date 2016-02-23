@@ -22,6 +22,8 @@ import Fee from './components/settings/Fee';
 import Profile from './components/settings/Profile';
 import Payment from './components/settings/Payment';
 import NewProductForm from './components/product/form';
+import PartnerLinks from './components/partner_links/Links';
+import NewPartnerLinkForm from './components/partner_links/form';
 import AlertActions from './../../../common/js/AlertActions';
 
     function onLeave() {
@@ -55,6 +57,8 @@ import AlertActions from './../../../common/js/AlertActions';
                 <Route path="/fee" component={Fee} onLeave={onLeave} />
                 <Route path="/payment" component={Payment} onLeave={onLeave} />
                 <Route path="/profile" component={Profile} onLeave={onLeave} />
+                <Route path="/links" component={PartnerLinks} onLeave={onLeave} />
+                <Route path="/partners_link/new" component={NewPartnerLinkForm} onLeave={onLeave} />
             </Route>
             <Route path="/auth" component={Auth} />
             <Route path="/partners/:id" component={Auth} />

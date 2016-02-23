@@ -131,20 +131,27 @@ class SettingsAction {
 
     getTariff() {
         var self = this;
-         ApiActions.get(`settings/tariff`).then(function(result){
+         return new Promise((resolve, reject) => {
+             ApiActions.get(`settings/tariff`).then(function(result){
                  self.dispatch(result);
+                 resolve(result);
             }).catch(function(err){
                 debugger
+                 reject(err);
             })
+         })
     }
 
     setTariff(obj) {
         var self = this;
-         ApiActions.put(`settings/tariff`, obj).then(function(result){
+         return new Promise((resolve, reject) => {
+             ApiActions.put(`settings/tariff`, obj).then(function(result){
                  self.dispatch(result);
+                 resolve(result);
             }).catch(function(err){
                 debugger
             })
+         })
     }
 
     getMessages() {
@@ -164,6 +171,11 @@ class SettingsAction {
                 debugger
             })
     }
+
+    setIsActive(data) {
+        this.dispatch(data);
+    }
+
 }
 
 export default alt.createActions(SettingsAction);
