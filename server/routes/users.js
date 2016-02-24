@@ -119,5 +119,49 @@ router.get('/partnerlinks', function (req, res) {
     });
 });
 
+router.get('/partnerlinks/:id', function (req, res) {
+    UserController.getPartnerLinkById(req.params.id)
+        .then(function (partnerLink) {
+            res.send(partnerLink)
+        }).catch(function (err) {
+        res.status(400).send(err.errors)
+    });
+});
+
+router.post('/partnerlinks', function (req, res, next) {
+
+    req.body.user_id = req.user.id;
+    req.body.materials = JSON.stringify(req.body.materials);
+
+    UserController.addPartnerLink(req.body)
+        .then(function (partnerLink) {
+            res.send(partnerLink)
+        }).catch(function (err) {
+            next(err);
+        });
+});
+
+router.put('/partnerlinks', function (req, res, next) {
+
+    req.body.materials = JSON.stringify(req.body.materials);
+    UserController.editPartnerLink(req.body)
+        .then(function (partnerLink) {
+            res.send(partnerLink)
+        }).catch(function (err) {
+        if(err.code == '22001') err.constraint = "too_long_description";
+            next(err);
+        });
+});
+
+router.delete('/partnerlinks/:id', function (req, res, next) {
+
+    UserController.removePartnerLink(req.params.id)
+        .then(function (partnerLink) {
+            res.send(partnerLink)
+        }).catch(function (err) {
+            next(err);
+        });
+});
+
 
 module.exports = router;

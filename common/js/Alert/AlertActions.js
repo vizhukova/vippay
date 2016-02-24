@@ -1,4 +1,4 @@
-import alt from '../../client/src/js/alt';
+import alt from '../../../client/src/js/alt';
 import Promise from 'bluebird';
 import _ from 'lodash';
 

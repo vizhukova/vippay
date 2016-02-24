@@ -30,7 +30,7 @@ gulp.task('replaceHTML', function(){
 
 gulp.task('js', function(){
     var b = browserify();
-    b.transform("babelify", {presets: ["es2015", "react"]});
+    b.transform("babelify", {presets: ["es2015", "stage-1", "react"]});
     b.add(path.ENTRY_POINT);
     return b.bundle()
         .pipe(source('build.js'))

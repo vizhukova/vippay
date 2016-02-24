@@ -1,7 +1,7 @@
 import React from 'react'
 import Login from './auth/Login';
 import Register from './auth/Register';
-import AlertActions from './../../../../common/js/AlertActions';
+import AlertActions from './../../../../common/js/Alert/AlertActions';
 
 
 class Auth extends React.Component {

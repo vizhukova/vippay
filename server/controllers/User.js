@@ -146,5 +146,53 @@ module.exports = {
                 reject(err);
             })
         });
+    },
+
+    getPartnerLinkById(id) {
+
+        return new Promise(function(resolve, reject) {
+
+            PartnerLinks.getById(id).then((model) => {
+                resolve(model[0]);
+            }).catch((err) => {
+                reject(err);
+            })
+        });
+    },
+
+    addPartnerLink(data) {
+
+        return new Promise(function(resolve, reject) {
+
+            PartnerLinks.add(data).then((model) => {
+                resolve(model[0]);
+            }).catch((err) => {
+                reject(err);
+            })
+        });
+    },
+
+    editPartnerLink(data) {
+
+        return new Promise(function(resolve, reject) {
+
+            PartnerLinks.edit(data).then((model) => {
+                resolve(model[0]);
+            }).catch((err) => {
+                reject(err);
+            })
+        });
+    },
+
+    removePartnerLink(id) {
+
+        return new Promise(function(resolve, reject) {
+
+            PartnerLinks.remove(id).then((model) => {
+                resolve(model[0]);
+            }).catch((err) => {
+                reject(err);
+            })
+        });
     }
 };

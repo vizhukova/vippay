@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute, Link } from 'react-router';
 import CategoriesStore from'./../../stores/CategoriesStore';
 import CategoriesAction from'./../../actions/CategoriesAction';
 import SettingsActions from'./../../actions/SettingsAction';
-import AlertActions from './../../../../../common/js/AlertActions';
+import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import _  from 'lodash';
 
 class CategoryForm extends React.Component {

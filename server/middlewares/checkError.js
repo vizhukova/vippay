@@ -26,6 +26,12 @@ module.exports = function(err, res){
         case 'too_big_value':
             res.status(400).send('Слишком большое значение');
             break;
+        case 'partner_links_pkey':
+            res.status(400).send('Такой код идентификации у этого пользователя уже существует');
+            break;
+        case 'too_long_description':
+            res.status(400).send('Слишком длинный комментарий.Не более 255 символов.');
+            break;
         default:
             res.status(400).send('Упс, что то пошло не так');
     }

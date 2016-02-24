@@ -4,7 +4,7 @@ import ApiActions from './ApiActions';
 
 class ProductsAction {
 
-    getAll() {
+    getProducts() {
         var self = this;
         ApiActions.get(`partner/products`).then(function(data){
             self.dispatch(data);

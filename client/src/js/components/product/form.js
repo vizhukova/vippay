@@ -7,10 +7,10 @@ import CategoriesAction from'./../../actions/CategoriesAction';
 import SettingsStore from'./../../stores/SettingsStore';
 import CategorySelect from'./../ui/CategorySelect';
 import CurrencySelect from'./../ui/CurrencySelect';
-import Alert from './../../../../../common/js/Alert';
+import Alert from './../../../../../common/js/Alert/Alert';
 import NumberInput from './../../../../../common/js/NumberInput';
 import Select from './../../../../../common/js/Select';
-import AlertActions from './../../../../../common/js/AlertActions';
+import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import _  from 'lodash';
 
 

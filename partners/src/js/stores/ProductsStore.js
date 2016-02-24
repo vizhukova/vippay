@@ -7,13 +7,14 @@ class ProductsStore {
     constructor() {
         this.products = [];
         this.bindListeners({
-            onGetAll: ProductsAction.GET_ALL
+            onGetProducts: ProductsAction.GET_PRODUCTS
         });
     }
 
-    onGetAll(products){
+    onGetProducts(products){
         this.products = products;
     }
+
 
 }
 

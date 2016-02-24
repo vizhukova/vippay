@@ -2,7 +2,7 @@ import React from 'react';
 import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore';
 import AuthStore from'./../../stores/AuthStore';
-import AlertActions from'./../../../../../common/js/AlertActions';
+import AlertActions from'./../../../../../common/js/Alert/AlertActions';
 import Select from'./../../../../../common/js/Select';
 import _ from 'lodash';
 import Pricing from './Pricing'

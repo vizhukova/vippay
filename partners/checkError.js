@@ -1,4 +1,4 @@
-import AlertActions from './../common/js/AlertActions';
+import AlertActions from './../common/js/Alert/AlertActions';
 
 module.exports = {
     check(error) {

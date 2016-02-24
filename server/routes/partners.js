@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var config = require('../config');
 var PartnerController = require('../controllers/Partner');
+var UserController = require('../controllers/User');
 var checkLoginAccess = require('./../middlewares/checkLoginAccess');
 var _ = require('lodash');
 
@@ -63,14 +64,25 @@ router.post('/partner/login', function (req, res, next) {
 });
 
 router.get(`/partner/products`, function (req, res) {
-    PartnerController.getById(req.user.id).then((partner) => {
-            return PartnerController.getAllProducts({partner_id: req.user.id, client_id: req.clientObj.id})
-                .then(function (products) {
+    var productsArr = [];
+    var partner;
+
+    PartnerController.getById(req.user.id).then((p) => {
+            partner = p;
+            return PartnerController.getAllProducts({partner_id: req.user.id, client_id: req.clientObj.id});
+
+        }).then(function (products) {
                     products.map((p) => {
                         p.ref_link = `/redirect/${partner.login}/${p.id}`
                     });
-                    res.send(products)
-                })
+
+                    productsArr =   products;
+
+                    return UserController.getPartnerLink(req.clientObj.id);
+
+        }).then((links) => {
+            var union = productsArr.concat(links);
+            res.send(union);
         })
         .catch(function (err) {
             res.status(400).send(err.errors)

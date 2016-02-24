@@ -4,7 +4,7 @@ import AuthAction from './../actions/AuthActions';
 import PartnersStore from './../stores/PartnersStore';
 import List from'./../../../../common/js/List';
 import NumberInput from'./../../../../common/js/NumberInput';
-import AlertActions from'./../../../../common/js/AlertActions';
+import AlertActions from'./../../../../common/js/Alert/AlertActions';
 import _  from 'lodash';
 
 
