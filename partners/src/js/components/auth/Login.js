@@ -1,7 +1,7 @@
 import React from 'react';
 import ApiActions from './../../actions/ApiActions';
-import Alert from './../../../../../common/js/Alert';
-import AlertActions from './../../../../../common/js/AlertActions';
+import Alert from './../../../../../common/js/Alert/Alert';
+import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import PasswordInput from './../../../../../common/js/PasswordInput';
 import cookie from'./../../../../../common/Cookies';
 

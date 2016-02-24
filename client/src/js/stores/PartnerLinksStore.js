@@ -6,14 +6,36 @@ class PartnerLinksStore {
 
     constructor() {
         this.links = [];
-        this.product = {};
+        this.link = {};
         this.bindListeners({
-            onGetAll: PartnerLinksAction.GET_ALL
+            onGet: PartnerLinksAction.GET,
+            onAdd: PartnerLinksAction.ADD,
+            onSet: PartnerLinksAction.SET,
+            onGetCurrent: PartnerLinksAction.GET_CURRENT,
+            onRemove: PartnerLinksAction.REMOVE
         });
     }
 
-    onGetAll(links){
+    onGet(links){
         this.links = links;
+        console.log('PartnerLinksStore links: ', links);
+    }
+
+    onAdd(link) {
+        this.links.push(link);
+    }
+
+    onSet(link) {
+        var index = _.findIndex(this.links, {id: link.id});
+        this.links[index] = link;
+    }
+
+    onGetCurrent(link) {
+        this.link = link;
+    }
+
+    onRemove(link) {
+        this.links = _.filter(this.links, (item) => item.id != link.id);
     }
 
 }

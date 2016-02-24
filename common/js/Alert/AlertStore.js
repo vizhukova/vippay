@@ -1,6 +1,6 @@
-import alt from '../../client/src/js/alt';
+import alt from '../../../client/src/js/alt';
 import AlertActions from './AlertActions';
-import SettingsAction from './../../client/src/js/actions/SettingsAction';
+import SettingsAction from './../../../client/src/js/actions/SettingsAction';
 var _ = require('lodash');
 
 

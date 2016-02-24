@@ -1,8 +1,8 @@
 import React from 'react'
 import ApiActions from './../../actions/ApiActions'
 import PasswordInput from './../../../../../common/js/PasswordInput';
-import Alert from './../../../../../common/js/Alert'
-import AlertActions from './../../../../../common/js/AlertActions'
+import Alert from './../../../../../common/js/Alert/Alert'
+import AlertActions from './../../../../../common/js/Alert/AlertActions'
 
 
 class Register extends React.Component {

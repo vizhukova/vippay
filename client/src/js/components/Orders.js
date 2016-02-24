@@ -84,7 +84,8 @@ class OrderItem extends React.Component {
                 </div>
             </td>
             <td>{comment}
-                {this.state.isCommentCut ? <a href="" onClick={this.onClick}>...Подробнее</a> : ''}</td>
+                {this.state.isCommentCut ? <a href="" onClick={this.onClick}>Подробнее</a> : ''}
+            </td>
             <td>{this.props.item.delivery_price}</td>
             <td><button type="button" className={` ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
             <td>{`${this.props.item.product_price} ${this.props.item.currency}`}</td>

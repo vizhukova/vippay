@@ -1,4 +1,4 @@
-import AlertActions from './../common/js/AlertActions';
+import AlertActions from './../common/js/Alert/AlertActions';
 import SettingsAction from './src/js/actions/SettingsAction';
 
 module.exports = {

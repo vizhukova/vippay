@@ -2,8 +2,8 @@ import React from 'react';
 import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore';
 import PasswordInput from'./../../../../../common/js/PasswordInput';
-import Alert from './../../../../../common/js/Alert';
-import AlertActions from './../../../../../common/js/AlertActions';
+import Alert from './../../../../../common/js/Alert/Alert';
+import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import paymentSettings from './../../../../paymentSettings';
 import _ from 'lodash';
 

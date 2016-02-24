@@ -2,21 +2,58 @@ import React from 'react';
 import ProductsActions from'./../actions/ProductsActions';
 import ProductsStore from'./../stores/ProductsStore';
 import List from'./../../../../common/js/List';
+import ModalActions from'./../../../../common/js/ModalWindow/ModalActions';
 
 
 class ProductItem extends React.Component {
 
     constructor() {
         super();
+        this.state = {
+            commentLength: 50,
+            isCommentCut: 0 // 0-не выводить Подробнее; 1- Подробнее раскрыт; -1 - ПОдробнее закрыт
+        }
+        this.setModelData = this.setModelData.bind(this);
+        this.onClick = this.onClick.bind(this);
+    }
+
+     componentDidMount() {
+        if (this.props.item.description && this.props.item.description.length > this.state.commentLength) {
+            this.state.isCommentCut = -1;
+            this.setState({});
+        }
+    }
+
+    onClick(e) {
+        e.preventDefault();
+        this.state.commentLength = this.state.isCommentCut < 0 ? this.props.item.description.length
+            : 50;
+        this.state.isCommentCut *= -1;
+        this.setState({});
+
+    }
+
+    setModelData(e) {
+        var materials = this.props.item.materials || [];
+        ModalActions.set({data: materials, name: 'Materials'});
     }
 
     render() {
+
+        var comment = this.props.item.description || '';
+
+        if (comment.length > this.state.commentLength) {
+            comment = comment.slice(0, this.state.commentLength);
+        }
+
         return <tr>
-            <td><img src={this.props.item.image} alt="image" width="200px" height="auto"/></td>
             <td>{this.props.item.name}</td>
-            <td>{this.props.item.price.toFixed(2)}</td>
-            <td>{this.props.item.currency_name}</td>
-            <td>{this.props.item.description}</td>
+             <td>
+                <button type="button" data-toggle="modal" data-target="#myModal" className="btn btn-default" onClick={this.setModelData}>Посмотреть</button>
+            </td>
+            <td>{comment}
+                {this.state.isCommentCut ? <a href="" onClick={this.onClick}>Подробнее</a> : ''}
+            </td>
             <td><a href={this.props.item.ref_link}>Ссылка</a></td>
         </tr>
     }
@@ -32,7 +69,7 @@ class Products extends React.Component {
 
     componentDidMount() {
         ProductsStore.listen(this.update);
-        ProductsActions.getAll();
+        ProductsActions.getProducts();
     }
 
     componentWillUnmount() {
@@ -53,12 +90,9 @@ class Products extends React.Component {
             items={this.state.products}
             itemComponent={ProductItem}
             isPaginate={true}
-            thead={['Изображение', 'Товар', 'Цена', 'Валюта', 'Описание', 'Ссылка на продукт']}
             thead={[
-                {name: 'Изображение', key: ''},
                 {name: 'Товар', key: 'name'},
-                {name: 'Цена', key: 'price'},
-                {name: 'Валюта', key: 'currency_name'},
+                {name: 'Дополнительные материалы', key: ''},
                 {name: 'Описание', key: ''},
                 {name: 'Ссылка на продукт', key: ''}
             ]}

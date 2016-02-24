@@ -4,6 +4,7 @@ import ProductsStore from'./../../stores/ProductsStore';
 import ProductsAction from'./../../actions/ProductsAction';
 import SettingsStore from'./../../stores/SettingsStore';
 import List from'./../../../../../common/js/List';
+import ModalActions from'./../../../../../common/js/ModalWindow/ModalActions';
 import _  from 'lodash';
 
 var getAbsoluteUrl = (function() {
@@ -28,6 +29,7 @@ class ProductItem extends React.Component {
         this.setAvailable = this.setAvailable.bind(this);
         this.setActive = this.setActive.bind(this);
         this.update = this.update.bind(this);
+        this.setModelData = this.setModelData.bind(this);
     }
 
     componentDidMount() {
@@ -59,6 +61,11 @@ class ProductItem extends React.Component {
         ProductsAction.editProduct(product);
     }
 
+    setModelData(e) {
+        var materials = this.props.item.materials || [];
+        ModalActions.set({data: materials, name: 'Materials'});
+    }
+
     render(){
         var available = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
         var notAvailable = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
@@ -70,6 +77,9 @@ class ProductItem extends React.Component {
                     <td>{this.props.item.name}</td>
                     <td><a href={`/order/${this.props.item.id}`} target="_blank">{getAbsoluteUrl(`/order/${this.props.item.id}`)}</a></td>
                      <td>{`${parseFloat(this.props.item.price).toFixed(2)} ${currency}`}</td>
+                    <td>
+                        <button type="button" data-toggle="modal" data-target="#myModal" className="btn btn-default" onClick={this.setModelData}>Посмотреть</button>
+                    </td>
                      <td className="action"><button type="button" className={this.props.item.available ? available : notAvailable} onClick={this.setAvailable} /></td>
                      <td className="action"><button type="button" className={this.props.item.active ? available : notAvailable} onClick={this.setActive} /></td>
                      <td className="action">
@@ -140,6 +150,7 @@ class Products extends React.Component {
                 {name: 'Товар', key: 'name'},
                 {name: 'Ссылка на продукт', key: ''},
                 {name: 'Цена', key: 'price'},
+                {name: 'Дополнительные материалы', key: ''},
                 {name: 'Доступность', key: 'available'},
                 {name: 'Активность', key: 'active'},
                 {name: '', key: ''}

@@ -5,7 +5,8 @@ import  SettingsActions from '../actions/SettingsAction';
 import AuthStore from './../stores/AuthStore';
 import SettingsStore from './../stores/SettingsStore';
 import Loader from'./../../../../common/js/Loader';
-import Alert from'./../../../../common/js/Alert';
+import ModalWindow from'./../../../../common/js/ModalWindow/ModalWindow';
+import Alert from'./../../../../common/js/Alert/Alert';
 import cookie from'./../../../../common/Cookies';
 import Error from'./../../../../common/js/Error';
 import _  from 'lodash';
@@ -82,6 +83,7 @@ class Application extends React.Component {
                                   <ul className="dropdown-menu">
                                     <li><Link to="/settings" activeClassName="active">Настройка</Link></li>
                                     <li><Link to="/partners" activeClassName="active">Партнеры</Link></li>
+                                    <li><Link to="/partners_links" activeClassName="active">Партнерские ссылки</Link></li>
                                   </ul>
                           </li>
                             <li><Link to="/orders" activeClassName="active">Заказы</Link></li>
@@ -106,9 +108,8 @@ class Application extends React.Component {
                     </div>
                 </div>
             </nav>
-
             <Alert />
-
+            <ModalWindow />
             {!this.state.isActiveTariff && location.hash.slice(2) !== 'profile' ?
                 <Error /> :
             (this.state.auth ? <div>{this.props.children}</div> : <Loader />)}

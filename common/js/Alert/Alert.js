@@ -1,6 +1,6 @@
 import React from 'react';
 import AlertStore from './AlertStore';
-import SettingsAction from './../../client/src/js/actions/SettingsAction';
+import SettingsAction from './../../../client/src/js/actions/SettingsAction';
 import AlertActions from './AlertActions';
 
 

@@ -40,6 +40,32 @@ var PartnerLinks = bookshelf.Model.extend({
         return knex('partner_links')
         .select('*')
         .where('user_id', '=', user_id)
+    },
+
+    getById(id) {
+        return knex('partner_links')
+        .select('*')
+        .where('id', '=', id)
+    },
+
+    add(data) {
+        return knex('partner_links')
+               .insert(data)
+               .returning('*')
+    },
+
+    edit(data) {
+        return knex('partner_links')
+               .update(data)
+               .where('id', '=', data.id)
+               .returning('*')
+    },
+
+    remove(id) {
+        return knex('partner_links')
+            .where({id: id})
+            .del()
+            .returning('*')
     }
 
 });

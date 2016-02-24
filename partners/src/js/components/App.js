@@ -7,7 +7,8 @@ import  ProductsActions from '../actions/ProductsActions';
 import SettingsStore from './../stores/SettingsStore';
 import AuthStore from './../stores/AuthStore';
 import Loader from'./../../../../common/js/Loader';
-import Alert from'./../../../../common/js/Alert';
+import Alert from'./../../../../common/js/Alert/Alert';
+import ModalWindow from'./../../../../common/js/ModalWindow/ModalWindow';
 var _ = require('lodash');
 
 
@@ -112,6 +113,7 @@ class Application extends React.Component {
                     </div>
                 </div>
             </nav>
+            <ModalWindow />
             <Alert />
               {this.state.auth ? null : <Loader />}
             <div>{this.props.children}</div>

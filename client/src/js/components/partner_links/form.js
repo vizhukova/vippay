@@ -1,157 +1,10 @@
 import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
-import ProductsStore from'./../../stores/ProductsStore';
-import ProductsAction from'./../../actions/ProductsAction';
-import CategoriesStore from'./../../stores/CategoriesStore';
-import CategoriesAction from'./../../actions/CategoriesAction';
-import SettingsStore from'./../../stores/SettingsStore';
-import CategorySelect from'./../ui/CategorySelect';
-import CurrencySelect from'./../ui/CurrencySelect';
-import Alert from './../../../../../common/js/Alert';
-import NumberInput from './../../../../../common/js/NumberInput';
-import Select from './../../../../../common/js/Select';
-import AlertActions from './../../../../../common/js/AlertActions';
+import PartnerLinksStore from './../../stores/PartnerLinksStore';
+import PartnerLinksAction from './../../actions/PartnerLinksAction';
+import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import _  from 'lodash';
 
-
-class AddFields extends React.Component {
-
-    constructor(){
-        super();
-        this.state = {};
-        this.onChange = this.onChange.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps){
-         if(nextProps){
-             this.setState(nextProps.delivery);
-         }
-        console.log('AddFields', this.state)
-    }
-
-    onChange(e) {
-        var state = {};
-        state[e.target.name] = e.target.value;
-        _.assign(this.state, state);
-        this.setState({});
-       // this.setState(state);
-        this.props.onChange({id: this.props.id, delivery: this.state})
-    }
-
-    render(){
-        var self = this;
-        return   <div className="form-group">
-                    <label>Даные доставки<span className="text-danger"> * </span></label>
-                    <input type='text' className="form-control" name="condition"
-                           value={this.state.condition}
-                           onChange={this.onChange}
-                           onClick={this.props.onClick}
-                           onKeyDown={this.props.onKeyDown}/>
-
-                    <label>Цена<span className="text-danger"> * </span></label>
-                    <NumberInput type='text' className="form-control" name="price"
-                           value={this.state.price}
-                           onChange={this.onChange}
-                           onClick={this.props.onClick}
-                           onKeyDown={this.props.onKeyDown}/>
-                </div>
-    }
-
-
-}
-
-class AddDelivery extends React.Component {
-
-    constructor(){
-        super();
-
-          this.state = {
-            delivery: [
-                {condition: '',
-                 price:''}
-            ]
-        };
-
-        _.assign(this.state, ProductsStore.getState());
-
-        this.onChange = this.onChange.bind(this);
-        this.onAdd = this.onAdd.bind(this);
-        this.onDel = this.onDel.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps){
-        if(nextProps.product.delivery && nextProps.product.delivery.length > 0) {
-            _.assign(this.state, {delivery: nextProps.product.delivery}, {material: nextProps.product.material});
-        }
-        else {
-            if(this.state.material != nextProps.product.material) this.setState({material: nextProps.product.material});
-        }
-        console.log('AddForm1', this.state)
-    }
-
-    onChange(state) {
-        var delivery = this.state.delivery
-        _.assign(delivery[state.id], state.delivery);
-        this.setState({delivery: delivery});
-        this.props.onChange({
-                target: {
-                    name: 'delivery',
-                    value: this.state.delivery
-                }
-        });
-    }
-
-    onAdd(e) {
-        e.preventDefault();
-        var lastItem = this.state.delivery[this.state.delivery.length - 1];
-        if(lastItem.condition.length == 0 || lastItem.price.length == 0
-            || _.trim(lastItem.condition).length == 0 || _.trim(lastItem.price).length == 0) {
-            AlertActions.set({
-                type: 'error',
-                title: 'Ошибка',
-                text: 'Все поля доставки должны быть заполнены'
-            }, true)
-            return;
-        }
-        var state = this.state.delivery;
-        state.push({condition: '', price:''});
-        this.setState({
-            delivery: state
-        })
-        this.props.onClick();
-    }
-
-    onDel(e) {
-        e.preventDefault();
-
-        if(this.state.delivery.length <= 1) return;
-        var state = this.state.delivery;
-        state.pop();
-        this.setState({
-            delivery: state
-        })
-        this.props.onClick();
-    }
-
-    render(){
-        var self = this;
-        console.log('AddForm render', this.state);
-
-        return  <div role="form" className={this.state.material ? '' : 'hide'}>
-                  { this.state.delivery.map(function(item, index){
-                    return  <div key={index}>
-                                <AddFields id={index} delivery={item}
-                                           onChange={self.onChange}
-                                           onKeyDown={self.props.onKeyDown}
-                                           onClick={self.props.onClick}/>
-                        <hr />
-                        </div>
-                    })}
-                  <button type="submit" className="btn btn-danger glyphicon glyphicon-minus pull-right" onClick={this.onDel}></button>
-                  <button type="submit" className="btn btn-success glyphicon glyphicon-plus pull-left" onClick={this.onAdd}></button>
-                </div>
-    }
-}
 
 class AddMaterialFields extends React.Component {
 
@@ -214,8 +67,8 @@ class AddMaterials extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.product.materials) {
-            _.assign(this.state, {materials: nextProps.product.materials});
+        if(nextProps.link.materials && nextProps.link.materials.length > 0) {
+            _.assign(this.state, {materials: nextProps.link.materials});
         }
         console.log('AddForm2', this.state)
     }
@@ -277,97 +130,76 @@ class AddMaterials extends React.Component {
 
 
 
-class ProductForm extends React.Component {
+class LinkForm extends React.Component {
 
     constructor(){
         super();
-        this.state = CategoriesStore.getState();
-        _.assign(this.state, ProductsStore.getState(), SettingsStore.getState());
+        this.state = PartnerLinksStore.getState();
         this.update = this.update.bind(this);
-        this.addNewProduct = this.addNewProduct.bind(this);
-        this.editProduct = this.editProduct.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onChangeCurrency = this.onChangeCurrency.bind(this);
-        this.onChangeCategory = this.onChangeCategory.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.add = this.add.bind(this);
+        this.edit = this.edit.bind(this);
+        this.checkFields = this.checkFields.bind(this);
 
     }
 
     componentDidMount() {
         var self = this;
         console.log('PROOPS',this.props)
-        if(!this.props.params.prod_id) {
+
+        if(!this.props.params.id) {
 
             this.setState({
-                product: {
-                category_id: this.props.params.id,
-                available: true,
+                link: {
                 active: true,
-                material: false,
                 description: '',
                 materials: []
             }
             });
 
         } else {
-            ProductsAction.getCurrentProduct(this.props.params.prod_id);
+            PartnerLinksAction.getCurrent(this.props.params.id);
         }
 
-        console.log('ProductForm - componentDidMount', this.state.product)
+        console.log('ProductForm - componentDidMount', this.state.link)
 
-        CategoriesStore.listen(this.update);
-        ProductsStore.listen(this.update);
-        SettingsStore.listen(this.update);
-        CategoriesAction.getAllCategories();
+        PartnerLinksStore.listen(this.update);
     }
 
     onKeyDown(e) {
         if(e.keyCode == 13) {
-            this.props.params.prod_id ? this.editProduct() : this.addNewProduct()
+            this.props.params.prod_id ? this.edit() : this.add()
         }
     }
 
     componentWillUnmount() {
-        CategoriesStore.unlisten(this.update);
-        ProductsStore.unlisten(this.update);
-        SettingsStore.unlisten(this.update);
+        PartnerLinksStore.unlisten(this.update);
     }
 
     checkFields() {
         var result;
 
-        if (this.state.product.material) {
-
-            this.state.product.link_download = '';
-
-            if (!this.state.product.delivery) return false;
-
-            result = this.state.product.delivery.filter((item) => {
-                return _.trim(item.condition).length == 0 || _.trim(item.price).length == 0
-            });
-            result = result.length > 0;
-        } else {
-            this.state.product.delivery = [];
-            result = !this.state.product.link_download || _.trim(this.state.product.link_download).length == 0
-        }
-        if (result) return false;
-
-
-        result = this.state.product.materials.filter((item) => {
+        result = this.state.link.materials.filter((item) => {
             return _.trim(item.name).length == 0 || _.trim(item.description).length == 0
         });
 
-        return !result.length && this.state.product.name && this.state.product.product_link &&
-            this.state.product.price && _.trim(this.state.product.name).length > 0
-            && _.trim(this.state.product.product_link).length > 0 && _.trim(this.state.product.price).length > 0
+        var reg = /[0-9a-zA-Z\-_]{4,10}/g;
+        var regRes = reg.test(this.state.link.key);
+
+        if(!regRes) return false;
+
+        return !result.length && regRes && this.state.link.name
+            && _.trim(this.state.link.name).length > 0 && this.state.link.link
+            && _.trim(this.state.link.link).length > 0
 
     }
 
-    addNewProduct() {
+    add() {
         var self = this;
         if(this.checkFields()) {
-            ProductsAction.addNewProduct(this.state.product).then(() => {
+            PartnerLinksAction.add(this.state.link).then(() => {
                 history.back();
 
             })
@@ -376,16 +208,16 @@ class ProductForm extends React.Component {
            AlertActions.set({
                         type: 'error',
                         title: 'Ошибка',
-                        text: 'Проверьте правильность заполнения данных. Возможно такой товар уже существует'
+                        text: 'Проверьте правильность заполнения данных. Все обязательные поля должны быть заполнены.'
                 }, true)
         }
     }
 
-    editProduct() {
+    edit() {
         var self = this;
 
         if(this.checkFields()) {
-            ProductsAction.editProduct(this.state.product).then((data) => {
+            PartnerLinksAction.set(this.state.link).then((data) => {
                 history.back();
 
             })
@@ -393,40 +225,24 @@ class ProductForm extends React.Component {
                AlertActions.set({
                             type: 'error',
                             title: 'Ошибка',
-                            text: 'Проверьте правильность заполнения данных.'
+                            text: 'Проверьте правильность заполнения данных. Все обязательные поля должны быть заполнены.'
                     }, true)
             }
         }
 
     update(state){
-        if(state.product) _.assign(this.state.product, state.product);
-        _.assign(this.state, _.omit(state, ['product']));
+        this.state = state;
         this.setState({});
     }
 
     onChange(e) {
         var state = {};
-        if(e.target.name == "available")  state[e.target.name] =  e.target.checked;
-        else if(e.target.name == "active")  state[e.target.name] =  e.target.checked;
-        else if(e.target.name == "material")  state[e.target.name] =  e.target.checked;
+        if(e.target.name == "active")  state[e.target.name] =  e.target.checked;
 		else state[e.target.name] =  e.target.value;
-        _.assign(this.state.product, state);
+        _.assign(this.state.link, state);
         this.setState({});
     }
 
-    onChangeCurrency(e) {
-        var state = {};
-        state['currency_id'] =  e.target.value;
-        _.assign(this.state.product, state);
-        this.setState({});
-    }
-
-    onChangeCategory(e) {
-        var state = {};
-        state['category_id'] =  e.target.value;
-        _.assign(this.state.product, state);
-        this.setState({});
-    }
 
     onClick(e) {
         AlertActions.hide();
@@ -436,133 +252,79 @@ class ProductForm extends React.Component {
 
     render(){
         var self = this;
-        var edit = this.props.params.prod_id;
-        console.log('ProductForm basicCurrency', this.state.basicCurrency)
-        if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
+        var edit = this.props.params.id;
 
          return <form className="col-sm-7 form-ui table-wrapper">
             <fieldset className="product-form">
 
-                <label className="text-warning">{edit ? 'Редактируемый продукт' : 'Новый продукт'} <span className="text-danger"> * </span></label>
-                <input type="text" name="name"
-                       className="form-control" id="name"
+                <label className="text-warning">{edit ? 'Название редактируемой ссылки' : 'Название новой ссылки'} <span className="text-danger"> * </span></label>
+                <input type="text" name="name" id="name"
+                       className="form-control"
                        onChange={this.onChange}
                        onKeyDown={this.onKeyDown}
-                       onClick = {this.onClick} placeholder="Введите название нового продукта"
-                       value={this.state.product.name}/>
+                       onClick = {this.onClick}
+                       placeholder="Введите название"
+                       value={this.state.link.name}
+                       />
 
-                <label className="text-warning">Цена  <span className="text-danger"> * </span></label>
-                <NumberInput type="text" name="price"
-                       className="form-control" id="price"
+                <label className="text-warning">Ссылка <span className="text-danger"> * </span></label>
+                <input type="text" name="link"
+                       className="form-control" id="link"
                        onChange={this.onChange}
                        onKeyDown={this.onKeyDown}
-                       onClick = {this.onClick} placeholder="Введите цену"
-                       value={this.state.product.price}/>
+                       onClick = {this.onClick}
+                       placeholder="Введите новую ссылку"
+                       value ={this.state.link.link}
+                       />
 
-                 <label className="text-warning">Валюта</label>
-                 <Select values={this.state.currencies}
-                    current_value={this.state.product.currency_id}
-                    fields={{
-                        name: 'name',
-                        value: 'id'
-                    }}
-                    onChange={this.onChangeCurrency}
-                 />
 
-                <label className="text-warning">Категория</label>
-                <Select values={this.state.categories}
-                    current_value={this.state.product.category_id}
-                    fields={{
-                        name: 'category',
-                        value: 'id'
-                    }}
-                    onChange={this.onChangeCategory}
-                 />
+                <label className="text-warning">Код идентификации <span className="text-danger"> * </span></label>
+                <input type="text" name="key" className="form-control" id="key"
+                       onChange={this.onChange}
+                       onKeyDown={this.onKeyDown}
+                       onClick = {this.onClick}
+                       placeholder="Введите код идентификации"
+                       value={this.state.link.key}
+                       />
+                <span className="text-warning small">(код идентификации должен быть уникальным и содержать латинские буквы, цифры, длина jn 4 до 10 символов. По желанию может содержать : спец. символы тире( - ) или нижнее подчеркивание( _ ) )</span>
 
-                <div className="checkbox">
-                  <label className="text-warning">
-                      <input name="available"
-                         checked={this.state.product.available} type="checkbox"
-                         onChange={this.onChange}
-                         onClick = {this.onClick}/>
-                      Доступность</label>
-                </div>
 
                 <div className="checkbox">
                   <label className="text-warning">
                       <input name="active"
-                             checked={this.state.product.active}
+                             checked={this.state.link.active}
                              type="checkbox"
                              onChange={this.onChange}
                              onClick = {this.onClick}/>
                       Активность</label>
                 </div>
 
-                <label className="text-warning">Ссылка на картинку</label>
-                <input type="text" name="image" className="form-control" id="image"
-                       onChange={this.onChange}
-                       onKeyDown={this.onKeyDown}
-                       onClick = {this.onClick}
-                       placeholder="Введите ссылку на картинку"
-                       value={this.state.product.image}/>
-
-                <label className="text-warning">Ссылка на продукт <span className="text-danger"> * </span></label>
-                <input type="text" name="product_link" className="form-control" id="product_link"
-                       onChange={this.onChange}
-                       onKeyDown={this.onKeyDown}
-                       onClick = {this.onClick}
-                       placeholder="Введите ссылку на продукт"
-                       value={this.state.product.product_link}/>
 
                 <label className="text-warning">Описание:</label>
                 <textarea className="form-control" id="description" name="description"
                           onChange={this.onChange}
                           onKeyDown={this.onKeyDown}
                           onClick = {this.onClick}
-                          value={this.state.product.description}></textarea>
-
-                <div className="checkbox">
-                  <label className="text-warning">
-                      <input name="material"  type="checkbox"
-                             checked={this.state.product.material}
-                             onChange={this.onChange}
-                             onClick = {this.onClick}/>
-                      Доставляемый</label>
-                </div>
-
-                {this.state.product.material ? null : <div>
-                    <label className="text-warning">Ссылка на скачивание продукта<span className="text-danger"> * </span></label>
-                    <input type="text" name="link_download" className="form-control" id="link_download"
-                           onChange={this.onChange}
-                           onKeyDown={this.onKeyDown}
-                           onClick = {this.onClick}
-                           placeholder="Введите ссылку на скачивание продукта"
-                           value={this.state.product.link_download}/>
-                </div>}
-
-                 <AddDelivery onChange={this.onChange}
-                          onClick = {this.onClick}
-                          onKeyDown={this.onKeyDown}
-                          product={this.state.product}/>
-
+                          value={this.state.link.description}
+                           />
             </fieldset>
 
              <fieldset className="product-form">
                   <AddMaterials onChange={this.onChange}
                           onClick = {this.onClick}
                           onKeyDown={this.onKeyDown}
-                          product={this.state.product}
+                          link={this.state.link}
                          />
              </fieldset>
 
              <fieldset><div className="text-danger small">*Поля обязательные для заполнения</div></fieldset>
 
 
-             <button type="button" className="btn btn-warning pull-left btn-submit" onClick={edit ? this.editProduct : this.addNewProduct}>{
+             <button type="button" className="btn btn-warning pull-left btn-submit" onClick={edit ? this.edit : this.add}>{
                 edit ? "Редактировать" : "Добавить"}
             </button>
 
-              <Link to={`/category/${this.props.params.id}/products`}>
+              <Link to={`/links`}>
                  <button type="button" className="btn btn-danger pull-right btn-submit">
                      {"Отмена"}
                  </button>
@@ -571,4 +333,4 @@ class ProductForm extends React.Component {
     }
 }
 
-export default ProductForm;
+export default LinkForm;

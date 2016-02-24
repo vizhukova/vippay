@@ -4,8 +4,8 @@ import Payment from './Payment';
 import OrderActions from'./../../actions/OrdersActions';
 import ApiActions from'./../../actions/ApiActions';
 import OrdersStore from'./../../stores/OrdersStore';
-import Alert from'./../../../../../common/js/Alert';
-import AlertActions from'./../../../../../common/js/AlertActions';
+import Alert from'./../../../../../common/js/Alert/Alert';
+import AlertActions from'./../../../../../common/js/Alert/AlertActions';
 import _  from 'lodash';
 import $  from 'jquery';
 
