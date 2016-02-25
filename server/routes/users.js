@@ -111,7 +111,7 @@ router.put('/user/password', (req, res, next) => { //get all clients for partner
 });
 
 router.get('/partnerlinks', function (req, res) {
-    UserController.getPartnerLink(req.user.id)
+    UserController.getPartnerLink({user_id: req.user.id})
         .then(function (partnerLinks) {
             res.send(partnerLinks)
         }).catch(function (err) {
@@ -120,9 +120,9 @@ router.get('/partnerlinks', function (req, res) {
 });
 
 router.get('/partnerlinks/:id', function (req, res) {
-    UserController.getPartnerLinkById(req.params.id)
+    UserController.getPartnerLink({id: req.params.id})
         .then(function (partnerLink) {
-            res.send(partnerLink)
+            res.send(partnerLink[0])
         }).catch(function (err) {
         res.status(400).send(err.errors)
     });

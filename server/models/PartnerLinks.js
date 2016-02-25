@@ -36,16 +36,10 @@ var PartnerLinks = bookshelf.Model.extend({
 
 }, {
 
-    get(user_id) {
+    get(data) {
         return knex('partner_links')
         .select('*')
-        .where('user_id', '=', user_id)
-    },
-
-    getById(id) {
-        return knex('partner_links')
-        .select('*')
-        .where('id', '=', id)
+        .where(data)
     },
 
     add(data) {

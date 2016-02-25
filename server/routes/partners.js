@@ -78,7 +78,7 @@ router.get(`/partner/products`, function (req, res) {
 
                     productsArr =   products;
 
-                    return UserController.getPartnerLink(req.clientObj.id);
+                    return UserController.getPartnerLink({user_id: req.clientObj.id, active: true});
 
         }).then((links) => {
             var union = productsArr.concat(links);

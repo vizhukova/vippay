@@ -70,15 +70,18 @@ class ProductItem extends React.Component {
         var available = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
         var notAvailable = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
         var currency = _.findWhere(this.state.currencies, {id: +this.props.item.currency_id});
+        var materials = this.props.item.materials || [];
         currency = currency ? currency.name : currency;
 
 
         return <tr>
                     <td>{this.props.item.name}</td>
                     <td><a href={`/order/${this.props.item.id}`} target="_blank">{getAbsoluteUrl(`/order/${this.props.item.id}`)}</a></td>
-                     <td>{`${parseFloat(this.props.item.price).toFixed(2)} ${currency}`}</td>
+                    <td>{`${parseFloat(this.props.item.price).toFixed(2)} ${currency}`}</td>
                     <td>
-                        <button type="button" data-toggle="modal" data-target="#myModal" className="btn btn-default" onClick={this.setModelData}>Посмотреть</button>
+                        { materials.length > 0
+                          ? <button type="button" data-toggle="modal" data-target="#myModal" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.setModelData} />
+                          : '-'}
                     </td>
                      <td className="action"><button type="button" className={this.props.item.available ? available : notAvailable} onClick={this.setAvailable} /></td>
                      <td className="action"><button type="button" className={this.props.item.active ? available : notAvailable} onClick={this.setActive} /></td>
