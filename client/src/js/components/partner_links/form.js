@@ -12,6 +12,7 @@ class AddMaterialFields extends React.Component {
         super();
         this.state = {};
         this.onChange = this.onChange.bind(this);
+        this.onDel = this.onDel.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
@@ -19,6 +20,13 @@ class AddMaterialFields extends React.Component {
              this.setState(nextProps.materials);
          }
         console.log('AddMaterialFields', this.state)
+    }
+
+    onDel(e) {
+        e.preventDefault();
+        this.state = {};
+        this.setState({});
+        this.props.onDel({id: this.props.id});
     }
 
     onChange(e) {
@@ -32,19 +40,25 @@ class AddMaterialFields extends React.Component {
     render(){
         var self = this;
         return   <div className="form-group">
-                    <label>Название<span className="text-danger"> * </span></label>
-                    <input type='text' className="form-control" name="name"
-                           value={this.props.materials.name}
-                           onChange={this.onChange}
-                           onClick={this.props.onClick}
-                           onKeyDown={this.props.onKeyDown}/>
+                    <fieldset>
+                        <button type="submit" className={`btn btn-danger btn-action glyphicon glyphicon-minus pull-right
+                           `} onClick={this.onDel} />
+                    </fieldset>
+                    <fieldset>
+                        <label>Название<span className="text-danger"> * </span></label>
+                        <input type='text' className="form-control" name="name"
+                               value={this.props.materials.name}
+                               onChange={this.onChange}
+                               onClick={this.props.onClick}
+                               onKeyDown={this.props.onKeyDown}/>
 
-                    <label>Описание<span className="text-danger"> * </span></label>
-                    <textarea type='text' className="form-control" name="description"
-                           value={this.props.materials.description}
-                           onChange={this.onChange}
-                           onClick={this.props.onClick}
-                           onKeyDown={this.props.onKeyDown}/>
+                        <label>Описание<span className="text-danger"> * </span></label>
+                        <textarea type='text' className="form-control" name="description"
+                               value={this.props.materials.description}
+                               onChange={this.onChange}
+                               onClick={this.props.onClick}
+                               onKeyDown={this.props.onKeyDown}/>
+                    </fieldset>
                 </div>
     }
 
@@ -100,11 +114,16 @@ class AddMaterials extends React.Component {
         this.props.onClick();
     }
 
-    onDel(e) {
-        e.preventDefault();
-        this.state.materials.pop();
+    onDel(data) {
+        this.state.materials = _.filter(this.state.materials, (item, index) => index != data.id);
         this.setState({});
         this.props.onClick();
+        this.props.onChange({
+                target: {
+                    name: 'materials',
+                    value: this.state.materials
+                }
+        });
     }
 
     render(){
@@ -118,12 +137,11 @@ class AddMaterials extends React.Component {
                                 <AddMaterialFields id={index} materials={item}
                                            onChange={self.onChange}
                                            onKeyDown={self.props.onKeyDown}
-                                           onClick={self.props.onClick}/>
+                                           onClick={self.props.onClick}
+                                           onDel={self.onDel}/>
                         <hr />
                         </div>
                     })}
-                  <button type="submit" className={`btn btn-danger glyphicon glyphicon-minus pull-right
-                  ${this.state.materials.length ? '' : 'hidden'}`} onClick={this.onDel} />
                 </div>
     }
 }

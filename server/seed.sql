@@ -4,16 +4,16 @@ INSERT INTO currency (name) VALUES ('UAH'),
                                     ('RUB');
 
 INSERT INTO users (login, email, password, name, basic_currency, type, created_at) VALUES ('client1', 'email1@sss.ss', '1', 'name1', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('client2', 'email2@sss.ss', 'password2', 'name2', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('login3', 'email3@sss.ss', 'password3', 'name3', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('login4', 'email4@sss.ss', 'password4', 'name4', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('login5', 'email5@sss.ss', 'password5', 'name5', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('login6', 'email6@sss.ss', 'password6', 'name6', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('login7', 'email7@sss.ss', 'password7', 'name7', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('login8', 'email8@sss.ss', 'password8', 'name8', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('login9', 'email9@sss.ss', 'password9', 'name9', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('login10', 'email10@sss.ss', 'password10', 'name10', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('login11', 'email11@sss.ss', 'password11', 'name11', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev');
+                                                                                          ('client2', 'email2@sss.ss', '2', 'name2', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('login3', 'email3@sss.ss', '3', 'name3', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('login4', 'email4@sss.ss', '4', 'name4', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('login5', 'email5@sss.ss', '5', 'name5', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('login6', 'email6@sss.ss', '6', 'name6', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('login7', 'email7@sss.ss', '7', 'name7', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('login8', 'email8@sss.ss', '8', 'name8', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('login9', 'email9@sss.ss', '9', 'name9', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('login10', 'email10@sss.ss', '10', 'name10', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('login11', 'email11@sss.ss', '11', 'name11', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev');
 
 
 INSERT INTO categories (category, user_id) VALUES ('category1', '1'),
@@ -63,11 +63,11 @@ INSERT INTO "clients-partners" (client_id, partner_id) VALUES ('1', '6'),
 
 
 
-INSERT INTO customers (partner_product_id) VALUES ('{"product_id": "1", "partner_id": "[6,7]"}'),
-                                                  ('{"product_id": "2", "partner_id": "[10,8]"}'),
-                                                  ('{"product_id": "3", "partner_id": "[6,11]"}'),
-                                                  ('{"product_id": "4", "partner_id": "[11,6]"}'),
-                                                  ('{"product_id": "5", "partner_id": "[7,8]"}');
+INSERT INTO customers (partner_product_id) VALUES ('{"product_id": "1", "partner_id": [6,7]}'),
+                                                  ('{"product_id": "2", "partner_id": [10,8]}'),
+                                                  ('{"product_id": "3", "partner_id": [6,11]}'),
+                                                  ('{"product_id": "4", "partner_id": [11,6]}'),
+                                                  ('{"product_id": "5", "partner_id": [7,8]}');
 
 INSERT INTO rate ("from", "to", "result", "client_id") VALUES ('1', '2', '1', '1'),
                                                              ('1', '3', '2', '1'),

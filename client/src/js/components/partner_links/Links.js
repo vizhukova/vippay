@@ -67,6 +67,8 @@ class LinkItem extends React.Component {
         var available = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
         var notAvailable = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
 
+        console.log(this.state.isCommentCut)
+
         var comment = this.props.item.description || '';
         var materials = this.props.item.materials || [];
 
@@ -76,7 +78,7 @@ class LinkItem extends React.Component {
 
         return <tr>
             <td>{this.props.item.name}</td>
-            <td>{this.props.item.link}</td>
+            <td><a href={this.props.item.link}>{this.props.item.link}</a></td>
             <td>{this.props.item.key}</td>
             <td>
                 { materials.length > 0
@@ -88,7 +90,9 @@ class LinkItem extends React.Component {
                         onClick={this.setActive}/>
             </td>
             <td>{comment}
-                {this.state.isCommentCut ? <a href="" onClick={this.onClick}>Подробнее</a> : ''}
+                {this.state.isCommentCut
+                    ? <a href="" onClick={this.onClick}>{`${(this.state.isCommentCut > 0 ? 'Скрыть' : 'Подробнее')}`}</a>
+                    : ''}
             </td>
             <td className="action">
                 <Link to={`/partners_links/${this.props.item.id}`}

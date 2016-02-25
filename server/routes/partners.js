@@ -73,7 +73,7 @@ router.get(`/partner/products`, function (req, res) {
 
         }).then(function (products) {
                     products.map((p) => {
-                        p.ref_link = `/redirect/${partner.login}/${p.id}`
+                        p.ref_link = `/redirect/product/${partner.login}/${p.id}`
                     });
 
                     productsArr =   products;
@@ -81,6 +81,10 @@ router.get(`/partner/products`, function (req, res) {
                     return UserController.getPartnerLink({user_id: req.clientObj.id, active: true});
 
         }).then((links) => {
+            links.map((p) => {
+                p.ref_link = `/redirect/link/${partner.login}/${p.key}`
+            });
+
             var union = productsArr.concat(links);
             res.send(union);
         })

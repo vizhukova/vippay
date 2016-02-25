@@ -37,9 +37,6 @@ class Materials extends React.Component {
                             </div>
                         })}
                       </div>
-                      <div className="modal-footer">
-                        <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Close</button>
-                      </div>
                     </div>
     }
 }

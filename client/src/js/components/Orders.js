@@ -178,7 +178,7 @@ class Orders extends React.Component {
                 {name: 'Дата', key: 'created_at'},
                 {name: 'Продукт', key: 'product.product_link'},
                 {name: 'Комментарий', key: ''},
-                {name: 'Доставка', key: 'product.delivery.price'},
+                {name: 'Доставка', key: ''},
                 {name: 'Оплачен', key: ''},
                 {name: 'Цена', key: 'product.price'}
             ]}

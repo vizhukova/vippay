@@ -55,7 +55,9 @@ class ProductItem extends React.Component {
                     : '-'}
             </td>
             <td>{comment}
-                {this.state.isCommentCut ? <a href="" onClick={this.onClick}>Подробнее</a> : ''}
+                {this.state.isCommentCut
+                    ? <a href="" onClick={this.onClick}>{`${(this.state.isCommentCut > 0 ? 'Скрыть' : 'Подробнее')}`}</a>
+                    : ''}
             </td>
             <td><a href={this.props.item.ref_link}>Ссылка</a></td>
         </tr>
