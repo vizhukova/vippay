@@ -43,6 +43,7 @@ class NumberInput extends React.Component {
 
     onChange(e) {
 
+        debugger
         if(this.state.timeoutId) clearTimeout(this.state.timeoutId);
 
         this.state.value = e.target.value;

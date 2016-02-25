@@ -39,6 +39,7 @@ class PartnersAction {
             resolve(data);
         }).catch(function(err){
             //self.dispatch(err);
+            debugger
             reject(err);
         })
         })

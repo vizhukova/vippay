@@ -1,23 +1,23 @@
 import React from 'react';
-import StaticStore from './../stores/StatisticStore';
-import StaticActions from './../actions/StatisticAction';
+import SettingsStore from './../stores/SettingsStore';
+import SettingsActions from './../actions/SettingsActions';
 import List from'./../../../../common/js/List';
 
 class Statistics extends React.Component {
 
     constructor(){
         super();
-        this.state = StaticStore.getState();
+        this.state = SettingsStore.getState();
         this.update = this.update.bind(this);
     }
 
     componentDidMount() {
-        StaticStore.listen(this.update);
-        StaticActions.get();
+        SettingsStore.listen(this.update);
+        SettingsActions.getStatistic();
     }
 
     componentWillUnmount() {
-        StaticStore.unlisten(this.update);
+        SettingsStore.unlisten(this.update);
     }
 
     update(state) {
@@ -54,11 +54,11 @@ class Statistics extends React.Component {
                                     <td>{this.state.statistic.sum_complete_order || 0}</td>
                                 </tr>
                                 <tr>
-                                    <td>Общая долг по партнерам:</td>
+                                    <td>Общая сумма клиентского долг :</td>
                                     <td>{this.state.statistic.sum_fee_added || 0}</td>
                                 </tr>
                                 <tr>
-                                    <td>Общая сумма выплат партнерам:</td>
+                                    <td>Общая сумма клиентских выплат:</td>
                                     <td>{this.state.statistic.sum_fee_payed || 0}</td>
                                 </tr>
                             </tbody>

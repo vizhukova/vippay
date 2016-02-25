@@ -1,4 +1,5 @@
 import React from 'react';
+import Statistics from './Statistics';
 
 
 class Home extends React.Component {
@@ -11,9 +12,7 @@ class Home extends React.Component {
 
     render(){
 
-        return <div>
-            Главная страница
-        </div>
+        return <Statistics />
 
     }
 

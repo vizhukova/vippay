@@ -1,4 +1,5 @@
 import React from 'react';
+import Statistics from './Statistics';
 import Orders from './Orders';
 
 
@@ -13,8 +14,10 @@ class Home extends React.Component {
     render(){
 
         return <div>
-            <Orders isPaginate={false} />
+            <Statistics />
+            <Orders  isPaginate={false} />
         </div>
+
 
     }
 

@@ -33,6 +33,7 @@ class PartnersStore {
     }
 
     onSetFee(fee) {
+        console.log('SetFee', fee);
         var index = _.findIndex(this.partners, {id: fee.partner_id});
         if(index >= 0)this.partners[index].fee = fee;
 
