@@ -23,13 +23,14 @@ module.exports = {
 
                     var arr = customer.partner_product_id.partner_id;
 
-                    if(arr[arr.length - 1] == data.partner_id) {resolve(customer); return;}
-                    arr.push(data.partner_id);
-                    var res = Customer.edit(data.customer_id, {product_id: customer.partner_product_id.product_id, partner_id: arr})
-                    .then(() => {
-                        resolve(res);
-                    })
+                    if(arr[arr.length - 1] == data.partner_id) {return new Promise((resolve) => {resolve([customer]);})}
+                     else {
+                        arr.push(data.partner_id);
+                        return Customer.edit(data.customer_id, {product_id: customer.partner_product_id.product_id, partner_id: arr})
+                    }
 
+                    }) .then((res) => {
+                        resolve(res[0]);
                     }).catch((err) => {
                         reject(err);
                     });

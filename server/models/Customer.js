@@ -49,7 +49,7 @@ var Partner = bookshelf.Model.extend({
             .update({
                partner_product_id: JSON.stringify(data)
             })
-            .returning('partner_product_id', 'id');
+            .returning(['partner_product_id', 'id']);
     }
 
     /*,push(data){

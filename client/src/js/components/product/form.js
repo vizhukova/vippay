@@ -285,7 +285,6 @@ class AddMaterials extends React.Component {
     }
 
     onDel(data) {
-        debugger
         this.state.materials = _.filter(this.state.materials, (item, index) => index != data.id);
         this.setState({});
         this.props.onClick();
