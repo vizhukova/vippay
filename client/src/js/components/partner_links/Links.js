@@ -74,14 +74,14 @@ class LinkItem extends React.Component {
             comment = comment.slice(0, this.state.commentLength);
         }
 
-        console.log(materials)
-
         return <tr>
             <td>{this.props.item.name}</td>
             <td>{this.props.item.link}</td>
             <td>{this.props.item.key}</td>
             <td>
-                <button type="button" data-toggle="modal" data-target="#myModal" className="btn btn-default" onClick={this.setModelData}>Посмотреть</button>
+                { materials.length > 0
+                 ? <button type="button" data-toggle="modal" data-target="#myModal" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.setModelData} />
+                 : '-' }
             </td>
             <td className="action">
                 <button type="button" className={this.props.item.active ? available : notAvailable}

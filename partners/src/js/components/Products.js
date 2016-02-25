@@ -41,6 +41,7 @@ class ProductItem extends React.Component {
     render() {
 
         var comment = this.props.item.description || '';
+        var materials = this.props.item.materials || [];
 
         if (comment.length > this.state.commentLength) {
             comment = comment.slice(0, this.state.commentLength);
@@ -49,7 +50,9 @@ class ProductItem extends React.Component {
         return <tr>
             <td>{this.props.item.name}</td>
              <td>
-                <button type="button" data-toggle="modal" data-target="#myModal" className="btn btn-default" onClick={this.setModelData}>Посмотреть</button>
+                 {materials.length > 0
+                    ? <button type="button" data-toggle="modal" data-target="#myModal" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.setModelData}/>
+                    : '-'}
             </td>
             <td>{comment}
                 {this.state.isCommentCut ? <a href="" onClick={this.onClick}>Подробнее</a> : ''}

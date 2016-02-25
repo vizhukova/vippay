@@ -138,29 +138,17 @@ module.exports = {
 
     },
 
-    getPartnerLink(user_id) {
+    getPartnerLink(data) {
 
         return new Promise(function(resolve, reject) {
 
-            PartnerLinks.get(user_id).then((res) => {
+            PartnerLinks.get(data).then((res) => {
                 resolve(res);
             }).catch((err) => {
                 reject(err);
             })
         });
 
-    },
-
-    getPartnerLinkById(id) {
-
-        return new Promise(function(resolve, reject) {
-
-            PartnerLinks.getById(id).then((model) => {
-                resolve(model[0]);
-            }).catch((err) => {
-                reject(err);
-            })
-        });
     },
 
     addPartnerLink(data) {

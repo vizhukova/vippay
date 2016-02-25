@@ -20,6 +20,7 @@ class AddFields extends React.Component {
         super();
         this.state = {};
         this.onChange = this.onChange.bind(this);
+        this.onDel = this.onDel.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
@@ -38,22 +39,35 @@ class AddFields extends React.Component {
         this.props.onChange({id: this.props.id, delivery: this.state})
     }
 
+    onDel(e) {
+        e.preventDefault();
+        this.state = {};
+        this.setState({});
+        this.props.onDel({id: this.props.id});
+    }
+
     render(){
         var self = this;
         return   <div className="form-group">
-                    <label>Даные доставки<span className="text-danger"> * </span></label>
-                    <input type='text' className="form-control" name="condition"
-                           value={this.state.condition}
-                           onChange={this.onChange}
-                           onClick={this.props.onClick}
-                           onKeyDown={this.props.onKeyDown}/>
+                    <fieldset>
+                        <button type="submit" className={`btn btn-danger btn-action glyphicon glyphicon-minus pull-right
+                           `} onClick={this.onDel} />
+                    </fieldset>
+                    <fieldset>
+                        <label>Даные доставки<span className="text-danger"> * </span></label>
+                        <input type='text' className="form-control" name="condition"
+                               value={this.state.condition}
+                               onChange={this.onChange}
+                               onClick={this.props.onClick}
+                               onKeyDown={this.props.onKeyDown}/>
 
-                    <label>Цена<span className="text-danger"> * </span></label>
-                    <NumberInput type='text' className="form-control" name="price"
-                           value={this.state.price}
-                           onChange={this.onChange}
-                           onClick={this.props.onClick}
-                           onKeyDown={this.props.onKeyDown}/>
+                        <label>Цена<span className="text-danger"> * </span></label>
+                        <NumberInput type='text' className="form-control" name="price"
+                               value={this.state.price}
+                               onChange={this.onChange}
+                               onClick={this.props.onClick}
+                               onKeyDown={this.props.onKeyDown}/>
+                    </fieldset>
                 </div>
     }
 
@@ -119,18 +133,27 @@ class AddDelivery extends React.Component {
             delivery: state
         })
         this.props.onClick();
+        this.props.onChange({
+                target: {
+                    name: 'delivery',
+                    value: this.state.delivery
+                }
+        });
     }
 
-    onDel(e) {
-        e.preventDefault();
+    onDel(data) {
 
         if(this.state.delivery.length <= 1) return;
-        var state = this.state.delivery;
-        state.pop();
-        this.setState({
-            delivery: state
-        })
+
+        this.state.delivery = _.filter(this.state.delivery, (item, index) => index != data.id);
+        this.setState({});
         this.props.onClick();
+        this.props.onChange({
+                target: {
+                    name: 'delivery',
+                    value: this.state.delivery
+                }
+        });
     }
 
     render(){
@@ -143,12 +166,12 @@ class AddDelivery extends React.Component {
                                 <AddFields id={index} delivery={item}
                                            onChange={self.onChange}
                                            onKeyDown={self.props.onKeyDown}
-                                           onClick={self.props.onClick}/>
+                                           onClick={self.props.onClick}
+                                           onDel={self.onDel}/>
                         <hr />
                         </div>
                     })}
-                  <button type="submit" className="btn btn-danger glyphicon glyphicon-minus pull-right" onClick={this.onDel}></button>
-                  <button type="submit" className="btn btn-success glyphicon glyphicon-plus pull-left" onClick={this.onAdd}></button>
+                  <button type="submit" className="btn btn-success glyphicon glyphicon-plus pull-left" onClick={this.onAdd} />
                 </div>
     }
 }
@@ -159,6 +182,7 @@ class AddMaterialFields extends React.Component {
         super();
         this.state = {};
         this.onChange = this.onChange.bind(this);
+        this.onDel = this.onDel.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
@@ -175,24 +199,37 @@ class AddMaterialFields extends React.Component {
         this.setState({});
         this.props.onChange({id: this.props.id, materials: this.state})
     }
+    onDel(e) {
+         e.preventDefault();
+        this.state = {};
+        this.setState({});
+        this.props.onDel({id: this.props.id});
+    }
+
 
     render(){
         var self = this;
-        return   <div className="form-group">
-                    <label>Название<span className="text-danger"> * </span></label>
-                    <input type='text' className="form-control" name="name"
-                           value={this.props.materials.name}
-                           onChange={this.onChange}
-                           onClick={this.props.onClick}
-                           onKeyDown={this.props.onKeyDown}/>
+        return   <div>
+                    <fieldset>
+                        <button type="submit" className={`btn btn-danger btn-action glyphicon glyphicon-minus pull-right
+                           `} onClick={this.onDel} />
+                    </fieldset>
+                    <fieldset className="form-group">
+                        <label>Название<span className="text-danger"> * </span></label>
+                        <input type='text' className="form-control" name="name"
+                               value={this.props.materials.name}
+                               onChange={this.onChange}
+                               onClick={this.props.onClick}
+                               onKeyDown={this.props.onKeyDown}/>
 
-                    <label>Описание<span className="text-danger"> * </span></label>
-                    <textarea type='text' className="form-control" name="description"
-                           value={this.props.materials.description}
-                           onChange={this.onChange}
-                           onClick={this.props.onClick}
-                           onKeyDown={this.props.onKeyDown}/>
-                </div>
+                        <label>Описание<span className="text-danger"> * </span></label>
+                        <textarea type='text' className="form-control" name="description"
+                               value={this.props.materials.description}
+                               onChange={this.onChange}
+                               onClick={this.props.onClick}
+                               onKeyDown={this.props.onKeyDown}/>
+                </fieldset>
+            </div>
     }
 
 
@@ -247,11 +284,17 @@ class AddMaterials extends React.Component {
         this.props.onClick();
     }
 
-    onDel(e) {
-        e.preventDefault();
-        this.state.materials.pop();
+    onDel(data) {
+        debugger
+        this.state.materials = _.filter(this.state.materials, (item, index) => index != data.id);
         this.setState({});
         this.props.onClick();
+        this.props.onChange({
+                target: {
+                    name: 'materials',
+                    value: this.state.materials
+                }
+        });
     }
 
     render(){
@@ -265,12 +308,12 @@ class AddMaterials extends React.Component {
                                 <AddMaterialFields id={index} materials={item}
                                            onChange={self.onChange}
                                            onKeyDown={self.props.onKeyDown}
-                                           onClick={self.props.onClick}/>
+                                           onClick={self.props.onClick}
+                                           onDel={self.onDel}/>
                         <hr />
                         </div>
                     })}
-                  <button type="submit" className={`btn btn-danger glyphicon glyphicon-minus pull-right
-                  ${this.state.materials.length ? '' : 'hidden'}`} onClick={this.onDel} />
+
                 </div>
     }
 }
