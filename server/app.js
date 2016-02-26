@@ -71,6 +71,8 @@ app.get('/', function(req, res){
     var id_confirm = payment.fields ? payment.fields.id_confirm : payment.fields;
    res.render('client', {timestamp: timestamp, id_confirm: id_confirm})
 });
+
+app.use(require('./routes/log'));
 app.use(require('./routes/api'));
 app.use(require('./routes/redirect'));
 

@@ -11,5 +11,11 @@ module.exports = [{
     fields: {
         'receiver': ''
     }
+},{
+    name: 'gggggg',
+    active: 'true',
+    fields: {
+        'receiver': ''
+    }
 }];
 

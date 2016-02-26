@@ -25,9 +25,7 @@ def build_static():
 def run_migration():
     with(cd(project_root + '/server')):
         run('knex migrate:latest')
-
-    with(cd(project_root + '/server/payment_systems')):
-        run('node change_systems.js')
+        run('knex seed:run')
 
 
 def install_dependencies():
