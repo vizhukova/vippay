@@ -89,12 +89,21 @@ module.exports = {
                     return Customer.get(order.customer_id)
 
                 }).then((customer) => {
-                email.send(customer.email, 'Успешная оплата заказа', `Спасибо за оплату заказа. Оплата прошла успешно`);
+
+                var text;
+
+                if(order.product.material){
+                    text = 'Спасибо за оплату заказа. Оплата прошла успешно';
+                }else{
+                    text = `Спасибо за оплату заказа. Оплата прошла успешно. Ссылка на товар: ${order.product.link_download}`
+                }
+
+                email.send(order.delivery.email, 'Успешная оплата заказа', text);
 
                 if (order.partner_id) {
                     return Settings.getFee(order.client_id)
                 } else {
-                    res.send(order);
+                    resolve(order);
                 }
 
             }).then((obj) => {
@@ -105,17 +114,17 @@ module.exports = {
                 })
             }).then((fee) => {
                     Statistic.add({
-                            partner_id: order.partner_id,
-                            product: JSON.stringify(order.product),
-                            customer_id: order.customer_id,
-                            client_id: order.client_id,
-                            action: "pending_order"
-            }).then(() => {
+                        partner_id: order.partner_id,
+                        product: JSON.stringify(order.product),
+                        customer_id: order.customer_id,
+                        client_id: order.client_id,
+                        action: "pending_order"
+                    }).then(() => {
 
-                 res.send(order);
+                        resolve(order);
 
-            }).catch(function (err) {
-                        res.status(400).send(err.errors)
+                    }).catch(function (err) {
+                        reject(err)
                     })
                 })
                 .catch(function (err) {

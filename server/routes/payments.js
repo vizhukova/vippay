@@ -39,9 +39,13 @@ router.get('/payments/data/:order/:method', function (req, res) {
 
 router.post('/payments/yandex', (req, res) => {
 
+    console.log(req.body);
+
     var data = req.body.label.split('::');
 
     if(data.length === 3){
+
+        console.log('PAY TARIFF');
 
         var user_id = data[2];
         var tariff_name = data[0];
@@ -49,8 +53,11 @@ router.post('/payments/yandex', (req, res) => {
 
         UserController.getById(user_id).then((user) => {
 
-            //if(user.tariff_date === tariff_duration && user.tariff_name === tariff_name){
-            if(true){
+            console.log('GET USER', user);
+
+            if(user.tariff_duration === tariff_duration && user.tariff_name === tariff_name){
+
+                console.log('PASS CHECK');
 
                 UserController.activateTariff(user_id).then(() => {
 
@@ -59,9 +66,14 @@ router.post('/payments/yandex', (req, res) => {
                 })
 
             }else{
+
+                console.log('CHECK DID NOT PASS');
+
                 res.status(500).send('Error')
             }
 
+        }).catch((err) => {
+            console.log(err.stack);
         })
 
     }else if(data.length === 1){

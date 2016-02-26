@@ -33,7 +33,6 @@ class Order extends React.Component {
     }
 
     render() {
-        console.log('payment state', this.state)
         return <div>
                  <div className="content-step">
                     <div className="order-num title"><b>ID заказа: </b> {this.state.order.id}</div>

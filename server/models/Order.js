@@ -92,7 +92,7 @@ var Order = bookshelf.Model.extend({
             return knex('orders')
             .update({'step': 'complete'})
             .where('id', id)
-            .returning(['partner_id','customer_id', 'client_id', 'product_id', 'id', 'product']);
+            .returning(['partner_id','customer_id', 'client_id', 'product_id', 'id', 'product', 'delivery']);
     }
 
 })
