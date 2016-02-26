@@ -139,13 +139,16 @@ router.put('/partner/fee', function (req, res) {
 
         fee.fee_added -= fee.fee_pay;
         fee.fee_payed = (+fee.fee_payed) + (+fee.fee_pay);
-    }
-    PartnerController.putFee(_.omit(fee, ['fee_pay']))
+
+        PartnerController.putFee(_.omit(fee, ['fee_pay']))
         .then(function (fee) {
-            res.send(fee[0])
-        }).catch(function (err) {
-        res.status(400).send(err.errors)
-    });
+            res.send(fee[0]);
+            }).catch(function (err) {
+            res.status(400).send(err.errors);
+        });
+    } else {
+        res.send({});
+    }
 
 });
 

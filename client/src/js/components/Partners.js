@@ -38,6 +38,7 @@ class PartnerItem extends React.Component {
     }
 
     onChange(e) {
+        debugger
         var fee = {};
         fee[e.target.name] = e.target.value;
         _.assign(this.props.item.fee, fee);
@@ -45,12 +46,16 @@ class PartnerItem extends React.Component {
     }
 
     onClick() {
+        debugger
         PartnersAction.setFee(this.state.partner).then((result) => {
             AlertActions.set({
                 type: 'success',
                 title: 'Успех',
                 text: 'Выплата прошла успешно'
             })
+
+            this.state.partner.fee.fee_pay = null;
+            this.setState({});
         })
     }
 

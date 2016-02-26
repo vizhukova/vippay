@@ -16,6 +16,17 @@ module.exports = {
     })
     },
 
+    getByPartner(data) {
+        return new Promise(function (resolve, reject) {
+
+            Statistic.getByPartner(data).then(function(statistic) {
+               resolve(statistic);
+            }).catch(function(err){
+               reject(err);
+            });
+    })
+    },
+
     add(data) {
         return new Promise(function (resolve, reject) {
 

@@ -8,11 +8,14 @@ class SettingsStore {
         this.clients = [];
         this.current_client = {};
         this.partner = {};
+        this.statistic = {};
+
         this.bindListeners({
             onGet: SettingsActions.GET,
             onGetClients: SettingsActions.GET_CLIENTS,
             getCurrentPartner: SettingsActions.GET_CURRENT_PARTNER,
-            getCurrentClient: SettingsActions.GET_CURRENT_CLIENT
+            getCurrentClient: SettingsActions.GET_CURRENT_CLIENT,
+            getStatistic: SettingsActions.GET_STATISTIC
         });
     }
 
@@ -36,6 +39,10 @@ class SettingsStore {
     getCurrentClient(client) {
         this.current_client = client;
         console.log('current_client SettingsStore', this.current_client)
+    }
+
+    getStatistic(statistic) {
+        this.statistic = statistic;
     }
 
 }

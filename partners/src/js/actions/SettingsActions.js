@@ -40,6 +40,15 @@ class SettingsAction {
         })
     }
 
+    getStatistic() {
+        var self = this;
+        ApiActions.get(`partner/statistic`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
+    }
+
     setNewPassword(data) {
         return new Promise((resolve, reject) => {
             ApiActions.put(`user/password`, data).then(function(result){
