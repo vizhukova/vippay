@@ -131,4 +131,14 @@ router.put('/settings/tariff/pay', function(req, res) {
     })
 });
 
+router.get('/staff', function(req, res) {
+    SettingsController.getStaffs({
+        client_id: req.user.id
+    }).then((result) => {
+        res.send(result)
+    }).catch((err) => {
+        res.status(404).send(err.error)
+    })
+});
+
 module.exports = router;

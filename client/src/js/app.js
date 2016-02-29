@@ -20,6 +20,7 @@ import Settings from './components/settings/Settings';
 import Rate from './components/settings/Rate';
 import Fee from './components/settings/Fee';
 import Profile from './components/settings/Profile';
+import Staff from './components/settings/Staff';
 import Payment from './components/settings/Payment';
 import NewProductForm from './components/product/form';
 import PartnerLinks from './components/partner_links/Links';
@@ -57,6 +58,7 @@ import AlertActions from './../../../common/js/Alert/AlertActions';
                 <Route path="/fee" component={Fee} onLeave={onLeave} />
                 <Route path="/payment" component={Payment} onLeave={onLeave} />
                 <Route path="/profile" component={Profile} onLeave={onLeave} />
+                <Route path="/staff" component={Staff} onLeave={onLeave} />
                 <Route path="/partners_links" component={PartnerLinks} onLeave={onLeave} />
                 <Route path="/partners_links" onLeave={onLeave} >
 

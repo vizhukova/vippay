@@ -12,6 +12,7 @@ class SettingsStore {
         this.rate={};
         this.payment = [];
         this.tariff = {};
+        this.staffs = [];
         this.isActiveTariff = true;
 
         this.bindListeners({
@@ -27,7 +28,9 @@ class SettingsStore {
             onEditPayment: SettingsAction.EDIT_PAYMENT,
             onGetTariff: SettingsAction.GET_TARIFF,
             onSetTariff: SettingsAction.SET_TARIFF,
-            onSetIsActive: SettingsAction.SET_IS_ACTIVE
+            onSetIsActive: SettingsAction.SET_IS_ACTIVE,
+            onGetStaffs: SettingsAction.GET_STAFFS,
+            onSetStaff: SettingsAction.SET_STAFF
         });
     }
 
@@ -108,6 +111,13 @@ class SettingsStore {
         this.isActiveTariff = data;
     }
 
+    onGetStaffs(staffs) {
+        this.staffs = staffs;
+    }
+
+    onSetStaff(staff) {
+        //this.staffs = staff;
+    }
 
 }
 
