@@ -1,5 +1,6 @@
 import React from 'react'
 import Login from './auth/Login';
+import Staff from './auth/Staff';
 import Register from './auth/Register';
 import AlertActions from './../../../../common/js/Alert/AlertActions';
 
@@ -48,14 +49,21 @@ class Auth extends React.Component {
                             Регистрация
                         </li>
 
+                        <li className={this.state.tab === 'staff' ? `${baseClass} active` : baseClass} data-tab="staff"
+                            tabIndex="3"
+                            onKeyDown={this.onKeyDown}
+                            onClick={this.changeTab}>
+                            Cотрудникам
+                        </li>
+
                     </ul>
 
                     <div className="tab-body boxed">
 
                         <form role="form">
-
                             {this.state.tab === 'register' ? <Register /> : null}
                             {this.state.tab === 'login' ? <Login /> : null}
+                            {this.state.tab === 'staff' ? <Staff /> : null}
                         </form>
                     </div>
                 </div>

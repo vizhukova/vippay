@@ -26,7 +26,6 @@ class Register extends React.Component {
 
 	onChange(e){
 		var state = {};
-		console.log(e.target.name)
 		state[e.target.name] = e.target.value;
 		this.setState(state);
     }
@@ -38,7 +37,6 @@ class Register extends React.Component {
 	onKeyDown(e) {
 		if(e.keyCode == 13) {
             this.register();
-            return;
         }
 	}
 

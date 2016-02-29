@@ -144,7 +144,17 @@ class formStaff extends React.Component {
                                    value={this.state.staff.email}
                                    onChange={this.onChange}
                                    onClick={this.onClick}/>
+
+                            <label>Роль</label>
+                            <input type='text' className="form-control" name="role"
+                                   placeholder="Роль"
+                                   value={this.state.staff.role}
+                                   onChange={this.onChange}
+                                   onClick={this.onClick}/>
                         </fieldset>
+
+                         <fieldset><div className="text-danger small">*Поля обязательные для заполнения</div></fieldset>
+
                          <button type="button" className="btn btn-submit pull-left"
                                 onClick={this.props.params.id  ? this.edit : this.add}>{
                            this.props.params.id  ? "Редактировать" : "Добавить"}

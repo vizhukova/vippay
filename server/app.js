@@ -44,6 +44,8 @@ app.get('/', function(req, res){
 
     if(req.subdomain == 'payments') {}
 
+    else if(req.subdomain == 'payments') {}
+
     else if(req.subdomain == 'auth' && req.userObj) {
         var link ='';
         if(req.userObj.type == 'client') {
