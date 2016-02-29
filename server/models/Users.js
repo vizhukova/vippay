@@ -74,6 +74,13 @@ var User = bookshelf.Model.extend({
                     .where('clients-partners.partner_id', '=', +partner_id)
     }),
 
+    set(obj) {
+         return knex('users')
+                .update(obj)
+                .where('id', '=', obj.id)
+                .returning('*')
+    },
+
     getById: Promise.method(function (id) {
 
         return knex
@@ -129,31 +136,47 @@ var User = bookshelf.Model.extend({
 
     }),
 
-    editFee: Promise.method(function (obj) {
+    editFee: Promise.method(function (data) {
 
         return knex('users')
-                .update(obj)
-                .where('id', '=', obj.id)
+                .update(data)
+                .where('id', '=', data.id)
                 .returning(['fee'])
-
-
     }),
 
-    set(obj) {
-         return knex('users')
-                .update(obj)
-                .where('id', '=', obj.id)
-                .returning('*')
-    },
 
     activateTariff: Promise.method((id) => {
         return knex('users')
             .update({tariff_payed: true})
             .where('id', '=', id)
             .returning('*').debug()
+    }),
+
+    setTariff: Promise.method((data) => {
+        return knex('users')
+                .update(data)
+                .where('id', '=', data.id)
+                .returning('*')
+    }),
+
+    getTariff: Promise.method((user_id) => {
+        return knex('users')
+                .first('tariff_duration', 'tariff_name', 'tariff_date', 'tariff_payed', 'created_at', 'id')
+                .where('id', '=', user_id)
+    }),
+
+    getPayment: Promise.method((user_id) => {
+        return knex('users')
+                .first('payment')
+                .where('id', '=', user_id)
+    }),
+
+    putPayment: Promise.method((data) => {
+        return knex('users')
+                .update({payment: JSON.stringify(data.payment)})
+                .where('id', '=', data.user_id)
+                .returning('payment')
     })
-
-
 
 });
 

@@ -10,7 +10,15 @@ class LoginInput extends React.Component {
         };
 
         this.onChange = this.onChange.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
 
+    }
+
+    componentWillReceiveProps(props) {
+        if(props.value) {
+            this.state.value = props.value;
+            this.setState({});
+        }
     }
 
     onChange(e){
@@ -32,6 +40,16 @@ class LoginInput extends React.Component {
 
     }
 
+    onKeyDown(e) {
+        if(this.props.notEditable) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        else {
+            this.props.onKeyDown ? this.props.onKeyDown(e) : '';
+        }
+    }
+
     render(){
 
         return <input type='text'
@@ -39,10 +57,10 @@ class LoginInput extends React.Component {
                    name='name'
                    className={this.props.class}
                    placeholder='Логин'
-                      value={this.state.value}
+                   value={this.state.value}
                    onChange={this.onChange}
                    onClick={this.props.onClick}
-                   onKeyDown={this.props.onKeyDown}
+                   onKeyDown={this.onKeyDown}
                    tabIndex={this.props.tabIndex}
             />
 

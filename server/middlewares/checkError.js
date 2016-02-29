@@ -33,6 +33,10 @@ module.exports = function(err, res){
             res.status(400).send('Слишком длинный комментарий.Не более 255 символов.');
             break;
         default:
-            res.status(400).send('Упс, что то пошло не так');
+            if(err.errors) {
+                var keys = Object.keys(err.errors) || [];
+                res.status(400).send(err.errors[keys[0]].message);
+            }
+            else res.status(400).send('Упс, что то пошло не так');
     }
 };

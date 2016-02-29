@@ -186,5 +186,53 @@ module.exports = {
             })
         });
 
+    },
+
+    getPayment(user_id) {
+        return new Promise(function (resolve, reject) {
+
+            User.getPayment(user_id).then(function (model) {
+                resolve(model);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+        })
+    },
+
+    putPayment(data) {
+        return new Promise(function (resolve, reject) {
+
+            User.putPayment(data).then((result) => {
+                resolve(result[0]);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+    },
+
+    setTariff(tariff) {
+        return new Promise(function (resolve, reject) {
+
+            User.setTariff(tariff).then((result) => {
+                resolve(result[0]);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+    },
+
+    getTariff(user_id) {
+        return new Promise(function (resolve, reject) {
+
+            User.getTariff(user_id).then((model) => {
+                resolve(model);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
     }
 };

@@ -1,29 +1,29 @@
-var Messages = require('./../models/Messages');
+var Users = require('./../models/Users');
 var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 
 module.exports = {
 
-    get(user_id) {
+    getFee(client_id){
         return new Promise(function (resolve, reject) {
 
-            Messages.get(user_id).then((model) => {
-                resolve(model);
-            }).catch((err) => {
+            Users.getFee(client_id).then(function (res) {
+                resolve(res);
+
+            }).catch(function (err) {
                 reject(err);
             })
-
         })
     },
 
-    set(data) {
+    editFee(data){
         return new Promise(function (resolve, reject) {
 
-            Messages.set(data).then((model) => {
-                resolve(model);
+            Users.editFee(data).then((res) => {
+                resolve(res[0])
             }).catch((err) => {
-                reject(err);
+                reject(err)
             })
 
         })

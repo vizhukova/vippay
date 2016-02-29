@@ -2,7 +2,7 @@ var config = require('./../config');
 var auth_domain = config.get('auth_domain');
 var express = require('express');
 var router = express.Router();
-var MessagesController = require('../controllers/Messages');
+var MessagesController = require('./../controllers/Messages');
 var _ = require('lodash');
 
 

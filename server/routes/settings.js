@@ -2,10 +2,13 @@ var config = require('./../config');
 var auth_domain = config.get('auth_domain');
 var express = require('express');
 var router = express.Router();
-var SettingsController = require('../controllers/Settings');
 var RateController = require('../controllers/Rate');
+var FeeController = require('../controllers/Fee');
+var UserController = require('../controllers/User');
+var StaffController = require('../controllers/Staff');
 var _ = require('lodash');
 var moment = require('moment');
+var email = require('../utils/email');
 
 var checkTrialTariff = require('./../middlewares/tariffs/checkTrialTariff');
 var checkBaseTariff = require('./../middlewares/tariffs/checkBaseTariff');
@@ -49,7 +52,7 @@ router.get('/rate', function(req, res) {
 
 router.get('/fee', function(req, res) {
 
-    SettingsController.getFee(req.user.id)
+    FeeController.getFee(req.user.id)
             .then(function(fee){
                 res.send(fee);
             }).catch(function(err) {
@@ -60,7 +63,7 @@ router.get('/fee', function(req, res) {
 
 router.put('/fee', checkTrialTariff, checkBaseTariff, checkStartTariff,  function(req, res, next) {
 
-    SettingsController.editFee({id: req.user.id, fee: req.body.fee})
+    FeeController.editFee({id: req.user.id, fee: req.body.fee})
             .then(function(fee){
                 res.send(fee);
             }).catch(function(err) {
@@ -73,7 +76,7 @@ router.put('/fee', checkTrialTariff, checkBaseTariff, checkStartTariff,  functio
 
 router.get('/payment', function(req, res) {
 
-    SettingsController.getPayment(req.user.id)
+    UserController.getPayment(req.user.id)
             .then(function(data){
                 res.send(data.payment);
             }).catch(function(err) {
@@ -84,7 +87,7 @@ router.get('/payment', function(req, res) {
 
 router.put('/payment', checkTrialTariff, checkBaseTariff, checkStartTariff,   function(req, res) {
 
-    SettingsController.putPayment({payment: req.body, user_id: req.user.id})
+    UserController.putPayment({payment: req.body, user_id: req.user.id})
             .then(function(payment){
                 res.send(payment);
             }).catch(function(err) {
@@ -96,7 +99,7 @@ router.put('/payment', checkTrialTariff, checkBaseTariff, checkStartTariff,   fu
 router.get('/settings/tariff', checkTrialTariff, checkBaseTariff, checkStartTariff, function(req, res) {
     var active = req.tariff.active;
 
-    SettingsController.getTariff(req.user.id).then((result) => {
+    UserController.getTariff(req.user.id).then((result) => {
         if(result.tariff_name === 'start') result.isActive = active;
         res.send(result)
     }).catch((err) => {
@@ -107,7 +110,7 @@ router.get('/settings/tariff', checkTrialTariff, checkBaseTariff, checkStartTari
 
 
 router.put('/settings/tariff', function(req, res) {
-    SettingsController.setTariff({
+    UserController.setTariff({
         tariff_duration: req.body.time,
         tariff_name: req.body.name,
         tariff_date: moment(),
@@ -120,7 +123,7 @@ router.put('/settings/tariff', function(req, res) {
 });
 
 router.put('/settings/tariff/pay', function(req, res) {
-    SettingsController.setTariff({
+    UserController.setTariff({
         tariff_payed: true,
         tariff_date: moment(),
         id: req.user.id
@@ -132,12 +135,62 @@ router.put('/settings/tariff/pay', function(req, res) {
 });
 
 router.get('/staff', function(req, res) {
-    SettingsController.getStaffs({
+    StaffController.get({
         client_id: req.user.id
     }).then((result) => {
         res.send(result)
     }).catch((err) => {
         res.status(404).send(err.error)
+    })
+});
+
+router.get('/staff/:id', function(req, res) {
+    StaffController.get({
+        id: req.params.id
+    }).then((result) => {
+        res.send(result[0])
+    }).catch((err) => {
+        res.status(404).send(err.error)
+    })
+});
+
+router.post('/staff', function(req, res, next) {
+    req.body.client_id = req.user.id;
+
+    StaffController.add(req.body).then((staff) => {
+        var domain = `http://${req.subdomain}.${req.postdomain}/partner`;
+        email.send(staff.attributes.email, 'Данные для входа', `Ссылка для входа на сайт: ${domain}.
+                                                                Ваш логин: ${staff.attributes.login}.
+                                                                Ваш пароль: ${staff.attributes.password}`);
+        res.send(staff);
+    }).catch((err) => {
+        if(err.code == 23502) err.constraint = 'check_this_data';
+        next(err);
+        //res.status(404).send(err.error)
+    })
+});
+
+router.put('/staff/:id', function(req, res, next) {
+
+    StaffController.edit(req.body).then((staff) => {
+         var domain = `http://${req.subdomain}.${req.postdomain}/partner`;
+         email.send(staff[0].email, 'Данные для входа', `Ссылка для входа на сайт: ${domain}.
+                                                                Ваш логин: ${staff[0].login}.
+                                                                Ваш пароль: ${staff[0].password}`);
+        res.send(staff[0]);
+    }).catch((err) => {
+        if(err.code == 23502) err.constraint = 'check_this_data';
+        next(err);
+        //res.status(404).send(err.error)
+    })
+});
+
+router.delete('/staff/:id', function(req, res, next) {
+
+    StaffController.remove(req.params.id).then((result) => {
+        res.send(result[0])
+    }).catch((err) => {
+       res.status(404).send(err.error)
     })
 });
 

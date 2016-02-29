@@ -531,7 +531,7 @@ class ProductForm extends React.Component {
                 </div>
 
                 <div className="checkbox">
-                  <label className="text-warning">
+                  <label className="text-warning">q
                       <input name="active"
                              checked={this.state.product.active}
                              type="checkbox"

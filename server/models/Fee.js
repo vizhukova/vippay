@@ -29,7 +29,6 @@ var Fee = bookshelf.Model.extend({
 
 }, {
 
-
     set(obj) {
        return knex('fee')
         .insert(obj)

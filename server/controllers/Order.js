@@ -1,7 +1,7 @@
 var Order = require('../models/Order');
 var User = require('../models/Users');
 var Rate = require('../models/Rate');
-var Settings = require('../models/Settings');
+var Fee = require('../models/Fee');
 var Customer = require('../models/Customer');
 var Statistic = require('../models/Statistic');
 var Fee = require('../models/Fee');
@@ -101,7 +101,7 @@ module.exports = {
                 email.send(order.delivery.email, 'Успешная оплата заказа', text);
 
                 if (order.partner_id) {
-                    return Settings.getFee(order.client_id)
+                    return Fee.getFee(order.client_id)
                 } else {
                     resolve(order);
                 }

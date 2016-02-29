@@ -185,6 +185,15 @@ class SettingsAction {
             })
     }
 
+    getStaffById(id) {
+        var self = this;
+         ApiActions.get(`staff/${id}`).then(function(result){
+                 self.dispatch(result);
+            }).catch(function(err){
+                debugger
+            })
+    }
+
     setStaff(data) {
         var self = this;
          ApiActions.put(`staff/${data.id}`, data.data).then(function(result){
@@ -192,6 +201,39 @@ class SettingsAction {
             }).catch(function(err){
                 debugger
             })
+    }
+
+    deleteStaff(data) {
+        var self = this;
+         ApiActions.remove(`staff/${data.id}`).then(function(result){
+                 self.dispatch(result);
+            }).catch(function(err){
+                debugger
+            })
+    }
+
+    addStaff(data) {
+        var self = this;
+         return new Promise((resolve, reject) => {
+             ApiActions.post(`staff`, data).then(function(result){
+                 self.dispatch(result);
+                 resolve(result);
+            }).catch(function(err){
+                 reject(err);
+            })
+         })
+    }
+
+    setStaff(data) {
+        var self = this;
+         return new Promise((resolve, reject) => {
+             ApiActions.put(`staff/${data.id}`, data).then(function(result){
+                 self.dispatch(result);
+                 resolve(result);
+            }).catch(function(err){
+                 reject(err);
+            })
+         })
     }
 
 }
