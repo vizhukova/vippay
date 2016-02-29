@@ -5,19 +5,17 @@ var Promise = require("bluebird");
 var _ = require('lodash');
 
 
-knex('users').select('*').then((users) => {
+  return Promise.join(
+
+      knex('users').select('*').then((users) => {
 
         return Promise.map(users, (user) => {
 
             var old_fields = _.pluck(user.payment, 'name');
-
             var new_fields = _.pluck(new_payment, 'name');
-
             var difference = _.difference(new_fields, old_fields);
-
             var payments_to_concat = _.filter(new_payment, (payment, index) => difference.indexOf(payment.name) > -1);
-
-            var array_to_update = old_fields.concat(payments_to_concat);
+            var array_to_update = user.payment.concat(payments_to_concat);
 
             return new Promise((resolve, reject) => {
                 if(difference.length == 0) {resolve();}
@@ -37,8 +35,9 @@ knex('users').select('*').then((users) => {
         })
     })
 
-    .then(() => process.exit(0))
+  ).then((res) => {
+    var a;
+}).catch((err) => {
+      var a;
+  })
 
-    .catch((err) => {
-        process.exit(1)
-    });

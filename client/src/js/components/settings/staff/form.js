@@ -138,6 +138,13 @@ class formStaff extends React.Component {
                                   Активность</label>
                             </div>
 
+                            <label>Роль</label>
+                            <input type='text' className="form-control" name="role"
+                                   placeholder="Роль"
+                                   value={this.state.staff.role}
+                                   onChange={this.onChange}
+                                   onClick={this.onClick}/>
+
                             <label>Почта<span className="text-danger"> * </span></label>
                             <input type='text' className="form-control" name="email"
                                    placeholder="Электронная почта"
