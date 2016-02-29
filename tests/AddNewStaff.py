@@ -5,23 +5,28 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-class AddNewCategory(unittest.TestCase, Helpers, AuthHelpers):
+class AddNewStaff(unittest.TestCase, Helpers, AuthHelpers):
 
     def setUp(self):
         self.driver = webdriver.Firefox()
 
-    def create_category(self):
+    def create_staff(self):
+
         driver = self.driver
-
-
-        add_category = driver.find_element_by_xpath('//*[@id="app-container"]/div/div[3]/div/div/div/div/div[1]/a')
-        add_category.click()
-        name_input = driver.find_element_by_id('newCategory')
+        add_staff= driver.find_element_by_xpath('//*[@id="app-container"]/div/div[3]/div/div/div/div/div[1]/a')
+        add_staff.click()
+        login = driver.find_element_by_id('login')
         name = self.random_string(8)
-        name_input.send_keys(name)
+        login.send_keys(name)
+        password  = driver.find_element_by_name('password')
+        price = self.inorder(3)
+        password.send_keys(price)
+        email = driver.find_element_by_name('email')
+        name = self.random_string(8)
+        email.send_keys(name+'@gmail.com')
+        button_add_staff = driver.find_element_by_xpath('//*[@id="app-container"]/div/div[3]/div/div/button')
+        button_add_staff.click()
 
-        button_add_category = driver.find_element_by_xpath('//*[@id="app-container"]/div/div/div/form/button')
-        button_add_category.click()
 
     def test_login_logout(self):
 
@@ -55,18 +60,20 @@ class AddNewCategory(unittest.TestCase, Helpers, AuthHelpers):
             driver = self.driver
             self.login(user)
             driver.implicitly_wait(5)
-            category = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[1]/a')
-            category.click()
-            
+
+            options_button = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[4]/a')
+            options_button.click()
+            staff = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[4]/ul/li[4]/a')
+            staff.click()
+
 
             for i in xrange(2):
-                self.create_category()
+                self.create_staff()
             self.logout()
 
 
     def tearDown(self):
         self.driver.close()
-
 
 if __name__ == '__main__':
     unittest.main()
