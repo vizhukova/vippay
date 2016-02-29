@@ -38,6 +38,9 @@ module.exports = function(err, res){
         case 'staff_email_uniq':
             res.status(400).send('Сотрудник с такой электронной почтой у этого клиента уже существует.');
             break;
+        case 'check_data_staff':
+            res.status(400).send('Такого сотрудника не зарегестрированно. Проверьте правильность введения данных или ссылку входа.');
+            break;
         default:
             if(err.errors) {
                 var keys = Object.keys(err.errors) || [];

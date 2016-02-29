@@ -1,0 +1,42 @@
+var express = require('express');
+var router = express.Router();
+var config = require('../config');
+var StaffController = require('../controllers/Staff');
+var _ = require('lodash');
+var jwt = require('jwt-simple');
+
+
+router.post('/staff/login', function (req, res, next) {
+    Object.keys(req.body).map((k) => {
+        if (req.body[k] === '') req.body[k] = null
+    });
+
+    req.body.client_id = req.clientObj.id;
+
+    StaffController.get(req.body).then((staff) => {
+        var a;
+        if(staff.length > 0) {
+            var token = jwt.encode({id: staff[0].id, role: 'staff'}, 'secret');
+            res.cookie('token', token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
+            res.send({user: staff[0], redirect: `http://${req.hostname}/${req.clientObj.login}`});
+        } else {
+            if(! err.constraint) err.constraint = 'check_data_staff';
+                next(err);
+        }
+    }).catch((err) => {
+        if(! err.constraint) err.constraint = 'check_data_staff';
+                next(err);
+    })
+
+    /*StaffController.login(req.body).then(function (user) {
+        res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
+        res.send({user: user, redirect: `http://${req.hostname}/${user.modelData.login}`});
+    }).catch(function (err) {
+        if(! err.constraint) err.constraint = 'check_this_data';
+        next(err);
+    })*/
+
+});
+
+
+module.exports = router;

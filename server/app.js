@@ -43,6 +43,7 @@ app.get('/', function(req, res){
 
 
     if(req.subdomain == 'payments') {}
+    else if(req.subdomain == 'staff') {}
 
     else if(req.subdomain == 'auth' && req.userObj) {
         var link ='';
