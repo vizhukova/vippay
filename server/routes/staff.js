@@ -18,7 +18,7 @@ router.post('/staff/login', function (req, res, next) {
         if(staff.length > 0) {
             var token = jwt.encode({id: staff[0].id, role: 'staff'}, 'secret');
             res.cookie('token', token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
-            res.send({user: staff[0], redirect: `http://${req.hostname}/${req.clientObj.login}`});
+            res.send({user: staff[0], redirect: `http://${req.hostname}`});
         } else {
             if(! err.constraint) err.constraint = 'check_data_staff';
                 next(err);
