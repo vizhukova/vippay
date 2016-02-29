@@ -112,5 +112,20 @@ module.exports = {
             })
 
         })
+    },
+
+    getStaffs(data) {
+        return new Promise(function (resolve, reject) {
+
+            Settings.getStaffs(data).then((model) => {
+                resolve(model);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
     }
+
+
+
 };

@@ -40,7 +40,6 @@ class Category extends React.Component {
     }
 
     render() {
-
         return <List
             title="Каталог товаров"
             add_link="/category/new"

@@ -176,6 +176,24 @@ class SettingsAction {
         this.dispatch(data);
     }
 
+    getStaffs() {
+        var self = this;
+         ApiActions.get(`staff`).then(function(result){
+                 self.dispatch(result);
+            }).catch(function(err){
+                debugger
+            })
+    }
+
+    setStaff(data) {
+        var self = this;
+         ApiActions.put(`staff/${data.id}`, data.data).then(function(result){
+                 self.dispatch(result);
+            }).catch(function(err){
+                debugger
+            })
+    }
+
 }
 
 export default alt.createActions(SettingsAction);

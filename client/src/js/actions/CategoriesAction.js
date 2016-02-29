@@ -7,7 +7,6 @@ class CategoriesAction {
     getAllCategories(page) {
         var self = this;
         ApiActions.get('category').then(function(data){
-            a+b;
             self.dispatch({page: page, data: data});
         }).catch(function(err){
             self.dispatch(err);

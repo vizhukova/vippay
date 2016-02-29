@@ -65,6 +65,12 @@ var Rate = bookshelf.Model.extend({
         return knex('users')
                 .first('tariff_duration', 'tariff_name', 'tariff_date', 'tariff_payed', 'created_at', 'id')
                 .where('id', '=', user_id)
+    }),
+
+    getStaffs: Promise.method((data) => {
+        return knex('staff')
+                .select('*')
+                .where(data)
     })
 
 })
