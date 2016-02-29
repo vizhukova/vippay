@@ -30,6 +30,7 @@ class StaffItem extends React.Component {
         return <tr>
             <td>{this.props.item.login}</td>
             <td>{this.props.item.email}</td>
+            <td>{this.props.item.role}</td>
             <td className="action"><button type="button" className={this.props.item.active ? available : notAvailable} onClick={this.setAvailable} /></td>
              <td className="action">
                         <Link to={`/staff/${this.props.item.id}`}
@@ -92,6 +93,7 @@ class Staff extends React.Component {
             thead={[
                 {name: 'Логин', key: 'login'},
                 {name: 'Электронная почта', key: ''},
+                {name: 'Роль', key: 'role'},
                 {name: 'Активность', key: 'active'},
                 {name: '', key: ''}
             ]}

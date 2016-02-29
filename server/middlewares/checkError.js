@@ -32,6 +32,12 @@ module.exports = function(err, res){
         case 'too_long_description':
             res.status(400).send('Слишком длинный комментарий.Не более 255 символов.');
             break;
+        case 'staff_login_uniq':
+            res.status(400).send('Сотрудник с таким логином у этого клиента уже существует.');
+            break;
+        case 'staff_email_uniq':
+            res.status(400).send('Сотрудник с такой электронной почтой у этого клиента уже существует.');
+            break;
         default:
             if(err.errors) {
                 var keys = Object.keys(err.errors) || [];
