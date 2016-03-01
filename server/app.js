@@ -59,13 +59,18 @@ app.get('/', function(req, res){
     }
 
     else if(req.subdomain != 'auth') {
-        var result = _.findIndex(req.clientsObj, (item) => {
-            return item.login.toLowerCase() == req.subdomain;
-        });
 
-        if(result == -1) {
-            res.redirect(`http://auth.${req.postdomain}`);
-        }
+        if(! req.staffObj) {
+             /////////////check for partners: //////////////////////
+            var result = _.findIndex(req.clientsObj, (item) => {
+                return item.login.toLowerCase() == req.subdomain;
+            });
+
+            /*if(result == -1) {
+                res.redirect(`http://auth.${req.postdomain}`);
+            }*/
+            /////////////////////////////////////////////////////
+            }
     }
 
     var payment = req.clientObj ? _.findWhere(req.clientObj.payment, {name: 'interkassa'}) : {};

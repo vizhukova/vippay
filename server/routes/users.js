@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var checkLoginAccess = require('./../middlewares/checkLoginAccess');
 var UserController = require('../controllers/User');
+var StaffController = require('../controllers/Staff');
 var PartnerController = require('../controllers/Partner');
 var RateController = require('../controllers/Rate');
 var config = require('../config');
@@ -74,12 +75,22 @@ router.post('/guest_login', (req, res, next) => {
 
 router.get('/me', (req, res, next) => {
 
-    UserController.getById(req.user.id).then(function (user) {
+    if(req.user.role == 'staff') {
+        StaffController.get({id: req.user.id}).then((staff) => {
+            staff[0].name = staff[0].login;
+            res.send(_.omit(staff[0], ['password']))
+        }).catch(function (err) {
+            next();
+        })
+    }
+    else {
+        UserController.getById(req.user.id).then(function (user) {
 
-        res.send(_.omit(user, ['password']))
-    }).catch(function (err) {
-        next();
-    })
+            res.send(_.omit(user, ['password']))
+        }).catch(function (err) {
+            next();
+        })
+        }
 
 });
 

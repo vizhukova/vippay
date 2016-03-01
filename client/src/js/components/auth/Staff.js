@@ -1,12 +1,12 @@
 import React from 'react';
-import ApiActions from './../../actions/ApiActions';
+import ApiActions from './../../../../../partners/src/js/actions/ApiActions';
 import Alert from './../../../../../common/js/Alert/Alert';
 import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import PasswordInput from './../../../../../common/js/PasswordInput';
 import cookie from'./../../../../../common/Cookies';
 
 
-class Login extends React.Component {
+class Staff extends React.Component {
 
     constructor() {
         super();
@@ -49,7 +49,7 @@ class Login extends React.Component {
     isCorrectField() {
         var empty = false;
 
-        if(!this.state.email || this.state.email.length == 0) { empty = true;}
+        if(!this.state.email || this.state.email.length == 0) {empty = true;}
         if(!this.state.password || this.state.password.length == 0) {empty = true;}
 
         if( empty ) {
@@ -73,7 +73,7 @@ class Login extends React.Component {
             <Alert />
 			<div className="form-group">
 				<input type="text" name="email" id="email"
-                       className={this.state.errors.email ? `${baseClass} invalid` : baseClass}
+                       className={baseClass}
                        onChange={this.onChange}
                        onKeyDown={this.onKeyDown}
                        onClick={this.onClick} placeholder="Электронная почта" tabIndex="3" />
@@ -82,7 +82,7 @@ class Login extends React.Component {
 				<PasswordInput
 							name="password"
 							id="password"
-							class={this.state.errors.password ? `${baseClass} invalid` : baseClass}
+							class={baseClass}
 							onChange={this.onChange}
                             onClick={this.onClick}
                             onKeyDown={this.onKeyDown}
@@ -96,4 +96,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default Staff;

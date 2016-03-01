@@ -14,7 +14,9 @@ router.use(api_prefix, require('./auth'));
 router.use(api_prefix, require('./log'));
 router.use(api_prefix, require('./users'));
 router.use(api_prefix, require('./partners'));
-router.use(api_prefix, require('./staffs'));
+
+router.use(api_prefix, require('./staff'));
+
 
 router.use(api_prefix, require('./messages'));
 
