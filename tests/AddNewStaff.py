@@ -13,7 +13,7 @@ class AddNewStaff(unittest.TestCase, Helpers, AuthHelpers):
     def create_staff(self):
 
         driver = self.driver
-        add_staff= driver.find_element_by_xpath('//*[@id="app-container"]/div/div[3]/div/div/div/div/div[1]/a')
+        add_staff = driver.find_element_by_xpath('//*[@id="app-container"]/div/div[3]/div/div/div/div/div[1]/a')
         add_staff.click()
         login = driver.find_element_by_id('login')
         name = self.random_string(8)
@@ -52,9 +52,6 @@ class AddNewStaff(unittest.TestCase, Helpers, AuthHelpers):
 
             ]
 
-
-
-
         for user in mock_user:
 
             driver = self.driver
@@ -67,7 +64,7 @@ class AddNewStaff(unittest.TestCase, Helpers, AuthHelpers):
             staff.click()
 
 
-            for i in xrange(2):
+            for i in xrange(19):
                 self.create_staff()
             self.logout()
 
