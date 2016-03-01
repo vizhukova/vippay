@@ -35,15 +35,15 @@ class NumberInput extends React.Component {
                 .filter((item) => item.length)
 
         val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
+
         val = parseFloat(val).toFixed(2);
 
-        e.target.value = val;
+        e.target.value = isNaN(val) ? 0 : val;
        this.props.onChange(e);
     }
 
     onChange(e) {
 
-        debugger
         if(this.state.timeoutId) clearTimeout(this.state.timeoutId);
 
         this.state.value = e.target.value;

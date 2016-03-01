@@ -64,9 +64,9 @@ app.get('/', function(req, res){
                 return item.login.toLowerCase() == req.subdomain;
             });
 
-            if(result == -1) {
+            /*if(result == -1) {
                 res.redirect(`http://auth.${req.postdomain}`);
-            }
+            }*/
             /////////////////////////////////////////////////////
             }
     }
