@@ -83,8 +83,10 @@ class AddCategoryAddProduct(unittest.TestCase, Helpers, AuthHelpers):
             driver.implicitly_wait(5)
             category = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[1]/a')
             category.click()
+
             self.add_category()
-            self.add_product()
+            for i in xrange(5):
+                self.add_product()
             self.logout()
 
     def tearDown(self):

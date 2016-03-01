@@ -1,34 +1,34 @@
 from AuthHelpers import AuthHelpers
 from NewGeneration import Helpers
+import random
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-class AddNewCategory(unittest.TestCase, Helpers, AuthHelpers):
+class ErrorCreateCategory(unittest.TestCase, Helpers, AuthHelpers):
 
     def setUp(self):
         self.driver = webdriver.Firefox()
 
-    def create_category(self):
+    def delete_category(self):
+
         driver = self.driver
+        category = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[1]/a').click()
+        all_categories = driver.find_elements_by_class_name('category-link')
+        for elem_categories in all_categories:
+            elem_categories.click()
+            list_product = driver.find_elements_by_class_name('.table-hover tbody>tr')
+            print(list_product)
 
 
-        add_category = driver.find_element_by_xpath('//*[@id="app-container"]/div/div[3]/div/div/div/div/div[1]/a')
-        add_category.click()
-        name_input = driver.find_element_by_id('newCategory')
-        name = self.random_string(8)
-        name_input.send_keys(name)
 
-        button_add_category = driver.find_element_by_xpath('//*[@id="app-container"]/div/div/div/form/button')
-        button_add_category.click()
+
 
     def test_login_logout(self):
 
 
         mock_user = [
-
-
             {
                 'driver': 'http://111.vippay.test',
                 'email': '111',
@@ -44,11 +44,7 @@ class AddNewCategory(unittest.TestCase, Helpers, AuthHelpers):
                 'email': '333',
                 'password': '333'
             }
-
             ]
-
-
-
 
         for user in mock_user:
 
@@ -57,15 +53,16 @@ class AddNewCategory(unittest.TestCase, Helpers, AuthHelpers):
             driver.implicitly_wait(5)
             category = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[1]/a')
             category.click()
-            
+
 
             for i in xrange(2):
-                self.create_category()
+                self.delete_category()
             self.logout()
 
 
     def tearDown(self):
         self.driver.close()
+
 
 
 if __name__ == '__main__':

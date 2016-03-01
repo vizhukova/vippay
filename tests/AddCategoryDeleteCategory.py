@@ -8,6 +8,7 @@ from selenium.webdriver.common.keys import Keys
 class AddCategoryDeleteCategory(unittest.TestCase,  Helpers, AuthHelpers):
 
     def setUp(self):
+
         self.driver = webdriver.Firefox()
 
 
@@ -22,6 +23,7 @@ class AddCategoryDeleteCategory(unittest.TestCase,  Helpers, AuthHelpers):
 
         button_add_category = driver.find_element_by_xpath('//*[@id="app-container"]/div/div/div/form/button')
         button_add_category.click()
+        new_category = driver.find_elements_by_link_text(name)[0]
 
 
     def delete_category(self):
@@ -63,7 +65,6 @@ class AddCategoryDeleteCategory(unittest.TestCase,  Helpers, AuthHelpers):
             category = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[1]/a')
             category.click()
             self.add_category()
-            self.delete_category()
             self.logout()
 
     def tearDown(self):
