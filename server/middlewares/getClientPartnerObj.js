@@ -18,6 +18,7 @@ module.exports = function(req, res, next){
                         if(staff.length > 0) {
 
                            req.staffObj =  staff[0];
+                           req.userObj = staff[0];
                            req.clientsObj = [{id: staff[0].id, login: staff[0].login}];
                            next();
 

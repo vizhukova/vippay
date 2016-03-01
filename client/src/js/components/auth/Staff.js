@@ -1,12 +1,12 @@
 import React from 'react';
-import ApiActions from './../../actions/ApiActions';
+import ApiActions from './../../../../../partners/src/js/actions/ApiActions';
 import Alert from './../../../../../common/js/Alert/Alert';
 import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import PasswordInput from './../../../../../common/js/PasswordInput';
 import cookie from'./../../../../../common/Cookies';
 
 
-class Login extends React.Component {
+class Staff extends React.Component {
 
     constructor() {
         super();
@@ -19,7 +19,6 @@ class Login extends React.Component {
 
     onChange(e){
         var state = {};
-        console.log(e.target.name)
         state[e.target.name] = e.target.value;
         this.setState(state);
     }
@@ -31,7 +30,6 @@ class Login extends React.Component {
     onKeyDown(e) {
 		if(e.keyCode == 13) {
             this.login();
-            return;
         }
 	}
 
@@ -98,4 +96,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default Staff;
