@@ -256,10 +256,11 @@ class Pricing extends React.Component{
         console.log('this.props', this.props)
         return <div className="col-sm-12 clearfix pricing-box">
                 <ul className="clearfix price-list">
-                    {Object.keys(this.tariff).map((key) => {
+                    {Object.keys(this.tariff).map((key, index) => {
                         var values = self.tariff[key].prices;
                         return <PricingItem values={values}
                                             item={key}
+                                            key={index}
                                             currentTariff={self.state.currentTariff}
                                             tariffs={self.tariff}
                                             onChange={this.onChange}

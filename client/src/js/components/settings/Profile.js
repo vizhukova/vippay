@@ -36,7 +36,8 @@ class Profile extends React.Component {
     }
 
     componentWillUnmount() {
-        SettingsStore.unlisten(this.update)
+        SettingsStore.unlisten(this.update);
+        AuthStore.unlisten(this.update);
     }
 
     update(state) {

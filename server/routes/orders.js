@@ -8,7 +8,7 @@ var email = require('../utils/email');
 
 router.get('/orders', function(req, res) {
 
-    OrderController.get(req.user.id).then(function (orders) {
+    OrderController.get(req.clientObj.id).then(function (orders) {
             res.send(orders)
         }).catch(function (err) {
             res.status(400).send(err);
@@ -46,7 +46,7 @@ router.post('/order', function(req, res) {
 
             if(! customer) CustomerController.add({product_id: product.id})
                 .then(function(customer) {
-                    OrderController.add({user_id: req.user.id, product: product, customer: {id: customer.id, partner_product_id: customer.partner_product_id}, delivery: req.body.delivery})
+                    OrderController.add({user_id: req.clientObj.id, product: product, customer: {id: customer.id, partner_product_id: customer.partner_product_id}, delivery: req.body.delivery})
                         .then(function (order) {
 
                             email.send(order.delivery.email,
@@ -67,7 +67,7 @@ router.post('/order', function(req, res) {
                             res.status(400).send(err);
                         })
                 });
-            else OrderController.add({user_id: req.user.id, product: product, customer: customer, delivery: req.body.delivery})
+            else OrderController.add({user_id: req.clientObj.id, product: product, customer: customer, delivery: req.body.delivery})
                         .then(function (order) {
 
                             email.send(order.delivery.email,

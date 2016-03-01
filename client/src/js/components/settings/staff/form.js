@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import AlertActions from'./../../../../../../common/js/Alert/AlertActions';
 import SettingsAction from './../../../actions/SettingsAction';
-import SettingsStore from './../../../stores/SettingsStore';
+import StaffStore from './../../../stores/StaffStore';
 import PasswordInput from './../../../../../../common/js/PasswordInput';
 import LoginInput from './../../../../../../common/js/LoginInput';
 import _ from 'lodash';
@@ -11,9 +11,7 @@ class formStaff extends React.Component {
 
     constructor() {
         super();
-        this.state = SettingsStore.getState();
-
-        _.assign(this.state.staff, {active: true});
+        this.state = _.clone(StaffStore.getState());
 
         this.update = this.update.bind(this);
         this.add = this.add.bind(this);
@@ -21,35 +19,34 @@ class formStaff extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
         this.checkFields = this.checkFields.bind(this);
+        this.onRouteChange = this.onRouteChange.bind(this);
 
     }
 
     componentDidMount() {
-        SettingsStore.listen(this.update);
+        StaffStore.listen(this.update);
 
         if(this.props.params.id) {
             SettingsAction.getStaffById(this.props.params.id);
+            SettingsAction.getRoutesById(this.props.params.id);
         } else {
-            this.state.staff = {
-                active: true
-            };
-            this.setState({});
+            SettingsAction.clear();
         }
+
     }
 
     componentWillReceiveProps(props) {
          if(props.params.id) {
             SettingsAction.getStaffById(props.params.id);
+            SettingsAction.getRoutesById(this.props.params.id);
         } else {
-            this.state.staff = {
-                active: true
-            };
-            this.setState({});
+            SettingsAction.clear();
         }
     }
 
     componentWillUnmount() {
-        SettingsStore.unlisten(this.update);
+        StaffStore.unlisten(this.update);
+        console.log(StaffStore.getState())
     }
 
     update(state) {
@@ -66,7 +63,7 @@ class formStaff extends React.Component {
             return;
         }
 
-        SettingsAction.addStaff(this.state.staff).then(() => {
+        SettingsAction.addStaff({staff: this.state.staff, routes: this.state.routes}).then(() => {
             history.back();
         })
     }
@@ -81,7 +78,7 @@ class formStaff extends React.Component {
             return;
         }
 
-        SettingsAction.setStaff(this.state.staff).then(() => {
+        SettingsAction.setStaff({staff: this.state.staff, routes: this.state.routes}).then(() => {
             history.back();
         })
     }
@@ -107,9 +104,15 @@ class formStaff extends React.Component {
         this.setState({});
     }
 
+    onRouteChange(e) {
+        this.state.routes[e.target.id].action  = e.target.value;
+        this.setState({});
+    }
+
 
     render() {
-
+        var self = this;
+        
         return <div className="col-sm-7 form-ui table-wrapper">
                     <div className="form-group">
                         <h3>{this.props.params.id ? 'Форма редактирования сотрудника' : 'Форма создания сотрудника'}</h3>
@@ -152,6 +155,35 @@ class formStaff extends React.Component {
                                    onChange={this.onChange}
                                    onClick={this.onClick}/>
 
+                        </fieldset>
+
+                        <fieldset>
+                            <h4>Права доступа</h4>
+                            <div className="row">
+                             <label className="col-md-4 col-sm-4">Редактирование</label>
+                             <label className="col-md-4 col-sm-4">Только чтение</label>
+                             <label></label>
+                            </div>
+                            {this.state.routes.map((item, index) => {
+
+                                var name = _.findWhere(self.state.routeNames, {route: item.route}).name;
+
+                                return <div key={index} className="row">
+                                    <label className="col-md-4 col-sm-4">
+                                      <input type="radio"  id={index} value="write"
+                                             name={item.route}
+                                             onChange={self.onRouteChange}
+                                             checked={item.action == 'write'} />
+                                    </label>
+                                    <label className="col-md-4 col-sm-4">
+                                      <input type="radio" id={index} value="read"
+                                             name={item.route}
+                                             onChange={self.onRouteChange}
+                                             checked={item.action == 'read'}/>
+                                    </label>
+                                    <label>{name}</label>
+                                </div>
+                            })}
                         </fieldset>
 
                          <fieldset><div className="text-danger small">*Поля обязательные для заполнения</div></fieldset>

@@ -2,10 +2,12 @@ var config = require('./../config');
 var auth_domain = config.get('auth_domain');
 var express = require('express');
 var router = express.Router();
+var Promise = require('bluebird');
 var RateController = require('../controllers/Rate');
 var FeeController = require('../controllers/Fee');
 var UserController = require('../controllers/User');
 var StaffController = require('../controllers/Staff');
+var AclController = require('../controllers/Acl');
 var _ = require('lodash');
 var moment = require('moment');
 var email = require('../utils/email');
@@ -30,7 +32,7 @@ router.get('/settings/partner', function(req, res){
 
 router.put('/rate', checkTrialTariff, checkBaseTariff, checkStartTariff,  function(req, res) {
 
-    RateController.edit({rate: req.body, client_id: req.user.id})
+    RateController.edit({rate: req.body, client_id: req.clientObj.id})
             .then(function(rate){
                 res.send(rate);
             }).catch(function(err) {
@@ -41,7 +43,7 @@ router.put('/rate', checkTrialTariff, checkBaseTariff, checkStartTariff,  functi
 
 router.get('/rate', function(req, res) {
 
-    RateController.get(req.user.id)
+    RateController.get(req.clientObj.id)
             .then(function(rate){
                 res.send(rate);
             }).catch(function(err) {
@@ -52,7 +54,7 @@ router.get('/rate', function(req, res) {
 
 router.get('/fee', function(req, res) {
 
-    FeeController.getFee(req.user.id)
+    FeeController.getFee(req.clientObj.id)
             .then(function(fee){
                 res.send(fee);
             }).catch(function(err) {
@@ -63,7 +65,7 @@ router.get('/fee', function(req, res) {
 
 router.put('/fee', checkTrialTariff, checkBaseTariff, checkStartTariff,  function(req, res, next) {
 
-    FeeController.editFee({id: req.user.id, fee: req.body.fee})
+    FeeController.editFee({id: req.clientObj.id, fee: req.body.fee})
             .then(function(fee){
                 res.send(fee);
             }).catch(function(err) {
@@ -76,7 +78,7 @@ router.put('/fee', checkTrialTariff, checkBaseTariff, checkStartTariff,  functio
 
 router.get('/payment', function(req, res) {
 
-    UserController.getPayment(req.user.id)
+    UserController.getPayment(req.clientObj.id)
             .then(function(data){
                 res.send(data.payment);
             }).catch(function(err) {
@@ -87,7 +89,7 @@ router.get('/payment', function(req, res) {
 
 router.put('/payment', checkTrialTariff, checkBaseTariff, checkStartTariff,   function(req, res) {
 
-    UserController.putPayment({payment: req.body, user_id: req.user.id})
+    UserController.putPayment({payment: req.body, user_id: req.clientObj.id})
             .then(function(payment){
                 res.send(payment);
             }).catch(function(err) {
@@ -99,7 +101,7 @@ router.put('/payment', checkTrialTariff, checkBaseTariff, checkStartTariff,   fu
 router.get('/settings/tariff', checkTrialTariff, checkBaseTariff, checkStartTariff, function(req, res) {
     var active = req.tariff.active;
 
-    UserController.getTariff(req.user.id).then((result) => {
+    UserController.getTariff(req.clientObj.id).then((result) => {
         if(result.tariff_name === 'start') result.isActive = active;
         res.send(result)
     }).catch((err) => {
@@ -114,7 +116,7 @@ router.put('/settings/tariff', function(req, res) {
         tariff_duration: req.body.time,
         tariff_name: req.body.name,
         tariff_date: moment(),
-        id: req.user.id
+        id: req.clientObj.id
     }).then((result) => {
         res.send(result)
     }).catch((err) => {
@@ -126,7 +128,7 @@ router.put('/settings/tariff/pay', function(req, res) {
     UserController.setTariff({
         tariff_payed: true,
         tariff_date: moment(),
-        id: req.user.id
+        id: req.clientObj.id
     }).then((result) => {
         res.send(result)
     }).catch((err) => {
@@ -136,7 +138,7 @@ router.put('/settings/tariff/pay', function(req, res) {
 
 router.get('/staff', function(req, res) {
     StaffController.get({
-        client_id: req.user.id
+        client_id: req.clientObj.id
     }).then((result) => {
         res.send(result)
     }).catch((err) => {
@@ -155,13 +157,20 @@ router.get('/staff/:id', function(req, res) {
 });
 
 router.post('/staff', function(req, res, next) {
-    req.body.client_id = req.user.id;
+    req.body.staff.client_id = req.clientObj.id;
+    var staff = {};
+    StaffController.add(req.body.staff).then((s) => {
+        staff = s.attributes;
+        return Promise.map(req.body.routes, function (item, index) {
+            _.assign(item, {staff_id: staff.id});
 
-    StaffController.add(req.body).then((staff) => {
-        var domain = `http://${req.subdomain}.${req.postdomain}/partner`;
-        email.send(staff.attributes.email, 'Данные для входа', `Ссылка для входа на сайт: ${domain}.
-                                                                Ваш логин: ${staff.attributes.login}.
-                                                                Ваш пароль: ${staff.attributes.password}`);
+            return AclController.add(item);
+        })
+    }).then((routes) => {
+        var domain = `http://${req.subdomain}.${req.postdomain}`;
+        email.send(staff.email, 'Данные для входа', `Ссылка для входа на сайт: ${domain}.
+                                                                Ваш логин: ${staff.login}.
+                                                                Ваш пароль: ${staff.password}`);
         res.send(staff);
     }).catch((err) => {
         if(err.code == 23502) err.constraint = 'check_this_data';
@@ -170,13 +179,36 @@ router.post('/staff', function(req, res, next) {
     })
 });
 
+router.put('/staff/active/:id', function(req, res) {
+    StaffController.edit(req.body).then((result) => {
+        res.send(result[0])
+    }).catch((err) => {
+        res.status(404).send(err.error)
+    })
+});
+
 router.put('/staff/:id', function(req, res, next) {
 
-    StaffController.edit(req.body).then((staff) => {
-         var domain = `http://${req.subdomain}.${req.postdomain}/partner`;
-         email.send(staff[0].email, 'Данные для входа', `Ссылка для входа на сайт: ${domain}.
-                                                                Ваш логин: ${staff[0].login}.
-                                                                Ваш пароль: ${staff[0].password}`);
+    var staff = {};
+    StaffController.edit(req.body.staff).then((s) => {
+        staff = s[0];
+
+        return AclController.get({staff_id: +staff.id});
+
+    }).then((routes) => {
+
+        return Promise.map(req.body.routes, function (item, index) {
+            _.assign(item, {staff_id: staff.id});
+
+            if(routes.length > 0)return AclController.edit(item);
+            else return AclController.add(item);
+        })
+
+    }).then((r) => {
+         var domain = `http://${req.subdomain}.${req.postdomain}`;
+         email.send(staff.email, 'Данные для входа', `Ссылка для входа на сайт: ${domain}.
+                                                                Ваш логин: ${staff.login}.
+                                                                Ваш пароль: ${staff.password}`);
         res.send(staff[0]);
     }).catch((err) => {
         if(err.code == 23502) err.constraint = 'check_this_data';
@@ -193,5 +225,16 @@ router.delete('/staff/:id', function(req, res, next) {
        res.status(404).send(err.error)
     })
 });
+
+router.get('/routes/:id', function(req, res) {
+    AclController.get({
+        staff_id: req.params.id
+    }).then((routes) => {
+        res.send(routes)
+    }).catch((err) => {
+        res.status(404).send(err.error)
+    })
+});
+
 
 module.exports = router;

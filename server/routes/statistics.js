@@ -6,7 +6,7 @@ var log = require('./../utils/log');
 
 router.get('/statistic', function(req, res) {
 
-    StatisticController.get(req.user.id)
+    StatisticController.get(req.clientObj.id)
             .then(function(statistic){
 
                 var logg = new log('db');

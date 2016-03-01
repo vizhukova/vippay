@@ -7,7 +7,7 @@ var _ = require('lodash');
 
 
 router.get('/messages', function(req, res) {
-    MessagesController.get(req.user.id).then((result) => {
+    MessagesController.get(req.clientObj.id).then((result) => {
         res.send(result)
     }).catch((err) => {
         res.status(404).send(err.errors)

@@ -94,8 +94,8 @@ router.get(`/partner/products`, function (req, res) {
 });
 
 
-router.get('/partners', function (req, res) {
-    PartnerController.getAll(req.user.id)
+router.get('/partner', function (req, res) {
+    PartnerController.getAll(req.clientObj.id)
         .then(function (partners) {
             res.send(partners)
         }).catch(function (err) {
@@ -113,7 +113,7 @@ router.put('/partner', function (req, res) {
 });
 
 router.get('/partner', function (req, res) {
-    PartnerController.get(req.user.id)
+    PartnerController.get(req.clientObj.id)
         .then(function (partner) {
             res.send(partner)
         }).catch(function (err) {
@@ -122,7 +122,7 @@ router.get('/partner', function (req, res) {
 });
 
 router.get('/partner/fee', function (req, res) {
-    PartnerController.getFee(req.user.id)
+    PartnerController.getFee(req.clientObj.id)
         .then(function (fee) {
             res.send(fee)
         }).catch(function (err) {

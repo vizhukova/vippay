@@ -8,7 +8,7 @@ module.exports = {
                 AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
-                    text: 'Данные действия вам не доступны. Оплатите тариф.'
+                    text: 'Данные действия вам не доступны.'
                 });
                 break;
             }

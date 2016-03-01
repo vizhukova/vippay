@@ -12,8 +12,6 @@ class SettingsStore {
         this.rate={};
         this.payment = [];
         this.tariff = {};
-        this.staffs = [];
-        this.staff = {};
         this.isActiveTariff = true;
 
         this.bindListeners({
@@ -29,12 +27,7 @@ class SettingsStore {
             onEditPayment: SettingsAction.EDIT_PAYMENT,
             onGetTariff: SettingsAction.GET_TARIFF,
             onSetTariff: SettingsAction.SET_TARIFF,
-            onSetIsActive: SettingsAction.SET_IS_ACTIVE,
-            onGetStaffs: SettingsAction.GET_STAFFS,
-            onSetStaff: SettingsAction.SET_STAFF,
-            onaAddStaff: SettingsAction.ADD_STAFF,
-            onDeleteStaff: SettingsAction.DELETE_STAFF,
-            onGetStaffById: SettingsAction.GET_STAFF_BY_ID
+            onSetIsActive: SettingsAction.SET_IS_ACTIVE
         });
     }
 
@@ -114,28 +107,6 @@ class SettingsStore {
     onSetIsActive(data) {
         this.isActiveTariff = data;
     }
-
-    onGetStaffs(staffs) {
-        this.staffs = staffs;
-    }
-
-    onSetStaff(staff) {
-        var index = _.findIndex(this.staffs, {id: staff.id});
-        this.staffs[index] = staff;
-    }
-
-    onaAddStaff(staff) {
-        this.staffs.push(staff);
-    }
-
-    onDeleteStaff(data) {
-        this.staffs = _.filter(this.staffs, (item) => item.id != data.id)
-    }
-
-    onGetStaffById(staff) {
-        this.staff = staff;
-    }
-
 }
 
 export default alt.createStore(SettingsStore, 'SettingsStore');

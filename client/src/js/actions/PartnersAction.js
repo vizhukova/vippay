@@ -6,7 +6,7 @@ class PartnersAction {
 
     getAll() {
         var self = this;
-        ApiActions.get(`partners`).then(function(data){
+        ApiActions.get(`partner`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);

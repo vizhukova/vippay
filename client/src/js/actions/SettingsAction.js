@@ -194,15 +194,6 @@ class SettingsAction {
             })
     }
 
-    setStaff(data) {
-        var self = this;
-         ApiActions.put(`staff/${data.id}`, data.data).then(function(result){
-                 self.dispatch(result);
-            }).catch(function(err){
-                debugger
-            })
-    }
-
     deleteStaff(data) {
         var self = this;
          ApiActions.remove(`staff/${data.id}`).then(function(result){
@@ -234,6 +225,34 @@ class SettingsAction {
                  reject(err);
             })
          })
+    }
+
+    setStaffActive(data) {
+        var self = this;
+         return new Promise((resolve, reject) => {
+             ApiActions.put(`staff/active/:id`, data).then(function(result){
+                 self.dispatch(result);
+                 resolve(result);
+            }).catch(function(err){
+                 reject(err);
+            })
+         })
+    }
+
+    getRoutesById(id) {
+        var self = this;
+         return new Promise((resolve, reject) => {
+             ApiActions.get(`routes/${id}`).then(function(result){
+                 self.dispatch(result);
+                 resolve(result);
+            }).catch(function(err){
+                 reject(err);
+            })
+         })
+    }
+
+    clear() {
+        this.dispatch();
     }
 
 }

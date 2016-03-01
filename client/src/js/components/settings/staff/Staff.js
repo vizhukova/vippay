@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import AlertActions from'./../../../../../../common/js/Alert/AlertActions';
 import SettingsAction from './../../../actions/SettingsAction';
-import SettingsStore from './../../../stores/SettingsStore';
+import StaffStore from './../../../stores/StaffStore';
 import List from'./../../../../../../common/js/List';
 import _ from 'lodash';
 
@@ -16,7 +16,7 @@ class StaffItem extends React.Component {
     }
 
     setAvailable() {
-        SettingsAction.setStaff({active: !this.props.item.active, id: this.props.item.id});
+        SettingsAction.setStaffActive({active: !this.props.item.active, id: this.props.item.id});
     }
 
     remove() {
@@ -44,7 +44,7 @@ class Staff extends React.Component {
 
     constructor() {
         super();
-        this.state = SettingsStore.getState();
+        this.state = StaffStore.getState();
 
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -54,12 +54,12 @@ class Staff extends React.Component {
     }
 
     componentDidMount() {
-        SettingsStore.listen(this.update);
+        StaffStore.listen(this.update);
         SettingsAction.getStaffs();
     }
 
     componentWillUnmount() {
-        SettingsStore.unlisten(this.update);
+        StaffStore.unlisten(this.update);
     }
 
     update(state) {

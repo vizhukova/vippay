@@ -2,10 +2,12 @@ var jwt = require('jwt-simple');
 var config = require('./../config');
 var UserController = require('./../controllers/User');
 var StaffController = require('./../controllers/Staff');
+var AclController = require('./../controllers/Acl');
 
 module.exports = function(req, res, next){
 
     var userId;
+    var routes;
     try{
          userId =  jwt.decode(req.cookies.token, 'secret');
 
@@ -17,14 +19,22 @@ module.exports = function(req, res, next){
                     }).then((staff) => {
                         if(staff.length > 0) {
 
-                           req.staffObj =  staff[0];
-                           req.userObj = staff[0];
+                           req.staffObj =  staff[0] || {};
+                           req.userObj = staff[0] || {};
                            req.clientsObj = [{id: staff[0].id, login: staff[0].login}];
-                           next();
+                           return AclController.get({staff_id: staff[0].id});
 
                         } else {
                            next();
                         }
+                    }).then((r) => {
+                        routes = r;
+                        return AclController.getRoutes();
+
+                    }).then((entity) => {
+                        req.staffObj.routes = routes || [];
+                        req.entity = entity;
+                        next();
                     })
 
         } else {
