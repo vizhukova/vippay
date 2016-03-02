@@ -225,7 +225,7 @@ router.delete('/staff/:id', function(req, res, next) {
     StaffController.remove(req.params.id).then((result) => {
         res.send(result[0])
     }).catch((err) => {
-       res.status(404).send(err.error)
+       res.status(400).send(err.error)
     })
 });
 

@@ -45,6 +45,20 @@ class PartnersAction {
         })
     }
 
+    editFeeQuery(obj) {
+        return new Promise((resolve, reject) => {
+            var self = this;
+        ApiActions.put(`partner/partner_fee`, obj).then(function(data){
+            self.dispatch(data);
+            resolve(data);
+        }).catch(function(err){
+            //self.dispatch(err);
+            debugger
+            reject(err);
+        })
+        })
+    }
+
 }
 
 export default alt.createActions(PartnersAction);

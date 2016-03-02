@@ -1,7 +1,6 @@
 var Order = require('../models/Order');
 var User = require('../models/Users');
 var Rate = require('../models/Rate');
-var Fee = require('../models/Fee');
 var Customer = require('../models/Customer');
 var Statistic = require('../models/Statistic');
 var Fee = require('../models/Fee');
@@ -81,6 +80,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
 
             var order;
+            var customer;
 
             Order.pay(id)
                 .then(function (orderObj) {
@@ -88,9 +88,10 @@ module.exports = {
                     order = orderObj[0];
                     return Customer.get(order.customer_id)
 
-                }).then((customer) => {
+                }).then((c) => {
 
                 var text;
+                customer = c;
 
                 if(order.product.material){
                     text = 'Спасибо за оплату заказа. Оплата прошла успешно';
@@ -101,16 +102,19 @@ module.exports = {
                 email.send(order.delivery.email, 'Успешная оплата заказа', text);
 
                 if (order.partner_id) {
-                    return Fee.getFee(order.client_id)
+                    return User.get({id: order.client_id})
                 } else {
                     resolve(order);
                 }
 
-            }).then((obj) => {
+            }).then((user) => {
+                var arr = customer.partner_product_id.partner_id;
+                var partner_id = user[0].partner_fee == 'first' ? arr[0] : arr[arr.length - 1];
+
                 return Fee.set({
-                    fee_added: obj.fee,
+                    fee_added: user[0].fee,
                     client_id: order.client_id,
-                    partner_id: order.partner_id
+                    partner_id: partner_id
                 })
             }).then((fee) => {
                     Statistic.add({

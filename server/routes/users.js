@@ -121,6 +121,17 @@ router.put('/user/password', (req, res, next) => { //get all clients for partner
 
 });
 
+router.put('/partner/partner_fee', function (req, res) {
+    req.body.id = req.clientObj.id;
+
+    UserController.set(req.body)
+        .then(function (user) {
+            res.send(user[0])
+        }).catch(function (err) {
+        res.status(400).send(err.errors)
+    });
+});
+
 router.get('/partnerlinks', function (req, res) {
     UserController.getPartnerLink({user_id: req.clientObj.id})
         .then(function (partnerLinks) {

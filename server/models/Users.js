@@ -68,7 +68,7 @@ var User = bookshelf.Model.extend({
 
     get: Promise.method(function (partner_id) {
 
-         return knex.select('users.login', 'users.id')
+         return knex.select('*')
                     .from('users')
                     .join('clients-partners', 'clients-partners.client_id', '=', 'users.id')
                     .where('clients-partners.partner_id', '=', +partner_id)

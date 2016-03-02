@@ -2,6 +2,7 @@ import React from 'react';
 import PartnersAction from './../actions/PartnersAction';
 import AuthAction from './../actions/AuthActions';
 import PartnersStore from './../stores/PartnersStore';
+import AuthStore from './../stores/AuthStore';
 import List from'./../../../../common/js/List';
 import NumberInput from'./../../../../common/js/NumberInput';
 import AlertActions from'./../../../../common/js/Alert/AlertActions';
@@ -52,7 +53,7 @@ class PartnerItem extends React.Component {
                 type: 'success',
                 title: 'Успех',
                 text: 'Выплата прошла успешно'
-            })
+            }, true);
 
             this.state.partner.fee.fee_pay = null;
             this.setState({});
@@ -99,47 +100,81 @@ class Partners extends React.Component {
 
     constructor(){
         super();
-        this.state = PartnersStore.getState();
+        this.state = _.assign(PartnersStore.getState(), AuthStore.getState());
 
         this.update = this.update.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
         this.setState({sort: ''});
         PartnersAction.getAll();
         PartnersAction.getFee();
-        PartnersStore.listen(this.update)
+        PartnersStore.listen(this.update);
+        AuthStore.listen(this.update);
     }
 
     componentWillUnmount() {
-        PartnersStore.unlisten(this.update)
+        PartnersStore.unlisten(this.update);
+        AuthStore.unlisten(this.update);
     }
 
     update(state) {
         this.setState(state);
     }
 
+    onChange(e) {
+        PartnersAction.editFeeQuery({partner_fee: e.target.value}).then((res) => {
+            AlertActions.set({
+                type: 'success',
+                title: 'Успех',
+                text: 'Данные успешно сохранены'
+            }, true);
+        })
+    }
+
 
     render(){
         var self = this;
-        console.log(this.state.partners)
-        return  <List
-            title="Партнеры"
-            error={this.state.error}
-            items={this.state.partners}
-            sort={this.sort}
-            itemComponent={PartnerItem}
-            isPaginate={true}
-            thead={[
-                {name: 'Логин', key: 'login'},
-                {name: 'Электронная почта', key: 'email'},
-                {name: 'ФИО', key: 'name'},
-                {name: 'Активность', key: 'active'},
-                {name: 'Выплатить', key: ''},
-                {name: 'Должен', key: 'fee.fee_added'},
-                {name: 'Выплачено', key: 'fee.fee_payed'}
-            ]}
-        />
+        console.log('USERRRt',this.state.user.partner_fee)
+        return  <div>
+                <div className="boxed">
+                    <h4>Партнер, которому будут перчисляться бонусы</h4>
+                    <div>
+                     <label>
+                        <input type="radio" value="first"
+                               checked={this.state.user.partner_fee == 'first'}
+                               onChange={this.onChange}/>
+                        Первый
+                      </label>
+                     </div>
+                    <div>
+                      <label>
+                        <input type="radio" value="last"
+                               checked={this.state.user.partner_fee == 'last'}
+                               onChange={this.onChange}/>
+                        Последний
+                      </label>
+                    </div>
+                </div>
+
+                <List
+                    title="Партнеры"
+                    items={this.state.partners}
+                    sort={this.sort}
+                    itemComponent={PartnerItem}
+                    isPaginate={true}
+                    thead={[
+                        {name: 'Логин', key: 'login'},
+                        {name: 'Электронная почта', key: 'email'},
+                        {name: 'ФИО', key: 'name'},
+                        {name: 'Активность', key: 'active'},
+                        {name: 'Выплатить', key: ''},
+                        {name: 'Должен', key: 'fee.fee_added'},
+                        {name: 'Выплачено', key: 'fee.fee_payed'}
+                    ]}
+                />
+            </div>
 
     }
 
