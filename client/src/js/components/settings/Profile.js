@@ -56,7 +56,7 @@ class Profile extends React.Component {
                         type: 'success',
                         title: '',
                         text: 'Пароль установлен.'
-                    }, true)
+                    }, true);
                 })
         }
     }
@@ -65,13 +65,13 @@ class Profile extends React.Component {
         var result = [this.state.old_password, this.state.new_password, this.state.confirm_new_password]
             .filter((item) => {
                 return _.trim(item).length <= 0
-            })
+            });
         if (result.length > 0) {
             AlertActions.set({
                 type: 'error',
                 title: 'Ошибка',
                 text: 'Проверьте заполнение всех полей'
-            }, true)
+            }, true);
             return false;
         }
         if (this.state.new_password !== this.state.confirm_new_password) {
@@ -79,7 +79,7 @@ class Profile extends React.Component {
                 type: 'error',
                 title: 'Ошибка',
                 text: 'Новый пароль и его подтверждение не совпадают'
-            }, true)
+            }, true);
             return false;
         }
         return true;

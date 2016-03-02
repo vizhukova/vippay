@@ -41,7 +41,7 @@ class Profile extends React.Component {
                 type: 'error',
                 title: 'Ошибка',
                 text: 'Проверьте заполнение всех полей или новый пароль и подтверждение не совпадают.'
-            })
+            }, true)
         } else {
             SettingsAction.setNewPassword({old_pass: this.state.old_password, new_pass: this.state.new_password})
                 .then((data) => {
@@ -49,14 +49,8 @@ class Profile extends React.Component {
                         type: 'success',
                         title: '',
                         text: 'Пароль установлен.'
-                    })
-                }).catch((err) => {
-                AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Проверьте правильность написания старого пароля.'
-                })
-            })
+                    }, true)
+                });
         }
     }
 

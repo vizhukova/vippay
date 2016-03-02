@@ -44,13 +44,14 @@ var timestamp = Date.now();
 app.get('/', function(req, res){
 
 
+
     if(req.subdomain == 'payments') {}
 
     else if(req.subdomain == 'payments') {}
 
     else if(req.subdomain == 'auth' && req.userObj) {
         var link ='';
-        if(req.userObj.type == 'client') {
+        if(req.userObj.type == 'staff') {
             link = `http://${req.userObj.login}.${req.postdomain}`;
         }
         else if(req.userObj.type == 'partner') {
@@ -62,7 +63,6 @@ app.get('/', function(req, res){
 
     else if(req.subdomain != 'auth') {
 
-        if(! req.staffObj) {
              /////////////check for partners: //////////////////////
             var result = _.findIndex(req.clientsObj, (item) => {
                 return item.login.toLowerCase() == req.subdomain;
@@ -72,7 +72,7 @@ app.get('/', function(req, res){
                 res.redirect(`http://auth.${req.postdomain}`);
             }*/
             /////////////////////////////////////////////////////
-            }
+
     }
 
     var payment = req.clientObj ? _.findWhere(req.clientObj.payment, {name: 'interkassa'}) : {};
@@ -106,7 +106,7 @@ app.get('/:partner', getClientPartnerObj, function(req, res){
             return item.login.toLowerCase() == req.subdomain;
         });
 
-        if(result == -1) {
+        if(result == -1 || req.staffObj) {
             res.redirect(`http://auth.${req.postdomain}`);
         }
     }

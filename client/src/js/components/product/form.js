@@ -41,8 +41,6 @@ class AddFields extends React.Component {
 
     onDel(e) {
         e.preventDefault();
-        this.state = {};
-        this.setState({});
         this.props.onDel({id: this.props.id});
     }
 
@@ -143,17 +141,17 @@ class AddDelivery extends React.Component {
 
     onDel(data) {
 
-        if(this.state.delivery.length <= 1) return;
-
-        this.state.delivery = _.filter(this.state.delivery, (item, index) => index != data.id);
-        this.setState({});
-        this.props.onClick();
-        this.props.onChange({
-                target: {
-                    name: 'delivery',
-                    value: this.state.delivery
-                }
-        });
+        if(this.state.delivery.length > 1) {
+            this.state.delivery = _.filter(this.state.delivery, (item, index) => index != data.id);
+            this.setState({});
+            this.props.onClick();
+            this.props.onChange({
+                    target: {
+                        name: 'delivery',
+                        value: this.state.delivery
+                    }
+            });
+        }
     }
 
     render(){
@@ -531,7 +529,7 @@ class ProductForm extends React.Component {
                 </div>
 
                 <div className="checkbox">
-                  <label className="text-warning">q
+                  <label className="text-warning">
                       <input name="active"
                              checked={this.state.product.active}
                              type="checkbox"

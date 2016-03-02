@@ -17,7 +17,7 @@ module.exports = {
                     type: 'error',
                     title: 'Ошибка',
                     text: error.responseText
-                });
+                }, true);
                 break;
             }
 

@@ -8,6 +8,7 @@ exports.seed = function(knex, Promise) {
     knex('routes').insert({route: 'partnerlinks', entity: 'partner_links'}),
     knex('routes').insert({route: 'order', entity: 'order'}),
     knex('routes').insert({route: 'rate', entity: 'rate'}),
+    knex('routes').insert({route: 'basicCurrency', entity: 'rate'}),
     knex('routes').insert({route: 'fee', entity: 'fee'}),
     knex('routes').insert({route: 'payments', entity: 'payments'})
   );

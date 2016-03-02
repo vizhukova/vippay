@@ -103,6 +103,15 @@ router.get('/partner', function (req, res) {
     });
 });
 
+router.get('/partner/current', function (req, res) {
+    PartnerController.getById(req.user.id)
+        .then(function (partners) {
+            res.send(partners)
+        }).catch(function (err) {
+        res.status(400).send(err.errors)
+    });
+});
+
 router.put('/partner', function (req, res) {
     PartnerController.edit(_.omit(req.body, ['fee']))
         .then(function (partner) {

@@ -24,7 +24,7 @@ class SettingsAction {
 
     getCurrentPartner() {
         var self = this;
-        ApiActions.get(`partner`).then(function(data){
+        ApiActions.get(`partner/current`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);

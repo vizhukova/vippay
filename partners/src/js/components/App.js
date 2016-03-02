@@ -39,8 +39,8 @@ class Application extends React.Component {
 
     componentDidMount() {
 
-        AuthStore.listen(this.update)
-        SettingsStore.listen(this.updateSettings)
+        AuthStore.listen(this.update);
+        SettingsStore.listen(this.updateSettings);
         SettingsActions.get();
 
         AuthActions.check().then(() => {

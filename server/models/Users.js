@@ -81,14 +81,21 @@ var User = bookshelf.Model.extend({
                 .returning('*')
     },
 
-    getById: Promise.method(function (id) {
+    getById: function() {
 
-        return knex
+        return new Promise((resolve, reject) => {
+            knex
             .first()
             .from('users')
             .where('id', '=', id)
+            .then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
 
-    }),
+    },
 
 
     getByLogin: Promise.method(function (login) {
