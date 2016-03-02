@@ -5,30 +5,29 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-class AddNewStaff(unittest.TestCase, Helpers, AuthHelpers):
+class AddNewPartnerthLinks(unittest.TestCase, Helpers, AuthHelpers):
 
     def setUp(self):
         self.driver = webdriver.Firefox()
 
-    def create_staff(self):
+    def create_partners_links(self):
 
         driver = self.driver
-        add_staff = driver.find_element_by_xpath('//*[@id="app-container"]/div/div[3]/div/div/div/div/div[1]/a')
-        add_staff.click()
-        login = driver.find_element_by_id('login')
+        add_partners_links = driver.find_element_by_xpath('//*[@id="app-container"]/div/div[3]/div/div/div/div/div[1]/a')
+        add_partners_links.click()
+
+        name_links = driver.find_element_by_id('name')
         name = self.random_string(8)
-        login.send_keys(name)
-        password  = driver.find_element_by_name('password')
-        price = self.inorder(100)
-        password.send_keys(price)
-        role = driver.find_element_by_name('role')
+        name_links.send_keys(name)
+        link = driver.find_element_by_name('link')
         name1 = self.random_string(8)
-        role.send_keys(name1)
-        email = driver.find_element_by_name('email')
+        link.send_keys(name1)
+
+        key = driver.find_element_by_name('key')
         name2 = self.random_string(8)
-        email.send_keys(name2+'@gmail.com')
-        button_add_staff = driver.find_element_by_xpath('//*[@id="app-container"]/div/div[3]/div/div/button')
-        button_add_staff.click()
+        key.send_keys(name2)
+        button_add_link = driver.find_element_by_xpath('//*[@id="app-container"]/div/div[3]/form/button')
+        button_add_link.click()
 
 
     def test_login_logout(self):
@@ -61,14 +60,14 @@ class AddNewStaff(unittest.TestCase, Helpers, AuthHelpers):
             self.login(user)
             driver.implicitly_wait(5)
 
-            options_button = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[4]/a')
-            options_button.click()
-            staff = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[4]/ul/li[4]/a')
-            staff.click()
+            partners_program = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[2]/a')
+            partners_program.click()
+            partners_links = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[2]/ul/li[3]/a')
+            partners_links.click()
 
 
-            for i in xrange(3):
-                self.create_staff()
+            for i in xrange(10):
+                self.create_partners_links()
             self.logout()
 
 
