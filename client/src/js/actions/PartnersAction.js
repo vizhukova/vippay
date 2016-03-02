@@ -9,7 +9,7 @@ class PartnersAction {
         ApiActions.get(`partner`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 
@@ -18,7 +18,7 @@ class PartnersAction {
         ApiActions.put(`partner`, partner).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 
@@ -27,7 +27,7 @@ class PartnersAction {
         ApiActions.get(`partner/fee`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 

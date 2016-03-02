@@ -9,7 +9,7 @@ class ProductsAction {
         ApiActions.get(`products/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 
@@ -31,7 +31,7 @@ class ProductsAction {
         ApiActions.get(`product/${id}`, id).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 
@@ -53,7 +53,7 @@ class ProductsAction {
         ApiActions.remove(`product/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 }

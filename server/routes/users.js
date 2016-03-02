@@ -121,7 +121,7 @@ router.put('/user/password', (req, res, next) => { //get all clients for partner
 
 });
 
-router.get('/partner/partnerlinks', function (req, res) {
+router.get('/partnerlinks', function (req, res) {
     UserController.getPartnerLink({user_id: req.clientObj.id})
         .then(function (partnerLinks) {
             res.send(partnerLinks)
@@ -130,7 +130,7 @@ router.get('/partner/partnerlinks', function (req, res) {
     });
 });
 
-router.get('/partner/partnerlinks/:id', function (req, res) {
+router.get('/partnerlinks/:id', function (req, res) {
     UserController.getPartnerLink({id: req.params.id})
         .then(function (partnerLink) {
             res.send(partnerLink[0])
@@ -139,7 +139,7 @@ router.get('/partner/partnerlinks/:id', function (req, res) {
     });
 });
 
-router.post('/partner/partnerlinks', function (req, res, next) {
+router.post('/partnerlinks', function (req, res, next) {
 
     req.body.user_id = req.clientObj.id;
     req.body.materials = JSON.stringify(req.body.materials);
@@ -152,7 +152,7 @@ router.post('/partner/partnerlinks', function (req, res, next) {
         });
 });
 
-router.put('/partner/partnerlinks', function (req, res, next) {
+router.put('/partnerlinks', function (req, res, next) {
 
     req.body.materials = JSON.stringify(req.body.materials);
     UserController.editPartnerLink(req.body)
@@ -164,7 +164,7 @@ router.put('/partner/partnerlinks', function (req, res, next) {
         });
 });
 
-router.delete('/partner/partnerlinks/:id', function (req, res, next) {
+router.delete('/partnerlinks/:id', function (req, res, next) {
 
     UserController.removePartnerLink(req.params.id)
         .then(function (partnerLink) {

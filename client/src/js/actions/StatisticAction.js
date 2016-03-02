@@ -9,7 +9,7 @@ class StatisticAction {
         ApiActions.get('statistic').then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 

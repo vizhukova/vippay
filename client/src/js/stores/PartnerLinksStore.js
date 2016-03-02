@@ -31,6 +31,8 @@ class PartnerLinksStore {
     }
 
     onGetCurrent(link) {
+        link.materials = link.materials || [];
+
         this.link = link;
     }
 

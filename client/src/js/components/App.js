@@ -93,7 +93,7 @@ class Application extends React.Component {
                                     <li><Link to="/rate" activeClassName="active">Курсы</Link></li>
                                     <li><Link to="/fee" activeClassName="active">Комиссия</Link></li>
                                     <li><Link to="/payment" activeClassName="active">Платежи</Link></li>
-                                    <li><Link to="/staff" activeClassName="active">Сотрудники</Link></li>
+                                    {this.state.isStaff ? null : <li><Link to="/staff" activeClassName="active">Сотрудники</Link></li>}
                                   </ul>
                             </li>
                         </ul>
@@ -101,7 +101,7 @@ class Application extends React.Component {
                           <li className="dropdown">
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.user.name}</a>
                                   <ul className="dropdown-menu">
-                                    <li><Link to="/profile" activeClassName="active">Профиль</Link></li>
+                                      {this.state.isStaff ? null : <li><Link to="/profile" activeClassName="active">Профиль</Link></li>}
                                     <li><a href={this.state.out_link} >Выход</a></li>
                                   </ul>
                           </li>

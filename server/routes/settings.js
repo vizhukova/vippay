@@ -20,7 +20,10 @@ var checkStartTariff = require('./../middlewares/tariffs/checkStartTariff');
 router.get('/settings', function(req, res){
 
     var link = `http://${req.subdomain}.${req.postdomain}/partners`;
-    res.send({link: link, auth_domain: auth_domain, out_link: `http://${req.subdomain}.${req.postdomain}/api/out`});
+    res.send({link: link,
+              auth_domain: auth_domain,
+              out_link: `http://${req.subdomain}.${req.postdomain}/api/out`,
+              isStaff: req.staffObj ? true : false});
 
 });
 
@@ -76,7 +79,7 @@ router.put('/fee', checkTrialTariff, checkBaseTariff, checkStartTariff,  functio
 
 });
 
-router.get('/payment', function(req, res) {
+router.get('/payments', function(req, res) {
 
     UserController.getPayment(req.clientObj.id)
             .then(function(data){
@@ -87,7 +90,7 @@ router.get('/payment', function(req, res) {
 
 });
 
-router.put('/payment', checkTrialTariff, checkBaseTariff, checkStartTariff,   function(req, res) {
+router.put('/payments', checkTrialTariff, checkBaseTariff, checkStartTariff,   function(req, res) {
 
     UserController.putPayment({payment: req.body, user_id: req.clientObj.id})
             .then(function(payment){

@@ -98,6 +98,7 @@ var Partner = bookshelf.Model.extend({
                     .from('users')
                     .join('clients-partners', 'partner_id', '=', 'users.id')
                     .where('client_id', '=', client_id)
+                    .orderBy('id', 'asc')
     }),
 
     getById: Promise.method(function (id) {

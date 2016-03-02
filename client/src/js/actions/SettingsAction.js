@@ -33,7 +33,7 @@ class SettingsAction {
             ApiActions.put(`basicCurrency`, {id: id}).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
-                self.dispatch(err);
+                //self.dispatch(err);
             })
     }
 
@@ -57,7 +57,7 @@ class SettingsAction {
                  self.dispatch(data);
                  resolve(data);
              }).catch(function (err) {
-                 self.dispatch(err);
+                 //self.dispatch(err);
                   reject(err);
              })
          })
@@ -68,7 +68,7 @@ class SettingsAction {
             ApiActions.get(`rate`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
-                self.dispatch(err);
+                //self.dispatch(err);
         })
     }
 
@@ -77,7 +77,7 @@ class SettingsAction {
             ApiActions.get(`fee`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
-                self.dispatch(err);
+                //self.dispatch(err);
         })
     }
 
@@ -97,17 +97,17 @@ class SettingsAction {
 
     getPayment() {
         var self = this;
-            ApiActions.get(`payment`).then(function(data){
+            ApiActions.get(`payments`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
-                self.dispatch(err);
+               // self.dispatch(err);
         })
     }
 
     editPayment(data) {
         var self = this;
         return new Promise((resolve, reject) => {
-            ApiActions.put(`payment`, data).then(function(result){
+            ApiActions.put(`payments`, data).then(function(result){
                 self.dispatch(result);
                 resolve(result);
             }).catch(function(err){

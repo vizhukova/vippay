@@ -154,7 +154,13 @@ class Payment extends React.Component {
 
     save(id) {
         this.state.savedId = id;
-        SettingsAction.editPayment(this.state.payment);
+        SettingsAction.editPayment(this.state.payment).then((res) => {
+            AlertActions.set({
+                type: 'success',
+                title: 'Успех',
+                text: 'Настройки платежной системы успешно сохранены'
+            }, true);
+        })
     }
 
 

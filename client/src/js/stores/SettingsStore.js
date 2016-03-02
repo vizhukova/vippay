@@ -9,6 +9,7 @@ class SettingsStore {
         this.currencies = [];
         this.basicCurrency;
         this.fee = '';
+        this.isStaff = false;
         this.rate={};
         this.payment = [];
         this.tariff = {};
@@ -36,6 +37,7 @@ class SettingsStore {
         this.link = state.link;
         this.auth_domain = state.auth_domain;
         this.out_link = state.out_link;
+        this.isStaff = state.isStaff;
     }
 
     onGetAllCurrencies(currencies) {

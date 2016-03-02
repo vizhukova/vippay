@@ -6,7 +6,7 @@ class PartnerLinksAction {
 
     get() {
         var self = this;
-        ApiActions.get(`partner/partnerlinks`).then(function(data){
+        ApiActions.get(`partnerlinks`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             //self.dispatch(err);
@@ -16,7 +16,7 @@ class PartnerLinksAction {
     add(data) {
         var self = this;
         return new Promise((resolve, reject) => {
-            ApiActions.post(`partner/partnerlinks`, data).then(function(res){
+            ApiActions.post(`partnerlinks`, data).then(function(res){
                 self.dispatch(res);
                 resolve()
             }).catch(function(err){
@@ -29,7 +29,7 @@ class PartnerLinksAction {
          var self = this;
 
         return new Promise((resolve, reject) => {
-            ApiActions.put(`partner/partnerlinks`, data).then(function(data){
+            ApiActions.put(`partnerlinks`, data).then(function(data){
                 self.dispatch(data);
                 resolve(data);
             }).catch(function(err){
@@ -42,7 +42,7 @@ class PartnerLinksAction {
 
          var self = this;
 
-        ApiActions.get(`partner/partnerlinks/${id}`).then(function(data){
+        ApiActions.get(`partnerlinks/${id}`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
                 //self.dispatch(err);
@@ -53,7 +53,7 @@ class PartnerLinksAction {
 
          var self = this;
 
-        ApiActions.remove(`partner/partnerlinks/${id}`).then(function(data){
+        ApiActions.remove(`partnerlinks/${id}`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
                 //self.dispatch(err);
