@@ -109,12 +109,13 @@ var Product = bookshelf.Model.extend({
             product.delivery = JSON.stringify(product.delivery);
             product.materials = JSON.stringify(product.materials);
 
-            if(product.name == '' || product.price == '' || product.product_link == '') reject(err);
+            if(product.name === '' || product.price === '' || product.product_link === '') reject(new Error());
             else knex('products')
                     .where({id: product.id})
                     .update(product)
+                    .returning('*')
                     .then((res) => {
-                        resolve(product);
+                        resolve(res);
                     }).catch((err) => {
                         reject(err);
                     })

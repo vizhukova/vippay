@@ -6,6 +6,38 @@ import NumberInput from './../../../../../common/js/NumberInput';
 import _ from 'lodash';
 
 
+class RateItem extends React.Component {
+
+    constructor () {
+        super();
+        this.state = {};
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onChange(e) {
+        var state = {
+            id: this.props.rate.id,
+            result: e.target.value
+        }
+        this.props.onChange({
+            target: {
+                name: 'rate',
+                value: state
+            }
+        });
+    }
+
+    render() {
+        return <NumberInput name="rate"
+                         onClick={this.props.onClick}
+                         onChange={this.onChange}
+                         value={parseFloat(this.props.rate.result).toFixed(2)}
+                    />
+
+    }
+}
+
+
 class Rate extends React.Component {
 
     constructor(){
@@ -39,7 +71,8 @@ class Rate extends React.Component {
             SettingsAction.setBasicCurrency(e.target.dataset.currency);
         }
         else if(e.target.name === "rate") {
-            this.state.rate[e.target.dataset.currency].result = e.target.value;
+            var index = _.findIndex(this.state.rate, {id: e.target.value.id});
+            this.state.rate[index].result = e.target.value.result;
             this.setState({});
         }
 
@@ -85,34 +118,11 @@ class Rate extends React.Component {
         var res = [];
         var counter = 0;
 
-        this.state.currencies.map((from, index) => {
-            var toArr = _.clone(self.state.currencies);
-            _.remove(toArr, (el) => el.id === from.id);
-            var arr = toArr.map((toEl, i) => {
-                var result = this.state.rate[counter] ? this.state.rate[counter].result : '';
-
-                return <tr key={`${index}-${i}`}>
-                    <td>{from.name}</td>
-                    <td>{toEl.name}</td>
-                    <td className="input-group-inline">
-                        <NumberInput name="rate"
-                                     options={{'data-currency': counter++}}
-                                     onClick={this.onClick}
-                                     onChange={self.onChange}
-                                     value={parseFloat(result).toFixed(2)}
-                        />
-                    </td>
-                </tr>
-            });
-            res.push(arr);
-
-        })
-
         return  <div>
 
-                        <div className="table-wrapper boxed">
+                        <div className="boxed">
                              <div className="table-head">
-                                <span className="title">Базовая валюта</span>
+                                <span className="title"><b>Базовая валюта</b></span>
                             </div>
                             {self.state.currencies.map((item, index)=> {
                                 return <div key={index} className="radio">
@@ -120,23 +130,34 @@ class Rate extends React.Component {
                                         </div>
                             })}
                         </div>
-                        <div className="table-wrapper boxed">
-                            <div className="table-head">
-                                <span className="title">Курсы валют</span>
-                            </div>
-                        <table className="table table-bordered text-center-pos">
-                            <thead>
-                              <tr>
-                                <th className="text-center-pos">из</th>
-                                <th className="text-center-pos">в</th>
-                                <th className="text-center-pos">Результат</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            {_.flatten(res)}
-                            </tbody>
-                          </table>
-                          </div>
+                        <div>
+                            {this.state.currencies.map((item, index) => {
+
+                                var array = _.filter(self.state.rate, (i) => i.from == item.id);
+
+                                return <div className="row">
+                                    <div className="col-md-6 boxed">
+                                    <div className="col-md-4 text-right">
+                                        <b className="input-label">{`1 ${item.name} = `}</b>
+                                    </div>
+                                    <div>
+                                        {array.map((rate, j) => {
+                                            var currency = _.findWhere(self.state.currencies, {id: rate.to})
+                                            return <div className="col-md-8 pull-right">
+                                                    <div className="col-md-9">
+                                                        <RateItem key={counter++}
+                                                             rate={rate}
+                                                             onChange={self.onChange}
+                                                             onClick={self.onClick}/></div>
+                                                    <div className="input-label col-md-3">{currency.name}</div>
+                                                </div>
+                                        })}
+                                    </div>
+                                </div>
+                               </div>
+                            })
+                            }
+                        </div>
 
                   <button className="btn btn-success pull-left" onClick={this.save} tabIndex={Math.pow(res.length, 2)}>Сохранить</button>
                   <button className="btn btn-danger pull-right" onClick={this.cancel} tabIndex={Math.pow(res.length, 2) + 1}>Отменить</button>

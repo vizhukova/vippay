@@ -37,9 +37,7 @@ router.put('/product/:id', function(req, res, next){
 
     var product =_.omit(req.body, ['currency_name']);
     ProductController.editProduct(product).then(function(product){
-        ProductController.getCurrentProduct(product.id).then(function(data) {
-            res.send(data)
-        })
+            res.send(product[0])
     }).catch(function(err){
         next(err);
     })
