@@ -64,6 +64,7 @@ class ProductsAction {
         }).catch(function(err){
             //self.dispatch(err);
         })*/
+
     }
 }
 
