@@ -45,6 +45,11 @@ var timestamp = Date.now();
 
 app.get('/', redirect, function(req, res){
 
+    if(req.user.role != 'staff' && req.user.role != 'client') {
+        res.redirect(`http://auth.${req.postdomain}`);
+        return;
+    }
+
     var payment = req.clientObj ? _.findWhere(req.clientObj.payment, {name: 'interkassa'}) : {};
     payment = payment || {};
     var id_confirm = payment.fields ? payment.fields.id_confirm : payment.fields;
@@ -71,6 +76,11 @@ app.get('/order/:id*', function(req, res){
 
 });
 app.get('/:partner', function(req, res){
+
+    if(req.user.role != 'partner') {
+        res.redirect(`http://auth.${req.postdomain}`);
+        return;
+    }
 
     if( !req.clientObj.id && req.partnerObj ) {
         var result =  _.findIndex(req.clientsObj, (item) => {
