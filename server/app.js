@@ -14,11 +14,12 @@ var http = require('http').Server(app);
 var getSubdomain = require('./middlewares/getSubdomain');
 var getClientObj = require('./middlewares/getClientObj');
 var getUserId = require('./middlewares/getUserId');
-var getClientId = require('./middlewares/getClientId');
+var getPartnerObj = require('./middlewares/getPartnerObj');
+var getStaffObj = require('./middlewares/getStaffObj');
 var getInterkassaId = require('./middlewares/getInterkassaId');
-var getClientPartnerObj = require('./middlewares/getClientPartnerObj');
 var checkError = require('./middlewares/checkError');
 var checkStaffAccess = require('./middlewares/checkStaffAccess');
+var redirect = require('./middlewares/redirect');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
@@ -31,53 +32,23 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 
 
 app.use(getSubdomain);
-app.use(getClientObj);
 app.use(getUserId);
-app.use(getClientId);
+app.use(getClientObj);
+app.use(getPartnerObj);
+app.use(getStaffObj);
 app.use(getInterkassaId);
-app.use(getClientPartnerObj);
 app.use(checkStaffAccess);
+app.use(redirect);
 
 var timestamp = Date.now();
 
 
-app.get('/', function(req, res){
-
-
-
-    if(req.subdomain == 'payments') {}
-
-    else if(req.subdomain == 'payments') {}
-
-    else if(req.subdomain == 'auth' && req.userObj) {
-        var link ='';
-        if(req.userObj.type == 'staff') {
-            link = `http://${req.userObj.login}.${req.postdomain}`;
-        }
-        else if(req.userObj.type == 'partner') {
-            link = `http://${req.clientsObj[0].login}.${req.postdomain}/${req.userObj.login}`;
-        }
-
-        res.redirect(link);
-    }
-
-    else if(req.subdomain != 'auth') {
-
-             /////////////check for partners: //////////////////////
-            var result = _.findIndex(req.clientsObj, (item) => {
-                return item.login.toLowerCase() == req.subdomain;
-            });
-
-            /*if(result == -1) {
-                res.redirect(`http://auth.${req.postdomain}`);
-            }*/
-            /////////////////////////////////////////////////////
-
-    }
+app.get('/', redirect, function(req, res){
 
     var payment = req.clientObj ? _.findWhere(req.clientObj.payment, {name: 'interkassa'}) : {};
     payment = payment || {};
     var id_confirm = payment.fields ? payment.fields.id_confirm : payment.fields;
+
    res.render('client', {timestamp: timestamp, id_confirm: id_confirm})
 });
 
@@ -99,17 +70,19 @@ app.get('/order/:id*', function(req, res){
     })
 
 });
-app.get('/:partner', getClientPartnerObj, function(req, res){
+app.get('/:partner', function(req, res){
 
-    if( !(req.clientObj && !req.userObj) ) {
+    if( !req.clientObj.id && req.partnerObj ) {
         var result =  _.findIndex(req.clientsObj, (item) => {
             return item.login.toLowerCase() == req.subdomain;
         });
 
-        if(result == -1 || req.staffObj) {
+        if(result == -1) {
             res.redirect(`http://auth.${req.postdomain}`);
         }
-    }
+    } /*else if(req.clientObj && !req.partnerObj) {
+        res.redirect(`http://${req.clientObj.login}.${req.postdomain}/partner`);
+    }*/
 
     res.render('partner', {timestamp: timestamp});
 });

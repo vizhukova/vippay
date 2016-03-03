@@ -2,6 +2,7 @@ import AlertActions from './../common/js/Alert/AlertActions';
 
 module.exports = {
     check(error) {
+        debugger
         switch(error.status) {
             case 402: {
                 AlertActions.set({

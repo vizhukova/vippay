@@ -81,7 +81,7 @@ var User = bookshelf.Model.extend({
                 .returning('*')
     },
 
-    getById: function() {
+    getById: function(id) {
 
         return new Promise((resolve, reject) => {
             knex

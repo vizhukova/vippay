@@ -29,7 +29,7 @@ router.get('/settings', function(req, res){
 
 router.get('/settings/partner', function(req, res){
 
-    res.send({domain: req.postdomain, auth_domain: auth_domain, out_link: `http://${req.subdomain}.${req.postdomain}/api/partner/out`});
+    res.send({domain: req.postdomain, out_link: `http://${req.subdomain}.${req.postdomain}/api/partner/out`});
 
 });
 

@@ -4,7 +4,7 @@ module.exports = function(req, res, next){
 
      User.getByLogin(req.subdomain).then((data) => {
         req.clientObj = data || {};
-        next();
+         next();
     })
     .catch((err) => {
         next();

@@ -8,7 +8,7 @@ INSERT INTO users (login, email, password, name, basic_currency, type, created_a
                                                                                           ('login3', 'email3@sss.ss', '3', 'name3', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
                                                                                           ('login4', 'email4@sss.ss', '4', 'name4', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
                                                                                           ('login5', 'email5@sss.ss', '5', 'name5', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('login6', 'email6@sss.ss', '6', 'name6', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('логин', 'email6@sss.ss', '6', 'name6', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
                                                                                           ('login7', 'email7@sss.ss', '7', 'name7', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
                                                                                           ('login8', 'email8@sss.ss', '8', 'name8', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
                                                                                           ('login9', 'email9@sss.ss', '9', 'name9', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),

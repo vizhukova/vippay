@@ -41,9 +41,9 @@ class Application extends React.Component {
 
         AuthStore.listen(this.update);
         SettingsStore.listen(this.updateSettings);
-        SettingsActions.get();
 
         AuthActions.check().then(() => {
+                SettingsActions.get();
                 SettingsActions.getClients();
                 SettingsActions.getCurrentClient();
                 SettingsActions.getCurrentPartner();
@@ -115,9 +115,7 @@ class Application extends React.Component {
             </nav>
             <ModalWindow />
             <Alert />
-              {this.state.auth ? null : <Loader />}
-            <div>{this.props.children}</div>
-
+              {this.state.auth ? <div>{this.props.children}</div> : <Loader />}
 
         </div>
     }
