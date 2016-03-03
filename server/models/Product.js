@@ -55,6 +55,12 @@ var Product = bookshelf.Model.extend({
         return record.save();
     }),
 
+    get(data) {
+        return knex('products')
+        .select('*')
+        .where(data)
+    },
+
     getAllProducts(id){
         return new Promise((resolve, reject) => {
             return knex('products')

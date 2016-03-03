@@ -22,6 +22,15 @@ router.post('/product', function(req, res, next){
     })
 });
 
+router.get('/product', function(req, res, next){
+
+    ProductController.get({user_id: req.clientObj.id}).then(function(product){
+        res.send(product)
+    }).catch(function(err){
+        next(err);
+    })
+});
+
 
 router.get('/product/:id', function(req, res){
 

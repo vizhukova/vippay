@@ -560,7 +560,18 @@ class ProductForm extends React.Component {
                           onChange={this.onChange}
                           onKeyDown={this.onKeyDown}
                           onClick = {this.onClick}
-                          value={this.state.product.description}></textarea>
+                          value={this.state.product.description} />
+
+                <label className="text-warning">Скидка</label>
+                <Select values={this.state.products}
+                    current_value={this.state.product.upsell_id}
+                    fields={{
+                        name: 'upsell_id',
+                        value: 'id'
+                    }}
+                    onChange={this.onChangeCategory}
+                 />
+
 
                 <div className="checkbox">
                   <label className="text-warning">

@@ -15,6 +15,18 @@ module.exports = {
         })
     },
 
+    get(data){
+        return new Promise(function (resolve, reject) {
+
+            Product.get(data).then(function (products) {
+                resolve(products);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+        })
+    },
+
     getAllProducts(id) {
         return new Promise(function (resolve, reject) {
 
