@@ -6,6 +6,7 @@ class ProductsStore {
 
     constructor() {
         this.products = [];
+        this.upsell_products = [];
         this.product = {};
         this.bindListeners({
             onGetAllProducts: ProductsAction.GET_ALL_PRODUCTS,
@@ -13,7 +14,8 @@ class ProductsStore {
             onEditProduct: ProductsAction.EDIT_PRODUCT,
             onRemoveProduct: ProductsAction.REMOVE_PRODUCT,
             onGetCurrentProduct: ProductsAction.GET_CURRENT_PRODUCT,
-            onGet: ProductsAction.GET
+            onGetProductsForUpsell: ProductsAction.GET_PRODUCTS_FOR_UPSELL,
+            onClear: ProductsAction.CLEAR
         });
     }
 
@@ -22,26 +24,24 @@ class ProductsStore {
     }
 
     onAddNewProduct(product) {
-
         this.products.push(product);
-        this.onResetProduct();
+         this.products = _.flatten( this.products);
     }
 
     onGetCurrentProduct(product) {
         product.materials = product.materials || [];
         this.product = product;
+        this.isUpsell = product.upsell_id != null;
     }
 
-    onEditProduct(product) {
+    onEditProduct(products) {
         var self = this;
-        if(product instanceof Error) {
 
-        } else {
-            var index = _.findIndex(this.products, { 'id': product.id });
-            this.products[index] = product;
-        }
+        _.map(products, (item) => {
+            var index = _.findIndex(this.products, { 'id': item.id });
+            this.products[index] = item;
+        })
 
-        this.onResetProduct();
     }
 
     onRemoveProduct(product) {
@@ -51,12 +51,21 @@ class ProductsStore {
         });
     }
 
-    onResetProduct() {
-        this.product = {};
+    onGetProductsForUpsell(products) {
+        this.upsell_products = products;
     }
 
-    onGet(products) {
-        this.products = products;
+    onClear(data) {
+        this.product =  {
+                available: true,
+                active: true,
+                material: false,
+                description: '',
+                materials: [],
+                upsell_id: null
+            };
+        _.assign(this.product, data);
+        this.isUpsell = false;
     }
 
 }

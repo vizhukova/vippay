@@ -57,14 +57,18 @@ class ProductsAction {
         })
     }
 
-    get() {
-        /*var self = this;
-        ApiActions.get(`product`).then(function(data){
+    getProductsForUpsell() {
+        var self = this;
+        ApiActions.get(`product/upsell`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             //self.dispatch(err);
-        })*/
+        })
 
+    }
+
+    clear(data) {
+        this.dispatch(data);
     }
 }
 

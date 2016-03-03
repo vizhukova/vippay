@@ -108,7 +108,7 @@ class List extends React.Component {
 
         return <div>
             <div className="row">
-                <div className="col-sm-12">
+                <div>
                     <div className="table-wrapper">
 
                         <div className="table-head">

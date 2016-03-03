@@ -61,7 +61,8 @@ class NumberInput extends React.Component {
         var options = {
             type: 'text',
             id: this.props.id,
-            className: "form-control input-lg",
+            className: this.props.className,
+            placeholder: this.props.placeholder,
             name: this.props.name,
             value: this.state.value,
             //onKeyDown: this.onKeyDown,

@@ -331,36 +331,26 @@ class ProductForm extends React.Component {
         this.onChangeCategory = this.onChangeCategory.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
+        this.onChangeUpsell = this.onChangeUpsell.bind(this);
 
     }
 
     componentDidMount() {
         var self = this;
-        console.log('PROOPS',this.props)
+        console.log('PROOPS',this.props);
         if(!this.props.params.prod_id) {
-
-            this.setState({
-                product: {
-                category_id: this.props.params.id,
-                available: true,
-                active: true,
-                material: false,
-                description: '',
-                materials: []
-            }
-            });
-
+            ProductsAction.clear({category_id: this.props.params.id});
         } else {
             ProductsAction.getCurrentProduct(this.props.params.prod_id);
         }
 
-        console.log('ProductForm - componentDidMount', this.state.product)
+        console.log('ProductForm - componentDidMount', this.state.product);
 
         CategoriesStore.listen(this.update);
         ProductsStore.listen(this.update);
         SettingsStore.listen(this.update);
         CategoriesAction.getAllCategories();
-        ProductsAction.get();
+        ProductsAction.getProductsForUpsell();
     }
 
     onKeyDown(e) {
@@ -373,6 +363,8 @@ class ProductForm extends React.Component {
         CategoriesStore.unlisten(this.update);
         ProductsStore.unlisten(this.update);
         SettingsStore.unlisten(this.update);
+
+        ProductsAction.clear();
     }
 
     checkFields() {
@@ -408,6 +400,8 @@ class ProductForm extends React.Component {
     addNewProduct() {
         var self = this;
         if(this.checkFields()) {
+            var upsell_product = _.findWhere(this.state.upsell_products, {id: +this.state.product.upsell_id});
+            this.state.product.upsell_name = `${this.state.product.name} + ${upsell_product.name}`;
             ProductsAction.addNewProduct(this.state.product).then(() => {
                 history.back();
 
@@ -417,7 +411,7 @@ class ProductForm extends React.Component {
            AlertActions.set({
                         type: 'error',
                         title: 'Ошибка',
-                        text: 'Проверьте правильность заполнения данных. Возможно такой товар уже существует'
+                        text: 'Проверьте правильность заполнения данных.'
                 }, true)
         }
     }
@@ -450,6 +444,7 @@ class ProductForm extends React.Component {
         if(e.target.name == "available")  state[e.target.name] =  e.target.checked;
         else if(e.target.name == "active")  state[e.target.name] =  e.target.checked;
         else if(e.target.name == "material")  state[e.target.name] =  e.target.checked;
+        else if(e.target.name == "upsell_id")  state[e.target.name] =  this.state.product.upsell_id ? null : this.state.upsell_products[0].id;
 		else state[e.target.name] =  e.target.value;
         _.assign(this.state.product, state);
         this.setState({});
@@ -469,6 +464,13 @@ class ProductForm extends React.Component {
         this.setState({});
     }
 
+    onChangeUpsell(e) {
+        var state = {};
+        state['upsell_id'] =  e.target.value;
+        _.assign(this.state.product, state);
+        this.setState({});
+    }
+
     onClick(e) {
         AlertActions.hide();
     }
@@ -482,8 +484,8 @@ class ProductForm extends React.Component {
         if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
 
          return <form className="col-sm-7 form-ui table-wrapper">
-            <fieldset className="product-form">
 
+            <fieldset className="product-form">
                 <label className="text-warning">{edit ? 'Редактируемый продукт' : 'Новый продукт'} <span className="text-danger"> * </span></label>
                 <input type="text" name="name"
                        className="form-control" id="name"
@@ -491,15 +493,19 @@ class ProductForm extends React.Component {
                        onKeyDown={this.onKeyDown}
                        onClick = {this.onClick} placeholder="Введите название нового продукта"
                        value={this.state.product.name}/>
+                </fieldset>
 
+                <fieldset className="product-form">
                 <label className="text-warning">Цена  <span className="text-danger"> * </span></label>
                 <NumberInput type="text" name="price"
-                       className="form-control" id="price"
+                       className="form-control input-lg" id="price"
                        onChange={this.onChange}
                        onKeyDown={this.onKeyDown}
                        onClick = {this.onClick} placeholder="Введите цену"
                        value={this.state.product.price}/>
+                </fieldset>
 
+                 <fieldset className="product-form">
                  <label className="text-warning">Валюта</label>
                  <Select values={this.state.currencies}
                     current_value={this.state.product.currency_id}
@@ -509,7 +515,9 @@ class ProductForm extends React.Component {
                     }}
                     onChange={this.onChangeCurrency}
                  />
+                 </fieldset>
 
+                <fieldset className="product-form">
                 <label className="text-warning">Категория</label>
                 <Select values={this.state.categories}
                     current_value={this.state.product.category_id}
@@ -519,7 +527,9 @@ class ProductForm extends React.Component {
                     }}
                     onChange={this.onChangeCategory}
                  />
+                </fieldset>
 
+                <fieldset className="product-form">
                 <div className="checkbox">
                   <label className="text-warning">
                       <input name="available"
@@ -528,7 +538,9 @@ class ProductForm extends React.Component {
                          onClick = {this.onClick}/>
                       Доступность</label>
                 </div>
+                </fieldset>
 
+                <fieldset className="product-form">
                 <div className="checkbox">
                   <label className="text-warning">
                       <input name="active"
@@ -538,7 +550,9 @@ class ProductForm extends React.Component {
                              onClick = {this.onClick}/>
                       Активность</label>
                 </div>
+                </fieldset>
 
+                <fieldset className="product-form">
                 <label className="text-warning">Ссылка на картинку</label>
                 <input type="text" name="image" className="form-control" id="image"
                        onChange={this.onChange}
@@ -546,7 +560,9 @@ class ProductForm extends React.Component {
                        onClick = {this.onClick}
                        placeholder="Введите ссылку на картинку"
                        value={this.state.product.image}/>
+                </fieldset>
 
+                <fieldset className="product-form">
                 <label className="text-warning">Ссылка на продукт <span className="text-danger"> * </span></label>
                 <input type="text" name="product_link" className="form-control" id="product_link"
                        onChange={this.onChange}
@@ -554,25 +570,56 @@ class ProductForm extends React.Component {
                        onClick = {this.onClick}
                        placeholder="Введите ссылку на продукт"
                        value={this.state.product.product_link}/>
+                </fieldset>
 
+                <fieldset className="product-form">
                 <label className="text-warning">Описание:</label>
                 <textarea className="form-control" id="description" name="description"
                           onChange={this.onChange}
                           onKeyDown={this.onKeyDown}
                           onClick = {this.onClick}
                           value={this.state.product.description} />
-
-                <label className="text-warning">Скидка</label>
-                <Select values={this.state.products}
-                    current_value={this.state.product.upsell_id}
-                    fields={{
-                        name: 'upsell_id',
-                        value: 'id'
-                    }}
-                    onChange={this.onChangeCategory}
-                 />
+                </fieldset>
 
 
+
+                <fieldset className={`product-form boxed ${this.state.isUpsell ? '' : 'hide'}`} disabled={this.state.isUpsell} >
+                    <label className="text-warning">
+                       <input name="upsell_id"
+                             checked={this.state.product.upsell_id}
+                             type="checkbox"
+                             onChange={this.onChange}
+                             onClick = {this.onClick}/>
+                        {`  Акция (1 + 1)`}
+                     </label>
+
+                    {this.state.product.upsell_id ?
+                        <div>
+                            <div className="col-md-8">
+                                <Select values={this.state.upsell_products}
+                                current_value={this.state.product.upsell_id}
+                                fields={{
+                                    name: 'name',
+                                    value: 'id'
+                                }}
+                                onChange={this.onChangeUpsell}
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                 <NumberInput type="text" name="upsell_price"
+                                   className="form-control" id="price"
+                                   onChange={this.onChange}
+                                   onKeyDown={this.onKeyDown}
+                                   onClick = {this.onClick} placeholder="Цена"
+                                   value={this.state.product.upsell_price}/>
+                            </div>
+                        </div>
+                            : null}
+                 </fieldset>
+
+
+
+                <fieldset className="product-form">
                 <div className="checkbox">
                   <label className="text-warning">
                       <input name="material"  type="checkbox"
@@ -597,9 +644,9 @@ class ProductForm extends React.Component {
                           onKeyDown={this.onKeyDown}
                           product={this.state.product}/>
 
-            </fieldset>
+                </fieldset>
 
-             <fieldset className="product-form">
+             <fieldset className="product-form boxed">
                   <AddMaterials onChange={this.onChange}
                           onClick = {this.onClick}
                           onKeyDown={this.onKeyDown}
