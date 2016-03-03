@@ -360,6 +360,7 @@ class ProductForm extends React.Component {
         ProductsStore.listen(this.update);
         SettingsStore.listen(this.update);
         CategoriesAction.getAllCategories();
+        ProductsAction.get();
     }
 
     onKeyDown(e) {

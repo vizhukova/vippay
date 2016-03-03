@@ -12,7 +12,8 @@ class ProductsStore {
             onAddNewProduct: ProductsAction.ADD_NEW_PRODUCT,
             onEditProduct: ProductsAction.EDIT_PRODUCT,
             onRemoveProduct: ProductsAction.REMOVE_PRODUCT,
-            onGetCurrentProduct: ProductsAction.GET_CURRENT_PRODUCT
+            onGetCurrentProduct: ProductsAction.GET_CURRENT_PRODUCT,
+            onGet: ProductsAction.GET
         });
     }
 
@@ -52,6 +53,10 @@ class ProductsStore {
 
     onResetProduct() {
         this.product = {};
+    }
+
+    onGet(products) {
+        this.products = products;
     }
 
 }

@@ -56,6 +56,15 @@ class ProductsAction {
             //self.dispatch(err);
         })
     }
+
+    get() {
+        /*var self = this;
+        ApiActions.get(`product`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            //self.dispatch(err);
+        })*/
+    }
 }
 
 export default alt.createActions(ProductsAction);

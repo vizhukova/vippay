@@ -45,7 +45,7 @@ var timestamp = Date.now();
 
 app.get('/', redirect, function(req, res){
 
-    if(req.user.role != 'staff' && req.user.role != 'client') {
+    if(req.user.role && (req.user.role != 'staff' && req.user.role != 'client')) {
         res.redirect(`http://auth.${req.postdomain}`);
         return;
     }
@@ -77,7 +77,7 @@ app.get('/order/:id*', function(req, res){
 });
 app.get('/:partner', function(req, res){
 
-    if(req.user.role != 'partner') {
+    if(req.user.role && req.user.role != 'partner') {
         res.redirect(`http://auth.${req.postdomain}`);
         return;
     }
