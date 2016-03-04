@@ -17,6 +17,8 @@ class ProductsStore {
             onGetProductsForUpsell: ProductsAction.GET_PRODUCTS_FOR_UPSELL,
             onClear: ProductsAction.CLEAR
         });
+
+        this.upsellFormState;
     }
 
     onGetAllProducts(products){
@@ -53,6 +55,7 @@ class ProductsStore {
 
     onGetProductsForUpsell(products) {
         this.upsell_products = products;
+        if(!  this.upsell_products.length) this.isUpsell = false;
     }
 
     onClear(data) {

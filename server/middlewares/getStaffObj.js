@@ -1,5 +1,6 @@
 var Staff = require('../models/Staff');
 var User = require('../models/Users');
+var getStaffsRoutes = require('./getStaffsRoutes');
 
 module.exports = function(req, res, next){
 
@@ -10,12 +11,13 @@ module.exports = function(req, res, next){
             if(!req.clientObj.id) {
                 return User.getById(staff[0].client_id).then((user) => {
                     req.clientObj = user;
-                    next();
                 })
-            } else {
-                next();
             }
 
+            return getStaffsRoutes(req);
+
+        }).then((getStaffRoutes) => {
+            next();
         })
         .catch((err) => {
             next();

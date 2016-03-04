@@ -482,6 +482,9 @@ class ProductForm extends React.Component {
         var edit = this.props.params.prod_id;
         console.log('ProductForm basicCurrency', this.state.basicCurrency)
         if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
+        var isEdit = !!this.props.params.id;
+        var upsellFormClass = ( !isEdit || this.state.isUpsell) ? '' : 'hide'
+
 
          return <form className="col-sm-7 form-ui table-wrapper">
 
@@ -583,7 +586,7 @@ class ProductForm extends React.Component {
 
 
 
-                <fieldset className={`product-form boxed ${this.state.isUpsell ? '' : 'hide'}`} disabled={this.state.isUpsell} >
+                <fieldset className={`product-form boxed ${upsellFormClass}`} disabled={isEdit ? this.state.isUpsell : false} >
                     <label className="text-warning">
                        <input name="upsell_id"
                              checked={this.state.product.upsell_id}
