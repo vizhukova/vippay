@@ -9,7 +9,7 @@ module.exports = {
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Данные действия вам не доступны.'
-                });
+                }, true);
                 break;
             }
 
@@ -18,7 +18,7 @@ module.exports = {
                     type: 'error',
                     title: 'Ошибка',
                     text: error.responseText
-                });
+                }, true);
                 break;
             }
             case 403: {

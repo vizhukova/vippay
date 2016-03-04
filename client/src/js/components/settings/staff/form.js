@@ -116,14 +116,16 @@ class formStaff extends React.Component {
         return <div className="col-sm-7 form-ui table-wrapper">
                     <div className="form-group">
                         <h3>{this.props.params.id ? 'Форма редактирования сотрудника' : 'Форма создания сотрудника'}</h3>
-                        <fieldset>
+                        <fieldset disabled={this.props.params.id}>
                             <label>Логин {this.props.params.id ? <span className="text-danger"> (это поле не редактируемо) </span> : <span className="text-danger"> * </span>}</label>
                             <LoginInput type='text' className="form-control" name="login"
                                    value={this.state.staff.login}
                                    onChange={this.onChange}
                                    onClick={this.onClick}
-                                    notEditable={this.props.params.id ? true : false}/>
+                                    />
+                            </fieldset>
 
+                            <fieldset>
                             <label>Пароль<span className="text-danger"> * </span></label>
                             <input type='text' className="form-control" name="password"
                                    placeholder="Пароль"

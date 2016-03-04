@@ -28,11 +28,15 @@ class ProductsAction {
 
     getCurrentProduct(id) {
         var self = this;
-        ApiActions.get(`product/${id}`, id).then(function(data){
+       return new Promise((resolve, reject) => {
+            ApiActions.get(`product/${id}`, id).then(function(data){
+            resolve(data);
             self.dispatch(data);
         }).catch(function(err){
+            reject(err);
             //self.dispatch(err);
         })
+       })
     }
 
     addNewProduct(product) {
@@ -59,7 +63,21 @@ class ProductsAction {
 
     getProductsForUpsell() {
         var self = this;
-        ApiActions.get(`product/upsell`).then(function(data){
+        return new Promise((resolve, reject) => {
+            ApiActions.get(`product/upsell`).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                //self.dispatch(err);
+                reject(err);
+            })
+        })
+
+    }
+
+    getUpsellsProducts(id) {
+        var self = this;
+        ApiActions.get(`product/upsell/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             //self.dispatch(err);

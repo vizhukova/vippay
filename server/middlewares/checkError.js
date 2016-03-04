@@ -24,7 +24,7 @@ module.exports = function(err, res){
             res.status(400).send('Проверьте правильность написания старого пароля');
             break;
         case 'too_big_value':
-            res.status(400).send('Слишком большое значение');
+            res.status(400).send('Слишком большое числовое значение в поле');
             break;
         case 'partner_links_pkey':
             res.status(400).send('Такой код идентификации у этого пользователя уже существует');
@@ -40,6 +40,9 @@ module.exports = function(err, res){
             break;
         case 'check_data_staff':
             res.status(400).send('Такого сотрудника не зарегестрированно. Проверьте правильность введения данных или ссылку входа.');
+            break;
+        case 'products_upsell_id_foreign':
+            res.status(400).send('Это продукт нельзя удалить, так как существует скидка(1+1), которая его содержит.');
             break;
         default:
             if(err.errors) {

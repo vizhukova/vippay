@@ -152,6 +152,7 @@ class Pending extends React.Component {
                         <div className="field"><b>Цена: </b> {this.state.product.price + ' ' + this.state.product.currency_name}</div>
                         <div className="description image"><b>Описание: </b> <pre>{this.state.product.description}</pre></div>
                     </div>
+                  
                     <div className="col-md-6">
                         <form className="">
                         {this.state.product.material ? <DeliverySelect delivery={this.state.product.delivery} onChange={this.onChange}/> : ""}

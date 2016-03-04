@@ -14,7 +14,7 @@ import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import _  from 'lodash';
 
 
-class AddFields extends React.Component {
+class AddDeliveryFields extends React.Component {
 
     constructor(){
         super();
@@ -24,8 +24,17 @@ class AddFields extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
+
          if(nextProps){
-             this.setState(nextProps.delivery);
+             this.setState(nextProps.item);
+         }
+        console.log('AddFields', this.state)
+    }
+
+    componentDidMount(){
+
+         if(this.props.item){
+             this.setState(this.props.item);
          }
         console.log('AddFields', this.state)
     }
@@ -36,7 +45,7 @@ class AddFields extends React.Component {
         _.assign(this.state, state);
         this.setState({});
        // this.setState(state);
-        this.props.onChange({id: this.props.id, delivery: this.state})
+        this.props.onChange({id: this.props.id, item: this.state})
     }
 
     onDel(e) {
@@ -46,6 +55,7 @@ class AddFields extends React.Component {
 
     render(){
         var self = this;
+
         return   <div className="form-group">
                     <fieldset>
                         <button type="submit" className={`btn btn-danger btn-action glyphicon glyphicon-minus pull-right
@@ -68,110 +78,6 @@ class AddFields extends React.Component {
                     </fieldset>
                 </div>
     }
-
-
-}
-
-class AddDelivery extends React.Component {
-
-    constructor(){
-        super();
-
-          this.state = {
-            delivery: [
-                {condition: '',
-                 price:''}
-            ]
-        };
-
-        _.assign(this.state, ProductsStore.getState());
-
-        this.onChange = this.onChange.bind(this);
-        this.onAdd = this.onAdd.bind(this);
-        this.onDel = this.onDel.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps){
-        if(nextProps.product.delivery && nextProps.product.delivery.length > 0) {
-            _.assign(this.state, {delivery: nextProps.product.delivery}, {material: nextProps.product.material});
-        }
-        else {
-            if(this.state.material != nextProps.product.material) this.setState({material: nextProps.product.material});
-        }
-        console.log('AddForm1', this.state)
-    }
-
-    onChange(state) {
-        var delivery = this.state.delivery
-        _.assign(delivery[state.id], state.delivery);
-        this.setState({delivery: delivery});
-        this.props.onChange({
-                target: {
-                    name: 'delivery',
-                    value: this.state.delivery
-                }
-        });
-    }
-
-    onAdd(e) {
-        e.preventDefault();
-        var lastItem = this.state.delivery[this.state.delivery.length - 1];
-        if(lastItem.condition.length == 0 || lastItem.price.length == 0
-            || _.trim(lastItem.condition).length == 0 || _.trim(lastItem.price).length == 0) {
-            AlertActions.set({
-                type: 'error',
-                title: 'Ошибка',
-                text: 'Все поля доставки должны быть заполнены'
-            }, true)
-            return;
-        }
-        var state = this.state.delivery;
-        state.push({condition: '', price:''});
-        this.setState({
-            delivery: state
-        })
-        this.props.onClick();
-        this.props.onChange({
-                target: {
-                    name: 'delivery',
-                    value: this.state.delivery
-                }
-        });
-    }
-
-    onDel(data) {
-
-        if(this.state.delivery.length > 1) {
-            this.state.delivery = _.filter(this.state.delivery, (item, index) => index != data.id);
-            this.setState({});
-            this.props.onClick();
-            this.props.onChange({
-                    target: {
-                        name: 'delivery',
-                        value: this.state.delivery
-                    }
-            });
-        }
-    }
-
-    render(){
-        var self = this;
-        console.log('AddForm render', this.state);
-
-        return  <div role="form" className={this.state.material ? '' : 'hide'}>
-                  { this.state.delivery.map(function(item, index){
-                    return  <div key={index}>
-                                <AddFields id={index} delivery={item}
-                                           onChange={self.onChange}
-                                           onKeyDown={self.props.onKeyDown}
-                                           onClick={self.props.onClick}
-                                           onDel={self.onDel}/>
-                        <hr />
-                        </div>
-                    })}
-                  <button type="submit" className="btn btn-success glyphicon glyphicon-plus pull-left" onClick={this.onAdd} />
-                </div>
-    }
 }
 
 class AddMaterialFields extends React.Component {
@@ -185,7 +91,7 @@ class AddMaterialFields extends React.Component {
 
     componentWillReceiveProps(nextProps){
          if(nextProps){
-             this.setState(nextProps.materials);
+             this.setState(nextProps.item);
          }
         console.log('AddMaterialFields', this.state)
     }
@@ -195,7 +101,7 @@ class AddMaterialFields extends React.Component {
         state[e.target.name] = e.target.value;
         _.assign(this.state, state);
         this.setState({});
-        this.props.onChange({id: this.props.id, materials: this.state})
+        this.props.onChange({id: this.props.id, item: this.state})
     }
     onDel(e) {
          e.preventDefault();
@@ -207,6 +113,7 @@ class AddMaterialFields extends React.Component {
 
     render(){
         var self = this;
+        
         return   <div>
                     <fieldset>
                         <button type="submit" className={`btn btn-danger btn-action glyphicon glyphicon-minus pull-right
@@ -215,14 +122,14 @@ class AddMaterialFields extends React.Component {
                     <fieldset className="form-group">
                         <label>Название<span className="text-danger"> * </span></label>
                         <input type='text' className="form-control" name="name"
-                               value={this.props.materials.name}
+                               value={this.props.item.name}
                                onChange={this.onChange}
                                onClick={this.props.onClick}
                                onKeyDown={this.props.onKeyDown}/>
 
                         <label>Описание<span className="text-danger"> * </span></label>
                         <textarea type='text' className="form-control" name="description"
-                               value={this.props.materials.description}
+                               value={this.props.item.description}
                                onChange={this.onChange}
                                onClick={this.props.onClick}
                                onKeyDown={this.props.onKeyDown}/>
@@ -233,13 +140,85 @@ class AddMaterialFields extends React.Component {
 
 }
 
-class AddMaterials extends React.Component {
+class AddUpsellFields extends React.Component {
+
+    constructor(){
+        super();
+        this.state = {};
+        this.upsellProducts = [];
+
+        this.onChange = this.onChange.bind(this);
+        this.onDel = this.onDel.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps){
+
+         if(nextProps){
+             this.setState(nextProps.item);
+         }
+        console.log('AddFields', this.state)
+    }
+
+    componentDidMount(){
+
+         if(this.props.item){
+             this.setState(this.props.item);
+         }
+
+        ProductsAction.getProductsForUpsell().then((u_p) => {
+            this.upsellProducts = u_p;
+        });
+        console.log('AddFields', this.state)
+    }
+
+    onChange(e) {
+        var state = {};
+        state[e.target.name] = e.target.value;
+        _.assign(this.state, state);
+        this.setState({});
+       // this.setState(state);
+        this.props.onChange({id: this.props.id, item: this.state})
+    }
+
+    onDel(e) {
+        e.preventDefault();
+        this.props.onDel({id: this.props.id});
+    }
+
+    render(){
+        var self = this;
+        
+        return   <div>
+                    <div className="col-md-8">
+                        <Select values={this.upsellProducts}
+                        current_value={this.state.product_id}
+                        fields={{
+                            name: 'product_id',
+                            value: 'id'
+                        }}
+                        onChange={this.onChange}
+                        />
+                    </div>
+                    <div className="col-md-4">
+                         <NumberInput type="text" name="price"
+                           className="form-control" id="price"
+                           onChange={this.onChange}
+                           onKeyDown={this.onKeyDown}
+                           onClick = {this.onClick} placeholder="Цена"
+                           value={this.state.price}/>
+                    </div>
+                </div>
+    }
+}
+
+
+class AddItems extends React.Component {
 
     constructor(){
         super();
 
           this.state = {
-            materials: []
+            items: []
         };
 
 
@@ -248,73 +227,98 @@ class AddMaterials extends React.Component {
         this.onDel = this.onDel.bind(this);
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.product.materials) {
-            _.assign(this.state, {materials: nextProps.product.materials});
+    componentDidMount(){
+        
+        if(this.props.items) {
+            _.assign(this.state, {items: this.props.items});
+            this.setState({});
         }
-        console.log('AddForm2', this.state)
+    }
+
+    componentWillReceiveProps(nextProps){
+        
+        if(nextProps.items) {
+            _.assign(this.state, {items: nextProps.items});
+            this.setState({});
+        }
     }
 
     onChange(state) {
-        _.assign(this.state.materials[state.id], state.materials);
+        _.assign(this.state.items[state.id], state.item);
         this.setState({});
         this.props.onChange({
                 target: {
-                    name: 'materials',
-                    value: this.state.materials
+                    name: this.props.name,
+                    value: this.state.items
                 }
         });
+        
     }
 
     onAdd(e) {
         e.preventDefault();
-        var lastItem = this.state.materials[this.state.materials.length - 1];
-        if( this.state.materials.length && (_.trim(lastItem.name).length == 0 || _.trim(lastItem.description).length == 0)) {
+        var lastItem = this.state.items[this.state.items.length - 1];
+        var result = this.state.items.length ?
+            _.filter(this.props.fields, (item, index) => ! _.trim(lastItem[item]).length)
+            : null;
+        
+        if( this.state.items.length && result.length) {
             AlertActions.set({
                 type: 'error',
                 title: 'Ошибка',
-                text: 'Все поля материалов должны быть заполнены'
-            }, true)
+                text: 'Все обязательные поля должны быть заполнены перед добавлением новых полей.'
+            }, true);
             return;
         }
-        this.state.materials.push({name: '', description:''});
+
+        var newObj = {};
+        _.map(this.props.fields, (item) => newObj[item] = '');
+        this.state.items.push(newObj);
         this.setState({});
         this.props.onClick();
     }
 
     onDel(data) {
-        this.state.materials = _.filter(this.state.materials, (item, index) => index != data.id);
+        if(this.state.items.length <= this.props.min_length) return;
+        this.state.items = _.filter(this.state.items, (item, index) => index != data.id);
         this.setState({});
         this.props.onClick();
         this.props.onChange({
                 target: {
-                    name: 'materials',
-                    value: this.state.materials
+                    name: this.props.name,
+                    value: this.state.items
                 }
         });
     }
 
     render(){
         var self = this;
+        var ItemComponent = this.props.fieldsComponent;
         console.log('AddForm render', this.state);
 
+
         return  <div role="form">
-                  <div className="btn boxed" onClick={this.onAdd}>Добавить материалы</div>
-                  { this.state.materials.map(function(item, index){
-                    return  <div key={index}>
-                                <AddMaterialFields id={index} materials={item}
+                  {this.props.isTitlePlus
+                      ?  <div className="btn boxed" onClick={this.onAdd}>{this.props.title}</div>
+                      :  <span>{this.props.title}</span>}
+                  { this.state.items.map(function(item, index){
+
+                      return  <div key={index}>
+                                <ItemComponent id={index} item={item}
                                            onChange={self.onChange}
                                            onKeyDown={self.props.onKeyDown}
                                            onClick={self.props.onClick}
                                            onDel={self.onDel}/>
                         <hr />
                         </div>
-                    })}
 
+                    })}
+                  {this.props.isButtonPlus
+                  ? <button type="submit" className="btn btn-success glyphicon glyphicon-plus pull-left" onClick={this.onAdd} />
+                  : null}
                 </div>
     }
 }
-
 
 
 class ProductForm extends React.Component {
@@ -337,11 +341,12 @@ class ProductForm extends React.Component {
 
     componentDidMount() {
         var self = this;
-        console.log('PROOPS',this.props);
         if(!this.props.params.prod_id) {
             ProductsAction.clear({category_id: this.props.params.id});
         } else {
-            ProductsAction.getCurrentProduct(this.props.params.prod_id);
+            ProductsAction.getCurrentProduct(this.props.params.prod_id).then((p) => {
+                if(p.isUpsell) ProductsAction.getUpsellsProducts(p.id);
+            })
         }
 
         console.log('ProductForm - componentDidMount', this.state.product);
@@ -350,7 +355,6 @@ class ProductForm extends React.Component {
         ProductsStore.listen(this.update);
         SettingsStore.listen(this.update);
         CategoriesAction.getAllCategories();
-        ProductsAction.getProductsForUpsell();
     }
 
     onKeyDown(e) {
@@ -400,8 +404,7 @@ class ProductForm extends React.Component {
     addNewProduct() {
         var self = this;
         if(this.checkFields()) {
-            var upsell_product = _.findWhere(this.state.upsell_products, {id: +this.state.product.upsell_id});
-            this.state.product.upsell_name = `${this.state.product.name} + ${upsell_product.name}`;
+
             ProductsAction.addNewProduct(this.state.product).then(() => {
                 history.back();
 
@@ -443,11 +446,23 @@ class ProductForm extends React.Component {
         var state = {};
         if(e.target.name == "available")  state[e.target.name] =  e.target.checked;
         else if(e.target.name == "active")  state[e.target.name] =  e.target.checked;
-        else if(e.target.name == "material")  state[e.target.name] =  e.target.checked;
-        else if(e.target.name == "upsell_id")  state[e.target.name] =  this.state.product.upsell_id ? null : this.state.upsell_products[0].id;
+        else if(e.target.name == "material")  {
+            state[e.target.name] =  e.target.checked;
+            if(e.target.checked) {
+                this.state.product.delivery = [{condition: '', price: ''}];
+            }
+        }
+        else if(e.target.name == "upsell_id")  {
+            debugger
+            state[e.target.name] =  this.state.product.upsell_id ? null : 1;
+            if(!this.state.product.upsell_id) {
+                this.state.product.upsells = [{product_id: 1, price: 0}];
+            }
+        }
 		else state[e.target.name] =  e.target.value;
         _.assign(this.state.product, state);
         this.setState({});
+        
     }
 
     onChangeCurrency(e) {
@@ -465,10 +480,10 @@ class ProductForm extends React.Component {
     }
 
     onChangeUpsell(e) {
-        var state = {};
+        /*var state = {};
         state['upsell_id'] =  e.target.value;
         _.assign(this.state.product, state);
-        this.setState({});
+        this.setState({});*/
     }
 
     onClick(e) {
@@ -480,11 +495,10 @@ class ProductForm extends React.Component {
     render(){
         var self = this;
         var edit = this.props.params.prod_id;
-        console.log('ProductForm basicCurrency', this.state.basicCurrency)
+        console.log('ProductForm basicCurrency', this.state.basicCurrency);
         if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
         var isEdit = !!this.props.params.id;
-        var upsellFormClass = ( !isEdit || this.state.isUpsell) ? '' : 'hide'
-
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!',this.state.product.upsell_id)
 
          return <form className="col-sm-7 form-ui table-wrapper">
 
@@ -584,9 +598,8 @@ class ProductForm extends React.Component {
                           value={this.state.product.description} />
                 </fieldset>
 
-
-
-                <fieldset className={`product-form boxed ${upsellFormClass}`} disabled={isEdit ? this.state.isUpsell : false} >
+                <fieldset className={`product-form boxed ${this.state.upsellFormState == 'hide' ? 'hide': ''}`}
+                          disabled={this.state.upsellFormState == 'disable'} >
                     <label className="text-warning">
                        <input name="upsell_id"
                              checked={this.state.product.upsell_id}
@@ -597,30 +610,19 @@ class ProductForm extends React.Component {
                      </label>
 
                     {this.state.product.upsell_id ?
-                        <div>
-                            <div className="col-md-8">
-                                <Select values={this.state.upsell_products}
-                                current_value={this.state.product.upsell_id}
-                                fields={{
-                                    name: 'name',
-                                    value: 'id'
-                                }}
-                                onChange={this.onChangeUpsell}
-                                />
-                            </div>
-                            <div className="col-md-4">
-                                 <NumberInput type="text" name="upsell_price"
-                                   className="form-control" id="price"
-                                   onChange={this.onChange}
-                                   onKeyDown={this.onKeyDown}
-                                   onClick = {this.onClick} placeholder="Цена"
-                                   value={this.state.product.upsell_price}/>
-                            </div>
-                        </div>
+                        <AddItems onChange={this.onChange}
+                          onClick = {this.onClick}
+                          onKeyDown={this.onKeyDown}
+                          items={this.state.product.upsells}
+                          name="upsells"
+                          min_length={1}
+                          fields={['product_id', 'price']}
+                          title=""
+                          fieldsComponent={AddUpsellFields}
+                          isButtonPlus={true}
+                          isTitlePlus={false} />
                             : null}
                  </fieldset>
-
-
 
                 <fieldset className="product-form">
                 <div className="checkbox">
@@ -632,7 +634,19 @@ class ProductForm extends React.Component {
                       Доставляемый</label>
                 </div>
 
-                {this.state.product.material ? null : <div>
+                {this.state.product.material
+                    ?<AddItems onChange={this.onChange}
+                          onClick = {this.onClick}
+                          onKeyDown={this.onKeyDown}
+                          items={this.state.product.delivery}
+                          name="delivery"
+                          min_length={1}
+                          fields={['condition', 'price']}
+                          title=""
+                          fieldsComponent={AddDeliveryFields}
+                          isButtonPlus={true}
+                          isTitlePlus={false} />
+                    : <div>
                     <label className="text-warning">Ссылка на скачивание продукта<span className="text-danger"> * </span></label>
                     <input type="text" name="link_download" className="form-control" id="link_download"
                            onChange={this.onChange}
@@ -642,19 +656,20 @@ class ProductForm extends React.Component {
                            value={this.state.product.link_download}/>
                 </div>}
 
-                 <AddDelivery onChange={this.onChange}
-                          onClick = {this.onClick}
-                          onKeyDown={this.onKeyDown}
-                          product={this.state.product}/>
-
                 </fieldset>
 
              <fieldset className="product-form boxed">
-                  <AddMaterials onChange={this.onChange}
+                  <AddItems onChange={this.onChange}
                           onClick = {this.onClick}
                           onKeyDown={this.onKeyDown}
-                          product={this.state.product}
-                         />
+                          items={this.state.product.materials}
+                          name="materials"
+                          min_length={0}
+                          fields={['name', 'description']}
+                          title="Добавить материалы"
+                          fieldsComponent={AddMaterialFields}
+                          isButtonPlus={false}
+                          isTitlePlus={true} />
              </fieldset>
 
              <fieldset><div className="text-danger small">*Поля обязательные для заполнения</div></fieldset>

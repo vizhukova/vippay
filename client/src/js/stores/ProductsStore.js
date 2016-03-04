@@ -18,7 +18,7 @@ class ProductsStore {
             onClear: ProductsAction.CLEAR
         });
 
-        this.upsellFormState;
+        this.upsellFormState;// hide disable show
     }
 
     onGetAllProducts(products){
@@ -33,16 +33,12 @@ class ProductsStore {
     onGetCurrentProduct(product) {
         product.materials = product.materials || [];
         this.product = product;
-        this.isUpsell = product.upsell_id != null;
+        this.upsellFormState = product.upsell_id ? 'disable' : 'hide';
     }
 
-    onEditProduct(products) {
-        var self = this;
-
-        _.map(products, (item) => {
-            var index = _.findIndex(this.products, { 'id': item.id });
-            this.products[index] = item;
-        })
+    onEditProduct(product) {
+        var index = _.findIndex(this.products, { 'id': product.id });
+        this.products[index] = product;
 
     }
 
@@ -55,7 +51,7 @@ class ProductsStore {
 
     onGetProductsForUpsell(products) {
         this.upsell_products = products;
-        if(!  this.upsell_products.length) this.isUpsell = false;
+        if(!  this.upsell_products.length) this.upsellFormState = 'hide';
     }
 
     onClear(data) {
@@ -68,7 +64,7 @@ class ProductsStore {
                 upsell_id: null
             };
         _.assign(this.product, data);
-        this.isUpsell = false;
+        this.upsellFormState = 'show';
     }
 
 }
