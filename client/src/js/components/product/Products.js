@@ -63,6 +63,7 @@ class ProductItem extends React.Component {
 
     setModelData(e) {
         var materials = this.props.item.materials || [];
+        debugger
         ModalActions.set({data: materials, name: 'Materials'});
     }
 
@@ -80,7 +81,7 @@ class ProductItem extends React.Component {
                     <td>{`${parseFloat(this.props.item.price).toFixed(2)} ${currency}`}</td>
                     <td>
                         { materials.length > 0
-                          ? <button type="button" data-toggle="modal" data-target="#myModal" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.setModelData} />
+                          ? <button type="button" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.setModelData} />
                           : '-'}
                     </td>
                      <td className="action"><button type="button" className={this.props.item.available ? available : notAvailable} onClick={this.setAvailable} /></td>

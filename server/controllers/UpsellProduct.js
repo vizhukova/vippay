@@ -26,6 +26,30 @@ module.exports = {
                 reject(err);
             })
         })
+    },
+
+    getUpsells(data){
+        return new Promise(function (resolve, reject) {
+
+            UpsellProduct.getUpsells(data).then(function (result) {
+                resolve(result);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+        })
+    },
+
+    getForUpsellsProduct(data){
+        return new Promise(function (resolve, reject) {
+
+            UpsellProduct.getForUpsellsProduct(data).then(function (result) {
+                resolve(result);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+        })
     }
 
 

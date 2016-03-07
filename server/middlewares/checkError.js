@@ -44,6 +44,9 @@ module.exports = function(err, res){
         case 'products_upsell_id_foreign':
             res.status(400).send('Это продукт нельзя удалить, так как существует скидка(1+1), которая его содержит.');
             break;
+        case 'uniq_upsell_product':
+            res.status(400).send('Создавать скидку на один и тот же продукт более одного раза нельзя.');
+            break;
         default:
             if(err.errors) {
                 var keys = Object.keys(err.errors) || [];

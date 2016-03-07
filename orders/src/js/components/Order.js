@@ -4,6 +4,7 @@ import Pending from './steps/Pending'
 import Payment from './steps/Payment'
 import OrdersStore from'./../stores/OrdersStore'
 import OrderActions from'./../actions/OrdersActions'
+import ModalWindow from'./../../../../common/js/ModalWindow/ModalWindow';
 
 class Order extends React.Component {
 
@@ -29,12 +30,15 @@ class Order extends React.Component {
 
 
     render() {
-        return <div className="panel panel-default col-md-10 col-md-offset-1 form-margin">
+        return <div>
+                <ModalWindow />
+                 <div className="panel panel-default col-md-10 col-md-offset-1 form-margin">
                   <div className="panel-body">
                     <div className="text-danger title">Оформление заказа</div>
                   </div>
                     {this.state.order.id ? <Payment /> : <Pending />}
                 </div>
+            </div>
     }
 }
 

@@ -138,6 +138,26 @@ var Product = bookshelf.Model.extend({
             })
 
         })
+    },
+
+    newProductWithUpsell(data) {
+        var product;
+
+            return knex.transaction(function(trx) {
+                knex.insert(data.product)
+                    .into('products')
+                    .returning('*')
+                    .transacting(trx)
+                    .then(function(p) {
+                      product = p[0];
+                      return Promise.map(data.upsells, function(upsell) {
+                        upsell.upsell_id = product.id;
+                        return knex.insert(upsell).into('upsell_product').transacting(trx);
+                      });
+                    })
+                    .then(trx.commit)
+                    .catch(trx.rollback);
+                })
     }
 
 })

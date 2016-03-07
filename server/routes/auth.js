@@ -22,7 +22,7 @@ router.get('/check', function(req, res){
     }
     else {
         UserController.getById(req.user.id).then(function(data){
-            if(data.length == 0) {
+            if(!data) {
                 res.status(401).send({msg: 'not ok'}); return;
             }
             res.status(200).send('ok');

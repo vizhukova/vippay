@@ -7,7 +7,9 @@ class ProductsStore {
     constructor() {
         this.products = [];
         this.upsell_products = [];
-        this.product = {};
+        this.product = {
+            upsells: []
+        };
         this.bindListeners({
             onGetAllProducts: ProductsAction.GET_ALL_PRODUCTS,
             onAddNewProduct: ProductsAction.ADD_NEW_PRODUCT,
@@ -15,7 +17,9 @@ class ProductsStore {
             onRemoveProduct: ProductsAction.REMOVE_PRODUCT,
             onGetCurrentProduct: ProductsAction.GET_CURRENT_PRODUCT,
             onGetProductsForUpsell: ProductsAction.GET_PRODUCTS_FOR_UPSELL,
-            onClear: ProductsAction.CLEAR
+            onGetUpsellsProducts: ProductsAction.GET_UPSELLS_PRODUCTS,
+            onClear: ProductsAction.CLEAR,
+            onSetStateProduct: ProductsAction.SET_STATE_PRODUCT
         });
 
         this.upsellFormState;// hide disable show
@@ -33,7 +37,8 @@ class ProductsStore {
     onGetCurrentProduct(product) {
         product.materials = product.materials || [];
         this.product = product;
-        this.upsellFormState = product.upsell_id ? 'disable' : 'hide';
+        this.upsellFormState = product.isUpsell ? 'disable' : 'hide';
+        this.product.upsell_id = product.isUpsell ? 1 : null;
     }
 
     onEditProduct(product) {
@@ -61,10 +66,21 @@ class ProductsStore {
                 material: false,
                 description: '',
                 materials: [],
-                upsell_id: null
+                upsell_id: null,
+                upsells: []
             };
         _.assign(this.product, data);
         this.upsellFormState = 'show';
+    }
+
+    onSetStateProduct(product) {
+        _.assign(this.product, product);
+    }
+
+    onGetUpsellsProducts(upsells) {
+        debugger
+        this.product.upsells = upsells;
+        this.product.upsell_id = 1;
     }
 
 }

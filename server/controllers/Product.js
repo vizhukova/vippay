@@ -73,6 +73,18 @@ module.exports = {
                 reject(err);
             })
         })
+    },
+
+    newProductWithUpsell(data) {
+        return new Promise(function (resolve, reject) {
+
+            Product.newProductWithUpsell(data).then(function (product) {
+                resolve(product);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+        })
     }
 };
 

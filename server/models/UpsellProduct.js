@@ -39,9 +39,24 @@ var Product = bookshelf.Model.extend({
         return knex
         .select('products.*')
         .from('products')
-        .join('usell_product', 'upsell_id', '=', data.upsell_id)
+        .join('upsell_product', 'upsell_id', '=', data.upsell_id)
         .where({'products.user_id': data.user_id});
-    })
+    }),
+
+    getForUpsellsProduct: Promise.method(function (data) {
+        return knex
+        .select(['products.*', 'upsell_product.price as apsell_price', 'currency.name as currency_name'])
+        .from('products')
+        .join('upsell_product', 'upsell_product.upsell_id', '=', 'products.id')
+        .join('currency', 'currency.id', '=', 'products.currency_id')
+        .where('upsell_product.product_id', '=', data.product_id)
+    }),
+
+    getUpsells(data) {
+        return knex('upsell_product')
+        .select('*')
+        .where(data);
+    }
 
 })
 

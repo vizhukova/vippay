@@ -5,6 +5,7 @@ import _ from 'lodash';
 class ModalActions {
 
     set(data) {
+        $('#myModal').modal('show');
         this.dispatch(data);
     }
 

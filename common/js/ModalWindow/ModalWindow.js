@@ -5,6 +5,7 @@ import { Router, Route, IndexRoute, Link } from 'react-router';
 import _  from 'lodash';
 
 import Materials from './../../../client/src/js/components/Materials';
+import Upsells from './../../../orders/src/js/components/Upsells';
 
 
 class ModalWindow extends React.Component {
@@ -12,7 +13,8 @@ class ModalWindow extends React.Component {
     constructor() {
         super();
         this.components = {
-            'Materials': Materials
+            'Materials': Materials,
+            'Upsells': Upsells
         }
         this.state = ModalStore.getState();
         this.update = this.update.bind(this);
@@ -33,6 +35,7 @@ class ModalWindow extends React.Component {
     }
 
     render() {
+        debugger
         var Content = this.components[this.state.componentName] || null;
 
         return <div id="myModal" className={`modal fade ${this.state.isHide ? 'hide' : ''}`} role="dialog" onClick={this.hideModal}>

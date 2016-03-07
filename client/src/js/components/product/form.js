@@ -28,7 +28,6 @@ class AddDeliveryFields extends React.Component {
          if(nextProps){
              this.setState(nextProps.item);
          }
-        console.log('AddFields', this.state)
     }
 
     componentDidMount(){
@@ -36,7 +35,6 @@ class AddDeliveryFields extends React.Component {
          if(this.props.item){
              this.setState(this.props.item);
          }
-        console.log('AddFields', this.state)
     }
 
     onChange(e) {
@@ -93,7 +91,6 @@ class AddMaterialFields extends React.Component {
          if(nextProps){
              this.setState(nextProps.item);
          }
-        console.log('AddMaterialFields', this.state)
     }
 
     onChange(e) {
@@ -153,10 +150,11 @@ class AddUpsellFields extends React.Component {
 
     componentWillReceiveProps(nextProps){
 
+        if(! nextProps.item.product_id) nextProps.item.product_id = 1;
+
          if(nextProps){
              this.setState(nextProps.item);
          }
-        console.log('AddFields', this.state)
     }
 
     componentDidMount(){
@@ -167,13 +165,16 @@ class AddUpsellFields extends React.Component {
 
         ProductsAction.getProductsForUpsell().then((u_p) => {
             this.upsellProducts = u_p;
+            this.setState({});
         });
-        console.log('AddFields', this.state)
     }
 
     onChange(e) {
         var state = {};
-        state[e.target.name] = e.target.value;
+
+        if(e.target.name == 'name')state.product_id = e.target.value;
+        else state[e.target.name] = e.target.value;
+        
         _.assign(this.state, state);
         this.setState({});
        // this.setState(state);
@@ -188,12 +189,12 @@ class AddUpsellFields extends React.Component {
     render(){
         var self = this;
         
-        return   <div>
-                    <div className="col-md-8">
+        return   <fieldset>
+                    <div className="col-md-7">
                         <Select values={this.upsellProducts}
                         current_value={this.state.product_id}
                         fields={{
-                            name: 'product_id',
+                            name: 'name',
                             value: 'id'
                         }}
                         onChange={this.onChange}
@@ -207,10 +208,13 @@ class AddUpsellFields extends React.Component {
                            onClick = {this.onClick} placeholder="Цена"
                            value={this.state.price}/>
                     </div>
-                </div>
+                    <div className="col-md-1">
+                        <button type="submit" className={`btn btn-danger btn-action glyphicon glyphicon-minus pull-right
+                                 `} onClick={this.onDel} />
+                    </div>
+                </fieldset>
     }
 }
-
 
 class AddItems extends React.Component {
 
@@ -228,7 +232,7 @@ class AddItems extends React.Component {
     }
 
     componentDidMount(){
-        
+        debugger
         if(this.props.items) {
             _.assign(this.state, {items: this.props.items});
             this.setState({});
@@ -236,7 +240,7 @@ class AddItems extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        
+        debugger
         if(nextProps.items) {
             _.assign(this.state, {items: nextProps.items});
             this.setState({});
@@ -296,7 +300,6 @@ class AddItems extends React.Component {
         var ItemComponent = this.props.fieldsComponent;
         console.log('AddForm render', this.state);
 
-
         return  <div role="form">
                   {this.props.isTitlePlus
                       ?  <div className="btn boxed" onClick={this.onAdd}>{this.props.title}</div>
@@ -342,11 +345,11 @@ class ProductForm extends React.Component {
     componentDidMount() {
         var self = this;
         if(!this.props.params.prod_id) {
-            ProductsAction.clear({category_id: this.props.params.id});
+            setTimeout(() => {
+                ProductsAction.setStateProduct({category_id: this.props.params.id});
+            }, 0);
         } else {
-            ProductsAction.getCurrentProduct(this.props.params.prod_id).then((p) => {
-                if(p.isUpsell) ProductsAction.getUpsellsProducts(p.id);
-            })
+            ProductsAction.getCurrentProduct(this.props.params.prod_id);
         }
 
         console.log('ProductForm - componentDidMount', this.state.product);
@@ -387,15 +390,26 @@ class ProductForm extends React.Component {
         } else {
             this.state.product.delivery = [];
             result = !this.state.product.link_download || _.trim(this.state.product.link_download).length == 0
+            if (result) return false;
         }
-        if (result) return false;
 
 
-        result = this.state.product.materials.filter((item) => {
-            return _.trim(item.name).length == 0 || _.trim(item.description).length == 0
-        });
+        if(this.state.product.materials) {
+            result = this.state.product.materials.filter((item) => {
+                return _.trim(item.name).length == 0 || _.trim(item.description).length == 0
+            });
+            if (result.length) return false;
+        }
 
-        return !result.length && this.state.product.name && this.state.product.product_link &&
+        if(this.state.product.upsells) {
+            result = this.state.product.upsells.filter((item) => {
+                return ! _.trim(item.price).length || ! _.trim(item.product_id).length;
+            });
+            if ((this.state.product.isUpsell && !this.state.product.upsells.length) || result.length) return false;
+        }
+
+
+        return this.state.product.name && this.state.product.product_link &&
             this.state.product.price && _.trim(this.state.product.name).length > 0
             && _.trim(this.state.product.product_link).length > 0 && _.trim(this.state.product.price).length > 0
 
@@ -443,6 +457,7 @@ class ProductForm extends React.Component {
     }
 
     onChange(e) {
+        
         var state = {};
         if(e.target.name == "available")  state[e.target.name] =  e.target.checked;
         else if(e.target.name == "active")  state[e.target.name] =  e.target.checked;
@@ -452,12 +467,15 @@ class ProductForm extends React.Component {
                 this.state.product.delivery = [{condition: '', price: ''}];
             }
         }
-        else if(e.target.name == "upsell_id")  {
-            debugger
-            state[e.target.name] =  this.state.product.upsell_id ? null : 1;
-            if(!this.state.product.upsell_id) {
-                this.state.product.upsells = [{product_id: 1, price: 0}];
-            }
+        else if(e.target.name == "isUpsell")  {
+
+            ProductsAction.setStateProduct({
+                upsell_id:  this.state.product.upsell_id ? null : 1,
+                upsells: this.state.product.upsell_id ? [] : [{product_id: 1, price: ''}]
+
+            });
+
+            state[e.target.name] =  e.target.checked;
         }
 		else state[e.target.name] =  e.target.value;
         _.assign(this.state.product, state);
@@ -480,6 +498,7 @@ class ProductForm extends React.Component {
     }
 
     onChangeUpsell(e) {
+        
         /*var state = {};
         state['upsell_id'] =  e.target.value;
         _.assign(this.state.product, state);
@@ -601,8 +620,8 @@ class ProductForm extends React.Component {
                 <fieldset className={`product-form boxed ${this.state.upsellFormState == 'hide' ? 'hide': ''}`}
                           disabled={this.state.upsellFormState == 'disable'} >
                     <label className="text-warning">
-                       <input name="upsell_id"
-                             checked={this.state.product.upsell_id}
+                       <input name="isUpsell"
+                             checked={this.state.product.isUpsell}
                              type="checkbox"
                              onChange={this.onChange}
                              onClick = {this.onClick}/>
@@ -624,7 +643,7 @@ class ProductForm extends React.Component {
                             : null}
                  </fieldset>
 
-                <fieldset className="product-form">
+                <fieldset className={`product-form ${this.state.product.material ? 'boxed' : ''}`}>
                 <div className="checkbox">
                   <label className="text-warning">
                       <input name="material"  type="checkbox"

@@ -1,6 +1,7 @@
 var ProductController = require('../controllers/Product')
 var UpsellProductController = require('../controllers/UpsellProduct')
 var express = require('express');
+var Promise = require('bluebird');
 var _ = require('lodash');
 var router = express.Router();
 
@@ -16,21 +17,17 @@ router.get('/products/:id', function(req, res){
 
 router.post('/product', function(req, res, next){
     req.body.user_id = req.clientObj.id;
-    req.body.isUpsell = true;
-    var new_product = _.omit(req.body, ['upsell_id', 'upsell_price']);
+    req.body.isUpsell = !!req.body.upsell_id;
+    var new_product = _.omit(req.body, ['upsell_id', 'upsells']);
+    new_product.delivery = JSON.stringify(new_product.delivery);
+    new_product.materials = JSON.stringify(new_product.materials);
     var product;
 
-    ProductController.newProduct(new_product).then(function(p){
-        product = p;
-
-        if(req.body.upsell_id) {
-            return UpsellProductController.add({
-                product_id: req.body.upsell_id,
-                upsell_id: product.id,
-                price: req.body.upsell_price
-                })
-        }else {
-         res.send(product);
+    new Promise((resolve, reject) => {
+        if(! req.body.isUpsell) {
+            return ProductController.newProduct(new_product).then((data)=> resolve(data)).catch((err)=> reject(err))
+        } else {
+            return ProductController.newProductWithUpsell({product: new_product, upsells: req.body.upsells}).then((data)=> resolve(data)).catch((err)=> reject(err))
         }
     }).then((result) => {
         res.send(product);
@@ -55,7 +52,11 @@ router.get('/product/:id', function(req, res){
     var product;
     ProductController.getCurrentProduct(req.params.id).then(function(p){
         product = p;
-        res.send(p);
+        return UpsellProductController.getUpsells({upsell_id: product.id}).then((upsells) => {
+            product.upsells = upsells;
+            res.send(product);
+        })
+
     }).catch(function(err){
         res.status(204).send(err.errors)
     })
@@ -63,9 +64,16 @@ router.get('/product/:id', function(req, res){
 });
 
 router.get('/product/upsell/:id', function(req, res){
-    UpsellProductController.getForUpsell({user_id: req.clientObj.id,
-        upsell_id: req.params.id}).then(function(products){
-        res.send(products)
+    UpsellProductController.getUpsells({upsell_id: req.params.id}).then(function(upsells){
+        res.send(upsells)
+    }).catch(function(err){
+        next(err);
+    })
+});
+
+router.get('/product/upsells/:id', function(req, res, next){
+    UpsellProductController.getForUpsellsProduct({product_id: req.params.id}).then(function(upsells){
+        res.send(upsells)
     }).catch(function(err){
         next(err);
     })
@@ -73,7 +81,10 @@ router.get('/product/upsell/:id', function(req, res){
 
 router.put('/product/:id', function(req, res, next){
 
-    var product = _.omit(req.body, ['currency_name', 'upsell_name', 'upsell_price']);
+    req.body.delivery = JSON.stringify(req.body.delivery);
+    req.body.materials = JSON.stringify(req.body.materials);
+
+    var product = _.omit(req.body, ['currency_name','upsell_id', 'upsells']);
 
     ProductController.editProduct(product).then(function(product){
             res.send(product[0])

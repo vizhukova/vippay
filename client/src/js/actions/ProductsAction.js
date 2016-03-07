@@ -88,6 +88,10 @@ class ProductsAction {
     clear(data) {
         this.dispatch(data);
     }
+
+    setStateProduct(product) {
+        this.dispatch(product);
+    }
 }
 
 export default alt.createActions(ProductsAction);
