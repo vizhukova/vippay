@@ -13,6 +13,8 @@ exports.seed = function(knex, Promise) {
 
         return Promise.map(users, (user) => {
 
+            user.payment = user.payment || [];
+
             var old_fields = _.pluck(user.payment, 'name');
             var new_fields = _.pluck(new_payment, 'name');
             var difference = _.difference(new_fields, old_fields);
