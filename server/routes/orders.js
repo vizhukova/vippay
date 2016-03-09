@@ -43,7 +43,7 @@ router.post('/order', function(req, res) {
     var product;
 
     ProductController.getWhereIn(req.body.prod_id).then(function(products){
-        product  = _.findWhere(products, {id: req.body.prod_id[0]});
+        product  = _.findWhere(products, {id: +req.body.prod_id[0]});
         CustomerController.get(req.cookies.id).then(function(customer) {
 
             if(! customer) CustomerController.add({product_id: product.id})
@@ -51,7 +51,7 @@ router.post('/order', function(req, res) {
                     OrderController.add({user_id: req.clientObj.id, product: product, products: products, customer: {id: customer.id, partner_product_id: customer.partner_product_id}, delivery: req.body.delivery})
                         .then(function (order) {
 
-                            var product = _.findWhere(JSON.parse(order.product), {id: req.body.prod_id[0]});
+                            var product = _.findWhere(JSON.parse(order.product), {id: +req.body.prod_id[0]});
 
                             email.send(order.delivery.email,
                                 'Успешное оформление заказа',
@@ -79,7 +79,7 @@ router.post('/order', function(req, res) {
                                 `Спасибо за оформленный заказ. Ссылка на оплату:
                                 ${req.subdomain}.${req.postdomain}/order/${req.body.prod_id}?${order.id}`);
 
-                            var product = _.findWhere(JSON.parse(order.product), {id: req.body.prod_id[0]});
+                            var product = _.findWhere(JSON.parse(order.product), {id: +req.body.prod_id[0]});
 
                             StatisticController.add({partner_id: order.partner_id,
                                                     product: product,

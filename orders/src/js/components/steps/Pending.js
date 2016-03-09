@@ -146,25 +146,8 @@ class Pending extends React.Component {
                     ModalActions.set({data: {upsells: upsells, product: this.state.product, delivery: delivery}, name: 'Upsells'});
                 });
             } else {
-                OrderActions.getUpsells(this.state.prod_id).then((upsells) => {
-                if(! upsells.length) {
-                    OrderActions.add({prod_id: this.state.prod_id, delivery: delivery});
-                } else {
-                    ModalActions.set({data: {upsells: upsells, product: this.state.product}, name: 'Upsells'});
-
-                }
-            });
-            /*OrderActions.getUpsells(this.state.prod_id).then((upsells) => {
-                if(! upsells.length) {
-                    //OrderActions.add({prod_id: this.state.prod_id, delivery: delivery});
-                    ModalActions.set({data: {upsells: upsells, product: this.state.product}, name: 'Upsells'});
-                } else {
-                    ModalActions.set({data: {upsells: upsells, product: this.state.product}, name: 'Upsells'});
-
-                }
-            })*/
-            //OrderActions.add({prod_id: this.state.prod_id, delivery: delivery});
-        }
+                    OrderActions.add({prod_id: [this.state.prod_id], delivery: delivery});
+            }
     }
     }
 
