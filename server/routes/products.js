@@ -71,6 +71,14 @@ router.get('/product/upsell/:id', function(req, res){
     })
 });
 
+router.get('/product/upsell_products/:id', function(req, res){
+    UpsellProductController.getForUpsell({upsell_id: req.params.id}).then(function(upsells){
+        res.send(upsells)
+    }).catch(function(err){
+        next(err);
+    })
+});
+
 router.get('/product/upsells/:id', function(req, res, next){
     UpsellProductController.getForUpsellsProduct({product_id: req.params.id}).then(function(upsells){
         res.send(upsells)

@@ -60,6 +60,18 @@ class ProductsAction {
             })
         });
     }
+
+    getUpsellProducts(id) {
+        var self = this;
+        return new Promise((resolve,reject) => {
+           ApiActions.get(`product/upsell_products/${id}`).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                reject(err);
+            })
+        });
+    }
 }
 
 export default alt.createActions(ProductsAction);

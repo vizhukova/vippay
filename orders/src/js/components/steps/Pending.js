@@ -137,15 +137,29 @@ class Pending extends React.Component {
             var total = this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
             _.assign(delivery, this.state.delivery, {total: total});
             console.log('Delivery', delivery);
-            OrderActions.getUpsells(this.state.prod_id).then((upsells) => {
+
+            if(this.state.product.isUpsell) {
+                OrderActions.getUpsellProducts(this.state.prod_id).then((upsells) => {
+
+                });
+            } else {
+                OrderActions.getUpsells(this.state.prod_id).then((upsells) => {
                 if(! upsells.length) {
                     OrderActions.add({prod_id: this.state.prod_id, delivery: delivery});
                 } else {
-                    debugger
                     ModalActions.set({data: {upsells: upsells, product: this.state.product}, name: 'Upsells'});
 
                 }
-            })
+            }
+            /*OrderActions.getUpsells(this.state.prod_id).then((upsells) => {
+                if(! upsells.length) {
+                    //OrderActions.add({prod_id: this.state.prod_id, delivery: delivery});
+                    ModalActions.set({data: {upsells: upsells, product: this.state.product}, name: 'Upsells'});
+                } else {
+                    ModalActions.set({data: {upsells: upsells, product: this.state.product}, name: 'Upsells'});
+
+                }
+            })*/
             //OrderActions.add({prod_id: this.state.prod_id, delivery: delivery});
         }
     }
