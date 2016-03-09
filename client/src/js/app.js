@@ -12,6 +12,8 @@ import Auth from './components/Auth';
 import Home from './components/Home';
 import Category from './components/category/Category';
 import NewCategoryForm from './components/category/form';
+import Promo from './components/promo/Promo';
+import PromoForm from './components/promo/form';
 import Partners from './components/Partners';
 import Statistics from './components/Statistics';
 import Orders from './components/Orders';
@@ -49,6 +51,12 @@ import AlertActions from './../../../common/js/Alert/AlertActions';
                     <Route path=":id/products/new" component={NewProductForm} onLeave={onLeave} />
                     <Route path=":id/products/:prod_id" component={NewProductForm} onLeave={onLeave} />
 
+                </Route>
+
+                <Route path="promo" component={Promo} onLeave={onLeave} />
+                <Route path="/promo" onLeave={onLeave}>
+                    <Route path="new" component={PromoForm} onLeave={onLeave} />
+                    <Route path=":id" component={PromoForm} onLeave={onLeave} />
                 </Route>
 
                 <Route path="/partners" component={Partners} onLeave={onLeave} />

@@ -58,6 +58,12 @@ gulp.task('vendor', function(){
         .pipe(gulp.dest(path.DEST));
 });
 
+gulp.task('vendors', function(){
+  return gulp.src(['./src/js/vendors/datepicker.js'])
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest(path.DEST));
+});
+
 gulp.task('watch', function() {
     gulp.watch('./src/js/**/*.js', ['js', 'vendor']);
     gulp.watch('./../common/js/*.js', ['js', 'vendor']);

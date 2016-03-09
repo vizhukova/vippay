@@ -35,7 +35,6 @@ class ModalWindow extends React.Component {
     }
 
     render() {
-        debugger
         var Content = this.components[this.state.componentName] || null;
 
         return <div id="myModal" className={`modal fade ${this.state.isHide ? 'hide' : ''}`} role="dialog" onClick={this.hideModal}>
