@@ -150,7 +150,7 @@ class Pending extends React.Component {
                     ModalActions.set({data: {upsells: upsells, product: this.state.product}, name: 'Upsells'});
 
                 }
-            }
+            });
             /*OrderActions.getUpsells(this.state.prod_id).then((upsells) => {
                 if(! upsells.length) {
                     //OrderActions.add({prod_id: this.state.prod_id, delivery: delivery});
@@ -162,6 +162,7 @@ class Pending extends React.Component {
             })*/
             //OrderActions.add({prod_id: this.state.prod_id, delivery: delivery});
         }
+    }
     }
 
     render() {
