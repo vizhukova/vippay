@@ -85,6 +85,18 @@ module.exports = {
                 reject(err);
             })
         })
+    },
+
+    getWhereIn(arrayId) {
+        return new Promise(function (resolve, reject) {
+
+            Product.getWhereIn(arrayId).then(function (products) {
+                resolve(products);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+        })
     }
 };
 

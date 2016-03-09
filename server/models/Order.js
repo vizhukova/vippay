@@ -66,14 +66,18 @@ var Order = bookshelf.Model.extend({
         var partnerId = data.customer.partner_product_id.partner_id;
         var lastPartnerId = partnerId ? partnerId[partnerId.length - 1] : null;
         var delivery_price = data.delivery.price ? parseFloat(data.delivery.price, 8) : 0;
-        var product_price = data.product.price ? parseFloat(data.product.price, 8) : 0;
+        var product  = data.product;
         var convert = parseFloat(data.convert, 8);
+        var product_price = 0;
+        data.products.map((prod) => {
+            product_price += parseFloat(prod.price, 8);
+        })
 
         var record = new this({customer_id: data.customer.id,
                                partner_id: lastPartnerId,
-                               client_id: data.product.user_id,
-                               product_id: data.product.id,
-                               product: JSON.stringify(data.product),
+                               client_id: product.user_id,
+                               product_id: product.id,
+                               product: JSON.stringify(data.products),
                                step: "pending",
                                delivery: JSON.stringify(data.delivery),
                                product_price_order_rate: product_price,

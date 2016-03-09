@@ -15,11 +15,17 @@ class OrdersStore {
 
     onGet(orders){
         this.orders = orders;
+        orders.map((order) => {
+            order.product = _.findWhere(order.product, {id: order.product_id});
+        })
         console.log('OrdersStore orders:', orders);
     }
 
     setComplete(orders) {
         this.orders = orders;
+         orders.map((order) => {
+            order.product = _.findWhere(order.product, {id: order.product_id});
+        })
     }
 
 }

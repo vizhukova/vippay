@@ -50,12 +50,12 @@ module.exports = {
 
     add(data) {
         return new Promise(function (resolve, reject) {
-
-            User.getBasicCurrency({user_id: data.product.user_id}).then((result) => {
+            var product = data.product;
+            User.getBasicCurrency({user_id: product.user_id}).then((result) => {
 
                     return Rate.getResult({
-                        client_id: data.product.user_id,
-                        from: data.product.currency_id,
+                        client_id: product.user_id,
+                        from: product.currency_id,
                         to: result.basic_currency
                     }).then((convert) => {
 
@@ -96,7 +96,10 @@ module.exports = {
                 if(order.product.material){
                     text = 'Спасибо за оплату заказа. Оплата прошла успешно';
                 }else{
-                    text = `Спасибо за оплату заказа. Оплата прошла успешно. Ссылка на товар: ${order.product.link_download}`
+                    text = `Спасибо за оплату заказа. Оплата прошла успешно. Ссылка на товар: `;
+                    order.product.map((product) => {
+                        text += `${product.link_download}  `;
+                    })
                 }
 
                 email.send(order.delivery.email, 'Успешная оплата заказа', text);

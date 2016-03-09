@@ -49,15 +49,13 @@ class AddMaterialFields extends React.Component {
                         <input type='text' className="form-control" name="name"
                                value={this.props.materials.name}
                                onChange={this.onChange}
-                               onClick={this.props.onClick}
-                               onKeyDown={this.props.onKeyDown}/>
+                               onClick={this.props.onClick}/>
 
                         <label>Описание<span className="text-danger"> * </span></label>
                         <textarea type='text' className="form-control" name="description"
                                value={this.props.materials.description}
                                onChange={this.onChange}
-                               onClick={this.props.onClick}
-                               onKeyDown={this.props.onKeyDown}/>
+                               onClick={this.props.onClick}/>
                     </fieldset>
                 </div>
     }
@@ -136,7 +134,6 @@ class AddMaterials extends React.Component {
                     return  <div key={index}>
                                 <AddMaterialFields id={index} materials={item}
                                            onChange={self.onChange}
-                                           onKeyDown={self.props.onKeyDown}
                                            onClick={self.props.onClick}
                                            onDel={self.onDel}/>
                         <hr />
@@ -279,7 +276,6 @@ class LinkForm extends React.Component {
                 <input type="text" name="name" id="name"
                        className="form-control"
                        onChange={this.onChange}
-                       onKeyDown={this.onKeyDown}
                        onClick = {this.onClick}
                        placeholder="Введите название"
                        value={this.state.link.name}
@@ -289,7 +285,6 @@ class LinkForm extends React.Component {
                 <input type="text" name="link"
                        className="form-control" id="link"
                        onChange={this.onChange}
-                       onKeyDown={this.onKeyDown}
                        onClick = {this.onClick}
                        placeholder="Введите новую ссылку"
                        value ={this.state.link.link}
@@ -299,7 +294,6 @@ class LinkForm extends React.Component {
                 <label className="text-warning">Код идентификации <span className="text-danger"> * </span></label>
                 <input type="text" name="key" className="form-control" id="key"
                        onChange={this.onChange}
-                       onKeyDown={this.onKeyDown}
                        onClick = {this.onClick}
                        placeholder="Введите код идентификации"
                        value={this.state.link.key}
@@ -321,7 +315,6 @@ class LinkForm extends React.Component {
                 <label className="text-warning">Описание:</label>
                 <textarea className="form-control" id="description" name="description"
                           onChange={this.onChange}
-                          onKeyDown={this.onKeyDown}
                           onClick = {this.onClick}
                           value={this.state.link.description}
                            />
@@ -330,7 +323,6 @@ class LinkForm extends React.Component {
              <fieldset className="product-form">
                   <AddMaterials onChange={this.onChange}
                           onClick = {this.onClick}
-                          onKeyDown={this.onKeyDown}
                           link={this.state.link}
                          />
              </fieldset>

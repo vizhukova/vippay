@@ -110,6 +110,14 @@ var Product = bookshelf.Model.extend({
             .join('currency', 'products.currency_id', '=', 'currency.id')
     },
 
+    getWhereIn(arrayId) {
+        return knex
+            .select('products.*', 'currency.name as currency_name')
+            .from('products')
+            .whereIn('products.id', arrayId)
+            .join('currency', 'products.currency_id', '=', 'currency.id')
+    },
+
     editProduct(product){
         return new Promise((resolve, reject) => {
             product.delivery = JSON.stringify(product.delivery);

@@ -5,6 +5,7 @@ var ProductController = require('../controllers/Product');
 var CustomerController = require('../controllers/Customer');
 var StatisticController = require('../controllers/Statistic');
 var email = require('../utils/email');
+var _ = require('lodash');
 
 router.get('/orders', function(req, res) {
 
@@ -39,23 +40,26 @@ router.put('/order/:id', function(req, res) {
 });
 
 router.post('/order', function(req, res) {
+    var product;
 
-    ProductController.getCurrentProduct(req.body.prod_id).then(function(product){
-
+    ProductController.getWhereIn(req.body.prod_id).then(function(products){
+        product  = _.findWhere(products, {id: req.body.prod_id[0]});
         CustomerController.get(req.cookies.id).then(function(customer) {
 
             if(! customer) CustomerController.add({product_id: product.id})
                 .then(function(customer) {
-                    OrderController.add({user_id: req.clientObj.id, product: product, customer: {id: customer.id, partner_product_id: customer.partner_product_id}, delivery: req.body.delivery})
+                    OrderController.add({user_id: req.clientObj.id, product: product, products: products, customer: {id: customer.id, partner_product_id: customer.partner_product_id}, delivery: req.body.delivery})
                         .then(function (order) {
+
+                            var product = _.findWhere(JSON.parse(order.product), {id: req.body.prod_id[0]});
 
                             email.send(order.delivery.email,
                                 'Успешное оформление заказа',
                                 `Спасибо за оформленный заказ. Ссылка на оплату:
-                                ${req.subdomain}.${req.postdomain}/order/${req.body.prod_id}?${order.id}`);
+                                ${req.subdomain}.${req.postdomain}/order/${product.id}?${order.id}`);
 
                             StatisticController.add({partner_id: order.partner_id,
-                                                    product: order.product,
+                                                    product: product,
                                                     customer_id: order.customer_id,
                                                     client_id: order.client_id,
                                                     action: "start_order"})
@@ -67,7 +71,7 @@ router.post('/order', function(req, res) {
                             res.status(400).send(err);
                         })
                 });
-            else OrderController.add({user_id: req.clientObj.id, product: product, customer: customer, delivery: req.body.delivery})
+            else OrderController.add({user_id: req.clientObj.id, product: products, customer: customer, delivery: req.body.delivery})
                         .then(function (order) {
 
                             email.send(order.delivery.email,
@@ -75,8 +79,10 @@ router.post('/order', function(req, res) {
                                 `Спасибо за оформленный заказ. Ссылка на оплату:
                                 ${req.subdomain}.${req.postdomain}/order/${req.body.prod_id}?${order.id}`);
 
+                            var product = _.findWhere(JSON.parse(order.product), {id: req.body.prod_id[0]});
+
                             StatisticController.add({partner_id: order.partner_id,
-                                                    product: order.product,
+                                                    product: product,
                                                     customer_id: order.customer_id,
                                                     client_id: order.client_id,
                                                     action: "start_order"})

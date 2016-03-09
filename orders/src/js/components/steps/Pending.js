@@ -103,7 +103,7 @@ class Pending extends React.Component {
     }
 
     onContinue() {
-
+        var self = this;
         var telephone = new RegExp(/^\d[\d\(\)\ -]{4,14}\d$/);
         var email = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
@@ -140,7 +140,10 @@ class Pending extends React.Component {
 
             if(this.state.product.isUpsell) {
                 OrderActions.getUpsellProducts(this.state.prod_id).then((upsells) => {
-
+                    upsells.map((u) => {
+                       u.currency_name = self.state.product.currency_name;
+                    });
+                    ModalActions.set({data: {upsells: upsells, product: this.state.product, delivery: delivery}, name: 'Upsells'});
                 });
             } else {
                 OrderActions.getUpsells(this.state.prod_id).then((upsells) => {
