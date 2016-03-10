@@ -30,17 +30,18 @@ class NumberInput extends React.Component {
     }
 
     checkValue(e) {
-        var val = e.target.value;
+        var val = this.state.value;
         val = val.replace(/[^0-9.,]/g,'')
                 .replace(',', '.')
                 .split('.')
-                .filter((item) => item.length)
+                .filter((item) => item.length);
 
         val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
+        val = parseFloat(val).toFixed(2);
 
-        val = parseFloat(val).toFixed(this.state.toFixed);
+        var e = {target:{name: this.props.name, value: null}};
 
-        e.target.value = isNaN(val) ? 0 : val;
+        e.target.value = val;
        this.props.onChange(e);
     }
 
