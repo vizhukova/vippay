@@ -113,4 +113,15 @@ router.delete('/product/:id', function(req, res, next){
 
 });
 
+router.get('/product', function(req, res, next){
+
+    ProductController.get({user_id: req.clientObj.id}).then(function(products){
+        res.send(products)
+    }).catch(function(err){
+        next(err);
+        //res.status(400).send(err.errors)
+    })
+
+});
+
 module.exports = router;

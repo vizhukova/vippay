@@ -7,7 +7,7 @@ module.exports = {
     get(data){
         return new Promise(function (resolve, reject) {
 
-            Category.newCategory(data).then(function (res) {
+            Promo.get(data).then(function (res) {
                 resolve(res);
 
             }).catch(function (err) {
@@ -16,5 +16,19 @@ module.exports = {
 
         })
 
-    }
+    },
+
+    add(data){
+        return new Promise(function (resolve, reject) {
+
+            Promo.add(data).then(function (res) {
+                resolve(res);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+
+        })
+
+      }
 };

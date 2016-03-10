@@ -2,6 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import PromoStore from'./../../stores/PromoStore';
 import PromoAction from'./../../actions/PromoAction';
+import moment  from 'moment';
 import _  from 'lodash';
 
 class Item extends React.Component {
@@ -9,61 +10,50 @@ class Item extends React.Component {
     constructor() {
         super();
         this.state={};
-
-    }
-
-    onEditClick() {
-        this.setState({
-            edit: !this.state.edit
-        })
-    }
-
-    onClickCat() {
-        if (this.state.edit) this.onEditClick();
-    }
-
-    deleteCategory(e) {
-        if(! this.props.isActiveTariff) return;
-
-        CategoriesAction.deleteCategory(this.props.item.id);
-    }
-
-    cancelClick(isDisabled){
-
-        if(isDisabled){
-
-            return function(e){
-                e.preventDefault();
-            }
-
-        }else{
-
-            return function(){}
-
+        this.type = {
+            until: 'Действителен до',
+            during: 'Действителен (продолжительность)'
         }
-
     }
+
 
     render() {
         var baseClassDel = "btn pull-right btn-xs glyphicon glyphicon-remove btn-warning btn-action btn-danger";
         var baseClassEdit = "btn pull-right btn-xs glyphicon glyphicon-pencil btn-warning btn-action btn-default";
+        var date;
+
+        debugger
+
+        if(this.props.item.type == 'until') {
+            date = moment(this.props.item.date).format('DD.MM.YYYY HH:mm:ss');
+        } else {
+            var duration = moment.duration(moment(this.props.item.date).diff(moment()));
+
+            var time;
+
+            if(duration.days()) {
+                time = duration.days() + ' дней';
+            }
+            else if(duration.hours()) {
+                time = duration.hours() + ' часов';
+            }
+            else if(duration.minutes()) {
+                time = duration.minutes() + ' минут';
+            }
+             else if(duration.seconds()) {
+                time = duration.seconds() + ' секунд';
+            }
+            else {
+                time = 0;
+            }
+            date = !time ? 'Закончилась' : `Осталось ${time}` ;
+        }
 
         return <tr>
-                <td><Link to={`/category/${this.props.item.id}/products`}
-                          className="category-link"
-                          onClick={this.onClickCat}>{this.props.item.category}</Link></td>
-
-                <td className="actions">
-
-                    <button type="button" className={`${baseClassDel} ${this.props.isActiveTariff ? '' : 'disabled'}`}
-                            data-t={this.props.id}
-                            onClick={this.deleteCategory}></button>
-
-                    <Link to={`/category/${this.props.item.id}`} onClick={this.cancelClick(!this.props.isActiveTariff)}>
-                        <button type="button" className={`${baseClassEdit } ${this.props.isActiveTariff ? '' : 'disabled'}`}></button>
-                    </Link>
-
-                </td>
+                <td>{this.props.item.code}</td>
+                <td>{this.props.item.discount}%</td>
+                <td>{date}</td>
+                <td>{this.type[this.props.item.type]}</td>
             </tr>
     }
 }

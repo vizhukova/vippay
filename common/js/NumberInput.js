@@ -17,13 +17,15 @@ class NumberInput extends React.Component {
 
     componentDidMount() {
         this.setState({
-            value: this.props.value || this.state.value
+            value: this.props.value || this.state.value,
+            toFixed: this.props.toFixed || 0
         })
     }
 
     componentWillReceiveProps(props) {
         this.setState({
-            value: props.value || this.state.value
+            value: props.value || this.state.value,
+            toFixed: this.props.toFixed || 0
         })
     }
 
@@ -36,7 +38,7 @@ class NumberInput extends React.Component {
 
         val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
 
-        val = parseFloat(val).toFixed(2);
+        val = parseFloat(val).toFixed(this.state.toFixed);
 
         e.target.value = isNaN(val) ? 0 : val;
        this.props.onChange(e);

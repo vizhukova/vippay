@@ -31,15 +31,21 @@ class Promo extends React.Component {
     }
 
     render() {
-        return <List
+
+         return <List
             title="Промо акции"
-            add_link="/promo/new"
+            add_link={`/promo/new`}
             add_link_name = 'Добавить промо акцию'
             items={this.state.promos}
             itemComponent={Item}
             isPaginate={true}
-        />
-
+            thead={[
+                {name: 'Промо код', key: 'code'},
+                {name: 'Скидка', key: 'discount'},
+                {name: 'Дата окончания', key: 'date'},
+                {name: 'Тип', key: 'type'}
+            ]}
+            />
 
     }
 

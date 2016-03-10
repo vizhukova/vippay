@@ -2,33 +2,68 @@ import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import PromoStore from'./../../stores/PromoStore';
 import PromoAction from'./../../actions/PromoAction';
-import NumberInput from'./../../../../../common/js/NumberInput';
+import ProductsAction from'./../../actions/ProductsAction';
 import AlertActions from './../../../../../common/js/Alert/AlertActions';
+import NumberInput from'./../../../../../common/js/NumberInput';
+import DateInput from './../../../../../common/js/DateInput';
 import _  from 'lodash';
+import moment  from 'moment';
 
-class CategoryForm extends React.Component {
+class ProductItem extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {};
+
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onChange(e) {
+        this.props.onChange(
+            {
+                target: {
+                    name: 'product',
+                    value: this.props.item.id,
+                    checked: e.target.checked
+                }
+            }
+        );
+    }
+
+    render() {
+        console.log(this.props.checked)
+        return  <label>
+                    <input type="checkbox" name="product" checked={this.props.checked != -1} onChange={this.onChange}/>
+                    {this.props.item.name}
+                 </label>
+    }
+}
+
+class PromoForm extends React.Component {
 
     constructor(){
         super();
         this.state = PromoStore.getState();
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.onTypeChange = this.onTypeChange.bind(this);
+        this.onTimeChange = this.onTimeChange.bind(this);
+        this.checkFields = this.checkFields.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.add = this.add.bind(this);
-        this.get = this.get.bind(this);
         this.edit = this.edit.bind(this);
+        this.beforeSend = this.beforeSend.bind(this);
     }
 
     componentDidMount() {
         if(this.props.params.id) {
-            this.get(this.props.params.id);
+            //this.get(this.props.params.id);
         } else {
 
         }
-
+        ProductsAction.get();
         PromoStore.listen(this.update);
+
     }
 
     componentWillReceiveProps(nextProps){
@@ -43,12 +78,34 @@ class CategoryForm extends React.Component {
         PromoStore.unlisten(this.update);
     }
 
-    get(id) {
+    beforeSend() {
+         if(! this.checkFields()) {
+            AlertActions.set({
+                type: 'error',
+                title: 'Ошибка',
+                text: 'Проверьте правильность введения данных'
+            });
+            return;
+        }
 
+        var promo = _.clone(this.state.promo);
+
+        promo.date = this.state.promo.type == 'during'
+            ? moment().add(promo.date.days || 0, 'day')
+                     .add(promo.date.hours || 0, 'hour')
+                     .add(promo.date.minutes || 0, 'minute')
+                     .add(promo.date.seconds || 0, 'second')
+            : moment(promo.date);
+
+        return promo;
     }
 
     add() {
-
+        var promo = this.beforeSend();
+        debugger
+        if (promo) PromoAction.add(promo).then((res) => {
+            history.back();
+        })
     }
 
     edit() {
@@ -56,15 +113,54 @@ class CategoryForm extends React.Component {
     }
 
     onChange(e) {
-        var state = {};
-		state[e.target.name] =  e.target.value;
-		_.assign(this.state.category, state);
+
+        if(e.target.name == 'product') {
+            if(e.target.checked) this.state.promo.products.push(e.target.value);
+            else this.state.promo.products = _.filter(this.state.promo.products, (id) => id != e.target.value);
+        }
+
+        else if(e.target.name == 'checkAll') {
+            if(! e.target.checked) this.state.promo.products = [];
+            else this.state.promo.products = this.state.products.map((p) => p.id);
+        }
+
+        else if(e.target.name == 'until' || e.target.name == 'during') {
+            this.state.promo.type = e.target.name;
+            this.state.promo.date = {};
+        }
+
+        else {
+            var state = {};
+            state[e.target.name] =  e.target.value;
+            _.assign(this.state.promo, state);
+        }
+
         this.setState({});
     }
 
-    onTypeChange(e) {
-        this.state.type = e.target.value;
+    checkFields() {
+        var p = this.state.promo;
+
+        var now = moment();
+        var date = this.state.promo.type == 'during'
+
+            ? moment().add(p.date.days || 0, 'day')
+                     .add(p.date.hours || 0, 'hour')
+                     .add(p.date.minutes || 0, 'minute')
+                     .add(p.date.seconds || 0, 'second')
+
+            : moment(`${p.date.year}-${p.date.month}-${p.date.day}`);
+
+
+        var timeDiff = date.diff(now) > 0;
+        return timeDiff && p.discount && p.code && p.products.length;
     }
+
+    onTimeChange(e) {
+        this.state.promo.date[e.target.name] = e.target.value;
+        this.setState({});
+    }
+
 
     onClick(e) {
         AlertActions.hide();
@@ -78,10 +174,14 @@ class CategoryForm extends React.Component {
 	}
 
     update(state){
-
+        _.assign(this.state, state);
+        this.setState({});
     }
 
     render(){
+
+        var self = this;
+
         return  <div className="col-sm-7 form-ui boxed">
             <form className="">
 
@@ -91,32 +191,101 @@ class CategoryForm extends React.Component {
                   </label>
               </fieldset>
 
-                <fieldset>
-                    <label>Скидка</label>
-                    <NumberInput name="discount" onChange={this.onChange}/>
+                <fieldset className="form-group">
+                    <div className="col-md-6">
+                        <label>Скидка <span className="text-danger">*</span></label>
+                        <div>
+                            <div className="col-md-9">
+                                  <NumberInput name="discount"
+                                         value={this.state.promo.discount}
+                                         onChange={this.onChange}/>
+                            </div>
+                            <div className="col-md-3">%</div>
+                        </div>
+                    </div>
                 </fieldset>
 
-                <fieldset>
-                    <label>Тип</label>
-                    <div class="checkbox">
-                      <label>
-                        <input type="radio" name="before" value={this.state.type == 'before'} onChange={this.onTypeChange}/>
-                        Действителен (до)
-                      </label>
+                <fieldset className="form-group">
+                    <div className="col-md-12">
+                        <label>Тип <span className="text-danger">*</span></label>
+
+                        <div className="radio">
+                          <label>
+                            <input type="radio" name="until" checked={this.state.promo.type == 'until'} onChange={this.onChange} />
+                            Действителен (до)
+                          </label>
+                        </div>
+                        <div className="radio">
+                          <label>
+                            <input type="radio" name="during" checked={this.state.promo.type == 'during'} onChange={this.onChange} />
+                            Действителен (продолжительность)
+                          </label>
+                        </div>
+
+                        {this.state.promo.type == 'during'
+                            ? <div>
+                                <fieldset>
+                                    <label className="col-md-3">
+                                        <NumberInput name="days" onChange={this.onTimeChange} />
+                                        дней
+                                    </label>
+                                    <label className="col-md-3">
+                                        <NumberInput name="hours" onChange={this.onTimeChange}/>
+                                        часов
+                                    </label>
+                                    <label className="col-md-3">
+                                        <NumberInput name="minutes" onChange={this.onTimeChange}/>
+                                        минут
+                                    </label>
+                                    <label className="col-md-3">
+                                        <NumberInput name="seconds" onChange={this.onTimeChange}/>
+                                        секунд
+                                    </label>
+                                </fieldset>
+                            </div>
+                            : <DateInput onChange={this.onChange}/>}
                     </div>
-                    <div class="checkbox">
-                      <label>
-                        <input type="radio" name="during" value={this.state.type == 'during'} onChange={this.onTypeChange} />
-                       Действителен (дней)
-                      </label>
-                    </div>
-                    {this.state.type == 'during' ? <div></div> : <div></div>}
                 </fieldset>
 
-                <button type="button" className="btn btn-default btn-submit pull-right"
+                 <fieldset className="product-form">
+                    <div className="col-md-4">
+                        <label>Промо код <span className="text-danger">*</span></label>
+                        <input name="code" type="text" onChange={this.onChange}/>
+                    </div>
+                </fieldset>
+
+                <fieldset className="boxed row product-form">
+                    <div className="col-md-12">
+                        <label>Выберите продукты, которые участвуют в акции
+                            <span className="text-danger"> *</span>
+                        </label>
+                    </div>
+                    <div>
+                        <labe>
+                            <input type="checkbox" name="checkAll" onChange={this.onChange}/>
+                            выбрать все
+                        </labe>
+                        <hr/>
+                    </div>
+                    {this.state.products.map((item, index) => {
+                        return <div className="col-md-3">
+                                    <ProductItem item={item}
+                                                 key={index}
+                                                 checked={_.indexOf(self.state.promo.products, item.id)}
+                                                 onChange={this.onChange}/>
+                                </div>
+                    })}
+                </fieldset>
+
+                <fieldset><div className="text-danger small">*Поля обязательные для заполнения</div></fieldset>
+
+                <button type="button" className="btn btn-default btn-danger pull-left btn-submit"
                         onClick={this.props.params.id  ? this.edit : this.add}>{
                    this.props.params.id  ? "Редактировать" : "Добавить"}
                 </button>
+                <Link to={`/promo`}>
+                    <div className="btn btn-danger pull-right btn-submit">Отмена</div>
+                </Link>
             </form>
         </div>
 
@@ -126,4 +295,4 @@ class CategoryForm extends React.Component {
 }
 
 
-export default CategoryForm;
+export default PromoForm;

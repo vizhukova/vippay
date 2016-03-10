@@ -47,6 +47,9 @@ module.exports = function(err, res){
         case 'uniq_upsell_product':
             res.status(400).send('Создавать скидку на один и тот же продукт более одного раза нельзя.');
             break;
+        case 'promo_code_uniq':
+            res.status(400).send('Такой промо код у этого клиента уже существует');
+            break;
         default:
             if(err.errors) {
                 var keys = Object.keys(err.errors) || [];

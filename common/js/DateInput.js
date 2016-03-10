@@ -1,5 +1,5 @@
-var React = require('react');
-var $ = require('jquery');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 
 var DateInput = React.createClass({
@@ -18,17 +18,24 @@ var DateInput = React.createClass({
 
     componentDidMount(){
         var self = this;
-        $(this.getDOMNode()).find('input').datepicker({
+        var i = $( ReactDOM.findDOMNode(this)).find('input');
+
+
+        $(i).datepicker({
             dateFormat: 'dd-mm-yyyy',
             onSelect: function(fd, date){
                 var e = {
                     target: {}
                 };
 
-                e.target.name = 'birthday';
-                e.target.value = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+                e.target.name = 'date';
+                e.target.value = {
+                    day: date.getDate(),
+                    month: (date.getMonth() + 1),
+                    year: date.getFullYear()
+                }
 
-                self.props.cb(e);
+                self.props.onChange(e);
             }
         });
     },
@@ -48,9 +55,10 @@ var DateInput = React.createClass({
                        className={this.props.selector}
                        onKeyPress={this.onChange}
                        type="text"
+                       id="date"
                        disabled={this.props.disabled}
-                       name="birthday"
-                       placeholder="Дата рождения"/>
+                       name="date"
+                       placeholder="Дата"/>
 
             </span>
         )

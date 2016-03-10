@@ -1,5 +1,6 @@
 import alt from '../alt';
 import PromoAction from './../actions/PromoAction';
+import ProductsAction from './../actions/ProductsAction';
 var _ = require('lodash');
 
 
@@ -7,23 +8,30 @@ class PromoStore {
 
     constructor() {
         this.promos = [];
-        this.promo = {};
-        this.type = 'before'; //before during - enum
+        this.promo = {
+            products: [],
+            type : 'until' //until during - enum
+        };
+        this.products = [];
 
         this.bindListeners({
             onGet: PromoAction.GET,
-            onGetById: PromoAction.GET_BY_ID,
-            onGetCurrentCat: PromoAction.EDIT,
-            onDeleteCat: PromoAction.ADD,
-            onEditCategory: PromoAction.DELETE
+            onAdd: PromoAction.ADD,
+            onGetProducts: ProductsAction.GET
         });
     }
 
-    onGet() {}
-    onGetById() {}
-    onGetCurrentCat() {}
-    onDeleteCat() {}
-    onEditCategory() {}
+    onGet(promos) {
+        this.promos = promos;
+    }
+
+    onAdd(promo) {
+        this.promos.push(promo);
+    }
+
+    onGetProducts(products) {
+        this.products = products;
+    }
 
 }
 

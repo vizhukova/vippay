@@ -7,8 +7,6 @@ var Promo = bookshelf.Model.extend({
 
     tableName: 'promo',
 
-    hasTimestamps: true,
-
     initialize: function () {
         this.on('saving', this.validateSave);
         this.on('updating', this.validateSave);
@@ -16,18 +14,33 @@ var Promo = bookshelf.Model.extend({
 
     validateSave: function () {
         return checkit({
-            'category': [{
+            'discount': [{
                 rule: 'required',
-                message: 'Поле "категория" обязательно для заполнения'
+                message: 'Поле "скидка" обязательно для заполнения'
+            }],
+            'date': [{
+                rule: 'required',
+                message: 'Поле "дата" обязательно для заполнения'
+            }],
+            'code': [{
+                rule: 'required',
+                message: 'Поле "код промо акции" обязательно для заполнения'
             }]
         }).run(this.attributes);
     }
 
 }, {
-        get(data) {
-            return knex('promo')
+    get(data) {
+        return knex('promo')
             .where(data);
-        }
+    },
+
+    add: Promise.method(function (data) {
+        var record = new this(data);
+            return record.save();
+    })
+
+
     }
 );
 

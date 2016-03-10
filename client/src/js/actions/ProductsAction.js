@@ -4,14 +4,25 @@ import ApiActions from './ApiActions';
 
 class ProductsAction {
 
-    getAllProducts(id) {
+    getAllProducts(category_id) {
         var self = this;
-        ApiActions.get(`products/${id}`).then(function(data){
+        ApiActions.get(`products/${category_id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             //self.dispatch(err);
         })
     }
+
+    get() {
+        var self = this;
+        ApiActions.get(`product`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            //self.dispatch(err);
+        })
+    }
+
+
 
     editProduct(product) {
         var self = this;

@@ -65,7 +65,7 @@ class List extends React.Component {
                 b = b[sortBy[0]];
             }
 
-            debugger
+            
 
             if (typeof a == 'string') {
 
