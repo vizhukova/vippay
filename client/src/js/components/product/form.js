@@ -538,7 +538,8 @@ class ProductForm extends React.Component {
                        onChange={this.onChange}
                        onKeyDown={this.onKeyDown}
                        onClick = {this.onClick} placeholder="Введите цену"
-                       value={this.state.product.price}/>
+                       value={this.state.product.price}
+                       toFixed={2} />
                 </fieldset>
 
                  <fieldset className="product-form">

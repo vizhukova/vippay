@@ -51,7 +51,7 @@ class Fee extends React.Component {
         return <div className="boxed">
                   <div className="form-group">
                     <label>Комиссия:</label>
-                    <NumberInput value={this.state.fee} name="fee" onChange={this.onChange}/>
+                    <NumberInput value={this.state.fee} name="fee" onChange={this.onChange} toFixed={2}/>
                   </div>
                   <button className="btn btn-primary" onClick={this.save}>Сохранить</button>
                 </div>

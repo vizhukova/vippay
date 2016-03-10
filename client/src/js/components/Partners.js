@@ -14,7 +14,8 @@ class PartnerItem extends React.Component {
     constructor(){
         super();
         this.state = {
-            partner: {}
+            partner: {},
+            value: ''
         };
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -23,6 +24,11 @@ class PartnerItem extends React.Component {
 
     componentDidMount() {
         this.setState({partner: this.props.item});
+    }
+
+    componentWillReceiveProps() {
+        this.state.value =  '';
+        this.setState({});
     }
 
     setActive() {
@@ -42,6 +48,7 @@ class PartnerItem extends React.Component {
         debugger
         var fee = {};
         fee[e.target.name] = e.target.value;
+        this.state.value = e.target.value;
         _.assign(this.props.item.fee, fee);
         this.setState({partner: this.props.item});
     }
@@ -80,7 +87,7 @@ class PartnerItem extends React.Component {
             </td>
             <td className="col-md-2">
                 <div className="input-group input-group-inline">
-                    <NumberInput onChange={this.onChange} name="fee_pay"/>
+                    <NumberInput onChange={this.onChange} name="fee_pay" value={this.state.value} toFixed={2}/>
                                 <span className="input-group-btn">
                                     <button className="btn btn-default glyphicon glyphicon-sort" type="button"
                                             onClick={this.onClick}/>

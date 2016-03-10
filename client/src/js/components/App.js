@@ -86,7 +86,7 @@ class Application extends React.Component {
                                     <li><Link to="/partners_links" activeClassName="active">Партнерские ссылки</Link></li>
                                   </ul>
                           </li>
-
+                            <li><Link to="/promo" activeClassName="active">Промо акции</Link></li>
                             <li><Link to="/orders" activeClassName="active">Заказы</Link></li>
                             <li className="dropdown">
                                   <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Настройка</a>

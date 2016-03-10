@@ -32,6 +32,7 @@ class RateItem extends React.Component {
                          onClick={this.props.onClick}
                          onChange={this.onChange}
                          value={parseFloat(this.props.rate.result).toFixed(2)}
+                         toFixed={2}
                     />
 
     }

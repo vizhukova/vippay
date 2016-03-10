@@ -35,9 +35,14 @@ class NumberInput extends React.Component {
                 .replace(',', '.')
                 .split('.')
                 .filter((item) => item.length);
+        debugger
+        if(val.length) {
+            val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
+        } else {
+            val = 0;
+        }
 
-        val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
-        val = parseFloat(val).toFixed(2);
+        val = parseFloat(val).toFixed(this.state.toFixed);
 
         var e = {target:{name: this.props.name, value: null}};
 

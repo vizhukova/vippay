@@ -198,7 +198,8 @@ class PromoForm extends React.Component {
                             <div className="col-md-9">
                                   <NumberInput name="discount"
                                          value={this.state.promo.discount}
-                                         onChange={this.onChange}/>
+                                         onChange={this.onChange}
+                                         toFixed={2}/>
                             </div>
                             <div className="col-md-3">%</div>
                         </div>
