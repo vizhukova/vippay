@@ -27,6 +27,12 @@ var ProductPromo = bookshelf.Model.extend({
         add(data) {
             return knex('product_promo')
                 .insert(data);
+        },
+
+        delete(data) {
+            return knex('product_promo')
+                .del()
+                .where(data);
         }
 
     }

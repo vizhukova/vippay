@@ -72,6 +72,18 @@ class ProductsAction {
             })
         });
     }
+
+    getPromo(data) {
+        var self = this;
+        return new Promise((resolve,reject) => {
+           ApiActions.get(`promo/order`, data).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                reject(err);
+            })
+        });
+    }
 }
 
 export default alt.createActions(ProductsAction);

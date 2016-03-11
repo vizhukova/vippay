@@ -48,7 +48,14 @@ router.post('/order', function(req, res) {
 
             if(! customer) CustomerController.add({product_id: product.id})
                 .then(function(customer) {
-                    OrderController.add({user_id: req.clientObj.id, product: product, products: products, customer: {id: customer.id, partner_product_id: customer.partner_product_id}, delivery: req.body.delivery})
+                    OrderController.add({user_id: req.clientObj.id,
+                                        product: product,
+                                        products: products,
+                                        customer: {id: customer.id, partner_product_id: customer.partner_product_id},
+                                        delivery: req.body.delivery,
+                                        isPromo: !!req.body.promo.code,
+                                        promo_code: req.body.promo.code || null,
+                                        discount:  req.body.promo.discount || null})
                         .then(function (order) {
 
                             var product = _.findWhere(JSON.parse(order.product), {id: +req.body.prod_id[0]});
@@ -71,7 +78,13 @@ router.post('/order', function(req, res) {
                             res.status(400).send(err);
                         })
                 });
-            else OrderController.add({user_id: req.clientObj.id, product: products, customer: customer, delivery: req.body.delivery})
+            else OrderController.add({user_id: req.clientObj.id,
+                                    product: products,
+                                    customer: customer,
+                                    delivery: req.body.delivery,
+                                    isPromo: !!req.body.promo,
+                                    promo_code: req.body.promo ? req.body.promo.code : null,
+                                    discount: req.body.promo ? req.body.promo.discount: null})
                         .then(function (order) {
 
                             email.send(order.delivery.email,

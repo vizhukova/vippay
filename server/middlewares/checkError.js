@@ -50,6 +50,9 @@ module.exports = function(err, res){
         case 'promo_code_uniq':
             res.status(400).send('Такой промо код у этого клиента уже существует');
             break;
+        case 'no_promo_product':
+            res.status(400).send('Такого промо кода не существует или он неприменим к выбранному продукту');
+            break;
         default:
             if(err.errors) {
                 var keys = Object.keys(err.errors) || [];

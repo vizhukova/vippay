@@ -2,6 +2,7 @@ import alt from '../alt';
 import PromoAction from './../actions/PromoAction';
 import ProductsAction from './../actions/ProductsAction';
 var _ = require('lodash');
+var moment = require('moment');
 
 
 class PromoStore {
@@ -16,13 +17,20 @@ class PromoStore {
 
         this.bindListeners({
             onGet: PromoAction.GET,
+            onGetById: PromoAction.GET_BY_ID,
             onAdd: PromoAction.ADD,
-            onGetProducts: ProductsAction.GET
+            onGetProducts: ProductsAction.GET,
+            onClear: PromoAction.CLEAR,
+            onDelete: PromoAction.DELETE
         });
     }
 
     onGet(promos) {
         this.promos = promos;
+    }
+
+    onGetById(promo) {
+        this.promo = promo;
     }
 
     onAdd(promo) {
@@ -31,6 +39,17 @@ class PromoStore {
 
     onGetProducts(products) {
         this.products = products;
+    }
+
+    onClear() {
+         this.promo = {
+            products: [],
+            type : 'until' //until during - enum
+        };
+    }
+
+    onDelete(promo) {
+        this.promos = _.filter(this.promos, (p) => promo.id != p.id);
     }
 
 }

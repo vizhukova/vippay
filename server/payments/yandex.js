@@ -38,11 +38,11 @@ class YandexMoney {
             }).then((user) => {
 
                 payment_data.receiver = _.findWhere(user.payment, {name: 'yandex'}).fields.receiver;
-
+                var product = order.product[0];
                 if(order.product.currency_id !== 4){
                     return Rate.getResult({
                         client_id: order.client_id,
-                        from: order.product.currency_id,
+                        from: product.currency_id,
                         to: 4
                     })
                 }else{
@@ -51,7 +51,9 @@ class YandexMoney {
 
             }).then((data) => {
 
-                payment_data.sum = order.product.price * data.result;
+                payment_data.sum = 0;
+                order.product.map((p) => payment_data.sum += +p.price);
+                payment_data.sum *= data.result;
 
                 resolve(payment_data);
             }).catch((err) => {

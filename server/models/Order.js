@@ -67,11 +67,13 @@ var Order = bookshelf.Model.extend({
         var lastPartnerId = partnerId ? partnerId[partnerId.length - 1] : null;
         var delivery_price = data.delivery.price ? parseFloat(data.delivery.price, 8) : 0;
         var product  = data.product;
-        var convert = parseFloat(data.convert, 8);
+        var convert = parseFloat(data.convert);
         var product_price = 0;
-        data.products.map((prod) => {
-            product_price += parseFloat(prod.price, 8);
+        _.filter(data.products, (item) => item.id != product.id).map((prod) => {
+            product_price += parseFloat(prod.price);
         })
+
+        product_price += data.isPromo ? product.price - (product.price * data.discount / 100) : parseFloat(product.price);
 
         var record = new this({customer_id: data.customer.id,
                                partner_id: lastPartnerId,
@@ -86,7 +88,10 @@ var Order = bookshelf.Model.extend({
                                delivery_price_base_rate: delivery_price * data.convert,
                                total_price_order_rate: delivery_price + product_price,
                                total_price_base_rate: (delivery_price + product_price) * data.convert,
-                               basic_currency_id: data.basic_currency_id
+                               basic_currency_id: data.basic_currency_id,
+                               isPromo: data.isPromo,
+                               discount: data.discount,
+                               promo_code: data.promo_code
         });
 
         return record.save();

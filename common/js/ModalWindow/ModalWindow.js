@@ -6,6 +6,8 @@ import _  from 'lodash';
 
 import Materials from './../../../client/src/js/components/Materials';
 import Upsells from './../../../orders/src/js/components/Upsells';
+import Message from './../../../orders/src/js/components/Message';
+import MessageError from './../../../orders/src/js/components/MessageError';
 
 
 class ModalWindow extends React.Component {
@@ -14,7 +16,9 @@ class ModalWindow extends React.Component {
         super();
         this.components = {
             'Materials': Materials,
-            'Upsells': Upsells
+            'Upsells': Upsells,
+            'Message': Message,
+            'MessageError': MessageError
         }
         this.state = ModalStore.getState();
         this.update = this.update.bind(this);

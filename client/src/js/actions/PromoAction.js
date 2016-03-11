@@ -29,7 +29,7 @@ class PromoAction {
     edit(data) {
         var self = this;
         return new Promise((resolve, reject) => {
-            ApiActions.put('category', data).then(function(res){
+            ApiActions.put('promo', data).then(function(res){
                 self.dispatch(res);
                 resolve(res);
         }).catch(function(err){
@@ -48,10 +48,10 @@ class PromoAction {
         })
     }
 
-    delete(id) {
+    delete(data) {
         var self = this;
         return new Promise((resolve, reject) => {
-            ApiActions.remove(`category/${id}`).then(function(res){
+            ApiActions.remove(`promo/${data.id}`).then(function(res){
             self.dispatch(res);
                 resolve(res);
             }).catch(function(err){
@@ -59,6 +59,10 @@ class PromoAction {
                 reject(err);
             })
         })
+    }
+
+    clear() {
+        this.dispatch();
     }
 }
 

@@ -68,6 +68,9 @@ class Pending extends React.Component {
         this.onClick = this.onClick.bind(this);
         this.onContinue = this.onContinue.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onPromoChange = this.onPromoChange.bind(this);
+        this.checkFields = this.checkFields.bind(this);
+        this.finishPending = this.finishPending.bind(this);
     }
 
     componentDidMount() {
@@ -87,6 +90,10 @@ class Pending extends React.Component {
         this.setState({});
     }
 
+    onPromoChange(e) {
+        this.state.promo = e.target.value;
+    }
+
     onChange(e) {
         var state = {};
 
@@ -102,8 +109,8 @@ class Pending extends React.Component {
         AlertActions.hide();
     }
 
-    onContinue() {
-        var self = this;
+    checkFields() {
+         var self = this;
         var telephone = new RegExp(/^\d[\d\(\)\ -]{4,14}\d$/);
         var email = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
@@ -132,23 +139,72 @@ class Pending extends React.Component {
              })
 
         }
+
         else {
+            return true;
+        }
+
+        return false;
+    }
+
+    onContinue() {
+       if(! this.checkFields()) return;
+
             var delivery = this.state.product.delivery ? this.state.product.delivery[this.state.delivery_id] : {};
             var total = this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
             _.assign(delivery, this.state.delivery, {total: total});
             console.log('Delivery', delivery);
 
-            if(this.state.product.isUpsell) {
+            if(this.state.promo && _.trim(this.state.promo)) { //if promo code
+                OrderActions.getPromo({code: this.state.promo, product_id: this.state.prod_id}).then((promo) => {
+
+                    var discountTotal = total - promo.discount*total/100;
+                    ModalActions.set({data: {messages: [` Общая сумма заказа сейчас ${total} ${this.state.product.currency_name}.`,
+                                                        `Со скидкой ${promo.discount}% составляет ${discountTotal} ${this.state.product.currency_name}`]
+                                            , onContinue: this.finishPending
+                                            , title: `Подтвердите применение скидки по промо коду.`
+                                            , forComponent: {total: discountTotal, discount: promo.discount}
+                                            }
+                                    , name: 'Message'});
+
+                }).catch((err) => {
+                    ModalActions.set({data: {message: err.message}, name: 'MessageError'});
+                })
+            } else {
+                this.finishPending();
+            }
+
+
+    }
+
+    finishPending(data) {
+
+        ModalActions.hide();
+
+        data = data || {};
+         var delivery = this.state.product.delivery ? this.state.product.delivery[this.state.delivery_id] : {};
+         var total = data.total || (this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price);
+            _.assign(delivery, this.state.delivery, {total: total});
+        var toSend = {delivery: delivery};
+        var self = this;
+
+        if(this.state.promo) {
+            toSend.promo={code: this.state.promo, discount: data.discount};
+        }
+
+        if(this.state.product.isUpsell) {
                 OrderActions.getUpsellProducts(this.state.prod_id).then((upsells) => {
                     upsells.map((u) => {
                        u.currency_name = self.state.product.currency_name;
                     });
-                    ModalActions.set({data: {upsells: upsells, product: this.state.product, delivery: delivery}, name: 'Upsells'});
+
+                    _.assign(toSend, {upsells: upsells, product: this.state.product, promo: {}});
+                    ModalActions.set({data: toSend, name: 'Upsells'});
                 });
             } else {
-                    OrderActions.add({prod_id: [this.state.prod_id], delivery: delivery});
+                    _.assign(toSend, {prod_id: [this.state.prod_id], promo: {}});
+                    OrderActions.add(toSend);
             }
-    }
     }
 
     render() {
@@ -196,6 +252,15 @@ class Pending extends React.Component {
                             <textarea name="comment" rows="5" className="form-control" onChange={this.onChange}
                                    placeholder="Комментарий" />
                         </div>
+
+                        <div className="form-inline">
+                            <div className="form-group">
+                            <label>Промо код: </label>
+                            <input type="text" name="promo_code" onChange={this.onPromoChange} />
+                        </div>
+
+                        </div>
+
                             <div className="text-warning text-uppercase pull-right"><b>Итоговая цена: {`${total} ${this.state.product.currency_name}`}</b></div><br/>
                             <div className="text-danger small pull-right">*Поля обязательные для заполнения</div><br/>
                     </form>

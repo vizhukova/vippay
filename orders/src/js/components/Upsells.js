@@ -15,14 +15,21 @@ class UpsellItem extends React.Component {
     }
 
     addApsell(e) {
-        OrderActions.add({prod_id: [this.props.product.id, this.props.item.id], delivery: this.props.delivery});
+        ModalActions.hide();
+        OrderActions.add({
+            prod_id: [this.props.product.id, this.props.item.id],
+            delivery: this.props.delivery,
+            promo: this.props.promo
+        });
     }
 
     render() {
-        var total = parseFloat(this.props.item.price) + parseFloat(this.props.product.price) || 0;
+        var discount = this.props.promo.discount || 0;
+        var price = this.props.product.price - this.props.product.price * discount / 100;
+        var total = parseFloat(price) + parseFloat(this.props.item.price) || 0;
         return <div className="row">
                                 <div className="col-md-3">{this.props.item.name}</div>
-                                <div className="col-md-3">{this.props.product.price} {this.props.product.currency_name}</div>
+                                <div className="col-md-3">{price.toFixed(2)} {this.props.product.currency_name}</div>
                                 <div className="col-md-3">{total.toFixed(2)} {this.props.product.currency_name}</div>
                                 <div className="col-md-3">
                                     <div className="btn btn-action" name={this.props.product.id} onClick={this.addApsell} data-dismiss="modal">Купить</div>
@@ -57,7 +64,13 @@ class Upsells extends React.Component {
 
     addOrder(e) {
         ModalActions.hide();
-        OrderActions.add({prod_id: [this.props.data.product.id], delivery: this.props.data.delivery});
+        OrderActions.add({prod_id: [this.props.data.product.id],
+                        delivery: this.props.data.delivery,
+                        promo: {
+                            code: this.props.data.code,
+                            discount: this.props.data.discount
+                            }
+                        });
     }
 
     render() {
@@ -79,7 +92,11 @@ class Upsells extends React.Component {
                           <div className="row"><hr/></div>
                         {this.props.data.upsells.map((item, index) => {
 
-                            return <UpsellItem key={index} item={item} product={self.props.data.product} delivery={self.props.data.delivery} />
+                            return <UpsellItem key={index}
+                                               item={item}
+                                               product={self.props.data.product}
+                                               delivery={self.props.data.delivery}
+                                               promo={self.props.data.promo}/>
                         })}
                           <div className="btn" data-dismiss="modal" onClick={this.addOrder}>Нет, спасибо</div>
                       </div>

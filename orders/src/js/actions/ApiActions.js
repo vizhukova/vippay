@@ -28,7 +28,7 @@ class ApiActions{
                     auth: token,
                 },
                 error(response){
-                    var error = new Error(response.responseJSON.msg);
+                    var error = new Error(response.responseText);
                     reject(error);
                 }
             });

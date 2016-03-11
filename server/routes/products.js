@@ -19,8 +19,8 @@ router.post('/product', function(req, res, next){
     req.body.user_id = req.clientObj.id;
     req.body.isUpsell = !!req.body.upsell_id;
     var new_product = _.omit(req.body, ['upsell_id', 'upsells']);
-    new_product.delivery = JSON.stringify(new_product.delivery);
-    new_product.materials = JSON.stringify(new_product.materials);
+    new_product.delivery = new_product.delivery ? JSON.stringify(new_product.delivery) : null;
+    new_product.materials = new_product.materials ? JSON.stringify(new_product.materials) : null;
     var product;
 
     new Promise((resolve, reject) => {
@@ -89,8 +89,8 @@ router.get('/product/upsells/:id', function(req, res, next){
 
 router.put('/product/:id', function(req, res, next){
 
-    req.body.delivery = JSON.stringify(req.body.delivery);
-    req.body.materials = JSON.stringify(req.body.materials);
+    req.body.delivery = req.body.delivery ? JSON.stringify(req.body.delivery) : null;
+    req.body.materials = req.body.materials ? JSON.stringify(req.body.materials) : null;
 
     var product = _.omit(req.body, ['currency_name','upsell_id', 'upsells']);
 

@@ -5,11 +5,14 @@ import _ from 'lodash';
 class ModalActions {
 
     set(data) {
-        $('#myModal').modal('show');
+        var m = $('#myModal');
+        if (!m.is(':visible')) m.modal();
         this.dispatch(data);
     }
 
     hide() {
+        debugger;
+
         this.dispatch();
     }
 

@@ -14,6 +14,8 @@ class Item extends React.Component {
             until: 'Действителен до',
             during: 'Действителен (продолжительность)'
         }
+
+        this.delete = this.delete.bind(this);
     }
 
     declOfNum(number, titles) {
@@ -23,13 +25,15 @@ class Item extends React.Component {
             : cases[ (number % 10 < 5) ? number % 10 : 5] ];
     }
 
+    delete() {
+        PromoAction.delete({id: this.props.item.id});
+    }
+
 
     render() {
         var baseClassDel = "btn pull-right btn-xs glyphicon glyphicon-remove btn-warning btn-action btn-danger";
         var baseClassEdit = "btn pull-right btn-xs glyphicon glyphicon-pencil btn-warning btn-action btn-default";
         var date;
-
-        debugger
 
         if(this.props.item.type == 'until') {
             date = moment(this.props.item.date).diff(moment()) > 0
@@ -63,6 +67,14 @@ class Item extends React.Component {
                 <td>{this.props.item.discount}%</td>
                 <td>{date}</td>
                 <td>{this.type[this.props.item.type]}</td>
+                <td className="actions">
+                    <div className={`${baseClassDel}`} onClick={this.delete} ></div>
+
+                    <Link to={`/promo/${this.props.item.id}`} >
+                        <div  className={`${baseClassEdit }`}> </div>
+                    </Link>
+
+                </td>
             </tr>
     }
 }

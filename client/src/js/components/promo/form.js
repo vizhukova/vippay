@@ -57,24 +57,22 @@ class PromoForm extends React.Component {
 
     componentDidMount() {
         if(this.props.params.id) {
-            //this.get(this.props.params.id);
-        } else {
-
+            PromoAction.getById(this.props.params.id);
         }
+
         ProductsAction.get();
         PromoStore.listen(this.update);
 
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.params.id) {
-            this.get(nextProps.params.id);
-        } else {
-
+         if(this.props.params.id) {
+            PromoAction.getById(this.props.params.id);
         }
     }
 
     componentWillUnmount() {
+        PromoAction.clear();
         PromoStore.unlisten(this.update);
     }
 
@@ -102,14 +100,15 @@ class PromoForm extends React.Component {
 
     add() {
         var promo = this.beforeSend();
-        debugger
         if (promo) PromoAction.add(promo).then((res) => {
             history.back();
         })
     }
 
     edit() {
-
+        if (this.checkFields()) PromoAction.edit(this.state.promo).then((res) => {
+            history.back();
+        })
     }
 
     onChange(e) {
@@ -140,19 +139,23 @@ class PromoForm extends React.Component {
 
     checkFields() {
         var p = this.state.promo;
+        var timeDiff = true;
 
-        var now = moment();
-        var date = this.state.promo.type == 'during'
+        if(! this.props.params.id) {
+            var now = moment();
+            var date = this.state.promo.type == 'during'
 
-            ? moment().add(p.date.days || 0, 'day')
-                     .add(p.date.hours || 0, 'hour')
-                     .add(p.date.minutes || 0, 'minute')
-                     .add(p.date.seconds || 0, 'second')
+                ? moment().add(p.date.days || 0, 'day')
+                         .add(p.date.hours || 0, 'hour')
+                         .add(p.date.minutes || 0, 'minute')
+                         .add(p.date.seconds || 0, 'second')
 
-            : moment(`${p.date.year}-${p.date.month}-${p.date.day}`);
+                : moment(`${p.date.year}-${p.date.month}-${p.date.day}`);
 
 
-        var timeDiff = date.diff(now) > 0;
+            timeDiff = date.diff(now) > 0;
+        }
+
         return timeDiff && p.discount && p.code && p.products.length;
     }
 
@@ -174,8 +177,7 @@ class PromoForm extends React.Component {
 	}
 
     update(state){
-        _.assign(this.state, state);
-        this.setState({});
+        this.setState(state);
     }
 
     render(){
@@ -206,7 +208,7 @@ class PromoForm extends React.Component {
                     </div>
                 </fieldset>
 
-                <fieldset className="form-group">
+                <fieldset className={`form-group ${this.props.params.id ? 'hide' : ''}`} >
                     <div className="col-md-12">
                         <label>Тип <span className="text-danger">*</span></label>
 
@@ -231,15 +233,15 @@ class PromoForm extends React.Component {
                                         дней
                                     </label>
                                     <label className="col-md-3">
-                                        <NumberInput name="hours" onChange={this.onTimeChange}/>
+                                        <NumberInput name="hours" onChange={this.onTimeChange} />
                                         часов
                                     </label>
                                     <label className="col-md-3">
-                                        <NumberInput name="minutes" onChange={this.onTimeChange}/>
+                                        <NumberInput name="minutes" onChange={this.onTimeChange} />
                                         минут
                                     </label>
                                     <label className="col-md-3">
-                                        <NumberInput name="seconds" onChange={this.onTimeChange}/>
+                                        <NumberInput name="seconds" onChange={this.onTimeChange} />
                                         секунд
                                     </label>
                                 </fieldset>
@@ -251,7 +253,11 @@ class PromoForm extends React.Component {
                  <fieldset className="product-form">
                     <div className="col-md-4">
                         <label>Промо код <span className="text-danger">*</span></label>
-                        <input name="code" type="text" onChange={this.onChange}/>
+                        <div className="col-md-12">
+                            <input name="code" type="text"
+                                   value={this.state.promo.code}
+                                   onChange={this.onChange}/>
+                        </div>
                     </div>
                 </fieldset>
 

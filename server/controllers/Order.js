@@ -25,9 +25,24 @@ module.exports = {
     setComplete(data) {
         return new Promise(function (resolve, reject) {
 
+            var order;
             Order.setComplete(data)
-                .then(function (order) {
-                    return Order.get(order[0].client_id)
+                .then(function (o) {
+                    order = o[0];
+
+                    if(order.step == 'complete') {
+                        if(order.product.material){
+                            text = 'Спасибо за оплату заказа. Оплата прошла успешно';
+                        }else{
+                            text = `Спасибо за оплату заказа. Оплата прошла успешно. Ссылка на товар: `;
+                            order.product.map((product) => {
+                                text += `${product.link_download}  `;
+                            })
+                        }
+
+                        email.send(order.delivery.email, 'Успешная оплата заказа', text);
+                    }
+                    return Order.get(order.client_id)
                 }).then((orders) => {
                 resolve(orders);
             }).catch(function (err) {
