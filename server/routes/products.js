@@ -90,7 +90,7 @@ router.get('/product/upsells/:id', function(req, res, next){
 router.put('/product/:id', function(req, res, next){
 
     req.body.delivery = req.body.delivery ? JSON.stringify(req.body.delivery) : null;
-    req.body.materials = req.body.materials ? JSON.stringify(req.body.materials) : null;
+    req.body.materials = req.body.materials && req.body.materials.length ? JSON.stringify(req.body.materials) : null;
 
     var product = _.omit(req.body, ['currency_name','upsell_id', 'upsells']);
 

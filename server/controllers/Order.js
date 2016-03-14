@@ -22,6 +22,18 @@ module.exports = {
         })
     },
 
+    edit(data) {
+        return new Promise(function (resolve, reject) {
+
+            Order.edit(data)
+                .then(function (order) {
+                    resolve(order)
+                }).catch(function (err) {
+                reject(err);
+            });
+        })
+    },
+
     setComplete(data) {
         return new Promise(function (resolve, reject) {
 
@@ -135,19 +147,15 @@ module.exports = {
                     partner_id: partner_id
                 })
             }).then((fee) => {
-                    Statistic.add({
+                    return Statistic.add({
                         partner_id: order.partner_id,
                         product: JSON.stringify(order.product),
                         customer_id: order.customer_id,
                         client_id: order.client_id,
                         action: "pending_order"
-                    }).then(() => {
-
-                        resolve(order);
-
-                    }).catch(function (err) {
-                        reject(err)
                     })
+                }).then(() => {
+                    resolve(order);
                 })
                 .catch(function (err) {
                     reject(err);

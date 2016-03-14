@@ -9,14 +9,20 @@ class OrdersStore {
         this.order = {};
         this.delivery_id = 0;
         this.delivery = {};
-        this.method = {};
+        this.yandex = {};
+        this.interkassa = {};
         this.payed = false;
+        this.payments = [];
+
         this.bindListeners({
             onAdd: OrdersActions.ADD,
             onGet: OrdersActions.GET,
             onPay: OrdersActions.PAY,
             onGetProduct: OrdersActions.GET_PRODUCT,
-            onGetMethod: OrdersActions.GET_METHOD
+            onGetMethodYandex: OrdersActions.GET_METHOD_YANDEX,
+            onGetMethodInterkassa: OrdersActions.GET_METHOD_INTERKASSA,
+            onGetPayments: OrdersActions.GET_PAYMENTS,
+            onSetMethod: OrdersActions.SET_METHOD
         });
     }
 
@@ -25,6 +31,7 @@ class OrdersStore {
     }
 
     onGet(order){
+        debugger
         this.order = order;
     }
 
@@ -38,8 +45,20 @@ class OrdersStore {
         this.payed = true;
     }
 
-    onGetMethod(data) {
-        this.method = data;
+    onGetMethodYandex(data) {
+        this.yandex = data;
+    }
+
+    onGetMethodInterkassa(data) {
+        this.interkassa = data;
+    }
+
+    onGetPayments(data) {
+        this.payments = data;
+    }
+
+    onSetMethod(data) {
+        this.order = data;
     }
 
 }

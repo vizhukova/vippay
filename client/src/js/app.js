@@ -24,7 +24,7 @@ import Fee from './components/settings/Fee';
 import Profile from './components/settings/Profile';
 import Staff from './components/settings/staff/Staff';
 import formStaff from './components/settings/staff/form';
-import Payment from './components/settings/Payment';
+import Payment from './components/settings/Payments';
 import NewProductForm from './components/product/form';
 import PartnerLinks from './components/partner_links/Links';
 import NewPartnerLinkForm from './components/partner_links/form';

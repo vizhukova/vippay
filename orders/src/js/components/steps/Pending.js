@@ -1,6 +1,6 @@
 import React from 'react';
 import {RoutingContext, Link} from 'react-router';
-import Payment from './Payment';
+import Payment from './Payments';
 import OrderActions from'./../../actions/OrdersActions';
 import ApiActions from'./../../actions/ApiActions';
 import OrdersStore from'./../../stores/OrdersStore';
@@ -188,8 +188,11 @@ class Pending extends React.Component {
         var toSend = {delivery: delivery};
         var self = this;
 
+        debugger
         if(this.state.promo) {
             toSend.promo={code: this.state.promo, discount: data.discount};
+        } else {
+            toSend.promo = {};
         }
 
         if(this.state.product.isUpsell) {
@@ -198,11 +201,11 @@ class Pending extends React.Component {
                        u.currency_name = self.state.product.currency_name;
                     });
 
-                    _.assign(toSend, {upsells: upsells, product: this.state.product, promo: {}});
+                    _.assign(toSend, {upsells: upsells, product: this.state.product});
                     ModalActions.set({data: toSend, name: 'Upsells'});
                 });
             } else {
-                    _.assign(toSend, {prod_id: [this.state.prod_id], promo: {}});
+                    _.assign(toSend, {prod_id: [this.state.prod_id]});
                     OrderActions.add(toSend);
             }
     }

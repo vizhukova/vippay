@@ -59,17 +59,13 @@ class Upsells extends React.Component {
     }
 
     addApsell(e) {
-        debugger
     }
 
     addOrder(e) {
         ModalActions.hide();
         OrderActions.add({prod_id: [this.props.data.product.id],
                         delivery: this.props.data.delivery,
-                        promo: {
-                            code: this.props.data.code,
-                            discount: this.props.data.discount
-                            }
+                        promo: this.props.data.promo
                         });
     }
 

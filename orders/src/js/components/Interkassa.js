@@ -10,7 +10,7 @@ class Order extends React.Component {
 
 
     render() {
-        return <div className="panel panel-default col-md-10 col-md-offset-1 form-margin">
+        return <div className="panel-default col-md-10 col-md-offset-1 form-margin">
                  <form id="payment" name="payment" method="post" action="https://sci.interkassa.com/" enctype="utf-8">
                      <input  name="ik_co_id" type="hidden" value={this.props.method.ik_co_id} />
                      <input  name="ik_pm_no" type="hidden" value={this.props.method.ik_pm_no} />

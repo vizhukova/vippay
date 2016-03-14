@@ -120,8 +120,6 @@ var Product = bookshelf.Model.extend({
 
     editProduct(product){
         return new Promise((resolve, reject) => {
-            product.delivery = JSON.stringify(product.delivery);
-            product.materials = JSON.stringify(product.materials);
 
             if(product.name === '' || product.price === '' || product.product_link === '') reject(new Error());
             else knex('products')

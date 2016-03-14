@@ -11,6 +11,10 @@ function replacePrice(orders) {
     return orders;
 }
 
+function perCent(price, discount) {
+    return price  - (price * discount / 100);
+}
+
 var Order = bookshelf.Model.extend({
 
     tableName: 'orders',
@@ -65,7 +69,7 @@ var Order = bookshelf.Model.extend({
         data.delivery = data.delivery || {};
         var partnerId = data.customer.partner_product_id.partner_id;
         var lastPartnerId = partnerId ? partnerId[partnerId.length - 1] : null;
-        var delivery_price = data.delivery.price ? parseFloat(data.delivery.price, 8) : 0;
+        var delivery_price = data.delivery.price ? (data.isPromo ? ( perCent(data.delivery.price, data.discount) ) : parseFloat(data.delivery.price) ) : 0;
         var product  = data.product;
         var convert = parseFloat(data.convert);
         var product_price = 0;
@@ -73,7 +77,8 @@ var Order = bookshelf.Model.extend({
             product_price += parseFloat(prod.price);
         })
 
-        product_price += data.isPromo ? product.price - (product.price * data.discount / 100) : parseFloat(product.price);
+        product_price += data.isPromo ? perCent(product.price, data.discount) : parseFloat(product.price);
+
 
         var record = new this({customer_id: data.customer.id,
                                partner_id: lastPartnerId,
@@ -101,7 +106,14 @@ var Order = bookshelf.Model.extend({
             return knex('orders')
             .update({'step': 'complete'})
             .where('id', id)
-            .returning(['partner_id','customer_id', 'client_id', 'product_id', 'id', 'product', 'delivery']);
+            .returning('*');
+    },
+
+    edit(data) {
+        return knex('orders')
+            .update(data)
+            .where('id', '=', data.id)
+            .returning('*')
     }
 
 })

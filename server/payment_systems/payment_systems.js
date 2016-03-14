@@ -1,13 +1,13 @@
 module.exports = [{
     name: 'interkassa',
-    active: 'false',
+    active: false,
     fields: {
         'id_kassa': '',
         'id_confirm': ''
     }
 },{
     name: 'yandex',
-    active: 'true',
+    active: true,
     fields: {
         'receiver': ''
     }
