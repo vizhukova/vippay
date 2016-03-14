@@ -13,7 +13,7 @@ exports.seed = function(knex, Promise) {
 
   return Promise.join(
 
-       knex('users').select('*').then((users) => {
+       knex('users').select('*').where('type', '=', 'client').then((users) => {
 
         return Promise.map(users, (user) => {
 
