@@ -67,7 +67,13 @@ var Rate = bookshelf.Model.extend({
             .where('client_id', '=', data.client_id)
             .andWhere('from', '=', data.from)
             .andWhere('to', '=', data.to)
-    })
+    }),
+
+    getBank(data) {
+        return knex('bank_rate')
+            .select('*')
+            .where(data);
+    }
 });
 
 module.exports = Rate;

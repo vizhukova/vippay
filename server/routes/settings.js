@@ -55,6 +55,17 @@ router.get('/rate', function(req, res) {
 
 });
 
+router.get('/bank_rate', function(req, res) {
+
+    RateController.getBank(req.clientObj.id)
+            .then(function(rate){
+                res.send(rate);
+            }).catch(function(err) {
+                res.status(400).send(err.errors);
+            });
+
+});
+
 router.get('/fee', function(req, res) {
 
     FeeController.getFee(req.clientObj.id)

@@ -11,6 +11,7 @@ class SettingsStore {
         this.fee = '';
         this.isStaff = false;
         this.rate={};
+        this.bank_rate = [];
         this.payment = [];
         this.tariff = {};
         this.isActiveTariff = true;
@@ -21,6 +22,7 @@ class SettingsStore {
             onSetBasicCurrency: SettingsAction.SET_BASIC_CURRENCY,
             onGetBasicCurrency: SettingsAction.GET_BASIC_CURRENCY,
             onAddRate: SettingsAction.ADD_RATE,
+            onGetBankRate: SettingsAction.GET_BANK_RATE,
             onGetRate: SettingsAction.GET_RATE,
             onGetFee: SettingsAction.GET_FEE,
             onEditFee: SettingsAction.EDIT_FEE,
@@ -65,6 +67,10 @@ class SettingsStore {
         console.log('SettingsStore rate = ', rate);
     }
 
+    onGetBankRate(rate) {
+        this.bank_rate = {};
+    }
+
     onGetFee(obj) {
         this.fee = obj.fee;
         console.log('SettingsStore fee = ', obj.fee);
@@ -86,7 +92,6 @@ class SettingsStore {
     }
 
     onGetTariff(tariff) {
-        ;
         this.tariff = tariff;
         console.log('SettingStore tariff', tariff)
 

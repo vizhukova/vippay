@@ -11,8 +11,6 @@ class ModalActions {
     }
 
     hide() {
-        debugger;
-
         this.dispatch();
     }
 

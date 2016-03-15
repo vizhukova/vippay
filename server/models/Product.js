@@ -49,8 +49,6 @@ var Product = bookshelf.Model.extend({
 }, {
 
     newProduct: Promise.method(function (product) {
-        product.delivery = JSON.stringify(product.delivery);
-        product.materials = JSON.stringify(product.materials);
         var record = new this(product);
         return record.save();
     }),

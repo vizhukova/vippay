@@ -379,7 +379,6 @@ class ProductForm extends React.Component {
 
     checkFields() {
         var result;
-        debugger
         if (this.state.product.material) {
 
             this.state.product.link_download = '';

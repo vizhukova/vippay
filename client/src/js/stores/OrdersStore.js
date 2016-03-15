@@ -21,11 +21,10 @@ class OrdersStore {
         console.log('OrdersStore orders:', orders);
     }
 
-    setComplete(orders) {
-        this.orders = orders;
-         orders.map((order) => {
-            order.product = _.findWhere(order.product, {id: +order.product_id});
-        })
+    setComplete(order) {
+         var index = _.findIndex(this.orders, {id: order.id});
+        order.product = this.orders[index].product;
+        this.orders[index] = order;
     }
 
 }

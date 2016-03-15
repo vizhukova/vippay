@@ -76,6 +76,15 @@ class SettingsAction {
         })
     }
 
+    getBankRate() {
+        var self = this;
+            ApiActions.get(`bank_rate`).then(function(data){
+                self.dispatch(data);
+            }).catch(function(err){
+                //self.dispatch(err);
+        })
+    }
+
     getFee() {
         var self = this;
             ApiActions.get(`fee`).then(function(data){

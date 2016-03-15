@@ -56,6 +56,7 @@ class Rate extends React.Component {
     componentDidMount() {
         SettingsAction.get();
         SettingsAction.getRate();
+        SettingsAction.getBankRate();
         SettingsStore.listen(this.update)
     }
 
@@ -160,6 +161,10 @@ class Rate extends React.Component {
                                                 </div>
                                         })}
                                     </div>
+                                </div>
+                                <div className="col-md-6 boxed">
+                                    <h4>Банковский курс</h4>
+                                    {}
                                 </div>
                                </div>
                             })

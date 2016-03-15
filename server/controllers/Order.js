@@ -54,7 +54,8 @@ module.exports = {
 
                         email.send(order.delivery.email, 'Успешная оплата заказа', text);
                     }
-                    return Order.get(order.client_id)
+                    //return Order.get(order.client_id)
+                    resolve([order]);
                 }).then((orders) => {
                 resolve(orders);
             }).catch(function (err) {
