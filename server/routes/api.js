@@ -35,5 +35,6 @@ router.use(api_prefix, require('./statistics'));
 router.use(api_prefix, require('./orders'));
 router.use(api_prefix, require('./currencies'));
 router.use(api_prefix, require('./promo'));
+router.use(api_prefix, require('./basket'));
 
 module.exports = router;
