@@ -11,7 +11,7 @@ class SettingsStore {
         this.fee = '';
         this.isStaff = false;
         this.rate={};
-        this.bank_rate = [];
+        this.bankRate = [];
         this.payment = [];
         this.tariff = {};
         this.isActiveTariff = true;
@@ -68,7 +68,7 @@ class SettingsStore {
     }
 
     onGetBankRate(rate) {
-        this.bank_rate = {};
+        this.bankRate = rate;
     }
 
     onGetFee(obj) {

@@ -56,7 +56,7 @@ class Rate extends React.Component {
     componentDidMount() {
         SettingsAction.get();
         SettingsAction.getRate();
-        //SettingsAction.getBankRate();
+        SettingsAction.getBankRate();
         SettingsStore.listen(this.update)
     }
 
@@ -125,12 +125,13 @@ class Rate extends React.Component {
         var self = this;
         var res = [];
         var counter = 0;
-
+        var uniqueBankRate = _.unique(self.state.bankRate, 'from');
+        console.log('Currencies', this.state.currencies)
         return  <div>
 
                         <div className="boxed">
                              <div className="table-head">
-                                <span className="title"><b>Базовая валюта</b></span>
+                                <h4><b>Базовая валюта</b></h4>
                             </div>
                             {self.state.currencies.map((item, index)=> {
                                 return <div key={index} className="radio">
@@ -138,13 +139,13 @@ class Rate extends React.Component {
                                         </div>
                             })}
                         </div>
-                        <div>
+                        <div className="col-md-6">
                             {this.state.currencies.map((item, index) => {
 
                                 var array = _.filter(self.state.rate, (i) => i.from == item.id);
 
-                                return <div className="row">
-                                    <div className="col-md-6 boxed">
+                                return <div>
+                                    <div className="boxed row">
                                     <div className="col-md-4 text-right">
                                         <b className="input-label">{`1 ${item.name} = `}</b>
                                     </div>
@@ -162,15 +163,40 @@ class Rate extends React.Component {
                                         })}
                                     </div>
                                 </div>
-
                                </div>
                             })
                             }
                         </div>
+                         <div className="col-md-6 boxed">
+                             <h4 className="text-center"><b>Банковский курс</b></h4>
+                             {
+                                 uniqueBankRate.map((rate, index) => {
 
-                  <button className="btn btn-success pull-left" onClick={this.save} tabIndex={Math.pow(res.length, 2)}>Сохранить</button>
-                  <button className="btn btn-danger pull-right" onClick={this.cancel} tabIndex={Math.pow(res.length, 2) + 1}>Отменить</button>
+                                    var rates = _.filter(self.state.bankRate, (item) => item.from == rate.from);
+                                    var currencyFrom = _.findWhere(self.state.currencies, {id: rate.from}) || {};
 
+                                        return <div className="row form-group" key={index}>
+                                             <div className="col-md-6 text-right">
+                                                <b className="input-label">{`1 ${currencyFrom.name} = `}</b>
+                                            </div>
+                                            <div className="col-md-3">
+                                                {rates.map((r, j) => {
+                                                    var currency = _.findWhere(self.state.currencies, {id: r.to}) || {};
+                                                   return <div key={index*10 + j}>
+                                                               <div className="col-md-6">{r.result}</div>
+                                                               <div className="col-md-6 text-right">{currency.name}</div>
+                                                           </div>
+                                                })}
+                                            </div>
+                                        </div>
+                                })
+                             }
+                         </div>
+
+                    <div className="col-md-12">
+                        <button className="btn btn-success pull-left" onClick={this.save} tabIndex={Math.pow(res.length, 2)}>Сохранить</button>
+                        <button className="btn btn-danger pull-right" onClick={this.cancel} tabIndex={Math.pow(res.length, 2) + 1}>Отменить</button>
+                    </div>
             </div>
 
     }

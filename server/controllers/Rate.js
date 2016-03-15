@@ -40,10 +40,10 @@ module.exports = {
     })
     },
 
-    getBank(rate) {
+    getBank() {
         return new Promise(function (resolve, reject) {
 
-            Rate.getBank(rate).then(function(rate) {
+            Rate.getBank().then(function(rate) {
                resolve(rate);
             }).catch(function(err){
                reject(err);

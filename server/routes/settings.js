@@ -57,7 +57,7 @@ router.get('/rate', function(req, res) {
 
 router.get('/bank_rate', function(req, res) {
 
-    RateController.getBank(req.clientObj.id)
+    RateController.getBank()
             .then(function(rate){
                 res.send(rate);
             }).catch(function(err) {

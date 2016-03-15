@@ -69,10 +69,10 @@ var Rate = bookshelf.Model.extend({
             .andWhere('to', '=', data.to)
     }),
 
-    getBank(data) {
+    getBank() {
         return knex('bank_rate')
             .select('*')
-            .where(data);
+            .orderBy('from', 'asc');
     }
 });
 
