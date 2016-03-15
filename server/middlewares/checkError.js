@@ -53,6 +53,9 @@ module.exports = function(err, res){
         case 'no_promo_product':
             res.status(400).send('Такого промо кода не существует или он неприменим к выбранному продукту');
             break;
+        case 'upsell_product_product_id_foreign':
+            res.status(400).send('Нельзя удалить этот продукт, так как он участвует в акции 1+1');
+            break;
         default:
             if(err.errors) {
                 var keys = Object.keys(err.errors) || [];

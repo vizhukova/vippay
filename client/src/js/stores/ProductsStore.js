@@ -78,7 +78,6 @@ class ProductsStore {
     }
 
     onGetUpsellsProducts(upsells) {
-        debugger
         this.product.upsells = upsells;
         this.product.upsell_id = 1;
     }

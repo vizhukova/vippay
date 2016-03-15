@@ -54,7 +54,7 @@ class Statistics extends React.Component {
                                     <td>{this.state.statistic.sum_complete_order || 0}</td>
                                 </tr>
                                 <tr>
-                                    <td>Общая долг по партнерам:</td>
+                                    <td>Общий долг по партнерам:</td>
                                     <td>{this.state.statistic.sum_fee_added || 0}</td>
                                 </tr>
                                 <tr>

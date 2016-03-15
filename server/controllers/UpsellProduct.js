@@ -16,6 +16,18 @@ module.exports = {
         })
     },
 
+    remove(data){
+        return new Promise(function (resolve, reject) {
+
+            UpsellProduct.remove(data).then(function (result) {
+                resolve(result);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+        })
+    },
+
     getForUpsell(data){
         return new Promise(function (resolve, reject) {
 

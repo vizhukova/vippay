@@ -35,6 +35,13 @@ var Product = bookshelf.Model.extend({
         return record.save();
     }),
 
+    remove(data) {
+      return knex('upsell_product')
+        .del()
+        .where(data)
+        .returning('*');
+    },
+
     getForUpsell: Promise.method(function (data) {
         return knex
         .select(['products.*', 'upsell_product.price as upsell_price'])

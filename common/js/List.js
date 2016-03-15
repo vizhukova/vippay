@@ -121,7 +121,7 @@ class List extends React.Component {
                                   ${this.state.isActiveTariff ? '' : 'disabled'}`}>{this.props.add_link_name}</Link> : null }
                         </div>
 
-                        <table className="table table-hover">
+                        <table className="table table-hover list">
                             {this.props.thead ?
                                 <thead>
                                 <tr>
@@ -136,7 +136,7 @@ class List extends React.Component {
                                                    key={index}
                                                    data-name={item.key}
                                                    onClick={this.props.sort ? this.props.sort : this.sort}
-                                                    className={this.state.sort.name == item.key ? 'check' : ''}>
+                                                   className={this.state.sort.name == item.key ? 'check list-head' : 'list-head'}>
                                             <span className={classItem}  data-name={item.key}>
                                                 {item.name}
                                             </span>

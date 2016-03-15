@@ -69,7 +69,13 @@ class Rate extends React.Component {
 
     onChange(e) {
         if(e.target.name === "basicCurrency") {
-            SettingsAction.setBasicCurrency(e.target.dataset.currency);
+            SettingsAction.setBasicCurrency(e.target.dataset.currency).then(() => {
+                AlertActions.set({
+                    type: 'success',
+                    title: 'Успех',
+                    text: 'Базовый курс успешно сохранен'
+                }, true);
+            })
         }
         else if(e.target.name === "rate") {
             var index = _.findIndex(this.state.rate, {id: e.target.value.id});

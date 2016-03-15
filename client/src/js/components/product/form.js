@@ -72,7 +72,8 @@ class AddDeliveryFields extends React.Component {
                                value={this.state.price}
                                onChange={this.onChange}
                                onClick={this.props.onClick}
-                               onKeyDown={this.props.onKeyDown}/>
+                               onKeyDown={this.props.onKeyDown}
+                               toFixed={2}/>
                     </fieldset>
                 </div>
     }
@@ -206,7 +207,8 @@ class AddUpsellFields extends React.Component {
                            onChange={this.onChange}
                            onKeyDown={this.onKeyDown}
                            onClick = {this.onClick} placeholder="Цена"
-                           value={this.state.price}/>
+                           value={this.state.price}
+                           toFixed={2}/>
                     </div>
                     <div className="col-md-1">
                         <button type="submit" className={`btn btn-danger btn-action glyphicon glyphicon-minus pull-right
@@ -232,7 +234,7 @@ class AddItems extends React.Component {
     }
 
     componentDidMount(){
-        debugger
+        
         if(this.props.items) {
             _.assign(this.state, {items: this.props.items});
             this.setState({});
@@ -240,7 +242,6 @@ class AddItems extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        debugger
         if(nextProps.items) {
             _.assign(this.state, {items: nextProps.items});
             this.setState({});
@@ -352,6 +353,8 @@ class ProductForm extends React.Component {
             ProductsAction.getCurrentProduct(this.props.params.prod_id);
         }
 
+        ProductsAction.getProductsForUpsell();
+
         console.log('ProductForm - componentDidMount', this.state.product);
 
         CategoriesStore.listen(this.update);
@@ -376,7 +379,7 @@ class ProductForm extends React.Component {
 
     checkFields() {
         var result;
-
+        debugger
         if (this.state.product.material) {
 
             this.state.product.link_download = '';
@@ -384,9 +387,10 @@ class ProductForm extends React.Component {
             if (!this.state.product.delivery) return false;
 
             result = this.state.product.delivery.filter((item) => {
-                return _.trim(item.condition).length == 0 || _.trim(item.price).length == 0
+                return !_.trim(item.condition).length || !_.trim(item.price).length
             });
             result = result.length > 0;
+            if(result) return false;
         } else {
             this.state.product.delivery = [];
             result = !this.state.product.link_download || _.trim(this.state.product.link_download).length == 0

@@ -20,7 +20,7 @@ router.post('/product', function(req, res, next){
     req.body.isUpsell = !!req.body.upsell_id;
     var new_product = _.omit(req.body, ['upsell_id', 'upsells']);
     new_product.delivery = new_product.delivery ? JSON.stringify(new_product.delivery) : null;
-    new_product.materials = new_product.materials ? JSON.stringify(new_product.materials) : null;
+    new_product.materials = new_product.materials && new_product.materials.length ? JSON.stringify(new_product.materials) : null;
     var product;
 
     new Promise((resolve, reject) => {
@@ -104,7 +104,11 @@ router.put('/product/:id', function(req, res, next){
 
 router.delete('/product/:id', function(req, res, next){
 
-    ProductController.deleteProduct(req.params.id).then(function(id){
+    UpsellProductController.remove({upsell_id: req.params.id}).then((upsells) => {
+
+        return ProductController.deleteProduct(req.params.id);
+
+    }).then(function(id){
         res.send(id)
     }).catch(function(err){
         next(err);
