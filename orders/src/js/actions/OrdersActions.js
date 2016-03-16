@@ -31,6 +31,15 @@ class ProductsAction {
         })
     }
 
+    getBasket(id) {
+        var self = this;
+        ApiActions.get(`basket/product/${id}`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            self.dispatch(err);
+        })
+    }
+
     pay(id) {
         var self = this;
         ApiActions.put(`order`, {id: id}).then(function(data){

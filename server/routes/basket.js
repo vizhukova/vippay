@@ -5,6 +5,8 @@ var CustomerController = require('./../controllers/Customer');
 var BasketController = require('./../controllers/Basket');
 var BasketProductController = require('./../controllers/BasketProduct');
 var ProductController = require('./../controllers/Product');
+var _ = require('lodash');
+var Promise = require('bluebird');
 
 
 router.put('/basket/:product_id', function(req, res) {
@@ -69,13 +71,28 @@ router.put('/basket/:product_id', function(req, res) {
 
         product = p[0];
 
-        return BasketProductController.add({
+        return BasketProductController.get({basket_id: basket.id});
+
+
+    }).then((b_c) => {
+
+        var productFromBC = _.filter(b_c, (item) => item.product.id == product.id) [0];
+
+        if(productFromBC) {
+            return BasketProductController.edit({
+                                     id: productFromBC.id,
+                                     quantity: ++productFromBC.quantity,
+                                     total_price: productFromBC.price_per_unit * productFromBC.quantity
+                                    })
+        } else {
+            return BasketProductController.add({
                                      basket_id: basket.id,
                                      product: JSON.stringify(product),
                                      quantity: 1,
                                      price_per_unit: product.price,
                                      total_price: product.price
                                     })
+        }
 
     }).then((b_c) => {
 
@@ -87,6 +104,20 @@ router.put('/basket/:product_id', function(req, res) {
 
     });
 
+});
+
+
+router.get('/basket/product/:basket_id', function(req, res) {
+
+    BasketProductController.getWithConvertToBaseCurr(+req.params.basket_id).then((b_p) => {
+
+        res.send(b_p);
+
+    }).catch((err) => {
+
+        res.status(400).send(err);
+
+    })
 });
 
 module.exports = router;

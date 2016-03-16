@@ -30,6 +30,7 @@ class ProductItem extends React.Component {
         this.setActive = this.setActive.bind(this);
         this.update = this.update.bind(this);
         this.setModelData = this.setModelData.bind(this);
+        this.showCode = this.showCode.bind(this);
     }
 
     componentDidMount() {
@@ -66,13 +67,31 @@ class ProductItem extends React.Component {
         ModalActions.set({data: this.props.item.materials || [], name: 'Materials'});
     }
 
+    showCode(e) {
+
+          var src = `http://${document.location.hostname}/api/basket/${this.props.item.id}?_method=PUT`;
+
+        ModalActions.set({
+            data: {
+                title: 'Установите код кнопки "Заказать" на страницу своего сайта',
+                messages: [
+                    `<form method="POST" action=${src} enctype="application/x-www-form-urlencoded">
+                            <input type="hidden" name="_method" value="PUT" />
+                            <input type="hidden" name="redirect_link" value=document.location.href />
+                            <input type="submit" value="Добавить в корзину"/>
+                         </form>`
+                ]
+            },
+            name: 'Message'
+        })
+    }
+
     render(){
         var available = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
         var notAvailable = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
         var currency = _.findWhere(this.state.currencies, {id: +this.props.item.currency_id});
         var materials = this.props.item.materials || [];
         currency = currency ? currency.name : currency;
-        var src = `http://${document.location.hostname}/api/basket/${this.props.item.id}?_method=PUT`;
 
         return <tr>
                      <td>{this.props.item.name}</td>
@@ -86,12 +105,7 @@ class ProductItem extends React.Component {
                      <td className="action"><button type="button" className={this.props.item.available ? available : notAvailable} onClick={this.setAvailable} /></td>
                      <td className="action"><button type="button" className={this.props.item.active ? available : notAvailable} onClick={this.setActive} /></td>
                      <td>
-                         <form method="POST" action={src} enctype="application/x-www-form-urlencoded">
-                            <input type="hidden" name="_method" value="PUT" />
-                            <input type="hidden" name="redirect_link" value={document.location.href} />
-                            <input type="submit" value="Добавить в корзину"/>
-                         </form>
-
+                         <button type="button" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.showCode} />
                      </td>
                      <td className="action">
                         <Link to={`/category/${this.props.item.category_id}/products/${this.props.item.id}`}

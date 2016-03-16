@@ -36,6 +36,14 @@ var BasketProduct = bookshelf.Model.extend({
             .update(data)
             .where({id: data.id})
             .returning('*')
+    },
+
+    getWithConvertToBaseCurr(basket_id) {
+        return knex.raw(`SELECT  baskets_products.*, converttobasecurrency(cast(baskets_products.product->>'price' as decimal),
+                              int4(baskets_products.product->>'user_id'),
+                              int4(baskets_products.product->>'currency_id')) as price_per_unit
+                  FROM  baskets_products
+                  WHERE basket_id = ${basket_id}`);
     }
 });
 

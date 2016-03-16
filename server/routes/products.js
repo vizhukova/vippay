@@ -37,14 +37,14 @@ router.post('/product', function(req, res, next){
     })
 });
 
-router.get('/product/upsell', function(req, res, next){
+/*router.get('/product/upsell', function(req, res, next){
 
     ProductController.get({user_id: req.clientObj.id, isUpsell: false}).then(function(products){
         res.send(products)
     }).catch(function(err){
         next(err);
     })
-});
+});*/
 
 
 router.get('/product/:id', function(req, res){

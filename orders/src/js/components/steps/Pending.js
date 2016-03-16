@@ -7,6 +7,8 @@ import OrdersStore from'./../../stores/OrdersStore';
 import Alert from'./../../../../../common/js/Alert/Alert';
 import AlertActions from'./../../../../../common/js/Alert/AlertActions';
 import ModalActions from'./../../../../../common/js/ModalWindow/ModalActions';
+import NumberInput from'./../../../../../common/js/NumberInput';
+import List from'./../../../../../common/js/List';
 import _  from 'lodash';
 import $  from 'jquery';
 
@@ -59,6 +61,46 @@ class DeliverySelect extends React.Component {
 
 }
 
+class PendingItem extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {};
+    }
+
+    render() {
+        return <div>
+                    <div className="col-md-6">
+                        <img className="img-responsive img-thumbnail image" src={this.props.product.image} />
+                        <div className="field"><b>Название: </b> {this.props.product.name}</div>
+                        <div className="field"><b>Цена: </b> {this.props.product.price + ' ' + this.props.product.currency_name}</div>
+                        <div className="description image"><b>Описание: </b> <pre>{this.props.product.description}</pre></div>
+                    </div>    
+                        <div className="col-md-6">
+                            {this.props.product.material ? <DeliverySelect delivery={this.props.product.delivery} onChange={this.props.onChange}/> : ""}
+                        </div>
+                    </div>
+    }
+}
+
+class BasketItem extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {};
+    }
+
+    render() {
+        return <tr>
+            <td><img src={this.props.item.product.image} width="100px" height="auto"/></td>
+            <td>{this.props.item.product.name}</td>
+            <td>{this.props.item.product.description}</td>
+            <td>{this.props.item.product.price}</td>
+            <td>{this.props.item.quantity}</td>
+        </tr>
+    }
+}
+
 class Pending extends React.Component {
 
     constructor() {
@@ -75,10 +117,13 @@ class Pending extends React.Component {
 
     componentDidMount() {
         var id = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1);
+        var isBasket = window.location.pathname.indexOf('basket') != -1;
 
-        this.setState({prod_id: id});
+        this.setState({prod_id: id, isBasket: isBasket});
         OrdersStore.listen(this.update);
-        OrderActions.getProduct(id);
+
+        if(isBasket)  OrderActions.getBasket(id);
+        else OrderActions.getProduct(id);
     }
 
     componentWillUnmount() {
@@ -211,22 +256,40 @@ class Pending extends React.Component {
     }
 
     render() {
-        var total = this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
+        var total;
+        if(this.state.isBasket) {
+            total = this.state.products.reduce((prev, curr) => prev.product.price + curr.product.price);
+        } else {
+            total = this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
+        }
+        console.log('PENDING', this.state)
         return <div>
             <div>
                 <div className="content-step row">
                      <Alert />
-                    <div className="col-md-6">
-                        <img className="img-responsive img-thumbnail image" src={this.state.product.image} />
-                        <div className="field"><b>Название: </b> {this.state.product.name}</div>
-                        <div className="field"><b>Цена: </b> {this.state.product.price + ' ' + this.state.product.currency_name}</div>
-                        <div className="description image"><b>Описание: </b> <pre>{this.state.product.description}</pre></div>
-                    </div>
+                    {
+                     this.state.isBasket ?
+                     <div className="col-md-6">
+                         <List
+                            title="Заказ"
+                            items={this.state.products}
+                            itemComponent={BasketItem}
+                            isPaginate={true}
+                            thead={[
+                                {name: 'Изображение', key: ''},
+                                {name: 'Название', key: ''},
+                                {name: 'Описание', key: ''},
+                                {name: 'Цена', key: ''},
+                                {name: 'Количество', key: ''}
+                            ]}
+                        />
+                     </div>
+                    :<PendingItem product={this.state.product} onChange={this.onChange} />
+                    }
                   
                     <div className="col-md-6">
                         <form className="">
-                        {this.state.product.material ? <DeliverySelect delivery={this.state.product.delivery} onChange={this.onChange}/> : ""}
-
+            
                             <div className="form-group">
                             <label>Электронная почта:<span className="text-danger"> * </span> </label>
                             <input type="email" name="email" className="form-control"

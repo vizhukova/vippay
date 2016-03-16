@@ -164,6 +164,6 @@ var Product = bookshelf.Model.extend({
                 })
     }
 
-})
+});
 
 module.exports = Product;

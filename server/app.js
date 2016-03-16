@@ -4,10 +4,12 @@ var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var methodOverride = require('method-override');
-var morgan = require('morgan')
+var morgan = require('morgan');
 var config = require('./config');
 var _ = require('lodash');
 var Product = require('./models/Product');
+var Basket = require('./models/Basket');
+var BasketProduct = require('./models/BasketProduct');
 
 var app = express();
 var http = require('http').Server(app);
@@ -21,6 +23,7 @@ var getInterkassaId = require('./middlewares/getInterkassaId');
 var checkError = require('./middlewares/checkError');
 var checkStaffAccess = require('./middlewares/checkStaffAccess');
 var redirect = require('./middlewares/redirect');
+var checkIsUserLogIn = require('./middlewares/checkIsUserLogIn');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
@@ -36,6 +39,7 @@ app.use(getSubdomain);
 app.use(getUserId);
 app.use(getClientObj);
 app.use(getPartnerObj);
+app.use(checkIsUserLogIn);
 app.use(getStaffObj);
 app.use(getInterkassaId);
 app.use(checkStaffAccess);
@@ -64,16 +68,58 @@ app.use(require('./routes/redirect'));
 
 app.get('/order/:id*', function(req, res){
 
-    Product.getCurrentProduct(req.params.id).then((product) => {
+    if(req.params.id == 'basket') {
+
+        var arrUrl = req.url.split('/');
+        var basket_id = arrUrl[arrUrl.length - 1];
+        var basket;
+
+        Basket.get({id: basket_id}).then((b) => {
+
+            basket = b[0];
+
+            if(! basket) {
+
+                throw new Error();
+
+            } else {
+
+                return BasketProduct.get({basket_id: basket.id});
+
+            }
+
+        }).then((b_p) => {
+
+            if (!b_p.length) {
+
+                throw new Error();
+
+            } else {
+
+                res.render('order', {timestamp: timestamp});
+
+            }
+
+        }).catch((err) => {
+
+            res.render('error', {timestamp: timestamp});
+
+        })
+
+    } else {
+
+        Product.getCurrentProduct(req.params.id).then((product) => {
 
         if(req.tariff.active && product.active) res.render('order', {timestamp: timestamp})
         else res.render('error', {timestamp: timestamp})
 
-    }).catch((err) => {
+        }).catch((err) => {
 
-        res.render('error', {timestamp: timestamp})
+            res.render('error', {timestamp: timestamp})
 
-    })
+        })
+
+    }
 
 });
 app.get('/:partner', function(req, res){
