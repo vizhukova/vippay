@@ -88,8 +88,9 @@ class ProductItem extends React.Component {
                      <td>
                          <form method="POST" action={src} enctype="application/x-www-form-urlencoded">
                             <input type="hidden" name="_method" value="PUT" />
+                            <input type="hidden" name="redirect_link" value={document.location.href} />
                             <input type="submit" value="Добавить в корзину"/>
-                        </form>
+                         </form>
 
                      </td>
                      <td className="action">
