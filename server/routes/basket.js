@@ -79,7 +79,6 @@ router.put('/basket/:product_id', function(req, res) {
 
     }).then((b_c) => {
 
-        //res.send();
         res.redirect(req.body.redirect_link);
 
     }).catch((err) => {
