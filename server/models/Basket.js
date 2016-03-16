@@ -8,8 +8,6 @@ var Basket = bookshelf.Model.extend({
 
     tableName: 'baskets',
 
-    hasTimestamps: true,
-
     initialize: function () {
         this.on('saving', this.validateSave);
         this.on('updating', this.validateSave);

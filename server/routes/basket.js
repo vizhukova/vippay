@@ -4,12 +4,14 @@ var config = require('../config');
 var CustomerController = require('./../controllers/Customer');
 var BasketController = require('./../controllers/Basket');
 var BasketProductController = require('./../controllers/BasketProduct');
+var ProductController = require('./../controllers/Product');
 
 
 router.put('/basket/:product_id', function(req, res) {
 
     var customer;
     var basket;
+    var product;
 
     CustomerController.get(req.cookies.id).then((c) => {
 
@@ -18,14 +20,22 @@ router.put('/basket/:product_id', function(req, res) {
         return new Promise((resolve, reject) => {
 
              if(! customer) {
-                 CustomerController.add({product_id: req.body.params.id}).then((new_customer) => resolve(new_customer));
+
+                 CustomerController.add({product_id: req.params.product_id}).then((new_customer) => {
+                     resolve(new_customer)
+                 }).catch((err) => {
+                    reject(err);
+                 })
+
              } else {
                  resolve(customer);
              }
 
          })
 
-    }).then((customer) => {
+    }).then((c) => {
+
+        customer = c;
 
         return BasketController.get({customer_id: customer.id});
 
@@ -36,18 +46,44 @@ router.put('/basket/:product_id', function(req, res) {
         return new Promise((resolve, reject) => {
 
              if(! basket) {
-                 BasketController.add({customer_id: customer.id}).then((new_basket) => resolve(new_basket.attributes));
+
+                 BasketController.add({customer_id: customer.id, step: 'pending'}).then((new_basket) => {
+                     resolve(new_basket.attributes)
+                 }).catch((err) => {
+                     reject(err);
+                 })
+
              } else {
                  resolve(basket);
              }
 
          })
 
-    }).then((basket) => {
+    }).then((b) => {
 
+        basket = b;
 
+        return ProductController.get({id: req.params.product_id});
+
+    }).then((p) => {
+
+        product = p[0];
+
+        return BasketProductController.add({
+                                     basket_id: basket.id,
+                                     product: JSON.stringify(product),
+                                     quantity: 1,
+                                     price_per_unit: product.price,
+                                     total_price: product.price
+                                    })
+
+    }).then((b_c) => {
+
+        res.send();
 
     }).catch((err) => {
+
+        res.status(400).send(err);
 
     });
 

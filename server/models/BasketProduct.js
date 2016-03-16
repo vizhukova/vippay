@@ -4,11 +4,9 @@ var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
 
-var Basket = bookshelf.Model.extend({
+var BasketProduct = bookshelf.Model.extend({
 
     tableName: 'baskets_products',
-
-    hasTimestamps: true,
 
     initialize: function () {
         this.on('saving', this.validateSave);
@@ -23,7 +21,7 @@ var Basket = bookshelf.Model.extend({
 
 }, {
     get(data) {
-        return knex('baskets')
+        return knex('baskets_products')
             .select('*')
             .where(data)
     },
@@ -34,11 +32,11 @@ var Basket = bookshelf.Model.extend({
     }),
 
     edit(data) {
-        return knex('baskets')
+        return knex('baskets_products')
             .update(data)
             .where({id: data.id})
             .returning('*')
     }
 });
 
-module.exports = Basket;
+module.exports = BasketProduct;

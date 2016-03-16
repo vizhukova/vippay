@@ -1,12 +1,12 @@
-var Basket = require('../models/Basket');
+var BasketProduct = require('../models/BasketProduct');
 var Promise = require('bluebird');
 
 module.exports = {
 
-    get(){
+    get(data){
         return new Promise(function (resolve, reject) {
 
-            Basket.get().then(function (model) {
+            BasketProduct.get(data).then(function (model) {
                 resolve(model);
 
             }).catch(function (err) {
@@ -17,10 +17,10 @@ module.exports = {
 
     },
     
-    add(){
+    add(data){
         return new Promise(function (resolve, reject) {
 
-            Basket.add().then(function (model) {
+            BasketProduct.add(data).then(function (model) {
                 resolve(model);
 
             }).catch(function (err) {
@@ -31,10 +31,10 @@ module.exports = {
 
     },
     
-    edit(){
+    edit(data){
         return new Promise(function (resolve, reject) {
 
-            Basket.edit().then(function (model) {
+            BasketProduct.edit(data).then(function (model) {
                 resolve(model);
 
             }).catch(function (err) {
