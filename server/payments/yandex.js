@@ -24,11 +24,12 @@ class YandexMoney {
             OrderController.getById(order_id).then(function (o) {
 
                 order = o;
+                var products_name = order.product.reduce((prev, curr) => `${prev.name}+${curr.name}`)
 
-                payment_data.formcomment = order.product[order.product.length - 1].name;
+                payment_data.formcomment = products_name;
                 payment_data.label = order_id;
                 payment_data.targets = `Заказ № ${order_id}`;
-                payment_data['short-dest'] = order.product[order.product.length - 1].name;
+                payment_data['short-dest'] = products_name;
                 payment_data['need-fio'] = true;
                 payment_data['need-email'] = true;
                 payment_data.action = 'https://money.yandex.ru/quickpay/confirm.xml';

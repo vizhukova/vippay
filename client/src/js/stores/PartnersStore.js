@@ -1,17 +1,20 @@
 import alt from '../alt';
-import ProductsAction from './../actions/PartnersAction';
+import PartnersAction from './../actions/PartnersAction';
 var _ = require('lodash');
 
 class PartnersStore {
 
     constructor() {
         this.partners = [];
+        this.partner_query = '';
        // this.fee = [];
         this.bindListeners({
-            onGetAll: ProductsAction.GET_ALL,
-            onEdit: ProductsAction.EDIT,
-            onGetFee: ProductsAction.GET_FEE,
-            onSetFee: ProductsAction.SET_FEE
+            onGetAll: PartnersAction.GET_ALL,
+            onEdit: PartnersAction.EDIT,
+            onGetFee: PartnersAction.GET_FEE,
+            onSetFee: PartnersAction.SET_FEE,
+            onGetPartnerQuery: PartnersAction.GET_PARTNER_QUERY,
+            onEditFeeQuery: PartnersAction.EDIT_FEE_QUERY
         });
     }
 
@@ -36,6 +39,17 @@ class PartnersStore {
         console.log('SetFee', fee);
         var index = _.findIndex(this.partners, {id: fee.partner_id});
         if(index >= 0)this.partners[index].fee = fee;
+
+    }
+
+    onGetPartnerQuery(data) {
+        this.partner_query = data.partner_query;
+        console.log('PartnersStore onGetPartnerQuery', data)
+    }
+
+    onEditFeeQuery(data) {
+        this.partner_query = data.partner_query;
+        this.partner_query = data.partner_query;console.log('PartnersStore onEditFeeQuery', data)
 
     }
 

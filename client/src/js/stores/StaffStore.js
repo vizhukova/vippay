@@ -29,7 +29,10 @@ class StaffStore {
              route: 'fee'},
 
             {name: 'Платежи',
-             route: 'payments'}
+             route: 'payments'},
+
+            {name: 'Промо акции',
+             route: 'promo'}
         ];
         this.routes = [];
 

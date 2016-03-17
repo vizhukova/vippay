@@ -59,6 +59,17 @@ class PartnersAction {
         })
     }
 
+    getPartnerQuery() {
+        var self = this;
+
+        ApiActions.get(`client/partner_query`).then(function(data){
+            self.dispatch(data);
+            resolve(data);
+        }).catch(function(err){
+            //self.dispatch(err);
+        })
+    }
+
 }
 
 export default alt.createActions(PartnersAction);

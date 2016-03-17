@@ -55,16 +55,25 @@ class PartnerItem extends React.Component {
 
     onClick() {
         debugger
-        PartnersAction.setFee(this.state.partner).then((result) => {
+        if(!this.state.partner.fee.fee_pay) {
             AlertActions.set({
-                type: 'success',
-                title: 'Успех',
-                text: 'Выплата прошла успешно'
+                title: "Ошибка",
+                text: "Введите правильное значение для перевода",
+                type: 'error'
             }, true);
+        } else {
+            PartnersAction.setFee(this.state.partner).then((result) => {
+                AlertActions.set({
+                    type: 'success',
+                    title: 'Успех',
+                    text: 'Выплата прошла успешно'
+                }, true);
 
-            this.state.partner.fee.fee_pay = null;
-            this.setState({});
-        })
+                this.state.partner.fee.fee_pay = null;
+                this.setState({});
+            })
+        }
+
     }
 
     render(){
@@ -117,6 +126,7 @@ class Partners extends React.Component {
         this.setState({sort: ''});
         PartnersAction.getAll();
         PartnersAction.getFee();
+        PartnersAction.getPartnerQuery();
         PartnersStore.listen(this.update);
         AuthStore.listen(this.update);
     }
@@ -143,14 +153,14 @@ class Partners extends React.Component {
 
     render(){
         var self = this;
-        console.log('USERRRt',this.state.user.partner_fee)
+        console.log('USERRRt',this.state.partner_query)
         return  <div>
                 <div className="boxed">
                     <h4>Партнер, которому будут перчисляться бонусы</h4>
                     <div>
                      <label>
                         <input type="radio" value="first"
-                               checked={this.state.user.partner_fee == 'first'}
+                               checked={this.state.partner_query == 'first'}
                                onChange={this.onChange}/>
                         Первый
                       </label>
@@ -158,7 +168,7 @@ class Partners extends React.Component {
                     <div>
                       <label>
                         <input type="radio" value="last"
-                               checked={this.state.user.partner_fee == 'last'}
+                               checked={this.state.partner_query == 'last'}
                                onChange={this.onChange}/>
                         Последний
                       </label>

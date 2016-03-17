@@ -11,7 +11,8 @@ class PromoStore {
         this.promos = [];
         this.promo = {
             products: [],
-            type : 'until' //until during - enum
+            type : 'until', //until during - enum
+            discount: 0
         };
         this.products = [];
 

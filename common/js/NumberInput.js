@@ -8,7 +8,8 @@ class NumberInput extends React.Component {
         super();
         this.state = {
             value: null,
-            timeoutId: null
+            timeoutId: null,
+            max: 10000000000
         };
 
         this.onChange = this.onChange.bind(this);
@@ -17,15 +18,17 @@ class NumberInput extends React.Component {
 
     componentDidMount() {
         this.setState({
-            value: this.props.value || this.state.value,
-            toFixed: this.props.toFixed || 0
+            value: ! isNaN(parseFloat(this.props.value)) ?  this.props.value : this.state.value,
+            toFixed: this.props.toFixed || 0,
+            max: this.props.max || this.state.max
         })
     }
 
     componentWillReceiveProps(props) {
         this.setState({
-            value: props.value || this.state.value,
-            toFixed: this.props.toFixed || 0
+            value: ! isNaN(parseFloat(props.value)) ? props.value : this.state.value,
+            toFixed: this.props.toFixed || 0,
+            max: this.props.max || this.state.max
         })
     }
 
@@ -35,9 +38,10 @@ class NumberInput extends React.Component {
                 .replace(',', '.')
                 .split('.')
                 .filter((item) => item.length);
-        debugger
+
         if(val.length) {
             val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
+            if(parseFloat(val) > this.state.max) val = this.state.max;
         } else {
             val = 0;
         }

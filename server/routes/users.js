@@ -126,7 +126,7 @@ router.put('/partner/partner_fee', function (req, res) {
 
     UserController.set(req.body)
         .then(function (user) {
-            res.send(user[0])
+            res.send({partner_query: user[0].partner_fee});
         }).catch(function (err) {
         res.status(400).send(err.errors)
     });
@@ -184,6 +184,18 @@ router.delete('/partnerlinks/:id', function (req, res, next) {
             next(err);
         });
 });
+
+router.get('/client/partner_query', function (req, res, next) {
+
+    UserController.getById(req.clientObj.id)
+        .then(function (client) {
+            res.send({partner_query: client.partner_fee})
+        }).catch(function (err) {
+            next(err);
+        });
+});
+
+
 
 
 module.exports = router;
