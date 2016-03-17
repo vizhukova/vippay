@@ -32,7 +32,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
 
             UpsellProduct.getForUpsell(data).then(function (result) {
-                resolve(result);
+                resolve(result.rows);
 
             }).catch(function (err) {
                 reject(err);
@@ -62,20 +62,7 @@ module.exports = {
                 reject(err);
             })
         })
-    },
-
-    getForUpsell(data){
-        return new Promise(function (resolve, reject) {
-
-            UpsellProduct.getForUpsell(data).then(function (result) {
-                resolve(result);
-
-            }).catch(function (err) {
-                reject(err);
-            })
-        })
     }
-
 
 
 };

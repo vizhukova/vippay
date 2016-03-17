@@ -206,7 +206,7 @@ class AddUpsellFields extends React.Component {
                            className="form-control" id="price"
                            onChange={this.onChange}
                            onKeyDown={this.onKeyDown}
-                           onClick = {this.onClick} placeholder="Цена"
+                           onClick = {this.onClick} placeholder="Цена набора"
                            value={this.state.price}
                            toFixed={2}/>
                     </div>

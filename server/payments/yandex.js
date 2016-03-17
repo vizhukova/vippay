@@ -25,10 +25,10 @@ class YandexMoney {
 
                 order = o;
 
-                payment_data.formcomment = order.product.name;
+                payment_data.formcomment = order.product[order.product.length - 1].name;
                 payment_data.label = order_id;
                 payment_data.targets = `Заказ № ${order_id}`;
-                payment_data['short-dest'] = order.product.name;
+                payment_data['short-dest'] = order.product[order.product.length - 1].name;
                 payment_data['need-fio'] = true;
                 payment_data['need-email'] = true;
                 payment_data.action = 'https://money.yandex.ru/quickpay/confirm.xml';
@@ -38,11 +38,11 @@ class YandexMoney {
             }).then((user) => {
 
                 payment_data.receiver = _.findWhere(user.payment, {name: 'yandex'}).fields.receiver;
-                var product = order.product[0];
-                if(order.product.currency_id !== 4){
+
+                if(order.basic_currency_id !== 4){
                     return Rate.getResult({
                         client_id: order.client_id,
-                        from: product.currency_id,
+                        from: order.basic_currency_id,
                         to: 4
                     })
                 }else{
@@ -51,9 +51,9 @@ class YandexMoney {
 
             }).then((data) => {
 
-                payment_data.sum = 0;
-                order.product.map((p) => payment_data.sum += +p.price);
-                payment_data.sum *= data.result;
+                payment_data.sum = order.total_price_base_rate * data.result;
+                /*order.product.map((p) => payment_data.sum += +p.price);
+                payment_data.sum *= data.result;*/
 
                 resolve(payment_data);
             }).catch((err) => {

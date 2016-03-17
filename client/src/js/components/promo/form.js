@@ -93,7 +93,7 @@ class PromoForm extends React.Component {
                      .add(promo.date.hours || 0, 'hour')
                      .add(promo.date.minutes || 0, 'minute')
                      .add(promo.date.seconds || 0, 'second')
-            : moment(promo.date);
+            : moment(`${promo.date.year}-${promo.date.month}-${promo.date.day}`);
 
         return promo;
     }
@@ -140,7 +140,7 @@ class PromoForm extends React.Component {
     checkFields() {
         var p = this.state.promo;
         var timeDiff = true;
-
+        debugger
         if(! this.props.params.id) {
             var now = moment();
             var date = this.state.promo.type == 'during'

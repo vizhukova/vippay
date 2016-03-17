@@ -39,7 +39,7 @@ router.post('/product', function(req, res, next){
 
 router.get('/product/upsell', function(req, res, next){
 
-    ProductController.get({user_id: req.clientObj.id, isUpsell: false}).then(function(products){
+    ProductController.get({user_id: req.clientObj.id}).then(function(products){
         res.send(products)
     }).catch(function(err){
         next(err);
@@ -72,10 +72,16 @@ router.get('/product/upsell/:id', function(req, res){
 });
 
 router.get('/product/upsell_products/:id', function(req, res){
-    UpsellProductController.getForUpsell({upsell_id: req.params.id}).then(function(upsells){
-        res.send(upsells)
-    }).catch(function(err){
-        next(err);
+    ProductController.get({id: req.params.id}).then((products) => {
+
+        return UpsellProductController.getForUpsell({upsell_id: req.params.id, currency_id: products[0].currency_id}).then(function(upsells){
+                res.send(upsells)
+            }).catch(function(err){
+                next(err);
+            })
+
+    }).catch((err) => {
+        res.status(400).send(err);
     })
 });
 

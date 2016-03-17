@@ -188,7 +188,6 @@ class Pending extends React.Component {
         var toSend = {delivery: delivery};
         var self = this;
 
-        debugger
         if(this.state.promo) {
             toSend.promo={code: this.state.promo, discount: data.discount};
         } else {

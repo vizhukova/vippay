@@ -70,7 +70,7 @@ class Payments extends React.Component {
     }
 
     render() {
-
+        console.log('PAYMENTTTTTTT', this.state)
         return <div>
                  <div className="content-step row">
                     <div className="order-num title"><b>ID заказа: </b> {this.state.order.id}</div>

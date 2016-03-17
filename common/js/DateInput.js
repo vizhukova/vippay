@@ -6,7 +6,7 @@ var DateInput = React.createClass({
 
     getDefaultProps(){
         return {
-            birthday: ''
+            date: ''
         }
     },
 

@@ -67,6 +67,8 @@ class OrderItem extends React.Component {
         var notComplete = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
         var delivery = this.props.item.delivery;
         var comment = delivery.comment || '';
+        var products_name = this.props.item.product.reduce((prev, curr) => `${prev.name} + ${curr.name}`);
+        var currency = _.findWhere(this.props.item.product, {id: this.props.item.product_id}).currency_name;
 
         if(comment.length > this.state.commentLength) {
             comment = comment.slice(0, this.state.commentLength);
@@ -76,7 +78,11 @@ class OrderItem extends React.Component {
             <td>{this.props.item.login ? this.props.item.login : "-"}</td>
             <td>{moment(this.props.item.created_at).format("MM.DD.YY HH:mm")}</td>
             <td>
-                <a href={this.props.item.product.product_link} target="_blank">{this.props.item.product.name}</a>
+                {
+                    this.props.item.product.map((item, index) => {
+                        return <span>{index > 0 ? '+' : ''}<a href='#' target="_blank">{item.name}</a></span>
+                    })
+                }
                 <div>
                     <span><b>ФИО:</b> {delivery.name}</span><br/>
                     <span><b>Эл. почта:</b> {delivery.email}</span><br/>
@@ -88,7 +94,7 @@ class OrderItem extends React.Component {
             </td>
             <td>{this.props.item.delivery_price}</td>
             <td><button type="button" className={` ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
-            <td>{`${this.props.item.product_price} ${this.props.item.currency}`}</td>
+            <td>{`${this.props.item.product_price} ${currency}`}</td>
         </tr>
     }
     
@@ -180,7 +186,7 @@ class Orders extends React.Component {
                 {name: 'Комментарий', key: ''},
                 {name: 'Доставка', key: ''},
                 {name: 'Оплачен', key: ''},
-                {name: 'Цена', key: 'product.price'}
+                {name: 'Цена за товар', key: 'product.price'}
             ]}
             >
             <Select values={this.state.values} className="col-md-3 pull-right"

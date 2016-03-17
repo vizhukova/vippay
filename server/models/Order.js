@@ -70,15 +70,13 @@ var Order = bookshelf.Model.extend({
         var partnerId = data.customer.partner_product_id.partner_id;
         var lastPartnerId = partnerId ? partnerId[partnerId.length - 1] : null;
         var delivery_price = data.delivery.price ? (data.isPromo ? ( perCent(data.delivery.price, data.discount) ) : parseFloat(data.delivery.price) ) : 0;
+        var product_price = data.delivery.total - delivery_price;
         var product  = data.product;
         var convert = parseFloat(data.convert);
-        var product_price = 0;
-        _.filter(data.products, (item) => item.id != product.id).map((prod) => {
+        //var product_price = parseFloat(data.delivery.total) - parseFloat(data.delivery.price);
+       /* _.filter(data.products, (item) => item.id != product.id).map((prod) => {
             product_price += parseFloat(prod.price);
-        })
-
-        product_price += data.isPromo ? perCent(product.price, data.discount) : parseFloat(product.price);
-
+        })*/
 
         var record = new this({customer_id: data.customer.id,
                                partner_id: lastPartnerId,

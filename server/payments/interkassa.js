@@ -1,8 +1,10 @@
 'use strict';
 
 var Promise = require('bluebird');
+var _ = require('lodash');
 var OrderController = require('../controllers/Order');
 var UserController = require('../controllers/User');
+var CurrencyController = require('../controllers/Currency');
 
 
 class InterKassa{
@@ -18,16 +20,20 @@ class InterKassa{
 
             var payment_data = {};
 
-            OrderController.getById(order_id).then(function(order){
+            CurrencyController.get().then((currency) => {
 
-                payment_data.ik_co_id = '56b498bb3d1eaf37148b4572';
-                payment_data.ik_pm_no = order_id;
-                payment_data.ik_cur = order.product.currency;
-                payment_data.ik_am = order.product.price;
-                payment_data.ik_desc = order.product.description;
-                payment_data.action = 'https://sci.interkassa.com/';
+                return OrderController.getById(order_id).then(function(order){
 
-                return UserController.getById(user_id);
+                    payment_data.ik_co_id = '56b498bb3d1eaf37148b4572';
+                    payment_data.ik_pm_no = order_id;
+                    payment_data.ik_cur = _.findWhere(currency, {id: order.basic_currency_id}).name;
+                    payment_data.ik_am = order.total_price_base_rate;
+                    payment_data.ik_desc = order.delivery.description || '';
+                    payment_data.action = 'https://sci.interkassa.com/';
+
+                    return UserController.getById(user_id);
+
+                })
 
             }).then((user) => {
 
