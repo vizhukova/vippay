@@ -69,6 +69,7 @@ router.post('/promo', function(req, res, next){
     }).then((p_p) => {
         res.send(promo);
     }).catch(function(err){
+        if(err.code == '22009') err.constraint = 'too_big_value';
         next(err);
         //res.status(400).send(err.errors)
     })

@@ -179,11 +179,13 @@ class Pending extends React.Component {
 
     finishPending(data) {
 
+        debugger;
+
         ModalActions.hide();
 
         data = data || {};
          var delivery = this.state.product.delivery ? this.state.product.delivery[this.state.delivery_id] : {};
-         var total = data.total || (this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price);
+         var total = ! isNaN(data.total) ? data.total : (this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price);
             _.assign(delivery, this.state.delivery, {total: total});
         var toSend = {delivery: delivery};
         var self = this;

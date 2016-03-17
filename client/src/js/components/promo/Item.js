@@ -40,21 +40,22 @@ class Item extends React.Component {
                 ? moment(this.props.item.date).format('DD.MM.YYYY HH:mm:ss')
                 : 'Закончилась';
         } else {
-            var duration = moment.duration(moment(this.props.item.date).diff(moment()));
+            var duration = moment(this.props.item.date);
 
             var time;
+            var today = moment();
 
-            if(duration.days() > 0) {
-                time = duration.days() + ' ' + this.declOfNum( duration.days(), ['день', 'дня', 'дней'] );
+            if(duration.diff(today, 'days') > 0) {
+                time = duration.diff(today, 'days') + ' ' + this.declOfNum( duration.diff(today, 'days'), ['день', 'дня', 'дней'] );
             }
-            else if(duration.hours() > 0) {
-                time = duration.hours() + ' ' + this.declOfNum( duration.hours(), ['час', 'часа', 'часов'] );
+            else if(duration.diff(today, 'hours') > 0) {
+                time = duration.diff(today, 'hours') + ' ' + this.declOfNum( duration.diff(today, 'hours'), ['час', 'часа', 'часов'] );
             }
-            else if(duration.minutes() > 0) {
-                time = duration.minutes() + ' ' + this.declOfNum( duration.minutes(), ['минута', 'минуты', 'минут'] );
+            else if(duration.diff(today, 'minutes') > 0) {
+                time = duration.diff(today, 'minutes') + ' ' + this.declOfNum( duration.diff(today, 'minutes'), ['минута', 'минуты', 'минут'] );
             }
-             else if(duration.seconds() > 0) {
-                time = duration.seconds() + ' ' + this.declOfNum( duration.seconds(), ['секунда', 'секунды', 'секунды'] );
+             else if(duration.diff(today, 'seconds') > 0) {
+                time = duration.diff(today, 'seconds') + ' ' + this.declOfNum( duration.diff(today, 'seconds'), ['секунда', 'секунды', 'секунды'] );
             }
             else {
                 time = 0;

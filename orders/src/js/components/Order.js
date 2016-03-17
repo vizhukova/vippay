@@ -25,7 +25,11 @@ class Order extends React.Component {
     }
 
     update(state) {
-        this.setState(state);
+         if(state.payed) {
+            window.location = 'http://img.ezinearticles.com/blog/payed-invoice.jpg';
+        } else {
+            this.setState(state);
+        }
     }
 
 

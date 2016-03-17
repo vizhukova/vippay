@@ -15,6 +15,7 @@ class PromoStore {
             discount: 0
         };
         this.products = [];
+        this.checkAll = false;
 
         this.bindListeners({
             onGet: PromoAction.GET,

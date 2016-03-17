@@ -11,6 +11,8 @@ class ModalActions {
     }
 
     hide() {
+        var m = $('#myModal');
+        if (m.is(':visible')) m.modal('hide');
         this.dispatch();
     }
 

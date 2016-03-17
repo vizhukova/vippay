@@ -28,10 +28,10 @@ class OrdersStore {
 
     onAdd(order){
         this.order = order;
+        this.payed = order.total_price_order_rate == 0;
     }
 
     onGet(order){
-        debugger
         this.order = order;
     }
 

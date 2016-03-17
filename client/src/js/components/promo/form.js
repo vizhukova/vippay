@@ -118,12 +118,16 @@ class PromoForm extends React.Component {
 
         if(e.target.name == 'product') {
             if(e.target.checked) this.state.promo.products.push(e.target.value);
-            else this.state.promo.products = _.filter(this.state.promo.products, (id) => id != e.target.value);
+            else {
+                this.state.promo.products = _.filter(this.state.promo.products, (id) => id != e.target.value);
+                this.state.checkAll = false;
+            }
         }
 
         else if(e.target.name == 'checkAll') {
             if(! e.target.checked) this.state.promo.products = [];
             else this.state.promo.products = this.state.products.map((p) => p.id);
+            this.state.checkAll = e.target.checked;
         }
 
         else if(e.target.name == 'until' || e.target.name == 'during') {
@@ -186,6 +190,7 @@ class PromoForm extends React.Component {
     render(){
 
         var self = this;
+        console.log('checkAll', this.state.checkAll)
 
         return  <div className="col-sm-7 form-ui boxed">
             <form className="">
@@ -205,7 +210,7 @@ class PromoForm extends React.Component {
                                          value={this.state.promo.discount}
                                          onChange={this.onChange}
                                          toFixed={2}
-                                         max={99.99}/>
+                                         max={100}/>
                             </div>
                             <div className="col-md-3">%</div>
                         </div>
@@ -273,7 +278,7 @@ class PromoForm extends React.Component {
                     </div>
                     <div>
                         <labe>
-                            <input type="checkbox" name="checkAll" onChange={this.onChange}/>
+                            <input type="checkbox" name="checkAll" checked={self.state.checkAll} onChange={this.onChange}/>
                             выбрать все
                         </labe>
                         <hr/>

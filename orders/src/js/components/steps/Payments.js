@@ -59,7 +59,6 @@ class Payments extends React.Component {
     }
 
     update(state) {
-        if(state.payed) window.location = 'http://img.ezinearticles.com/blog/payed-invoice.jpg';
         this.setState(state);
     }
 
