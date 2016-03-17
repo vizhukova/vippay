@@ -15,6 +15,7 @@ router.post('/partner/register', checkLoginAccess, function (req, res, next) {
     var user;
     var client_id = req.clientObj.id;
 
+    //Стоит обернуть в транзакцию
     PartnerController.register({
 
         name: req.body.name,

@@ -18,7 +18,7 @@ var fs = require('fs');
         dbLog(data, type) {
             var dataObj = JSON.stringify(data);
             knex('logs')
-            .insert({data: dataObj, type: type})
+            .insert({data: dataObj, type: type, created_at: new Date()})
             .then((data)=>{
                 var a;
             }).catch((err) => {

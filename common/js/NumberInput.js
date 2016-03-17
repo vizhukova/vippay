@@ -17,6 +17,7 @@ class NumberInput extends React.Component {
     }
 
     componentDidMount() {
+
         this.setState({
             value: ! isNaN(parseFloat(this.props.value)) ?  this.props.value : this.state.value,
             toFixed: this.props.toFixed || 0,
@@ -25,28 +26,31 @@ class NumberInput extends React.Component {
     }
 
     componentWillReceiveProps(props) {
+
         this.setState({
             value: ! isNaN(parseFloat(props.value)) ? props.value : this.state.value,
-            toFixed: this.props.toFixed || 0,
-            max: this.props.max || this.state.max
+            toFixed: props.toFixed || 0,
+            max: props.max || this.state.max
         })
     }
 
     checkValue(e) {
         var val = this.state.value;
-        val = val.replace(/[^0-9.,]/g,'')
+
+
+            val = val.replace(/[^0-9.,]/g,'')
                 .replace(',', '.')
                 .split('.')
                 .filter((item) => item.length);
 
-        if(val.length) {
-            val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
-            if(parseFloat(val) > this.state.max) val = this.state.max;
-        } else {
-            val = 0;
-        }
+            if(val.length) {
+                val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
+                if(parseFloat(val) > this.state.max) val = this.state.max;
+            } else {
+                val = 0;
+            }
 
-        val = parseFloat(val).toFixed(this.state.toFixed);
+            val = parseFloat(val).toFixed(this.state.toFixed);
 
         var e = {target:{name: this.props.name, value: null}};
 
@@ -69,6 +73,7 @@ class NumberInput extends React.Component {
 
 
     render(){
+
 
         var options = {
             type: 'text',

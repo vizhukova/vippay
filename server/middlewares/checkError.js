@@ -1,3 +1,6 @@
+var log = require('./../utils/log');
+var logg = new log('db');
+
 
 module.exports = function(err, res){
 
@@ -62,5 +65,7 @@ module.exports = function(err, res){
                 res.status(400).send(err.errors[keys[0]].message);
             }
             else res.status(400).send('Упс, что-то пошло не так');
+
+            logg.log(err, 'error');
     }
 };

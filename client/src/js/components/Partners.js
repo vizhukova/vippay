@@ -15,7 +15,8 @@ class PartnerItem extends React.Component {
         super();
         this.state = {
             partner: {},
-            value: ''
+            value: '',
+            clear: false
         };
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -27,7 +28,7 @@ class PartnerItem extends React.Component {
     }
 
     componentWillReceiveProps() {
-        this.state.value =  '';
+        this.state.clear =  true;
         this.setState({});
     }
 
@@ -45,16 +46,17 @@ class PartnerItem extends React.Component {
     }
 
     onChange(e) {
-        debugger
         var fee = {};
         fee[e.target.name] = e.target.value;
         this.state.value = e.target.value;
         _.assign(this.props.item.fee, fee);
+        this.state.clear = false;
+
         this.setState({partner: this.props.item});
     }
 
     onClick() {
-        debugger
+
         if(!this.state.partner.fee.fee_pay) {
             AlertActions.set({
                 title: "Ошибка",
@@ -68,8 +70,9 @@ class PartnerItem extends React.Component {
                     title: 'Успех',
                     text: 'Выплата прошла успешно'
                 }, true);
-
-                this.state.partner.fee.fee_pay = null;
+                this.state.partner.fee.fee_pay = 0;
+                this.state.value = 0;
+                this.state.clear = false;
                 this.setState({});
             })
         }
@@ -83,7 +86,6 @@ class PartnerItem extends React.Component {
         var fee = this.props.item.fee || {};
         var fee_added = fee.fee_added || 0;
         var fee_payed = fee.fee_payed || 0;
-        console.log(fee.fee_added);
 
         return <tr>
                 <td>{this.props.item.login}</td>
@@ -96,7 +98,11 @@ class PartnerItem extends React.Component {
             </td>
             <td className="col-md-2">
                 <div className="input-group input-group-inline">
-                    <NumberInput onChange={this.onChange} name="fee_pay" value={this.state.value} toFixed={2}/>
+                    <NumberInput onChange={this.onChange}
+                                 name="fee_pay"
+                                 value={this.state.value}
+                                 toFixed={2}
+                                 clear={this.state.clear} />
                                 <span className="input-group-btn">
                                     <button className="btn btn-default glyphicon glyphicon-sort" type="button"
                                             onClick={this.onClick}/>
