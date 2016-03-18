@@ -69,6 +69,7 @@ class PendingItem extends React.Component {
     }
 
     render() {
+        console.log('PENDING ITEM', this.props)
         return <div>
                     <div className="col-md-6">
                         <img className="img-responsive img-thumbnail image" src={this.props.product.image} />
@@ -91,6 +92,7 @@ class BasketItem extends React.Component {
     }
 
     render() {
+        console.log('BASKET ITEM', this.props)
         return <tr>
             <td><img src={this.props.item.product.image} width="100px" height="auto"/></td>
             <td>{this.props.item.product.name}</td>
@@ -130,7 +132,12 @@ class Pending extends React.Component {
         OrdersStore.unlisten(this.update);
     }
 
+    componentDidUpdate(val) {
+        console.log('UPDATEDDDDDDDDD', val);
+    }
+
     update(state){
+        debugger
         _.assign(this.state, state);
         this.setState({});
     }
@@ -195,20 +202,56 @@ class Pending extends React.Component {
     onContinue() {
        if(! this.checkFields()) return;
 
-            var delivery = this.state.product.delivery ? this.state.product.delivery[this.state.delivery_id] : {};
-            var total = this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
+        var delivery = this.state.product.delivery ? this.state.product.delivery[this.state.delivery_id] : {};
+        var total;
+        var currency;
+
+        if(this.state.isBasket) {
+            total = this.state.products.length ? this.state.products.reduce((prev, curr) => parseFloat(prev.product.price) + parseFloat(curr.product.price)) : [];
+            currency = 'RUB';
+        } else {
+            total = this.state.product.delivery && this.state.product.delivery.length > 0 ? parseFloat(this.state.product.price) + parseFloat(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
+            currency = this.state.product.currency_name;
+        }
+
             _.assign(delivery, this.state.delivery, {total: total});
             console.log('Delivery', delivery);
 
-            if(this.state.promo && _.trim(this.state.promo)) { //if promo code
-                OrderActions.getPromo({code: this.state.promo, product_id: this.state.prod_id}).then((promo) => {
+            var prod_id = [];
 
-                    var discountTotal = total - promo.discount*total/100;
-                    ModalActions.set({data: {messages: [` Общая сумма заказа сейчас ${total} ${this.state.product.currency_name}.`,
-                                                        `Со скидкой ${promo.discount}% составляет ${discountTotal} ${this.state.product.currency_name}`]
+            if(this.state.isBasket) {
+                this.state.products.map((item) => {prod_id.push(item.product.id)});
+            } else {
+                prod_id = [this.state.prod_id];
+            }
+
+            if(this.state.promo && _.trim(this.state.promo)) { //if promo code
+                OrderActions.getPromo({code: this.state.promo, product_id: prod_id}).then((data) => {
+
+                    var discountTotal = 0;
+
+                    if(this.state.isBasket) {
+
+                        var a = this.state.products.map((item) => {
+
+                            if(_.indexOf(data.products, item.product.id) > -1) {
+                                discountTotal += item.product.price - (item.product.price * data.promo.discount / 100);
+                            } else {
+                                discountTotal += parseFloat(item.product.price);
+                            }
+
+                        })
+                    } else {
+
+                        discountTotal = total - data.promo.discount*total/100;
+
+                    }
+
+                    ModalActions.set({data: {messages: [` Общая сумма заказа сейчас ${total} ${currency}.`,
+                                                        `Со скидкой ${data.promo.discount}% составляет ${discountTotal} ${currency}`]
                                             , onContinue: this.finishPending
                                             , title: `Подтвердите применение скидки по промо коду.`
-                                            , forComponent: {total: discountTotal, discount: promo.discount}
+                                            , forComponent: {total: discountTotal, discount: data.promo.discount}
                                             }
                                     , name: 'Message'});
 
@@ -233,7 +276,13 @@ class Pending extends React.Component {
         var toSend = {delivery: delivery};
         var self = this;
 
-        debugger
+        var prod_id = [];
+        if(this.state.isBasket) {
+            this.state.products.map((item) => {prod_id.push(item.product.id)});
+        } else {
+            prod_id = [this.state.prod_id];
+        }
+
         if(this.state.promo) {
             toSend.promo={code: this.state.promo, discount: data.discount};
         } else {
@@ -250,19 +299,24 @@ class Pending extends React.Component {
                     ModalActions.set({data: toSend, name: 'Upsells'});
                 });
             } else {
-                    _.assign(toSend, {prod_id: [this.state.prod_id]});
+                    _.assign(toSend, {prod_id: prod_id});
                     OrderActions.add(toSend);
             }
     }
 
     render() {
         var total;
+        var currency;
+
         if(this.state.isBasket) {
-            total = this.state.products.reduce((prev, curr) => prev.product.price + curr.product.price);
+            total = this.state.products.length ? this.state.products.reduce((prev, curr) => parseFloat(prev.product.price) + parseFloat(curr.product.price)) : [];
+            currency = 'RUB';
         } else {
-            total = this.state.product.delivery && this.state.product.delivery.length > 0 ? parseInt(this.state.product.price) + parseInt(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
+            total = this.state.product.delivery && this.state.product.delivery.length > 0 ? parseFloat(this.state.product.price) + parseFloat(this.state.product.delivery[this.state.delivery_id].price) : this.state.product.price;
+            currency = this.state.product.currency_name;
         }
-        console.log('PENDING', this.state)
+        console.log('PENDING', this.state);
+
         return <div>
             <div>
                 <div className="content-step row">
@@ -327,7 +381,7 @@ class Pending extends React.Component {
 
                         </div>
 
-                            <div className="text-warning text-uppercase pull-right"><b>Итоговая цена: {`${total} ${this.state.product.currency_name}`}</b></div><br/>
+                            <div className="text-warning text-uppercase pull-right"><b>Итоговая цена: {`${total} ${currency}`}</b></div><br/>
                             <div className="text-danger small pull-right">*Поля обязательные для заполнения</div><br/>
                     </form>
                     </div>

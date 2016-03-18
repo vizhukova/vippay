@@ -18,7 +18,7 @@ class ProductsAction {
         ApiActions.post(`order`, data).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 
@@ -27,7 +27,7 @@ class ProductsAction {
         ApiActions.get(`product/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 
@@ -36,7 +36,7 @@ class ProductsAction {
         ApiActions.get(`basket/product/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 

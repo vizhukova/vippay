@@ -9,7 +9,7 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 
 
-router.put('/basket/:product_id', function(req, res) {
+router.put('/basket/:product_id', function(req, res, next) {
 
     var customer;
     var basket;
@@ -39,7 +39,7 @@ router.put('/basket/:product_id', function(req, res) {
 
         customer = c;
 
-        return BasketController.get({customer_id: customer.id});
+        return BasketController.get({customer_id: customer.id, client_id: req.clientObj.id});
 
     }).then((b) => {
 
@@ -49,7 +49,7 @@ router.put('/basket/:product_id', function(req, res) {
 
              if(! basket) {
 
-                 BasketController.add({customer_id: customer.id, step: 'pending'}).then((new_basket) => {
+                 BasketController.add({customer_id: customer.id, client_id: req.clientObj.id, step: 'pending'}).then((new_basket) => {
                      resolve(new_basket.attributes)
                  }).catch((err) => {
                      reject(err);
@@ -100,14 +100,14 @@ router.put('/basket/:product_id', function(req, res) {
 
     }).catch((err) => {
 
-        res.status(400).send(err);
+        next(err);
 
     });
 
 });
 
 
-router.get('/basket/product/:basket_id', function(req, res) {
+router.get('/basket/product/:basket_id', function(req, res, next) {
 
     BasketProductController.getWithConvertToBaseCurr(+req.params.basket_id).then((b_p) => {
 
@@ -115,7 +115,7 @@ router.get('/basket/product/:basket_id', function(req, res) {
 
     }).catch((err) => {
 
-        res.status(400).send(err);
+        next(err);
 
     })
 });

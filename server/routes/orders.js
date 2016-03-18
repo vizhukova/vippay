@@ -65,7 +65,8 @@ router.post('/order', function(req, res) {
 
                 });
             else return OrderController.add({user_id: req.clientObj.id,
-                                    product: products,
+                                    product: product,
+                                    products: products,
                                     customer: customer,
                                     delivery: req.body.delivery,
                                     isPromo: !!req.body.promo,

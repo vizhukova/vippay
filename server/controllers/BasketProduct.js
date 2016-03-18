@@ -49,7 +49,7 @@ module.exports = {
         return new Promise(function (resolve, reject) {
 
             BasketProduct.getWithConvertToBaseCurr(basket_id).then(function (model) {
-                resolve(model);
+                resolve(model.rows);
 
             }).catch(function (err) {
                 reject(err);

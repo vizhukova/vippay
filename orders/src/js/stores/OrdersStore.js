@@ -68,6 +68,8 @@ class OrdersStore {
         this.products.map((item) => {
             if(!item.product.image) item.product.image = '/public/orders/images/noimage.png';
         })
+
+        console.log('OrdersStore  onGetBasket', this.products)
     }
 
 }

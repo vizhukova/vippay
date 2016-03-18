@@ -72,12 +72,12 @@ var Order = bookshelf.Model.extend({
         var delivery_price = data.delivery.price ? (data.isPromo ? ( perCent(data.delivery.price, data.discount) ) : parseFloat(data.delivery.price) ) : 0;
         var product  = data.product;
         var convert = parseFloat(data.convert);
-        var product_price = 0;
-        _.filter(data.products, (item) => item.id != product.id).map((prod) => {
+        var product_price = data.delivery.total;
+        /*_.filter(data.products, (item) => item.id != product.id).map((prod) => {
             product_price += parseFloat(prod.price);
         })
 
-        product_price += data.isPromo ? perCent(product.price, data.discount) : parseFloat(product.price);
+        product_price += data.isPromo ? perCent(product.price, data.discount) : parseFloat(product.price);*/
 
 
         var record = new this({customer_id: data.customer.id,
