@@ -29,6 +29,7 @@ import NewProductForm from './components/product/form';
 import PartnerLinks from './components/partner_links/Links';
 import NewPartnerLinkForm from './components/partner_links/form';
 import AlertActions from './../../../common/js/Alert/AlertActions';
+import Other_Site from './components/Other_Site';
 
     function onLeave() {
         AlertActions.onLeave();
@@ -85,6 +86,7 @@ import AlertActions from './../../../common/js/Alert/AlertActions';
                 </Route>>
             </Route>
             <Route path="/auth" component={Auth} />
+            <Route path="/other" component={Other_Site} />
             <Route path="/partners/:id" component={Auth} />
         </Router>
     ), document.getElementById("app-container"));

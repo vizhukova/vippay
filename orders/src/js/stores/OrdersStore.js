@@ -6,6 +6,7 @@ class OrdersStore {
 
     constructor() {
         this.product = {};
+        this.products = [];
         this.order = {};
         this.delivery_id = 0;
         this.delivery = {};
@@ -22,7 +23,8 @@ class OrdersStore {
             onGetMethodYandex: OrdersActions.GET_METHOD_YANDEX,
             onGetMethodInterkassa: OrdersActions.GET_METHOD_INTERKASSA,
             onGetPayments: OrdersActions.GET_PAYMENTS,
-            onSetMethod: OrdersActions.SET_METHOD
+            onSetMethod: OrdersActions.SET_METHOD,
+            onGetBasket: OrdersActions.GET_BASKET
         });
     }
 
@@ -59,6 +61,16 @@ class OrdersStore {
 
     onSetMethod(data) {
         this.order = data;
+    }
+
+    onGetBasket(items) {
+        this.products = items;
+
+        this.products.map((item) => {
+            if(!item.product.image) item.product.image = '/public/orders/images/noimage.png';
+        })
+
+        console.log('OrdersStore  onGetBasket', this.products)
     }
 
 }

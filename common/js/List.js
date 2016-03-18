@@ -106,6 +106,8 @@ class List extends React.Component {
         var isLast = this.state.currentPage == pages;
         var isFirst = this.state.currentPage == 1;
 
+        debugger
+
         return <div>
             <div className="row">
                 <div>

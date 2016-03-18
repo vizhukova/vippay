@@ -1,4 +1,5 @@
 import AlertActions from './../common/js/Alert/AlertActions';
+import AuthActions from './src/js/actions/AuthActions';
 import SettingsAction from './src/js/actions/SettingsAction';
 
 module.exports = {
@@ -29,6 +30,11 @@ module.exports = {
                 }, true);
                 SettingsAction.setIsActive(false);
                 break;
+            }
+
+            case 401: {
+                debugger
+                window.location.replace(`http://auth.${(window.location.host).slice(window.location.host.indexOf('.') + 1)}/#/auth`);
             }
 
             default: {

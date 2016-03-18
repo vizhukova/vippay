@@ -8,7 +8,9 @@ class AuthStore {
 
         this.bindListeners({
             onCheck: AuthActions.CHECK,
-            onGetMe: AuthActions.GET_ME
+            onGetMe: AuthActions.GET_ME,
+            onEditFeeQuery: PartnersAction.EDIT_FEE_QUERY,
+            onSetAuth: AuthActions.SET_AUTH
         });
 
         this.user = {
@@ -23,6 +25,14 @@ class AuthStore {
     onGetMe(user){
         console.log('AuthStore user:', user);
         this.user = user;
+    }
+
+    onEditFeeQuery(user) {
+        this.user=user;
+    }
+
+    onSetAuth(data) {
+        this.auth = data;
     }
 
 }

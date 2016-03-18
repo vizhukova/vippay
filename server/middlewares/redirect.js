@@ -18,19 +18,10 @@ module.exports = function(req, res, next){
         res.redirect(link);
     }
 
-    else if (req.subdomain != 'auth') {
+    else if (req.subdomain != 'auth' && !req.user.id && req.xhr) {
 
-        /////////////check for partners: //////////////////////
-        /*var result = _.findIndex(req.clientsObj, (item) => {
-            return item.login.toLowerCase() == req.subdomain;
-        });
-
-        if(result == -1) {
-         res.redirect(`http://auth.${req.postdomain}`);
-         }*/
-        /////////////////////////////////////////////////////
+        res.status(401).send();
         next();
-
     }
 
     else {next();}

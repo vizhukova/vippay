@@ -8,9 +8,12 @@ module.exports = function(req, res, next){
         try{
             req.user = jwt.decode(req.cookies.token, 'secret');
         }catch(err){
+            var a;
             /*res.status(401).send('Unathorized');
             return;*/
         }
+    } else {
+        //res.status(401).send('Unathorized');
     }
 
     next();

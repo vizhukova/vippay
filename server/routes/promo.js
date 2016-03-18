@@ -6,7 +6,9 @@ var moment = require('moment');
 var _ = require('lodash');
 var router = express.Router();
 
+
 router.get('/promo', function(req, res, next){
+
     var obj = {client_id: req.clientObj.id};
     _.assign(obj, req.query);
     PromoController.get(obj).then(function(data){
@@ -19,19 +21,30 @@ router.get('/promo', function(req, res, next){
 });
 
 router.get('/promo/order', function(req, res, next){
+
     var promo;
+    var products = req.query.product_id;
     PromoController.get({client_id: req.clientObj.id, code: req.query.code}).then(function(p){
+
         promo = p[0];
-        return ProductPromo.get({promo_id: promo.id, product_id: +req.query.product_id});
+        return ProductPromo.get({promo_id: promo.id});
+
     }).then((p_p) => {
-        if(! p_p.length) throw new Error();
-        else res.send(promo);
+
+        var arrayForPromo = p_p.map((item) => item.product_id).filter((item) => _.indexOf(products, item.toString()) > -1);
+
+        if(! arrayForPromo.length) throw new Error();
+        else res.send({products: arrayForPromo, promo: promo});
+
     }).catch(function(err){
+
         if(! err.constraint) err.constraint = 'no_promo_product';
         next(err);
+
     })
 
 });
+
 
 router.get('/promo/:id', function(req, res, next){
     var promo;

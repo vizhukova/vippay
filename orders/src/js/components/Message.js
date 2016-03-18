@@ -39,8 +39,9 @@ class Message extends React.Component {
                                   return <p key={index}>{m}</p>
                               })}
 
-                          <div className="col-md-12">
-                            <div className="btn pull-right" onClick={this.onContinue}>Продолжить</div>
+                          <div className={`col-md-12 ${this.onContinue ? '' : 'hidden'}`}>
+                            <div className="btn pull-right"  onClick={this.onContinue}>Продолжить</div>
+
                         </div>
                       </div>
                     </div>
