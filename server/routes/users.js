@@ -121,32 +121,35 @@ router.put('/user/password', (req, res, next) => { //get all clients for partner
 
 });
 
-router.put('/partner/partner_fee', function (req, res) {
+router.put('/partner/partner_fee', function (req, res, next) {
     req.body.id = req.clientObj.id;
 
     UserController.set(req.body)
         .then(function (user) {
             res.send({partner_query: user[0].partner_fee});
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+            next(err);
     });
 });
 
-router.get('/partnerlinks', function (req, res) {
+router.get('/partnerlinks', function (req, res, next) {
     UserController.getPartnerLink({user_id: req.clientObj.id})
         .then(function (partnerLinks) {
             res.send(partnerLinks)
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+            next(err);
     });
 });
 
-router.get('/partnerlinks/:id', function (req, res) {
+router.get('/partnerlinks/:id', function (req, res, next) {
     UserController.getPartnerLink({id: req.params.id})
         .then(function (partnerLink) {
             res.send(partnerLink[0])
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+            next(err);
     });
 });
 

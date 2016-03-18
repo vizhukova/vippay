@@ -8,28 +8,30 @@ var UserController = require('../controllers/User');
 var email = require('../utils/email');
 var _ = require('lodash');
 
-router.get('/orders', function(req, res) {
+router.get('/orders', function(req, res, next) {
 
     OrderController.get(req.clientObj.id).then(function (orders) {
             res.send(orders)
         }).catch(function (err) {
-            res.status(400).send(err);
+            //res.status(400).send(err);
+            next(err);
         })
 
 });
 
-router.get('/order/:id', function(req, res) {
+router.get('/order/:id', function(req, res, next) {
 
     OrderController.getById(req.params.id)
         .then(function (order) {
             res.send(order)
         }).catch(function (err) {
-            res.status(400).send(err);
+            //res.status(400).send(err);
+            next(err);
         })
 
 });
 
-router.put('/order/:id', function(req, res) {
+router.put('/order/:id', function(req, res, next) {
 
         new Promise((resolve, reject) => {
 
@@ -39,12 +41,13 @@ router.put('/order/:id', function(req, res) {
         }).then(function (order) {
             res.send(order[0]);
         }).catch(function (err) {
-            res.status(400).send(err);
+            //res.status(400).send(err);
+            next(err);
         })
 
 });
 
-router.post('/order', function(req, res) {
+router.post('/order', function(req, res, next) {
     var product;
     var order;
 
@@ -98,12 +101,13 @@ router.post('/order', function(req, res) {
     }).then(() => {
         res.send(order);
     }).catch(function(err){
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+        next(err);
     })
 
 });
 
-router.put('/order', function(req, res) { //pay for the order
+router.put('/order', function(req, res, next) { //pay for the order
 
     //OrderController.pay(req.body.id).then((order) => {
 
@@ -115,13 +119,14 @@ router.put('/order', function(req, res) { //pay for the order
                                     .then(() => {
                                         res.send(order);
                                     }).catch(function(err) {
-            res.status(400).send(err.errors)
+           // res.status(400).send(err.errors)
+            next(err);
         })
     //})
 
 });
 
-router.get('/order/payments/:id', function(req, res) {
+router.get('/order/payments/:id', function(req, res, next) {
 
     var payments;
 
@@ -130,7 +135,8 @@ router.get('/order/payments/:id', function(req, res) {
             payments = _.filter(user.payment, {active: true});
             res.send(payments)
         }).catch(function (err) {
-            res.status(400).send(err);
+            //res.status(400).send(err);
+            next(err);
         })
 
 });

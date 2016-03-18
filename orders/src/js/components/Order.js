@@ -30,6 +30,8 @@ class Order extends React.Component {
         } else {
             this.setState(state);
         }
+
+        console.log("PAYED", state.order.step)
     }
 
 

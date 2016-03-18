@@ -7,7 +7,7 @@ var StatisticController = require('../controllers/Statistic');
 var UserController = require('../controllers/User');
 
 
-router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, function (req, res)
+router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, function (req, res, next)
 {
     var product;
     var customer;
@@ -51,13 +51,14 @@ router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, 
 
     }).catch(function (err) {
 
-        res.status(400).send(err.errors);
+        //res.status(400).send(err.errors);
+        next(err);
 
     });
 
 });
 
-router.get('/redirect/link/:partner_login/:link', getPartnerIdByLogin, function (req, res)
+router.get('/redirect/link/:partner_login/:link', getPartnerIdByLogin, function (req, res, next)
 {
     var product;
     var customer;
@@ -101,7 +102,8 @@ router.get('/redirect/link/:partner_login/:link', getPartnerIdByLogin, function 
 
     }).catch(function (err) {
 
-        res.status(400).send(err.errors);
+        //res.status(400).send(err.errors);
+        next(err);
 
     });
 

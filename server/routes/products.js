@@ -5,12 +5,13 @@ var Promise = require('bluebird');
 var _ = require('lodash');
 var router = express.Router();
 
-router.get('/products/:id', function(req, res){
+router.get('/products/:id', function(req, res, next){
 
     ProductController.getAllProducts(req.params.id).then(function(products){
         res.send(products)
     }).catch(function(err){
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+        next(err);
     })
 
 });
@@ -47,7 +48,7 @@ router.get('/product/upsell', function(req, res, next){
 });
 
 
-router.get('/product/:id', function(req, res){
+router.get('/product/:id', function(req, res, next){
 
     var product;
     ProductController.getCurrentProduct(req.params.id).then(function(p){
@@ -63,7 +64,7 @@ router.get('/product/:id', function(req, res){
 
 });
 
-router.get('/product/upsell/:id', function(req, res){
+router.get('/product/upsell/:id', function(req, res, next){
     UpsellProductController.getUpsells({upsell_id: req.params.id}).then(function(upsells){
         res.send(upsells)
     }).catch(function(err){
@@ -71,7 +72,7 @@ router.get('/product/upsell/:id', function(req, res){
     })
 });
 
-router.get('/product/upsell_products/:id', function(req, res){
+router.get('/product/upsell_products/:id', function(req, res, next){
     ProductController.get({id: req.params.id}).then((products) => {
 
         return UpsellProductController.getForUpsell({upsell_id: req.params.id, currency_id: products[0].currency_id}).then(function(upsells){

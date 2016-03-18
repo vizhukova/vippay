@@ -64,7 +64,7 @@ router.post('/partner/login', function (req, res, next) {
 
 });
 
-router.get(`/partner/products`, function (req, res) {
+router.get(`/partner/products`, function (req, res, next) {
     var productsArr = [];
     var partner;
 
@@ -90,57 +90,63 @@ router.get(`/partner/products`, function (req, res) {
             res.send(union);
         })
         .catch(function (err) {
-            res.status(400).send(err.errors)
+            //res.status(400).send(err.errors)
+            next(err);
         });
 });
 
 
-router.get('/partner', function (req, res) {
+router.get('/partner', function (req, res, next) {
     PartnerController.getAll(req.clientObj.id)
         .then(function (partners) {
             res.send(partners)
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+            //res.status(400).send(err.errors)
+            next(err);
     });
 });
 
-router.get('/partner/current', function (req, res) {
+router.get('/partner/current', function (req, res, next) {
     PartnerController.getById(req.user.id)
         .then(function (partners) {
             res.send(partners)
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+            next(err);
     });
 });
 
-router.put('/partner', function (req, res) {
+router.put('/partner', function (req, res, next) {
     PartnerController.edit(_.omit(req.body, ['fee']))
         .then(function (partner) {
             res.send(partner)
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+            next(err);
     });
 });
 
-router.get('/partner', function (req, res) {
+router.get('/partner', function (req, res, next) {
     PartnerController.get(req.clientObj.id)
         .then(function (partner) {
             res.send(partner)
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+            next(err);
     });
 });
 
-router.get('/partner/fee', function (req, res) {
+router.get('/partner/fee', function (req, res, next) {
     PartnerController.getFee(req.clientObj.id)
         .then(function (fee) {
             res.send(fee)
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+            next(err);
     });
 });
 
-router.put('/partner/fee', function (req, res) {
+router.put('/partner/fee', function (req, res, next) {
     var fee = req.body.fee || {};
 
     if(fee.fee_pay) {
@@ -154,7 +160,8 @@ router.put('/partner/fee', function (req, res) {
         .then(function (fee) {
             res.send(fee[0]);
             }).catch(function (err) {
-            res.status(400).send(err.errors);
+            //res.status(400).send(err.errors);
+            next(err);
         });
     } else {
         res.send({});
