@@ -72,7 +72,7 @@ router.post('/order', function(req, res, next) {
                                     products: products,
                                     customer: customer,
                                     delivery: req.body.delivery,
-                                    isPromo: !!req.body.promo,
+                                    isPromo: !!req.body.promo.code,
                                     promo_code: req.body.promo ? req.body.promo.code : null,
                                     discount: req.body.promo ? req.body.promo.discount: null})
 
