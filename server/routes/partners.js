@@ -3,11 +3,10 @@ var router = express.Router();
 var config = require('../config');
 var PartnerController = require('../controllers/Partner');
 var UserController = require('../controllers/User');
-var checkLoginAccess = require('./../middlewares/checkLoginAccess');
 var _ = require('lodash');
 
 
-router.post('/partner/register', checkLoginAccess, function (req, res, next) {
+router.post('/partner/register', function (req, res, next) {
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
     })

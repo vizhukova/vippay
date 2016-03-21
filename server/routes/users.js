@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var checkLoginAccess = require('./../middlewares/checkLoginAccess');
 var UserController = require('../controllers/User');
 var StaffController = require('../controllers/Staff');
 var PartnerController = require('../controllers/Partner');
@@ -11,7 +10,7 @@ var email = require('../utils/email');
 var _ = require('lodash');
 
 
-router.post('/client/register', checkLoginAccess, function (req, res, next) {
+router.post('/client/register', function (req, res, next) {
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
     });

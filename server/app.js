@@ -23,7 +23,6 @@ var getInterkassaId = require('./middlewares/getInterkassaId');
 var checkError = require('./middlewares/checkError');
 var checkStaffAccess = require('./middlewares/checkStaffAccess');
 var redirect = require('./middlewares/redirect');
-var checkIsUserLogIn = require('./middlewares/checkIsUserLogIn');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
@@ -39,7 +38,6 @@ app.use(getSubdomain);
 app.use(getUserId);
 app.use(getClientObj);
 app.use(getPartnerObj);
-app.use(checkIsUserLogIn);
 app.use(getStaffObj);
 app.use(getInterkassaId);
 app.use(checkStaffAccess);

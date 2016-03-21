@@ -59,6 +59,7 @@ router.post('/order', function(req, res, next) {
                 .then(function(customer) {
                     return OrderController.add({user_id: req.clientObj.id,
                                         product: product,
+                                        basic_currency: product.currency_id,
                                         products: products,
                                         customer: {id: customer.id, partner_product_id: customer.partner_product_id},
                                         delivery: req.body.delivery,
@@ -69,6 +70,7 @@ router.post('/order', function(req, res, next) {
                 });
             else return OrderController.add({user_id: req.clientObj.id,
                                     product: product,
+                                    basic_currency: product.currency_id,
                                     products: products,
                                     customer: customer,
                                     delivery: req.body.delivery,

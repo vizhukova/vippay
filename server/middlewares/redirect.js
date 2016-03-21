@@ -19,9 +19,11 @@ module.exports = function(req, res, next){
     }
 
     else if (req.subdomain != 'auth' && !req.user.id && req.xhr) {
-
-        res.status(401).send();
-        next();
+        if(req.url == '/api/staff/login') {
+            next();
+        } else {
+            res.status(401).send();
+        }
     }
 
     else {next();}

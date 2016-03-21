@@ -86,6 +86,7 @@ var Order = bookshelf.Model.extend({
                                partner_id: lastPartnerId,
                                client_id: product.user_id,
                                product_id: product.id,
+                               basic_currency: data.basic_currency,
                                product: JSON.stringify(data.products),
                                step: "pending",
                                delivery: JSON.stringify(data.delivery),

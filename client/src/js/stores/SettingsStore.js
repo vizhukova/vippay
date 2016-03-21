@@ -93,7 +93,7 @@ class SettingsStore {
 
     onGetTariff(tariff) {
         this.tariff = tariff;
-        console.log('SettingStore tariff', tariff)
+        console.log('SettingStore tariff', tariff);
 
         if(tariff.tariff_name === 'start') { this.isActiveTariff = tariff.isActive; return; }
 
@@ -102,8 +102,7 @@ class SettingsStore {
 
         if(tariff.tariff_date) end_tariff = moment(tariff.tariff_date).add(tariff.tariff_duration, 'months');
         else end_tariff = moment(tariff.created_at).add(3, 'days');
-
-        this.isActiveTariff = moment.min(today, end_tariff) == today;
+        this.isActiveTariff = moment.min(today, end_tariff) == today && tariff.tariff_payed;
         console.log('SettingStore isActiveTariff', this.isActiveTariff)
     }
 
