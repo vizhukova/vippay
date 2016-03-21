@@ -59,6 +59,9 @@ module.exports = function(err, res){
         case 'upsell_product_product_id_foreign':
             res.status(400).send('Нельзя удалить этот продукт, так как он участвует в акции 1+1');
             break;
+        case 'too_long_link':
+            res.status(400).send('Слишком длинное значение ссылки');
+            break;
         default:
             if(err.errors) {
                 var keys = Object.keys(err.errors) || [];

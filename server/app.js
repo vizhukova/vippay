@@ -62,7 +62,12 @@ app.get('/', redirect, function(req, res){
 
 app.use(require('./routes/log'));
 app.use(require('./routes/api'));
+
 app.use(require('./routes/redirect'));
+
+app.get('/basket/*', function(req, res){
+    res.render('order', {timestamp: timestamp});
+});
 
 app.get('/order/:id*', function(req, res){
 
@@ -120,6 +125,7 @@ app.get('/order/:id*', function(req, res){
     }
 
 });
+
 app.get('/:partner', function(req, res){
 
     if(req.user.role && req.user.role != 'partner') {

@@ -46,6 +46,7 @@ router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, 
     }).then(() => {
 
         res.cookie('id', customer.id, {maxAge: 9000000000, httpOnly: true});
+        res.cookie('client_id', req.clientObj.id, {maxAge: 9000000000, httpOnly: true});
         var link = testLink(product.product_link) ? product.product_link : `http://${product.product_link}`;
         res.redirect(link)
 
@@ -97,6 +98,7 @@ router.get('/redirect/link/:partner_login/:link', getPartnerIdByLogin, function 
     }).then(() => {
 
         res.cookie('id', customer.id, {maxAge: 9000000000, httpOnly: true});
+        res.cookie('client_id', req.clientObj.id, {maxAge: 9000000000, httpOnly: true});
         var link = testLink(product.link) ? product.link : `http://${product.link}`;
         res.redirect(link)
 

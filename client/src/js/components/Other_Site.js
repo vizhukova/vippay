@@ -10,6 +10,7 @@ class Other_Sites extends React.Component {
         }
 
         this.onChange = this.onChange.bind(this);
+        this.basket = this.basket.bind(this);
     }
 
     onChange(e) {
@@ -17,6 +18,54 @@ class Other_Sites extends React.Component {
         state[e.target.name] = e.target.value;
 
         this.setState(state);
+    }
+
+    componentDidMount() {
+        this.basket();
+    }
+
+    basket(e) {
+
+         function getXmlHttp(){
+          var xmlhttp;
+          try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+          } catch (e) {
+            try {
+              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (E) {
+              xmlhttp = false;
+            }
+          }
+          if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+            xmlhttp = new XMLHttpRequest();
+          }
+          return xmlhttp;
+        }
+
+
+        var basket = document.getElementById('basket');
+        var a = document.createElement('a');
+
+        a.setAttribute('href', '#');
+        basket.appendChild(a);
+
+        var xmlhttp = getXmlHttp();
+        xmlhttp.open("GET", "http://" + basket.dataset.domain + "/api/basket", true);
+        xmlhttp.onreadystatechange = function(){
+
+          if (xmlhttp.status == 200) {
+
+              var products = xmlhttp.responseText == "" ? 0 : JSON.parse(xmlhttp.responseText);
+              a.innerHTML = products.length;
+              a.setAttribute('href', "http://" + basket.dataset.domain + "/#/basket/" + products[0].basket_id);
+
+          } else {
+              //handleError(xmlhttp.statusText); // вызвать обработчик ошибки с текстом ответа
+          }
+        };
+
+        xmlhttp.send(null);
     }
 
     render(){
@@ -36,6 +85,9 @@ class Other_Sites extends React.Component {
                             <input type="hidden" name="redirect_link" value={document.location.href} />
                             <input type="submit" value="Заказать"/>
                          </form>
+            <div id="basket" data-domain="client1.vippay.loc">
+
+            </div>
         </div>
     }
 

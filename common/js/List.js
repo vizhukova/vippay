@@ -35,11 +35,11 @@ class List extends React.Component {
     }
 
     update(state) {
-        _.assign(this.state, state);
-        this.setState({});
+        this.setState(state);
     }
 
     componentWillReceiveProps(props) {
+        debugger
         this.state.perPage = props.perPage ? props.perPage : this.state.perPage;
         this.setState({});
     }
@@ -94,12 +94,14 @@ class List extends React.Component {
     }
 
     render() {
+
         var Item = this.props.itemComponent;
         var ChildrenComponents = this.props.ChildrenComponents;
 
         if (!this.props.items) return;
         var self = this;
-        var items = this.props.items.slice((this.state.currentPage - 1) * this.state.perPage, ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
+        var items = this.props.items
+        //var items = this.props.items.slice((this.state.currentPage - 1) * this.state.perPage, ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
         var pages = Math.ceil(this.props.items.length / this.state.perPage);
 
         var isPagination = pages > 1;

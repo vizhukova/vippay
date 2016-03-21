@@ -120,4 +120,22 @@ router.get('/basket/product/:basket_id', function(req, res, next) {
     })
 });
 
+router.get('/basket', function(req, res, next) {
+
+    BasketController.get({customer_id: +req.cookies.id, step: 'pending'}).then((basket) => {
+
+        return BasketProductController.get({basket_id: basket[0].id});
+
+    }).then((b_p) => {
+
+        res.send(b_p);
+
+    }).catch((err) => {
+
+        next(err);
+
+    })
+});
+
+
 module.exports = router;

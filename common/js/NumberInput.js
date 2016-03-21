@@ -9,7 +9,8 @@ class NumberInput extends React.Component {
         this.state = {
             value: null,
             timeoutId: null,
-            max: 10000000000
+            max: 10000000000,
+            min: 0
         };
 
         this.onChange = this.onChange.bind(this);
@@ -21,7 +22,8 @@ class NumberInput extends React.Component {
         this.setState({
             value: ! isNaN(parseFloat(this.props.value)) ?  this.props.value : this.state.value,
             toFixed: this.props.toFixed || 0,
-            max: this.props.max || this.state.max
+            max: this.props.max || this.state.max,
+            min: this.props.min || this.state.min
         })
     }
 
@@ -30,7 +32,8 @@ class NumberInput extends React.Component {
         this.setState({
             value: ! isNaN(parseFloat(props.value)) ? props.value : this.state.value,
             toFixed: props.toFixed || 0,
-            max: props.max || this.state.max
+            max: props.max || this.state.max,
+            min: props.min || this.state.min
         })
     }
 
@@ -46,8 +49,9 @@ class NumberInput extends React.Component {
             if(val.length) {
                 val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
                 if(parseFloat(val) > this.state.max) val = this.state.max;
+                if(parseFloat(val) < this.state.min) val = this.state.min;
             } else {
-                val = 0;
+                val = this.state.min;
             }
 
             val = parseFloat(val).toFixed(this.state.toFixed);
@@ -74,7 +78,7 @@ class NumberInput extends React.Component {
 
     render(){
 
-
+        debugger
         var options = {
             type: 'text',
             id: this.props.id,

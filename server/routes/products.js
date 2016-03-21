@@ -34,6 +34,7 @@ router.post('/product', function(req, res, next){
         res.send(product);
     }).catch(function(err){
         if(err.code == "22003") err.constraint = 'too_big_value';
+        else if(err.code=="22001") err.constraint = "too_long_link";
         next(err);
     })
 });
@@ -104,6 +105,8 @@ router.put('/product/:id', function(req, res, next){
     ProductController.editProduct(product).then(function(product){
             res.send(product[0])
     }).catch(function(err){
+        if(err.code == "22003") err.constraint = 'too_big_value';
+        else if(err.code=="22001") err.constraint = "too_long_link";
         next(err);
     })
 
