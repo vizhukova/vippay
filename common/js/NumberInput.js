@@ -78,7 +78,6 @@ class NumberInput extends React.Component {
 
     render(){
 
-        debugger
         var options = {
             type: 'text',
             id: this.props.id,

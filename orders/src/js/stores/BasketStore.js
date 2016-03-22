@@ -7,6 +7,7 @@ class BasketStore {
     constructor() {
 
         this.products = [];
+        this.redirect = '#';
 
         this.bindListeners({
             onGet: BasketActions.GET,
@@ -19,9 +20,9 @@ class BasketStore {
         this.products = products;
     }
 
-    onEdit(product) {
-        var index = _.findIndex(this.products, {id: product.id});
-        this.products[index] = product;
+    onEdit(data) {
+        this.products = data.products;
+        this.redirect = data.redirect;
     }
 
 

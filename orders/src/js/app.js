@@ -7,12 +7,15 @@ import $ from 'jquery';
 import Promise from 'bluebird';
 import Order from './components/Order';
 import Basket from './components/Basket';
+import App from './components/App';
 
 
 
     ReactDOM.render((
        <Router history={history}>
-         <Route path="/" component={Basket} />
+           <Route path="/" component={App} >
+             <Route path="/basket/:id" component={Basket} />
+             <Route path="/order" component={Order} />
+           </Route>
        </Router>
     ), document.getElementById("app-container"));
-//<Route path="/" component={Order} />

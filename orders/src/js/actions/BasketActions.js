@@ -15,11 +15,14 @@ class ProductsAction {
 
     edit(data) {
         var self = this;
-        ApiActions.get(`basket`, data).then(function(data){
-            self.dispatch(data);
-        }).catch(function(err){
-
-        })
+        return new Promise((resolve, reject) => {
+            ApiActions.put(`basket`, data).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                reject(data);
+            });
+        });
     }
 
 }

@@ -124,11 +124,31 @@ router.get('/basket', function(req, res, next) {
 
     BasketController.get({customer_id: +req.cookies.id, step: 'pending'}).then((basket) => {
 
-        return BasketProductController.get({basket_id: basket[0].id});
+        return BasketProductController.getWithConvertToBaseCurr(basket[0].id);
 
     }).then((b_p) => {
 
         res.send(b_p);
+
+    }).catch((err) => {
+
+        next(err);
+
+    })
+});
+
+router.put('/basket', function(req, res, next) {
+
+    var redirect = `http://${req.clientObj.login}.${req.postdomain}/order/basket/${req.body[0].basket_id}`;
+
+    Promise.map(req.body, (b_p) => {
+
+        var item = _.omit(b_p, ['currency_name']);
+        return BasketProductController.edit(item);
+
+    }).then((result) => {
+
+        res.send({products: _.flatten(result), redirect:redirect});
 
     }).catch((err) => {
 

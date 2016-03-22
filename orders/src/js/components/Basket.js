@@ -5,7 +5,6 @@ import NumberInput from './../../../../common/js/NumberInput';
 import BasketStore from './../stores/BasketStore';
 import BasketActions from './../actions/BasketActions';
 import _ from 'lodash';
-
 class BasketItem extends React.Component {
 
     constructor() {
@@ -18,6 +17,7 @@ class BasketItem extends React.Component {
     onChange(e) {
        var item = _.clone(this.props.item);
         item.quantity = e.target.value;
+        item.total_price = item.price_per_unit * e.target.value;
        this.props.onChange({
            target: {
                name: 'quantity',
@@ -49,6 +49,7 @@ class Basket extends React.Component {
         this.state = BasketStore.getState();
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     update(state) {
@@ -75,26 +76,44 @@ class Basket extends React.Component {
         this.setState({});
     }
 
+    onSubmit(e) {
+        e.preventDefault();
+        BasketActions.edit(this.state.products).then((data) => {
+            location.href = data.redirect;
+        });
+    }
+
 
     render() {
         var self = this;
-        console.log(this.state.products)
-        return <table className="table table-hover list">
-                                <thead>
-                                <tr>
-                                    <th>Изображение</th>
-                                    <th>Название</th>
-                                    <th>Описание</th>
-                                    <th>Цена</th>
-                                    <th>Количество</th>
-                                </tr>
-                                </thead>
-                            <tbody>
-                            { this.state.products.map(function (item, index) {
-                                return <BasketItem item={item} key={index} onChange={self.onChange}/>
-                            })}
-                            </tbody>
-                        </table>
+        console.log(this.state.products);
+        var total = 0;
+        var currency =  this.state.products[0] ? this.state.products[0].currency_name : '';
+        this.state.products.map((item) => total += parseFloat(item.total_price));
+
+        return <form className="boxed col-md-offset-1 col-md-10 form-margin" onSubmit={this.onSubmit}>
+            <h3>Корзина</h3>
+            <table className="table table-hover list">
+                <thead>
+                <tr>
+                    <th>Изображение</th>
+                    <th>Название</th>
+                    <th>Описание</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                </tr>
+                </thead>
+                <tbody>
+                { this.state.products.map(function (item, index) {
+                    return <BasketItem item={item} key={index} onChange={self.onChange}/>
+                })}
+                </tbody>
+            </table>
+            <div className="col-md-12">
+                <h5><b>Общая цена: {total.toFixed(2)} {currency}</b></h5>
+            </div>
+            <input  className="btn pull-right" type="submit" value="Офомить"/>
+        </form>
 
     }
 }
