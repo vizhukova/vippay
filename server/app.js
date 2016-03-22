@@ -23,6 +23,7 @@ var getInterkassaId = require('./middlewares/getInterkassaId');
 var checkError = require('./middlewares/checkError');
 var checkStaffAccess = require('./middlewares/checkStaffAccess');
 var redirect = require('./middlewares/redirect');
+var pendingModule = require('./modules/pending');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
@@ -69,60 +70,10 @@ app.get('/basket/*', function(req, res){
     res.render('order', {timestamp: timestamp});
 });
 
-app.get('/order/:id*', function(req, res){
+app.get('/order/:id*', pendingModule, function(req, res){
 
-    if(req.params.id == 'basket') {
-
-        var arrUrl = req.url.split('/');
-        var basket_id = arrUrl[arrUrl.length - 1];
-        var basket;
-
-        Basket.get({id: basket_id}).then((b) => {
-
-            basket = b[0];
-
-            if(! basket) {
-
-                throw new Error();
-
-            } else {
-
-                return BasketProduct.get({basket_id: basket.id});
-
-            }
-
-        }).then((b_p) => {
-
-            if (!b_p.length) {
-
-                throw new Error();
-
-            } else {
-
-                res.render('order', {timestamp: timestamp});
-
-            }
-
-        }).catch((err) => {
-
-            res.render('error', {timestamp: timestamp});
-
-        })
-
-    } else {
-
-        Product.getCurrentProduct(req.params.id).then((product) => {
-
-        if(req.tariff.active && product.active) res.render('order', {timestamp: timestamp})
-        else res.render('error', {timestamp: timestamp})
-
-        }).catch((err) => {
-
-            res.render('error', {timestamp: timestamp})
-
-        })
-
-    }
+        var data = _.assign(req.pending, {timestamp: timestamp})
+        res.render('pending', data);
 
 });
 

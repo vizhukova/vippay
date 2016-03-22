@@ -5,7 +5,9 @@ var ProductController = require('../controllers/Product');
 var CustomerController = require('../controllers/Customer');
 var StatisticController = require('../controllers/Statistic');
 var UserController = require('../controllers/User');
+var convert = require('./../modules/convert');
 var email = require('../utils/email');
+var Promise = require('bluebird');
 var _ = require('lodash');
 
 router.get('/orders', function(req, res, next) {
@@ -48,10 +50,106 @@ router.put('/order/:id', function(req, res, next) {
 });
 
 router.post('/order', function(req, res, next) {
-    var product;
-    var order;
 
-    ProductController.getWhereIn(req.body.prod_id).then(function(products){
+    var product = JSON.parse(req.body.product);
+    var delivery = {
+        comment: req.body.comment,
+        email: req.body.email,
+        name: req.body.name,
+        telephone: req.body.telephone
+    }
+    var promoCode = _.trim(req.body.promo_code);
+    var customer;
+    var total = 0;
+    var user;
+
+
+    Promise.map(product, (p) => {
+
+        return ProductController.getWhereIn(+p.id);
+
+    }).then((arr) => {
+
+        return CustomerController.get(+req.cookies.id)
+
+    }).then((c) => {
+
+        customer = c;
+
+         return new Promise((resolve, reject) => {
+
+             if(! customer) {
+
+                CustomerController.add({product_id: product[0].id}).then((c) =>
+                    resolve(c)).catch((err) => reject(err));
+
+             } else {
+                 resolve(customer);
+             }
+
+         })
+
+    }).then((c) => {
+
+        customer = c;
+
+        return UserController.getById(req.clientObj.id);
+
+    }).then((u) => {
+
+        user = u;
+
+        return Promise.map(product, (p) => {
+
+            return convert(parseFloat(p.price), user.id, p.currency_id, user.basic_currency).then((res) => {
+                total += parseFloat(res);
+            })
+        })
+
+    }).then((arr) => {
+
+        var partner_id;
+
+         if(user.partner_fee == 'first') {
+
+             partner_id = customer.partner_product_id.partner_id[0];
+
+         } else {
+             partner_id = customer.partner_product_id.partner_id[ customer.partner_product_id.partner_id.length - 1 ];
+         }
+
+        return OrderController.add({
+                            customer_id: customer.id,
+                            product: JSON.stringify(product),
+                            delivery: JSON.stringify(delivery),
+                            isPromo: !! promoCode,
+                            promo_code: promoCode || null,
+                            discount: null,
+                            partner_id: partner_id,
+                            step: 'pending',
+                            client_id: req.clientObj.id,
+                            product_price_order_rate: total,
+                            product_price_base_rate:total,
+                            delivery_price_order_rate: 0,
+                            delivery_price_base_rate: 0,
+                            total_price_order_rate: total,
+                            total_price_base_rate: total,
+                            basic_currency_id: user.basic_currency
+        })
+
+    }).then((order) => {
+
+        var a;
+
+    }).catch((err) => {
+
+        next(err);
+
+    })
+
+
+
+    /*ProductController.getWhereIn(req.body.prod_id).then(function(products){
         product  = _.findWhere(products, {id: +req.body.prod_id[0]});
         return CustomerController.get(req.cookies.id).then(function(customer) {
 
@@ -106,7 +204,7 @@ router.post('/order', function(req, res, next) {
     }).catch(function(err){
         //res.status(400).send(err.errors)
         next(err);
-    })
+    })*/
 
 });
 

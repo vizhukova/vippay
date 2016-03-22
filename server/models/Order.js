@@ -66,41 +66,8 @@ var Order = bookshelf.Model.extend({
     }),
 
     add: Promise.method(function (data) {
-        data.delivery = data.delivery || {};
-        var partnerId = data.customer.partner_product_id.partner_id;
-        var lastPartnerId = partnerId ? partnerId[partnerId.length - 1] : null;
-        var delivery_price = data.delivery.price ? (data.isPromo ? ( perCent(data.delivery.price, data.discount) ) : parseFloat(data.delivery.price) ) : 0;
-        var product_price = data.delivery.total - delivery_price;
-        var product  = data.product;
-        var convert = parseFloat(data.convert);
 
-        /*var product_price = data.delivery.total;
-        /*_.filter(data.products, (item) => item.id != product.id).map((prod) => {
-            product_price += parseFloat(prod.price);
-        })
-
-        product_price += data.isPromo ? perCent(product.price, data.discount) : parseFloat(product.price);*/
-
-
-        var record = new this({customer_id: data.customer.id,
-                               partner_id: lastPartnerId,
-                               client_id: product.user_id,
-                               product_id: product.id,
-                               basic_currency: data.basic_currency,
-                               product: JSON.stringify(data.products),
-                               step: "pending",
-                               delivery: JSON.stringify(data.delivery),
-                               product_price_order_rate: product_price,
-                               product_price_base_rate: product_price * data.convert,
-                               delivery_price_order_rate: delivery_price,
-                               delivery_price_base_rate: delivery_price * data.convert,
-                               total_price_order_rate: delivery_price + product_price,
-                               total_price_base_rate: (delivery_price + product_price) * data.convert,
-                               basic_currency_id: data.basic_currency_id,
-                               isPromo: data.isPromo,
-                               discount: data.discount,
-                               promo_code: data.promo_code
-        });
+        var record = new this(data);
 
         return record.save();
     }),

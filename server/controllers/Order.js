@@ -78,29 +78,17 @@ module.exports = {
 
     add(data) {
         return new Promise(function (resolve, reject) {
-            var product = data.product;
-            User.getBasicCurrency({user_id: product.user_id}).then((result) => {
 
-                    return Rate.getResult({
-                        client_id: product.user_id,
-                        from: product.currency_id,
-                        to: result.basic_currency
-                    }).then((convert) => {
+             Order.add(data).then(function (order) {
 
-                        data.convert = convert ? convert.result : 1;
-                        data.basic_currency_id = result.basic_currency;
+                    resolve(order.attributes);
 
-                        return Order.add(data)
-                            .then(function (order) {
-                                resolve(order.attributes)
-                            })
+                }).catch((err) => {
 
-                    })
+                 reject(err);
 
-                })
-                .catch(function (err) {
-                    reject(err);
-                });
+             })
+
         })
     },
 
