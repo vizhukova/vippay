@@ -24,6 +24,7 @@ var checkError = require('./middlewares/checkError');
 var checkStaffAccess = require('./middlewares/checkStaffAccess');
 var redirect = require('./middlewares/redirect');
 var pendingModule = require('./modules/pending');
+var basketModule = require('./modules/basket');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
@@ -66,14 +67,21 @@ app.use(require('./routes/api'));
 
 app.use(require('./routes/redirect'));
 
-app.get('/basket/*', function(req, res){
-    res.render('order', {timestamp: timestamp});
+app.get('/basket/:id*',basketModule, function(req, res){ //show basket
+
+    res.render('basket', {basketItems: req.basketItems, timestamp: timestamp});
 });
 
-app.get('/order/:id*', pendingModule, function(req, res){
+app.get('/order/basket/:id*', basketModule, function(req, res){
 
-        var data = _.assign(req.pending, {timestamp: timestamp})
-        res.render('pending', data);
+    res.render('basketPending', {basketItems: req.basketItems, timestamp: timestamp});
+
+});
+
+app.get('/order/:id*', pendingModule, function(req, res){ //pending order
+
+    var data = _.assign(req.pending, {timestamp: timestamp})
+    res.render('pending', data);
 
 });
 

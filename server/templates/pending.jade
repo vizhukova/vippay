@@ -4,8 +4,10 @@ html(lang='en')
     meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
     link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
   body
+      script(src="/public/partners/vendor.js?timestamp=#{timestamp}")
       div
-          form.panel.panel-default.col-md-10.col-md-offset-1.form-margin.boxed(action='#{formSettings.action}' method='#{formSettings.method}')
+          form#form.panel.panel-default.col-md-10.col-md-offset-1.form-margin.boxed(action='#{formSettings.action}' method='#{formSettings.method}')
+              include ./partial/alert.jade
               .panel-body
                   .text-danger.title Оформление заказа
                   .col-md-6
@@ -35,6 +37,7 @@ html(lang='en')
                                   select#sell.form-control(name='condition', onchange='onChange(this.selectedIndex, {product})')
                                       each del in product.delivery
                                           option=del.condition
+                                  input#priceToSent(type='hidden', name='price')
                   .col-md-6
                       .form-group
                           label
@@ -59,22 +62,19 @@ html(lang='en')
                               label Промо код:
                               input(type='text', name='promo_code')
                       .text-warning.text-uppercase.pull-right
-                          b Итоговая цена:#{total + ' ' + currency.name}
+                          b
+                              | Итоговая цена:
+                              span#total
+                              | #{currency.name}
                       br
                       .text-danger.small.pull-right *Поля обязательные для заполнения
                       br
                   input.form-control(type='hidden', name='product', value='#{JSON.stringify([product])}')
+                  input.form-control(type='hidden', name='currency', value='#{JSON.stringify(currency)}')
+                  input.form-control(type='hidden', name='upsell_products', value='#{JSON.stringify(upsell_products)}')
                   button.btn.btn-danger.btn-lg.pull-right.btn-order(type='submit') Оформить
-  script.
-     function onChange(index, e) {
-     var product = JSON.parse(e.product.value)[0];
-     document.getElementById('condition').innerHTML = product.delivery[index].condition;
-     document.getElementById('price').innerHTML = product.delivery[index].price;
-     }
 
-     window.onload = function (e) {
-         debugger
-         var product = JSON.parse( document.getElementsByName('product')[0].value )[0];
-         document.getElementById('condition').innerHTML = product.delivery[0].condition;
-         document.getElementById('price').innerHTML = product.delivery[0].price;
-     };
+  include ./partial/message.jade
+
+  script(src="/public/ajax.js")
+  script(src="/public/orders/js/pending.js")

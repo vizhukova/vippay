@@ -47,6 +47,12 @@ var BasketProduct = bookshelf.Model.extend({
                   WHERE basket_id = ${basket_id} AND
                   currency.id = users.basic_currency AND
                   int4(baskets_products.product->>'user_id') = users.id`);
+    },
+
+    delete(data) {
+        return knex('baskets_products')
+            .where(data)
+            .del();
     }
 });
 

@@ -51,17 +51,31 @@ router.put('/order/:id', function(req, res, next) {
 
 router.post('/order', function(req, res, next) {
 
-    var product = JSON.parse(req.body.product);
+    var product = req.body.product;
     var delivery = {
         comment: req.body.comment,
         email: req.body.email,
         name: req.body.name,
-        telephone: req.body.telephone
-    }
-    var promoCode = _.trim(req.body.promo_code);
+        telephone: req.body.telephone,
+        price: req.body.price || 0
+    };
     var customer;
-    var total = 0;
     var user;
+    var total = req.body.total;
+
+    if(product.material) {
+        delivery = _.assign(delivery, {condition: req.body.condition})
+    }
+
+    if(! _.trim(delivery.email).length
+        || ! _.trim(delivery.name).length
+        || !_.trim(delivery.telephone).length
+        || (product.material ? !delivery.condition || !delivery.price : false)) {
+
+       throw new Error();
+       return;
+
+    }
 
 
     Promise.map(product, (p) => {
@@ -99,16 +113,15 @@ router.post('/order', function(req, res, next) {
 
         user = u;
 
-        return Promise.map(product, (p) => {
-
-            return convert(parseFloat(p.price), user.id, p.currency_id, user.basic_currency).then((res) => {
-                total += parseFloat(res);
-            })
+        return Promise.map([total, delivery.price], (item) => {
+            return convert(item, user.id, product[0].currency_id, user.basic_currency);
         })
 
-    }).then((arr) => {
+    }).then((prices_base_rate) => {
 
         var partner_id;
+        var total_price_base_rate = prices_base_rate[0];
+        var delivery_price_base_rate = prices_base_rate[1];
 
          if(user.partner_fee == 'first') {
 
@@ -122,24 +135,24 @@ router.post('/order', function(req, res, next) {
                             customer_id: customer.id,
                             product: JSON.stringify(product),
                             delivery: JSON.stringify(delivery),
-                            isPromo: !! promoCode,
-                            promo_code: promoCode || null,
-                            discount: null,
+                            isPromo: !! req.body.promo_code,
+                            promo_code: req.body.promo_code || null,
+                            discount: req.body.discount || null,
                             partner_id: partner_id,
                             step: 'pending',
                             client_id: req.clientObj.id,
-                            product_price_order_rate: total,
-                            product_price_base_rate:total,
-                            delivery_price_order_rate: 0,
-                            delivery_price_base_rate: 0,
-                            total_price_order_rate: total,
-                            total_price_base_rate: total,
+                            product_price_order_rate: req.body.total - delivery.price,
+                            product_price_base_rate: total_price_base_rate - delivery_price_base_rate,
+                            delivery_price_order_rate: delivery.price,
+                            delivery_price_base_rate: delivery_price_base_rate,
+                            total_price_order_rate: req.body.total,
+                            total_price_base_rate: total_price_base_rate,
                             basic_currency_id: user.basic_currency
         })
 
     }).then((order) => {
 
-        var a;
+        res.send(order);
 
     }).catch((err) => {
 

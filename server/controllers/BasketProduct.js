@@ -45,6 +45,20 @@ module.exports = {
 
     },
 
+    delete(data){
+        return new Promise(function (resolve, reject) {
+
+            BasketProduct.delete(data).then(function (model) {
+                resolve(model);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+
+        })
+
+    },
+
     getWithConvertToBaseCurr(basket_id){
         return new Promise(function (resolve, reject) {
 

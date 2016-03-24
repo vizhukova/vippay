@@ -13,10 +13,10 @@ class OrderItem extends React.Component {
     constructor() {
         super();
 
-        this.state = {
+        this.state ={
             commentLength: 50,
             isCommentCut: 0 // 0-не выводить Подробнее; 1- Подробнее раскрыт; -1 - ПОдробнее закрыт
-        }
+        };
 
          this.statuses = {
             pending: 'Заказ оформлен',
@@ -62,13 +62,17 @@ class OrderItem extends React.Component {
     }
     
     render() {
-        //if(this.state.isCommentCut) debugger
+
         var complete = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
         var notComplete = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
         var delivery = this.props.item.delivery;
         var comment = delivery.comment || '';
-        var products_name = this.props.item.product.reduce((prev, curr) => `${prev.name} + ${curr.name}`);
-        var currency = _.findWhere(this.props.item.product, {id: this.props.item.product_id}).currency_name;
+        var products_name = '';
+
+
+        this.props.item.product.map((prod, index) => {
+            products_name += (index > 0 ? '+' : '') + prod.name;
+        });
 
         if(comment.length > this.state.commentLength) {
             comment = comment.slice(0, this.state.commentLength);
@@ -80,7 +84,7 @@ class OrderItem extends React.Component {
             <td>
                 {
                     this.props.item.product.map((item, index) => {
-                        return <span>{index > 0 ? '+' : ''}<a href='#' target="_blank">{item.name}</a></span>
+                        return <span key={index}>{index > 0 ? '+' : ''}<a href='#' target="_blank">{item.name}</a></span>
                     })
                 }
                 <div>
@@ -94,7 +98,7 @@ class OrderItem extends React.Component {
             </td>
             <td>{this.props.item.delivery_price}</td>
             <td><button type="button" className={` ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
-            <td>{`${this.props.item.product_price} ${currency}`}</td>
+            <td>{`${this.props.item.product_price} ${this.props.item.currency}`}</td>
         </tr>
     }
     
@@ -169,10 +173,12 @@ class Orders extends React.Component {
                 order.product_price = order.product_price_order_rate;
                 order.delivery_price = order.delivery_price_order_rate;
                 order.total_price = order.total_price_order_rate;
-                order.currency = order.product.currency_name;
+                order.currency = _.findWhere(this.state.currencies, {id: order.product[0].currency_id}) || {};
+                order.currency = order.currency.name;
             }
         })
-        
+
+        debugger
         return <List
             title="Заказы"
             error={this.state.error}

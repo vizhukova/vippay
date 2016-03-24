@@ -157,5 +157,20 @@ router.put('/basket', function(req, res, next) {
     })
 });
 
+router.delete('/basket', function(req, res, next) {
+
+    BasketProductController.delete(req.body).then((data) => {
+
+        res.send({});
+
+    }).catch((err) => {
+
+        next(err);
+
+    })
+
+});
+
+
 
 module.exports = router;

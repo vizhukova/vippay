@@ -39,7 +39,6 @@ class List extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        debugger
         this.state.perPage = props.perPage ? props.perPage : this.state.perPage;
         this.setState({});
     }

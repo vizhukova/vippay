@@ -27,7 +27,7 @@ module.exports = function(req, res, next){
          return new Promise((resolve, reject) => {
 
              if(product.isUpsell) {
-                 return UpsellProduct.getForUpsell({upsell_id: product.id}).then((u_p) => resolve(u_p));
+                 return UpsellProduct.getForUpsell({upsell_id: product.id, currency_id: currency.id}).then((u_p) => resolve(u_p.rows));
              } else {
                  resolve([]);
              }
@@ -36,9 +36,17 @@ module.exports = function(req, res, next){
 
      }).then((products) => {
 
-         var total = product.delivery.length ? parseFloat(product.price) + parseFloat(product.delivery.price) : parseFloat(product.price);
+         var total = product.delivery.length ? parseFloat(product.price) + parseFloat(product.delivery[0].price) : parseFloat(product.price);
 
          upsell_products = products;
+
+         upsell_products.map((u_p) => {
+
+             if(u_p.image.indexOf('http://') == -1) {
+              u_p.image = '/public/orders/images/noimage.png';
+            }
+
+         });
 
          req.pending = {
              currency: currency,
@@ -56,7 +64,8 @@ module.exports = function(req, res, next){
 
      }).catch((err) => {
 
-         var a;
+        res.status(404);
+        res.render('error', { error: err });
 
      })
 

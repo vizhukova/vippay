@@ -56,7 +56,6 @@ class ApiActions{
                     auth: token
                 },
                 error(response){
-                    debugger
                     checkError.check(response);
                     SettingsActions.getMessages(); // get error-messages from server
                     reject(new Error());

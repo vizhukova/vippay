@@ -23,18 +23,18 @@ router.get('/promo', function(req, res, next){
 router.get('/promo/order', function(req, res, next){
 
     var promo;
-    var products = req.query.product_id;
+    var product_id = req.query.product_id; //array
     PromoController.get({client_id: req.clientObj.id, code: req.query.code}).then(function(p){
 
-        promo = p[0];
+        promo = p[0] || {};
         return ProductPromo.get({promo_id: promo.id});
 
     }).then((p_p) => {
 
-        var arrayForPromo = p_p.map((item) => item.product_id).filter((item) => _.indexOf(products, item.toString()) > -1);
+        var promo_prod = p_p.filter((item) => _.indexOf(product_id, item.product_id.toString()) != -1)
 
-        if(! arrayForPromo.length) throw new Error();
-        else res.send({products: arrayForPromo, promo: promo});
+        if(! promo_prod.length) throw new Error();
+        else res.send({promo: promo, promo_prod: promo_prod});
 
     }).catch(function(err){
 
