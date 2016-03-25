@@ -5,3 +5,25 @@ div#alert(onclick='hide()', class='alert boxed hide')
     span.alert-label
         a.close(href='#')
 
+script.
+    var alert = $('#alert');
+    var timerId;
+
+
+    function setAlert(obj) {
+        var type = ['error', 'info', 'warning'].filter(function(item){ return item == obj.type})[0];
+
+        type = type || 'info';
+
+        alert.removeClass("hide");
+        alert.addClass("alert-" + type);
+        $('#title').html(obj.title);
+        $('#text').html(obj.text);
+
+        timerId = setTimeout(hide, 2000);
+    }
+
+    function hide() {
+        alert.addClass("hide");
+        if (timerId) clearTimeout(timerId);
+    }

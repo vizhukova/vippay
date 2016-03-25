@@ -4,8 +4,9 @@ html(lang='en')
     meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
     link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
   body
-      script(src="/public/partners/vendor.js?timestamp=#{timestamp}")
+      script(src="/public/orders/vendor.js?timestamp=#{timestamp}")
       form#form.boxed.col-md-offset-1.col-md-10.form-margin
+          include ./partial/alert.jade
           h3 Корзина
           .col-md-6
               table.table.table-hover.list
@@ -59,6 +60,8 @@ html(lang='en')
           input.btn.pull-right(type='submit', value='Офомить')
 
           input(type='hidden', name="basketItems", value='#{JSON.stringify(basketItems)}')
+          input(type='hidden', name="currency", value='#{JSON.stringify(currency)}')
 
+      include ./partial/message.jade
       script(src="/public/ajax.js")
       script(src="/public/orders/js/basket.js")

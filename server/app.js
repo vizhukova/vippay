@@ -25,6 +25,7 @@ var checkStaffAccess = require('./middlewares/checkStaffAccess');
 var redirect = require('./middlewares/redirect');
 var pendingModule = require('./modules/pending');
 var basketModule = require('./modules/basket');
+var paymentModule = require('./modules/payment');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
@@ -69,18 +70,25 @@ app.use(require('./routes/redirect'));
 
 app.get('/basket/:id*',basketModule, function(req, res){ //show basket
 
-    res.render('basket', {basketItems: req.basketItems, timestamp: timestamp});
+    res.render('basket', {basketItems: req.basketItems, currency: req.currency, timestamp: timestamp});
 });
 
 app.get('/order/basket/:id*', basketModule, function(req, res){
 
-    res.render('basketPending', {basketItems: req.basketItems, timestamp: timestamp});
+    res.render('basketPending', {basketItems: req.basketItems, currency: req.currency, timestamp: timestamp});
+
+});
+
+app.get('/order/payment/:order_id*', paymentModule, function(req, res){ //pending order
+
+    var data = _.assign(req.payment, {timestamp: timestamp});
+    res.render('payment', data);
 
 });
 
 app.get('/order/:id*', pendingModule, function(req, res){ //pending order
 
-    var data = _.assign(req.pending, {timestamp: timestamp})
+    var data = _.assign(req.pending, {timestamp: timestamp});
     res.render('pending', data);
 
 });

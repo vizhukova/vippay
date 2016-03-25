@@ -1,10 +1,13 @@
 var Basket = require('./../models/Basket');
 var BasketProduct = require('./../models/BasketProduct');
+var Users = require('./../models/Users');
+var Currency = require('./../models/Currency');
 var _ = require('lodash');
 
 module.exports = function(req, res, next){
 
    var basket;
+    var user;
 
    Basket.get({id: req.params.id, client_id: req.clientObj.id, step: 'pending'}).then((b) => {
 
@@ -21,6 +24,19 @@ module.exports = function(req, res, next){
        });
 
        req.basketItems = b_p.rows;
+
+       return Users.getBasicCurrency({user_id: req.clientObj.id});
+
+   }).then((u) => {
+
+        user = u;
+        return Currency.get();
+
+   }).then((currencies) => {
+
+       var currency = _.findWhere(currencies, {id: user.basic_currency});
+        req.currency = currency;
+
        next();
 
    }).catch((err) => {

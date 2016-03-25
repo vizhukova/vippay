@@ -38,7 +38,7 @@ router.put('/order/:id', function(req, res, next) {
         new Promise((resolve, reject) => {
 
             if(req.body.step) return  OrderController.setComplete({id:req.params.id, step: req.body.step}).then((order) => resolve(order));
-            else return OrderController.edit(req.body).then((order) => resolve(order));
+            else return OrderController.edit(req.body).then((order) => resolve(order).then((err) => reject(err)));
 
         }).then(function (order) {
             res.send(order[0]);
@@ -57,24 +57,19 @@ router.post('/order', function(req, res, next) {
         email: req.body.email,
         name: req.body.name,
         telephone: req.body.telephone,
-        price: req.body.price || 0
+        price: req.body.price || 0,
+        condition: req.body.condition || null
     };
     var customer;
     var user;
     var total = req.body.total;
 
-    if(product.material) {
-        delivery = _.assign(delivery, {condition: req.body.condition})
-    }
-
     if(! _.trim(delivery.email).length
         || ! _.trim(delivery.name).length
-        || !_.trim(delivery.telephone).length
-        || (product.material ? !delivery.condition || !delivery.price : false)) {
+        || !_.trim(delivery.telephone).length) {
 
-       throw new Error();
-       return;
-
+       throw new Error({mesage: 'error'});
+        return;
     }
 
 
@@ -152,73 +147,18 @@ router.post('/order', function(req, res, next) {
 
     }).then((order) => {
 
-        res.send(order);
+        var redirect;
+
+        if(order.total_price_order_rate == 0)  redirect = 'http://img.ezinearticles.com/blog/payed-invoice.jpg';
+        else redirect = `http://${req.clientObj.login}.${req.postdomain}/order/payment/${order.id}`;
+
+        res.send({redirect: redirect});
 
     }).catch((err) => {
 
         next(err);
 
     })
-
-
-
-    /*ProductController.getWhereIn(req.body.prod_id).then(function(products){
-        product  = _.findWhere(products, {id: +req.body.prod_id[0]});
-        return CustomerController.get(req.cookies.id).then(function(customer) {
-
-            if(! customer) return CustomerController.add({product_id: product.id})
-                .then(function(customer) {
-                    return OrderController.add({user_id: req.clientObj.id,
-                                        product: product,
-                                        basic_currency: product.currency_id,
-                                        products: products,
-                                        customer: {id: customer.id, partner_product_id: customer.partner_product_id},
-                                        delivery: req.body.delivery,
-                                        isPromo: !!req.body.promo.code,
-                                        promo_code: req.body.promo.code || null,
-                                        discount:  req.body.promo.discount || null})
-
-                });
-            else return OrderController.add({user_id: req.clientObj.id,
-                                    product: product,
-                                    basic_currency: product.currency_id,
-                                    products: products,
-                                    customer: customer,
-                                    delivery: req.body.delivery,
-                                    isPromo: !!req.body.promo.code,
-                                    promo_code: req.body.promo ? req.body.promo.code : null,
-                                    discount: req.body.promo ? req.body.promo.discount: null})
-
-        })
-
-
-    }) .then(function (o) {
-        order = o;
-        var product = _.findWhere(JSON.parse(order.product), {id: +req.body.prod_id[0]});
-        if(order.total_price_order_rate == 0) {
-            return OrderController.pay(order.id).then((payed_order) => {
-               order = payed_order;
-            });
-        } else {
-             email.send(order.delivery.email,
-            'Успешное оформление заказа',
-            `Спасибо за оформленный заказ. Ссылка на оплату:
-            ${req.subdomain}.${req.postdomain}/order/${product.id}?${order.id}`);
-
-        return StatisticController.add({partner_id: order.partner_id,
-            product: product,
-            customer_id: order.customer_id,
-            client_id: order.client_id,
-            action: "start_order"})
-        }
-
-    }).then(() => {
-        res.send(order);
-    }).catch(function(err){
-        //res.status(400).send(err.errors)
-        next(err);
-    })*/
-
 });
 
 router.put('/order', function(req, res, next) { //pay for the order

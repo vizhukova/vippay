@@ -147,7 +147,8 @@ router.put('/basket', function(req, res, next) {
         return BasketProductController.edit(item);
 
     }).then((result) => {
-
+        var a = _.flatten(result)
+            var b = redirect
         res.send({products: _.flatten(result), redirect:redirect});
 
     }).catch((err) => {

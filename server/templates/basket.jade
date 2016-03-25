@@ -5,7 +5,7 @@ html(lang='en')
     link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
   body
       script(src="/public/partners/vendor.js?timestamp=#{timestamp}")
-      form.boxed.col-md-offset-1.col-md-10.form-margin(onsubmit='')
+      form#basket.boxed.col-md-offset-1.col-md-10.form-margin
           h3 Корзина
           table.table.table-hover.list
               thead
@@ -26,14 +26,15 @@ html(lang='en')
                           td
                             input(type="text" value='#{item.quantity}' onchange='onChange(' + index + ', this)')
                           td
-                            button.btn.btn-action.btn-danger.glyphicon.glyphicon-remove.remove(data-index='#{index}')
+                            div.btn.btn-action.btn-danger.glyphicon.glyphicon-remove.remove(data-index='#{index}')
           div.col-md-12
               h5
                   b Общая цена:
                     span#total
-          input.btn.pull-right#submit(type='submit', value='Перейти к оформлению')
+          input#submit.btn.pull-right(type='submit', value='Перейти к оформлению')
 
           input(type='hidden', name="basketItems", value='#{JSON.stringify(basketItems)}')
+          input(type='hidden', name="currency", value='#{JSON.stringify(currency)}')
 
       script(src="/public/ajax.js")
       script(src="/public/orders/js/basket.js")

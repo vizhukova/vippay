@@ -5,6 +5,7 @@ import Payment from './steps/Payments'
 import OrdersStore from'./../stores/OrdersStore'
 import OrderActions from'./../actions/OrdersActions'
 import ModalWindow from'./../../../../common/js/ModalWindow/ModalWindow';
+import paymentSettings from'./../../../../common/paymentSettings';
 
 class Order extends React.Component {
 

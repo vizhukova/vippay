@@ -20,7 +20,7 @@ router.get('/promo', function(req, res, next){
 
 });
 
-router.get('/promo/order', function(req, res, next){
+router.get('/order/promo', function(req, res, next){
 
     var promo;
     var product_id = req.query.product_id; //array

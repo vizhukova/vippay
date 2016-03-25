@@ -1,0 +1,39 @@
+doctype html
+html(lang='en')
+  head
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
+    link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
+  body
+      script(src="/public/orders/vendor.js?timestamp=#{timestamp}")
+      html
+          body
+              div
+                  .panel.panel-default.col-md-10.col-md-offset-1.form-margin
+                      .panel-body
+                          .text-danger.title
+                              | Оплата заказа
+                      div
+                          .content-step.row
+                              .order-num.title
+                                  b ID заказа:
+                                  | #{order.id}
+                              div
+                                  h2 Варианты оплаты:
+                              div#container
+                      .col-md-3#paymentBlock
+                          include ./payments/interkassa.jade
+                          include ./payments/yandex.jade
+                      .col-md-9
+                          .col-md-4.text-uppercase
+                              b Описание:
+                              span
+                          .col-md-8#description
+
+
+          input.form-control(type='hidden', name='payments', value='#{JSON.stringify([payments])}')
+          input.form-control(type='hidden', name='paymentSettings', value='#{JSON.stringify([paymentSettings])}')
+          input.form-control(type='hidden', name='order', value='#{JSON.stringify([order])}')
+
+  script(src="/public/ajax.js")
+  script(src="/public/orders/js/paymentSettings.js")
+  script(src="/public/orders/js/payment.js")

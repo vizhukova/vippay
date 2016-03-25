@@ -1,0 +1,8 @@
+
+form#interkassa.hide(name='payment', method='post', action='https://sci.interkassa.com/', enctype='utf-8')
+    input(name='ik_co_id', type='hidden', value='#{payments.interkassa.ik_co_id}')
+    input(name='ik_pm_no', type='hidden', value='#{payments.interkassa.ik_pm_no}')
+    input(name='ik_am', type='hidden', value='#{payments.interkassa.ik_am}')
+    input(name='ik_cur', type='hidden', value='#{payments.interkassa.ik_cur}')
+    input(name='ik_desc', type='hidden', value='#{payments.interkassa.ik_desc}')
+    input.btn.btn-danger.btn-lg(type='submit', value='Оплатить')

@@ -4,6 +4,7 @@ import OrdersStore from'./../stores/OrdersStore';
 import SettingsStore from'./../stores/SettingsStore';
 import List from'./../../../../common/js/List';
 import Select from'./../../../../common/js/Select';
+import paymentSettings from'./../../../../common/paymentSettings';
 import _  from 'lodash';
 import moment  from 'moment';
 
@@ -99,6 +100,8 @@ class OrderItem extends React.Component {
             <td>{this.props.item.delivery_price}</td>
             <td><button type="button" className={` ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
             <td>{`${this.props.item.product_price} ${this.props.item.currency}`}</td>
+            <td>{this.props.item.promo_code || ''}</td>
+            <td>{paymentSettings[this.props.item.method] || ''}</td>
         </tr>
     }
     
@@ -192,7 +195,9 @@ class Orders extends React.Component {
                 {name: 'Комментарий', key: ''},
                 {name: 'Доставка', key: ''},
                 {name: 'Оплачен', key: ''},
-                {name: 'Цена за товар', key: 'product.price'}
+                {name: 'Цена за товар', key: 'product.price'},
+                {name: 'Промо код', key: ''},
+                {name: 'Метод оплаты', key: 'method'}
             ]}
             >
             <Select values={this.state.values} className="col-md-3 pull-right"
