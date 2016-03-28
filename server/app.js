@@ -7,9 +7,9 @@ var methodOverride = require('method-override');
 var morgan = require('morgan');
 var config = require('./config');
 var _ = require('lodash');
-var Product = require('./models/Product');
-var Basket = require('./models/Basket');
-var BasketProduct = require('./models/BasketProduct');
+//var session = require('express-session');
+//var flash = require('req-flash');
+var User = require('./models/Users');
 
 var app = express();
 var http = require('http').Server(app);
@@ -46,8 +46,41 @@ app.use(getInterkassaId);
 app.use(checkStaffAccess);
 app.use(redirect);
 
-var timestamp = Date.now();
 
+/*var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+app.use(session({ secret: 'anything' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash({ locals: 'flash' }));
+
+passport.use('userLogin', new LocalStrategy(
+  function(req, login, password, done) {
+
+      User.login({
+          email: req.body.email,
+          password:  req.body.password
+      }).then((user) => {
+            console.log('111111111111111111111111111111111111')
+            console.log(user)
+          return done(null, user);
+
+      })
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});*/
+
+
+var timestamp = Date.now();
 
 app.get('/', redirect, function(req, res){
 
@@ -108,9 +141,7 @@ app.get('/:partner', function(req, res){
         if(result == -1) {
             res.redirect(`http://auth.${req.postdomain}`);
         }
-    } /*else if(req.clientObj && !req.partnerObj) {
-        res.redirect(`http://${req.clientObj.login}.${req.postdomain}/partner`);
-    }*/
+    }
 
     res.render('partner', {timestamp: timestamp});
 });

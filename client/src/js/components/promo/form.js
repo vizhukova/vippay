@@ -147,7 +147,7 @@ class PromoForm extends React.Component {
     checkFields() {
         var p = this.state.promo;
         var timeDiff = true;
-        debugger
+
         if(! this.props.params.id && p.date) {
             var now = moment();
             var date = this.state.promo.type == 'during'

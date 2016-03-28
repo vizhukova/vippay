@@ -14,7 +14,7 @@ module.exports = function(req, res, next){
          product = p[0];
          product.delivery = product.delivery || [];
 
-         if(product.image.indexOf('http://') == -1) {
+         if(!product.image || product.image.indexOf('http://') == -1) {
               product.image = '/public/orders/images/noimage.png';
          }
 

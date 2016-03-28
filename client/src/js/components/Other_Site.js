@@ -59,7 +59,7 @@ class Other_Sites extends React.Component {
               var products = xmlhttp.responseText == "" ? 0 : JSON.parse(xmlhttp.responseText);
               var basket_id = products[0] ? products[0].basket_id : undefined;
               a.innerHTML = products.length;
-              a.setAttribute('href', "http://" + basket.dataset.domain + "/#/basket/" + basket_id);
+              a.setAttribute('href', "http://" + basket.dataset.domain + "/basket/" + basket_id);
 
           } else {
               //handleError(xmlhttp.statusText); // вызвать обработчик ошибки с текстом ответа

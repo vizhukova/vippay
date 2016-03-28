@@ -21,7 +21,7 @@ class AlertActions {
          ApiActions.put(`messages/${data.id}`, data.data).then(function(result){
                  self.dispatch(result);
             }).catch(function(err){
-                debugger
+
             })
     }
 

@@ -63,7 +63,6 @@ class ProductItem extends React.Component {
     }
 
     setModelData(e) {
-        debugger
         ModalActions.set({data: this.props.item.materials || [], name: 'Materials'});
     }
 

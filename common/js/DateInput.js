@@ -41,7 +41,7 @@ var DateInput = React.createClass({
     },
 
     onChange(e){
-        debugger;
+
         e.preventDefault();
         this.setState({date: this.props.default})
 

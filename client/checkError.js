@@ -33,7 +33,6 @@ module.exports = {
             }
 
             case 401: {
-                debugger
                 window.location.replace(`http://auth.${(window.location.host).slice(window.location.host.indexOf('.') + 1)}/#/auth`);
             }
 

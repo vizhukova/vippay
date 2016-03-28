@@ -8,6 +8,7 @@ var config = require('../config');
 var payments = require('../payment_systems/payment_systems');
 var email = require('../utils/email');
 var _ = require('lodash');
+var passport = require('passport');
 
 
 router.post('/client/register', function (req, res, next) {
@@ -59,6 +60,25 @@ router.post('/client/login', function (req, res, next) {
     })
 
 });
+
+/*router.post('/client/login',  () => {
+
+    passport.authenticate('userLogin', {
+    successRedirect: '/api/',
+    failureRedirect: '/loginFailure'
+  })
+
+}
+);
+
+router.get('/loginFailure', function(req, res, next) {
+  res.send('Failed to authenticate');
+});
+
+router.get('/loginSuccess', function(req, res, next) {
+  res.send('Successfully authenticated');
+});*/
+
 
 router.post('/guest_login', (req, res, next) => {
 

@@ -181,7 +181,6 @@ class Orders extends React.Component {
             }
         })
 
-        debugger
         return <List
             title="Заказы"
             error={this.state.error}

@@ -137,7 +137,6 @@ class Pending extends React.Component {
     }
 
     update(state){
-        debugger
         //_.assign(this.state, state);
         this.setState(state);
         //this.forceUpdate();
@@ -225,7 +224,7 @@ class Pending extends React.Component {
             } else {
                 prod_id = [this.state.prod_id];
             }
-            debugger
+
             if(this.state.promo && _.trim(this.state.promo)) { //if promo code
                 OrderActions.getPromo({code: this.state.promo, product_id: prod_id}).then((data) => {
 
