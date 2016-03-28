@@ -9,6 +9,20 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 
 
+router.put('/basket/complete', function(req, res, next) {
+
+    BasketController.edit(req.body).then((data) => {
+
+        res.send(data);
+
+    }).catch((err) => {
+
+        next(err);
+
+    })
+
+});
+
 router.put('/basket/:product_id', function(req, res, next) {
 
     var customer;
@@ -24,9 +38,14 @@ router.put('/basket/:product_id', function(req, res, next) {
              if(! customer) {
 
                  CustomerController.add({product_id: req.params.product_id}).then((new_customer) => {
+
+                     res.cookie('id', new_customer.id, {maxAge: 9000000000, httpOnly: true});
                      resolve(new_customer)
+
                  }).catch((err) => {
+
                     reject(err);
+
                  })
 
              } else {
@@ -39,7 +58,7 @@ router.put('/basket/:product_id', function(req, res, next) {
 
         customer = c;
 
-        return BasketController.get({customer_id: customer.id, client_id: req.clientObj.id});
+        return BasketController.get({customer_id: customer.id, client_id: req.clientObj.id, step: 'pending'});
 
     }).then((b) => {
 
@@ -105,7 +124,6 @@ router.put('/basket/:product_id', function(req, res, next) {
     });
 
 });
-
 
 router.get('/basket/product/:basket_id', function(req, res, next) {
 

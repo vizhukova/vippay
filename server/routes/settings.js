@@ -137,7 +137,8 @@ router.put('/settings/tariff', function(req, res, next) {
         tariff_duration: req.body.time,
         tariff_name: req.body.name,
         tariff_date: moment(),
-        id: req.clientObj.id
+        id: req.clientObj.id,
+        active: false
     }).then((result) => {
         res.send(result)
     }).catch((err) => {
