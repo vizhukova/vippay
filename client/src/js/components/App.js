@@ -94,6 +94,7 @@ class Application extends React.Component {
                                     <li><Link to="/fee" activeClassName="active">Комиссия</Link></li>
                                     <li><Link to="/payment" activeClassName="active">Платежи</Link></li>
                                     <li><Link to="/promo" activeClassName="active">Промо акции</Link></li>
+                                    <li><Link to="/basket" activeClassName="active">Корзина</Link></li>
                                     {this.state.isStaff ? null : <li><Link to="/staff" activeClassName="active">Сотрудники</Link></li>}
                                   </ul>
                             </li>

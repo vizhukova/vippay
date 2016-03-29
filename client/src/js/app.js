@@ -25,6 +25,7 @@ import Profile from './components/settings/Profile';
 import Staff from './components/settings/staff/Staff';
 import formStaff from './components/settings/staff/form';
 import Payment from './components/settings/Payments';
+import Basket from './components/settings/Basket';
 import NewProductForm from './components/product/form';
 import PartnerLinks from './components/partner_links/Links';
 import NewPartnerLinkForm from './components/partner_links/form';
@@ -68,6 +69,7 @@ import Other_Site from './components/Other_Site';
                 <Route path="/fee" component={Fee} onLeave={onLeave} />
                 <Route path="/payment" component={Payment} onLeave={onLeave} />
                 <Route path="/profile" component={Profile} onLeave={onLeave} />
+                <Route path="/basket" component={Basket} onLeave={onLeave} />
 
                 <Route path="/partners_links" component={PartnerLinks} onLeave={onLeave} />
                 <Route path="/partners_links" onLeave={onLeave} >

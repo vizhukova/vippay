@@ -86,9 +86,8 @@ class Other_Sites extends React.Component {
                             <input type="hidden" name="redirect_link" value={document.location.href} />
                             <input type="submit" value="Заказать"/>
                          </form>
-            <div id="basket" data-domain="client1.vippay.loc">
-
-            </div>
+            
+            <div id="basket" data-domain={this.state.domain}></div>
         </div>
     }
 

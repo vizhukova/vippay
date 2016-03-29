@@ -12,3 +12,20 @@
 .profile-list {
   list-style: none;
 }
+
+/*---------------------------for basket---------------------------*/
+
+#basket {
+  background: url("https://pixabay.com/static/uploads/photo/2015/10/22/16/42/icon-1001596_960_720.png") no-repeat no-repeat;
+  text-align: center;
+  background-size: 100%;
+  width: 100px;
+  height: 100px;
+}
+
+#basket a {
+  color: #C51E1E;
+  text-decoration: none;
+  padding-top: 30px;
+  font-size: xx-large;
+}
