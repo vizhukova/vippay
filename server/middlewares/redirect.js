@@ -10,6 +10,16 @@ module.exports = function(req, res, next){
         next();
     }
 
+    else if(req.admin) {
+        next();
+    }
+
+    else if(req.user.id && !req.clientObj.active) {
+        res.cookie('token', '', {maxAge: 9000000000, domain: `.${req.postdomain}`});
+        var link = `http://${req.clientObj.login}.${req.postdomain}`;
+        res.redirect(link)
+    }
+
     else if (req.subdomain == 'auth' && req.user.role) {
         var link = '';
         if (req.user.role == 'client' || req.user.role == 'staff') {

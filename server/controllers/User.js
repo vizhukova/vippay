@@ -234,5 +234,17 @@ module.exports = {
             })
 
         })
+    },
+
+    remove(data) {
+        return new Promise(function (resolve, reject) {
+
+            User.remove(data).then((model) => {
+                resolve(model);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
     }
 };

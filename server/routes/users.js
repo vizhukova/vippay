@@ -17,6 +17,11 @@ router.post('/client/register', function (req, res, next) {
     });
     var user;
 
+    if(req.body.login == 'auth' || req.body.login == 'admin' || req.body.login == 'payments') {
+        next({constraint: 'users_login_unique'});
+        return;
+    }
+
     UserController.register({
         name: req.body.name,
         login: req.body.login,
@@ -27,17 +32,23 @@ router.post('/client/register', function (req, res, next) {
         type: 'client',
         domain: req.postdomain,
         payment: JSON.stringify(payments)
+
     }).then(function (userObj) {
+
         user = userObj;
         email.send(user.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${user.domain}`);
         return RateController.setDefault(userObj.modelData.id)
 
     }).then((rate) => {
+
         res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
         res.send(user);
+
     }).catch(function (err) {
+
         if(! err.constraint) err.constraint = 'check_this_data';
         next(err);
+
     })
 
 });
@@ -216,6 +227,34 @@ router.get('/client/partner_query', function (req, res, next) {
             next(err);
         });
 });
+
+router.put('/user', function (req, res, next) {
+
+    var newUser = _.omit(req.body, ['_method']);
+
+    UserController.set(newUser)
+        .then(function (user) {
+            //res.send(user)
+             res.redirect('back')
+        }).catch(function (err) {
+            next(err);
+        });
+});
+
+router.delete('/user', function (req, res, next) {
+
+    var id = +req.body.id;
+
+    UserController.remove({id: id})
+        .then(function (user) {
+            //res.send(user)
+             res.redirect('back')
+        }).catch(function (err) {
+            next(err);
+        });
+});
+
+
 
 
 

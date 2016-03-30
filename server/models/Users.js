@@ -54,8 +54,9 @@ var User = bookshelf.Model.extend({
             //    .then(function (res) {
             //        if (!res) throw new Error('Неверный пароль');
             //    });
-            if(customer.get('password') !== user.password)  throw new Error('Неверный пароль');
-            if(customer.get('type') !== 'client')  throw new Error('Вы нее зарегестрированы');
+            if(customer.get('password') !== user.password)  throw new Error('wrong_password');
+            if(customer.get('type') !== 'client')  throw new Error('you_are_not_registered');
+            if( !customer.get('active') )  throw new Error('you_are_not_registered');
         });
     }),
 
@@ -73,6 +74,13 @@ var User = bookshelf.Model.extend({
                     .join('clients-partners', 'clients-partners.client_id', '=', 'users.id')
                     .where('clients-partners.partner_id', '=', +partner_id)
     }),
+
+    getByData(data) {
+        return knex('users')
+            .select('*')
+            .where(data)
+            .orderBy('id', 'asc')
+    },
 
     set(obj) {
          return knex('users')
@@ -183,7 +191,16 @@ var User = bookshelf.Model.extend({
                 .update({payment: JSON.stringify(data.payment)})
                 .where('id', '=', data.user_id)
                 .returning('payment')
-    })
+    }),
+
+    remove(data) {
+
+        return knex('users')
+            .where(data)
+            .del()
+            .returning('*');
+
+    }
 
 });
 

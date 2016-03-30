@@ -14,6 +14,11 @@ router.post('/partner/register', function (req, res, next) {
     var user;
     var client_id = req.clientObj.id;
 
+    if(req.body.login == 'auth' || req.body.login == 'admin' || req.body.login == 'payments') {
+        next({constraint: 'users_login_unique'});
+        return;
+    }
+
     //Стоит обернуть в транзакцию
     PartnerController.register({
 
@@ -38,7 +43,7 @@ router.post('/partner/register', function (req, res, next) {
         res.send({user: user, redirect: `http://${req.hostname}/${user.modelData.login}`})
 
     }).catch((err) => {
-        if(! err.constraint) err.constraint = 'check_this_data';
+        if(! err.constraint) err.constraint =  'check_this_data';
         next(err);
     })
 

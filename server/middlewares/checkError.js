@@ -62,6 +62,12 @@ module.exports = function(err, res){
         case 'too_long_link':
             res.status(400).send('Слишком длинное значение ссылки');
             break;
+        case 'wrong_password':
+            res.status(400).send('Не верный пароль');
+            break;
+        case 'you_are_not_registered':
+            res.status(400).send('Вы не зарегистрированы');
+            break;
         default:
             if(err.errors) {
                 var keys = Object.keys(err.errors) || [];

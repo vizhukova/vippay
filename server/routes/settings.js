@@ -133,14 +133,16 @@ router.get('/settings/tariff', checkTrialTariff, checkBaseTariff, checkStartTari
 
 
 router.put('/settings/tariff', function(req, res, next) {
-    UserController.setTariff({
-        tariff_duration: req.body.time,
-        tariff_name: req.body.name,
-        tariff_date: moment(),
-        id: req.clientObj.id,
-        active: false
-    }).then((result) => {
-        res.send(result)
+
+    var newTariff = _.omit(req.body, ['_method']);
+
+    newTariff.tariff_date = moment();
+    newTariff.id = +newTariff.id || req.clientObj.id;
+    newTariff.active = false;
+
+    UserController.setTariff(newTariff).then((result) => {
+        //res.send(result)
+        res.redirect('back');
     }).catch((err) => {
         //res.status(404).send(err.error)
         next(err);
@@ -148,12 +150,27 @@ router.put('/settings/tariff', function(req, res, next) {
 });
 
 router.put('/settings/tariff/pay', function(req, res, next) {
-    UserController.setTariff({
-        tariff_payed: true,
-        tariff_date: moment(),
-        id: req.clientObj.id
-    }).then((result) => {
-        res.send(result)
+
+    var newUser = _.omit(req.body, ['_method']);
+
+    newUser.id = newUser.id || req.clientObj.id;
+
+    if(req.body.tariff_payed === undefined) {
+
+        newUser.tariff_payed = true;
+        newUser.tariff_date = moment();
+
+    } else {
+
+        newUser.tariff_payed = req.body.tariff_payed;
+        newUser.tariff_date = req.body.tariff_payed ? moment() : null;
+        if (! newUser.tariff_payed) newUser.tariff_name = null;
+
+    }
+
+    UserController.setTariff(newUser).then((result) => {
+        //res.send(result)
+        res.redirect('back');
     }).catch((err) => {
         //res.status(404).send(err.error)
         next(err);

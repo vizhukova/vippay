@@ -23,9 +23,11 @@ var getInterkassaId = require('./middlewares/getInterkassaId');
 var checkError = require('./middlewares/checkError');
 var checkStaffAccess = require('./middlewares/checkStaffAccess');
 var redirect = require('./middlewares/redirect');
+var isAdmin = require('./middlewares/admin');
 var pendingModule = require('./modules/pending');
 var basketModule = require('./modules/basket');
 var paymentModule = require('./modules/payment');
+var getAdminData = require('./modules/admin');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
@@ -37,6 +39,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(methodOverride('_method'));
 
+app.use(isAdmin);
 app.use(getSubdomain);
 app.use(getUserId);
 app.use(getClientObj);
@@ -82,6 +85,17 @@ passport.deserializeUser(function(id, done) {
 
 var timestamp = Date.now();
 
+app.get('/admin', getAdminData, function(req, res) {
+
+    if(! req.admin) res.render('admin/login', {timestamp: timestamp});
+
+    else {
+        var data = _.assign(req.adminData, {timestamp: timestamp});
+        res.render('admin/page', data);
+    }
+
+})
+
 app.get('/', redirect, function(req, res){
 
     if(req.user.role && (req.user.role != 'staff' && req.user.role != 'client')) {
@@ -94,6 +108,8 @@ app.get('/', redirect, function(req, res){
     var id_confirm = payment.fields ? payment.fields.id_confirm : payment.fields;
 
    res.render('client', {timestamp: timestamp, id_confirm: id_confirm})
+
+
 });
 
 app.use(require('./routes/log'));
