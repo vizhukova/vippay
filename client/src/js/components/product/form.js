@@ -151,7 +151,7 @@ class AddUpsellFields extends React.Component {
 
     componentWillReceiveProps(nextProps){
 
-        if(! nextProps.item.product_id) nextProps.item.product_id = 1;
+        if(! nextProps.item.product_id) nextProps.item.product_id = this.upsellProducts[0].id;
 
          if(nextProps){
              this.setState(nextProps.item);
@@ -422,6 +422,8 @@ class ProductForm extends React.Component {
         var self = this;
         if(this.checkFields()) {
 
+            debugger
+
             ProductsAction.addNewProduct(this.state.product).then(() => {
                 history.back();
 
@@ -473,8 +475,8 @@ class ProductForm extends React.Component {
         else if(e.target.name == "isUpsell")  {
 
             ProductsAction.setStateProduct({
-                upsell_id:  this.state.product.upsell_id ? null : 1,
-                upsells: this.state.product.upsell_id ? [] : [{product_id: 1, price: ''}]
+                upsell_id:  this.state.product.upsell_id ? null : this.state.upsell_products[0].id,
+                upsells: this.state.product.upsell_id ? [] : [{product_id: this.state.upsell_products[0].id, price: ''}]
 
             });
 

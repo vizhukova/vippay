@@ -79,7 +79,7 @@ class ProductsStore {
 
     onGetUpsellsProducts(upsells) {
         this.product.upsells = upsells;
-        this.product.upsell_id = 1;
+        this.product.upsell_id = upsells[0].id;
     }
 
 }
