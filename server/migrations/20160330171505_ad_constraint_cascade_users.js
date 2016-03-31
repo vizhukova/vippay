@@ -27,6 +27,8 @@ ALTER TABLE public.promo
 ADD CONSTRAINT promo_client_id_foreign
 FOREIGN KEY (client_id) REFERENCES  users (id) ON DELETE CASCADE;`)
     .raw(`ALTER TABLE public.statistics
+    DROP CONSTRAINT statistics_client_id_foreign;
+    ALTER TABLE public.statistics
 ADD CONSTRAINT statistics_client_id_foreign
 FOREIGN KEY (client_id) REFERENCES  users (id) ON DELETE CASCADE;`)
 
