@@ -3,14 +3,17 @@ var _ = require('lodash');
 
 module.exports = function(req, res, next){
 
+    var perPage = 20;
+    var page = req.query.page || 1;
+
    if(req.admin) {
 
        Users.getByData({}).then((users) => {
 
-        req.users = users;
-        req.actionPath =
+        var beginIndex = (page - 1) * perPage;
+
         req.adminData = {
-            users: users,
+            users: users.slice(beginIndex, beginIndex + perPage),
             action: `http://admin.${req.postdomain}/api`,
             tariffs: {
               'start': {
@@ -37,7 +40,9 @@ module.exports = function(req, res, next){
                   ]
               }
             },
-            tariff_names: ['start', 'business', 'magnate']
+            tariff_names: ['start', 'business', 'magnate'],
+            pages: Math.ceil(users.length / perPage),
+            currentPage: page
         };
            next();
 

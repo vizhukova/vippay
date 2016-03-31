@@ -85,3 +85,20 @@ html
 
 
 
+            div
+                ul.pagination.pull-right
+                    if currentPage != 1
+                        li
+                            a(href='?page=#{currentPage - 1}', aria-label='Previous')
+                                span(aria-hidden='true') «
+
+                    - var count = 1
+                    while count <= pages
+                        li
+                            a.page-numbers(href='?page=#{count}') #{count++}
+                    if currentPage != pages
+                        li
+                            a(href='?page=#{(+currentPage) + (+1)}', aria-label='Next')
+                                span(aria-hidden='true') »
+
+
