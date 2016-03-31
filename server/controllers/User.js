@@ -246,5 +246,17 @@ module.exports = {
             })
 
         })
+    },
+
+    getByData(data) {
+        return new Promise(function (resolve, reject) {
+
+            User.getByData(data).then((model) => {
+                resolve(model);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
     }
 };

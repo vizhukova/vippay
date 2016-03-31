@@ -234,8 +234,7 @@ router.put('/user', function (req, res, next) {
 
     UserController.set(newUser)
         .then(function (user) {
-            //res.send(user)
-             res.redirect('back')
+            res.send(user)
         }).catch(function (err) {
             next(err);
         });

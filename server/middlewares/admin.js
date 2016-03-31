@@ -7,12 +7,12 @@ module.exports = function(req, res, next){
     if(req.cookies.admin){
         try{
             req.admin = jwt.decode(req.cookies.admin, 'secret');
-            next();
+
         }catch(err){
-            next();
+
         }
     }
 
-
+    next();
 
 };

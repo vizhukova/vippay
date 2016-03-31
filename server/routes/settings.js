@@ -141,8 +141,7 @@ router.put('/settings/tariff', function(req, res, next) {
     newTariff.active = false;
 
     UserController.setTariff(newTariff).then((result) => {
-        //res.send(result)
-        res.redirect('back');
+        res.send(result)
     }).catch((err) => {
         //res.status(404).send(err.error)
         next(err);

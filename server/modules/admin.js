@@ -11,7 +11,7 @@ module.exports = function(req, res, next){
         req.actionPath =
         req.adminData = {
             users: users,
-            action: `http://auth.${req.postdomain}/api`,
+            action: `http://admin.${req.postdomain}/api`,
             tariffs: {
               'start': {
                   name: 'Старт',

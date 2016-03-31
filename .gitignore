@@ -2,6 +2,8 @@
 node_modules/
 server/public/**/*.css
 server/public/**/*.js
+!server/public/orders/js/basket.js
+!server/public/ajax.js
 server/config.json
 server/logs/
 *.pyc

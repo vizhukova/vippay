@@ -3,13 +3,19 @@ html
       meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
       link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
   body
-    script(src="/public/partners/vendor.js?timestamp=#{timestamp}")
+    script(src="/public/client/vendor.js?timestamp=#{timestamp}")
     .app
         .row
             .table-wrapper
                 .table-head
                     span.title
                         | Пользователи
+                        form(action='#{action + "/admin/out?_method=DELETE"}' method="POST" encType="application/x-www-form-urlencoded")
+                            input(type="hidden", name="_method", value="DELETE")
+                            button.btn.btn-default
+                                span Выход
+                                span.glyphicon.glyphicon-log-out
+
                 table.table.table-hover.list
                     thead
                         tr
@@ -30,53 +36,52 @@ html
                                 td #{u.login}
                                 td #{u.name}
                                 td #{u.email}
-                                td #{u.type}
+                                td #{u.type == 'client' ? 'клиент' : 'партнер'}
                                 td
-                                    form(action='#{action + "/user?_method=PUT"}' method="POST" encType="application/x-www-form-urlencoded")
+                                    form(action='#{action + "/admin/user?_method=PUT"}' method="POST" encType="application/x-www-form-urlencoded")
                                         input(type="hidden", name="_method", value="PUT")
                                         input(type="hidden", name="id", value='#{u.id}')
                                         input(type="hidden", name="active", value='#{!u.active}')
                                         if u.active
-                                            input.glyphicon.glyphicon-ok-circle.btn.btn-default.btn-action(type="submit", value="")
+                                            button.glyphicon.glyphicon-ok-circle.btn.btn-default.btn-action
                                         else
-                                            input.glyphicon.glyphicon-ban-circle.btn.btn-danger.btn-action(type="submit", value="")
+                                            button.glyphicon.glyphicon-ban-circle.btn.btn-danger.btn-action
 
-                                td #{u.tariff_name || '-'}
-                                    form(action='#{action + "/settings/tariff?_method=PUT"}' method="POST" encType="application/x-www-form-urlencoded")
+                                td
+                                    span.text-danger #{u.tariff_name ? '' : 'тариф не выбран'}
+                                    form(action='#{action + "/admin/user/tariff?_method=PUT"}' method="POST" encType="application/x-www-form-urlencoded")
 
                                         input(type="hidden", name="_method", value="PUT")
                                         input(type="hidden", name="id", value="#{u.id}")
-                                        input(type="hidden", name="tariff_name", value="#{u.id}")
 
                                         select.form-control(name="tariff_name", onchange="this.form.submit()")
                                             each t in tariff_names
-                                                option #{tariffs[t].name}
+                                                option(value='#{t}', selected=u.tariff_name == t) #{tariffs[t].name}
 
                                         select.form-control(name="tariff_duration", onchange="this.form.submit()")
                                             each price in tariffs[u.tariff_name || 'start'].prices
-                                                option #{price.time}
+                                                option(selected=u.tariff_duration == price.time) #{price.time}
 
-                                td #{u.tariff_date || '-'}
                                 td
-                                    form(action='#{action + "/settings/tariff/pay?_method=PUT"}' method="POST" encType="application/x-www-form-urlencoded")
+                                    .text-center #{u.tariff_date ? new Date(u.tariff_date).toLocaleString("ru") : '-'}
+                                td
+                                    form(action='#{action + "/admin/user/tariff?_method=PUT"}' method="POST" encType="application/x-www-form-urlencoded")
                                         input(type="hidden", name="_method", value="PUT")
                                         input(type="hidden", name="id", value='#{u.id}')
                                         input(type="hidden", name="tariff_payed", value='#{!u.tariff_payed}')
                                         if u.tariff_payed
-                                            input.glyphicon.glyphicon-ok-circle.btn.btn-default.btn-action(type="submit", value="")
+                                            button.glyphicon.glyphicon-ok-circle.btn.btn-default.btn-action
                                         else
-                                            input.glyphicon.glyphicon-ban-circle.btn.btn-danger.btn-action(type="submit", value="")
+                                            button.glyphicon.glyphicon-ban-circle.btn.btn-danger.btn-action
                                 td
                                     form(action='#{action + "/admin/user/login"}' method="POST" encType="application/x-www-form-urlencoded")
                                         input(type="hidden", name="id", value='#{u.id}')
-                                        input.btn.btn-default.glyphicon.glyphicon-log-in(type="submit")
+                                        button.btn.btn-default.glyphicon.glyphicon-log-in
                                 td
-                                    form(action='#{action + "/user?_method=DELETE"}' method="POST" encType="application/x-www-form-urlencoded")
+                                    form(action='#{action + "/admin/user?_method=DELETE"}' method="POST" encType="application/x-www-form-urlencoded")
                                         input(type="hidden", name="_method", value="DELETE")
                                         input(type="hidden", name="id", value='#{u.id}')
-                                        input.btn.btn-danger.btn-action.pull-right.glyphicon.glyphicon-remove(type="submit", value='')
+                                        button.btn.btn-danger.btn-action.pull-right.glyphicon.glyphicon-remove
 
 
-      script(src="/public/ajax.js")
-      script(src="/public/tariffs.js")
 

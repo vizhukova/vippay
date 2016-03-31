@@ -10,10 +10,6 @@ module.exports = function(req, res, next){
         next();
     }
 
-    else if(req.admin) {
-        next();
-    }
-
     else if(req.user.id && !req.clientObj.active) {
         res.cookie('token', '', {maxAge: 9000000000, domain: `.${req.postdomain}`});
         var link = `http://${req.clientObj.login}.${req.postdomain}`;

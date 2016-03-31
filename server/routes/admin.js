@@ -3,8 +3,9 @@ var router = express.Router();
 var config = require('../config');
 var _ = require('lodash');
 var jwt = require('jwt-simple');
+var moment = require('moment');
 
-var User = require('./../models/Users');
+var UserController = require('./../controllers/User');
 
 
 router.post('/admin/login', function (req, res, next) {
@@ -28,7 +29,7 @@ router.post('/admin/user/login', function (req, res, next) {
     var id = +req.body.id;
     var user;
 
-    User.getByData({id: id}).then((u) => {
+    UserController.getByData({id: id}).then((u) => {
 
         user = u[0];
 
@@ -43,6 +44,56 @@ router.post('/admin/user/login', function (req, res, next) {
 
 });
 
+router.delete('/admin/out', function (req, res, next) {
+
+    res.cookie('admin', '', {maxAge: 9000000000, domain: `.${config.get('domain')}`});
+    res.redirect('back');
+
+});
+
+
+router.put('/admin/user', function (req, res, next) {
+
+    var newUser = _.omit(req.body, ['_method']);
+
+    UserController.set(newUser)
+        .then(function (user) {
+            res.redirect('back')
+        }).catch(function (err) {
+            next(err);
+        });
+
+});
+
+router.delete('/admin/user', function (req, res, next) {
+
+    var id = +req.body.id;
+
+    UserController.remove({id: id})
+        .then(function (user) {
+            res.redirect('back')
+        }).catch(function (err) {
+            next(err);
+        });
+
+});
+
+router.put('/admin/user/tariff', function (req, res, next) {
+
+    var newTariff = _.omit(req.body, ['_method']);
+
+    newTariff.tariff_date = moment();
+    newTariff.id = +newTariff.id || req.clientObj.id;
+    newTariff.tariff_payed =  newTariff.tariff_payed || false;
+    if(newTariff.tariff_name == 'start') newTariff.tariff_duration = 12;
+
+    UserController.setTariff(newTariff).then((result) => {
+        res.redirect('back');
+    }).catch((err) => {
+        next(err);
+    })
+
+});
 
 
 
