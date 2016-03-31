@@ -5,7 +5,7 @@ class Other_Sites extends React.Component {
     constructor(){
         super();
         this.state = {
-            domain: 'client1.vippay.loc',
+            domain: location.hostname,
             id_product: '1'
         }
 
@@ -18,6 +18,8 @@ class Other_Sites extends React.Component {
         state[e.target.name] = e.target.value;
 
         this.setState(state);
+
+        this.basket();
     }
 
     componentDidMount() {
