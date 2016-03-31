@@ -31,7 +31,7 @@ router.get('/order/promo', function(req, res, next){
 
     }).then((p_p) => {
 
-        var promo_prod = p_p.filter((item) => _.indexOf(product_id, item.product_id.toString()) != -1)
+        var promo_prod = p_p.filter((item) => moment() < item.date && _.indexOf(product_id, item.product_id.toString()) != -1 )
 
         if(! promo_prod.length) throw new Error();
         else res.send({promo: promo, promo_prod: promo_prod});
