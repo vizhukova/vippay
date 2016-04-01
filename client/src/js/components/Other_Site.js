@@ -45,13 +45,28 @@ class Other_Sites extends React.Component {
           return xmlhttp;
         }
 
+        function declOfNum(number, titles) {
+            var cases = [2, 0, 1, 1, 1, 2];
+            return titles[ (number % 100 > 4 && number % 100 < 20)
+                ? 2
+                : cases[ (number % 10 < 5) ? number % 10 : 5] ];
+        }
+
 
         var basket = document.getElementById('basket');
+        var basketPicDiv = document.createElement('div');
+        var quantityDiv = document.createElement('div');
         var a = document.createElement('a');
 
+        basketPicDiv.setAttribute('class', 'basket-picture');
+        quantityDiv.setAttribute('class', 'basket-quantity');
         a.setAttribute('href', '#');
+
+        quantityDiv.appendChild(a);
+
         basket.innerHTML = '';
-        basket.appendChild(a);
+        basket.appendChild(basketPicDiv);
+        basket.appendChild(quantityDiv);
 
         var xmlhttp = getXmlHttp();
         xmlhttp.open("GET", "http://" + basket.dataset.domain + "/api/basket", true);
@@ -68,7 +83,7 @@ class Other_Sites extends React.Component {
                   quantity += item.quantity;
               });
 
-              a.innerHTML = quantity;
+              a.innerHTML = quantity + ' ' + declOfNum( quantity, ['товар', 'товара', 'товаров'] );
               a.setAttribute('href', "http://" + basket.dataset.domain + "/basket/" + basket_id);
 
           } else {

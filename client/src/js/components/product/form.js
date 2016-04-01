@@ -276,9 +276,18 @@ class AddItems extends React.Component {
             return;
         }
 
-        var newObj = {};
-        _.map(this.props.fields, (item) => newObj[item] = '');
-        this.state.items.push(newObj);
+        if(this.props.default) {
+
+             this.state.items.push(this.props.default);
+
+        } else {
+
+            var newObj = {};
+            _.map(this.props.fields, (item) => newObj[item] = '');
+            this.state.items.push(newObj);
+
+        }
+
         this.setState({});
         this.props.onClick();
     }
@@ -421,8 +430,6 @@ class ProductForm extends React.Component {
     addNewProduct() {
         var self = this;
         if(this.checkFields()) {
-
-            debugger
 
             ProductsAction.addNewProduct(this.state.product).then(() => {
                 history.back();
@@ -642,6 +649,10 @@ class ProductForm extends React.Component {
                           name="upsells"
                           min_length={1}
                           fields={['product_id', 'price']}
+                          default={{
+                            product_id: this.state.upsell_products[0].id,
+                            price: ''
+                          }}
                           title=""
                           fieldsComponent={AddUpsellFields}
                           isButtonPlus={true}

@@ -14,7 +14,7 @@ router.post('/partner/register', function (req, res, next) {
     var user;
     var client_id = req.clientObj.id;
 
-    if(req.body.login == 'auth' || req.body.login == 'admin' || req.body.login == 'payments') {
+    if(req.body.login == 'auth' || req.body.login == 'admin' || req.body.login == 'payments' || req.body.login == 'payments') {
         next({constraint: 'users_login_unique'});
         return;
     }

@@ -17,7 +17,7 @@ router.post('/client/register', function (req, res, next) {
     });
     var user;
 
-    if(req.body.login == 'auth' || req.body.login == 'admin' || req.body.login == 'payments') {
+    if(req.body.login == 'auth' || req.body.login == 'admin' || req.body.login == 'payments' || req.body.login == 'cdn') {
         next({constraint: 'users_login_unique'});
         return;
     }
