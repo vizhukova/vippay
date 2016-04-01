@@ -175,6 +175,7 @@
     function setPromoMessage(data) {
 
         var newTotal = total - total * data.discount / 100;
+        data.price = data.price - data.price * data.discount / 100;
         var modalBody = $('.modal-body');
         var modalTitle = $('.modal-title');
         var footerButton = $('#continue');
@@ -184,7 +185,6 @@
 
         footerButton.html('Продолжить');
         footerButton.on('click', function() {
-
 
             data.total = newTotal;
             beforeSend(data);

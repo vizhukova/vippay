@@ -29,7 +29,15 @@ router.put('/basket/:product_id', function(req, res, next) {
     var basket;
     var product;
 
-    CustomerController.get(req.cookies.id).then((c) => {
+    ProductController.get({id: req.params.product_id, user_id: req.clientObj.id}).then((p) => {
+
+        product = p[0];
+
+        if( !product || !product.active ) throw new Error();
+
+        return CustomerController.get(req.cookies.id)
+
+    }).then((c) => {
 
         customer = c;
 
@@ -83,12 +91,6 @@ router.put('/basket/:product_id', function(req, res, next) {
     }).then((b) => {
 
         basket = b;
-
-        return ProductController.get({id: req.params.product_id});
-
-    }).then((p) => {
-
-        product = p[0];
 
         return BasketProductController.get({basket_id: basket.id});
 

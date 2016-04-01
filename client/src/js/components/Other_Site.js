@@ -59,9 +59,16 @@ class Other_Sites extends React.Component {
 
           if (xmlhttp.status == 200) {
 
-              var products = xmlhttp.responseText == "" ? 0 : JSON.parse(xmlhttp.responseText);
+              var products = xmlhttp.responseText == "" ? [] : JSON.parse(xmlhttp.responseText);
               var basket_id = products[0] ? products[0].basket_id : undefined;
-              a.innerHTML = products.length;
+
+              var quantity = 0;
+
+              products.map((item) => {
+                  quantity += item.quantity;
+              });
+
+              a.innerHTML = quantity;
               a.setAttribute('href', "http://" + basket.dataset.domain + "/basket/" + basket_id);
 
           } else {

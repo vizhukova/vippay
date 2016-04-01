@@ -12,65 +12,10 @@ class Basket extends React.Component {
 
     render(){
         var self = this;
-        var css = `#basket {
-                  background: url("https://pixabay.com/static/uploads/photo/2015/10/22/16/42/icon-1001596_960_720.png") no-repeat no-repeat;
-                  text-align: center;
-                  background-size: 100%;
-                  width: 100px;
-                  height: 100px;
-                }
+        var css = <a href="http://cdn.vippay.info/basket.css">http://cdn.vippay.info/basket.css</a>;
 
-                #basket a {
-                  color: #C51E1E;
-                  text-decoration: none;
-                  padding-top: 30px;
-                  font-size: xx-large;
-                }`;
+        var js = <a href="http://cdn.vippay.info/basket.js">http://cdn.vippay.info/basket.js</a>;
 
-        var js = `basket(e) {
-               function getXmlHttp(){
-                  var xmlhttp;
-                  try {
-                    xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-                  } catch (e) {
-                    try {
-                      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                    } catch (E) {
-                      xmlhttp = false;
-                    }
-                  }
-                  if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
-                    xmlhttp = new XMLHttpRequest();
-                  }
-                  return xmlhttp;
-                }
-
-
-                var basket = document.getElementById('basket');
-                var a = document.createElement('a');
-
-                a.setAttribute('href', '#');
-                basket.innerHTML = '';
-                basket.appendChild(a);
-
-                var xmlhttp = getXmlHttp();
-                xmlhttp.open("GET", "http://" + basket.dataset.domain + "/api/basket", true);
-                xmlhttp.onreadystatechange = function(){
-
-                  if (xmlhttp.status == 200) {
-
-                      var products = xmlhttp.responseText == "" ? 0 : JSON.parse(xmlhttp.responseText);
-                      var basket_id = products[0] ? products[0].basket_id : undefined;
-                      a.innerHTML = products.length;
-                      a.setAttribute('href', "http://" + basket.dataset.domain + "/basket/" + basket_id);
-
-                  } else {
-                      //handleError(xmlhttp.statusText); // вызвать обработчик ошибки с текстом ответа
-                  }
-                };
-
-                xmlhttp.send(null);
-            }`;
         var html = `<div id="basket" data-domain="${this.state.domain}"></div>`;
 
         return <div className="boxed">
