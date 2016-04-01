@@ -50,6 +50,7 @@ class Other_Sites extends React.Component {
         var a = document.createElement('a');
 
         a.setAttribute('href', '#');
+        basket.innerHTML = '';
         basket.appendChild(a);
 
         var xmlhttp = getXmlHttp();

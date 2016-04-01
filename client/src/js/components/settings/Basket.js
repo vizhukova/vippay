@@ -28,7 +28,7 @@ class Basket extends React.Component {
                 }`;
 
         var js = `basket(e) {
-              function getXmlHttp(){
+               function getXmlHttp(){
                   var xmlhttp;
                   try {
                     xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
@@ -50,6 +50,7 @@ class Basket extends React.Component {
                 var a = document.createElement('a');
 
                 a.setAttribute('href', '#');
+                basket.innerHTML = '';
                 basket.appendChild(a);
 
                 var xmlhttp = getXmlHttp();
@@ -63,8 +64,10 @@ class Basket extends React.Component {
                       a.innerHTML = products.length;
                       a.setAttribute('href', "http://" + basket.dataset.domain + "/basket/" + basket_id);
 
+                  } else {
+                      //handleError(xmlhttp.statusText); // вызвать обработчик ошибки с текстом ответа
                   }
-              };
+                };
 
                 xmlhttp.send(null);
             }`;

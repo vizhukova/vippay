@@ -27,11 +27,17 @@ router.get('/order/promo', function(req, res, next){
     PromoController.get({client_id: req.clientObj.id, code: req.query.code}).then(function(p){
 
         promo = p[0] || {};
+
+        var today = moment();
+        var endPromo = moment(promo.date);
+
+        if(moment.max(today, endPromo) == today) throw new Error();
+
         return ProductPromo.get({promo_id: promo.id});
 
     }).then((p_p) => {
 
-        var promo_prod = p_p.filter((item) => moment() < item.date && _.indexOf(product_id, item.product_id.toString()) != -1 )
+        var promo_prod = p_p.filter((item) => _.indexOf(product_id, item.product_id.toString()) != -1);
 
         if(! promo_prod.length) throw new Error();
         else res.send({promo: promo, promo_prod: promo_prod});

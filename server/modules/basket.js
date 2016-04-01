@@ -12,7 +12,7 @@ module.exports = function(req, res, next){
    Basket.get({id: req.params.id, client_id: req.clientObj.id, step: 'pending'}).then((b) => {
 
        basket = b[0];
-       if(! basket) throw new Error();
+       if(! basket || basket.step == 'complete') throw new Error();
        else return  BasketProduct.getWithConvertToBaseCurr(basket.id);
 
    }).then((b_p) => {
