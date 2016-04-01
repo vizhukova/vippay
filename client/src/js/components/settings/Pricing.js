@@ -41,6 +41,7 @@ class PricingItem extends React.Component {
     
 
     render() {
+
         var tariff_date = this.props.tariff_payed.tariff_date;
         var day_end = moment(tariff_date).add(this.props.tariff_payed.tariff_duration, 'month');
         var days = day_end.diff(moment(), 'days');
@@ -55,7 +56,7 @@ class PricingItem extends React.Component {
         return <li className={`price_col price_col_blue  first ${this.props.isVisible ? 'chosen' : ''}`} onClick={this.onChoose}>
                             <div className="price_item">
                                 <div className="price_col_head">
-                                    <div className="price">{this.props.tariff_payed.tariff_name == isShowTar ? `Осталось ${days} дней` : `${this.props.currentTariff[this.props.item].price} руб`}</div>
+                                    <div className="price">{isShowTar ? `Осталось ${days} дней` : `${this.props.currentTariff[this.props.item].price} руб`}</div>
                                 </div>
                                 <div className="price_col_body clearfix">
                                     <div className="price_body_inner">
