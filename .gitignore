@@ -10,3 +10,4 @@ server/public/**/*.js
 server/config.json
 server/logs/
 *.pyc
+*.log
