@@ -31,7 +31,8 @@ router.post('/client/register', function (req, res, next) {
         basic_currency: 1,
         type: 'client',
         domain: req.postdomain,
-        payment: JSON.stringify(payments)
+        payment: JSON.stringify(payments),
+        tariff_payed: true
 
     }).then(function (userObj) {
 
