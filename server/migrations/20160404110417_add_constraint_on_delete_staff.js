@@ -25,6 +25,10 @@ ALTER TABLE public.product_promo DROP CONSTRAINT product_promo_promo_id_foreign;
 ALTER TABLE public.product_promo
 ADD CONSTRAINT product_promo_promo_id_foreign
 FOREIGN KEY (promo_id) REFERENCES promo (id) ON DELETE CASCADE;`)
+       .raw(`ALTER TABLE public.messages DROP CONSTRAINT messages_user_id_foreign;
+ALTER TABLE public.messages
+ADD CONSTRAINT messages_user_id_foreign
+FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;`)
 };
 
 exports.down = function(knex, Promise) {
