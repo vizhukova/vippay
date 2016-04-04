@@ -144,10 +144,16 @@ router.put('/user/password', (req, res, next) => { //get all clients for partner
 
     UserController.setPassword({passwords: req.body, user_id: req.user.id})
         .then(function (data) {
+
+            var user = data[0];
+            email.send(user.email, 'Успешная установка нового пароля', `Ваш новый пароль: ${user.password}`);
             res.send(data)
+
         }).catch(function (err) {
+
             if(! err.constraint) err.constraint = 'check_old_password';
             next(err);
+
     })
 
 });
