@@ -37,7 +37,7 @@ router.post('/client/register', function (req, res, next) {
     }).then(function (userObj) {
 
         user = userObj;
-        email.send(user.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${user.domain}`);
+        email.send(userObj.modelData.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${user.domain}`);
         return RateController.setDefault(userObj.modelData.id)
 
     }).then((rate) => {

@@ -68,6 +68,9 @@ module.exports = function(err, res){
         case 'you_are_not_registered':
             res.status(400).send('Вы не зарегистрированы');
             break;
+        case 'no_client':
+            res.status(400).send('Такого клиента не существует');
+            break;
         default:
             if(err.errors) {
                 var keys = Object.keys(err.errors) || [];

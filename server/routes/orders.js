@@ -79,7 +79,7 @@ router.post('/order', function(req, res, next) {
 
     }).then((arr) => {
 
-        return CustomerController.get(+req.cookies.id)
+        return CustomerController.get(+req.cookies.id || 0);
 
     }).then((c) => {
 
@@ -89,8 +89,12 @@ router.post('/order', function(req, res, next) {
 
              if(! customer) {
 
-                CustomerController.add({product_id: product[0].id}).then((c) =>
-                    resolve(c)).catch((err) => reject(err));
+                CustomerController.add({product_id: product[0].id}).then((c) =>{
+
+                    c.partner_product_id = JSON.parse(c.partner_product_id);
+                    resolve(c);
+
+                }).catch((err) => reject(err));
 
              } else {
                  resolve(customer);
@@ -149,8 +153,21 @@ router.post('/order', function(req, res, next) {
 
         var redirect;
 
-        if(order.total_price_order_rate == 0)  redirect = 'http://img.ezinearticles.com/blog/payed-invoice.jpg';
-        else redirect = `http://${req.clientObj.login}.${req.postdomain}/order/payment/${order.id}`;
+         email.send(delivery.email, 'Заказ оформлен', `Ваш заказ №${order.id} успешно оформлен. Ссылка на оплату:
+         http://${req.clientObj.login}.${req.postdomain}/order/payment/${order.id}`);
+
+        if(order.total_price_order_rate == 0)  {
+
+            redirect = 'http://img.ezinearticles.com/blog/payed-invoice.jpg';
+
+            email.send(delivery.email, 'Заказ оплачен', `Ваш заказ №${order.id} успешно оплачен.`);
+
+        }
+        else {
+
+            redirect = `http://${req.clientObj.login}.${req.postdomain}/order/payment/${order.id}`;
+
+        }
 
         res.send({redirect: redirect});
 

@@ -4,6 +4,7 @@ var config = require('../config');
 var PartnerController = require('../controllers/Partner');
 var UserController = require('../controllers/User');
 var _ = require('lodash');
+var email = require('../utils/email');
 
 
 router.post('/partner/register', function (req, res, next) {
@@ -16,6 +17,11 @@ router.post('/partner/register', function (req, res, next) {
 
     if(req.body.login == 'auth' || req.body.login == 'admin' || req.body.login == 'payments' || req.body.login == 'payments') {
         next({constraint: 'users_login_unique'});
+        return;
+    }
+
+    if(! req.clientObj.id) {
+        next({constraint: 'no_client'});
         return;
     }
 
@@ -32,6 +38,10 @@ router.post('/partner/register', function (req, res, next) {
     }).then((u) => {
 
         user = u;
+
+        var link = `http://${req.clientObj.login}.${req.postdomain}/${user.modelData.login}`;
+         email.send(user.modelData.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${link}`);
+
         return PartnerController.setFee({
             client_id: client_id,
             partner_id: user.modelData.id
