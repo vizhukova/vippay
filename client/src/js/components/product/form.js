@@ -388,20 +388,25 @@ class ProductForm extends React.Component {
 
     checkFields() {
         var result;
+        var self = this;
+
         if (this.state.product.material) {
 
             this.state.product.link_download = '';
 
             if (!this.state.product.delivery) return false;
 
-            result = this.state.product.delivery.filter((item) => {
-                return !_.trim(item.condition).length || !_.trim(item.price).length
+            result = this.state.product.delivery.filter((item, index) => {
+
+                var isUnique = _.findWhere(self.state.product.delivery, {condition: item.condition}, index + 1) == -1;
+                return !isUnique || !_.trim(item.condition).length || !_.trim(item.price).length;
+
             });
             result = result.length > 0;
             if(result) return false;
         } else {
             this.state.product.delivery = [];
-            result = !this.state.product.link_download || _.trim(this.state.product.link_download).length == 0
+            result = !this.state.product.link_download || _.trim(this.state.product.link_download).length == 0;
             if (result) return false;
         }
 

@@ -21,6 +21,7 @@ class PartnerItem extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
         this.setActive = this.setActive.bind(this);
+        this.setPartnerFee = this.setPartnerFee.bind(this);
     }
 
     componentDidMount() {
@@ -46,10 +47,20 @@ class PartnerItem extends React.Component {
     }
 
     onChange(e) {
-        var fee = {};
-        fee[e.target.name] = e.target.value;
-        this.state.value = e.target.value;
-        _.assign(this.props.item.fee, fee);
+
+        if(e.target.name == 'fee_pay') {
+            var fee = {};
+            fee[e.target.name] = e.target.value;
+            this.state.value = e.target.value;
+            _.assign(this.props.item.fee, fee);
+        } else {
+
+            var state = {};
+            state[e.target.name] = e.target.value;
+            _.assign(this.props.item, state);
+
+        }
+
         this.state.clear = false;
 
         this.setState({partner: this.props.item});
@@ -79,6 +90,19 @@ class PartnerItem extends React.Component {
 
     }
 
+    setPartnerFee() {
+
+        PartnersAction.setPartnerFee(this.state.partner).then((result) => {
+                AlertActions.set({
+                    type: 'success',
+                    title: 'Успех',
+                    text: 'Установка комиссии прошла успешно'
+                }, true);
+
+            })
+
+    }
+
     render(){
         var available = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
         var notAvailable = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
@@ -86,6 +110,7 @@ class PartnerItem extends React.Component {
         var fee = this.props.item.fee || {};
         var fee_added = fee.fee_added || 0;
         var fee_payed = fee.fee_payed || 0;
+        var partner_fee = this.props.item.partner_fee || '';
 
         return <tr>
                 <td>{this.props.item.login}</td>
@@ -112,6 +137,21 @@ class PartnerItem extends React.Component {
             </td>
             <td>{ parseFloat(fee_added).toFixed(2) }</td>
             <td>{ parseFloat(fee_payed).toFixed(2) }</td>
+             <td className="col-md-2">
+                <div className="input-group input-group-inline">
+                    <NumberInput onChange={this.onChange}
+                                 name="partner_fee"
+
+                                 toFixed={2}
+                                 value={partner_fee}
+                                 clear={this.state.clear} />
+                                <span className="input-group-btn">
+                                    <div className="btn btn-default btn-action " type="button"
+                                            onClick={this.setPartnerFee}>Установить</div>
+                                </span>
+                </div>
+
+            </td>
         </tr>
     }
 
@@ -159,7 +199,7 @@ class Partners extends React.Component {
 
     render(){
         var self = this;
-        console.log('USERRRt',this.state.partner_query)
+        console.log(this.state.partners)
         return  <div>
                 <div className="boxed">
                     <h4>Партнер, которому будут перчисляться бонусы</h4>
@@ -194,7 +234,8 @@ class Partners extends React.Component {
                         {name: 'Активность', key: 'active'},
                         {name: 'Выплатить', key: ''},
                         {name: 'Должен', key: 'fee.fee_added'},
-                        {name: 'Выплачено', key: 'fee.fee_payed'}
+                        {name: 'Выплачено', key: 'fee.fee_payed'},
+                        {name: 'Комиссия', key: ''}
                     ]}
                 />
             </div>

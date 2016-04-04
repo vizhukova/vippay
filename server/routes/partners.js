@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var config = require('../config');
 var PartnerController = require('../controllers/Partner');
+var PartnerClientsController = require('../controllers/PartnerClients');
 var UserController = require('../controllers/User');
 var _ = require('lodash');
 var email = require('../utils/email');
@@ -44,7 +45,8 @@ router.post('/partner/register', function (req, res, next) {
 
         return PartnerController.setFee({
             client_id: client_id,
-            partner_id: user.modelData.id
+            partner_id: user.modelData.id,
+            fee: req.clientObj.fee
         })
 
     }).then((fee) => {
@@ -131,7 +133,7 @@ router.get('/partner/current', function (req, res, next) {
 });
 
 router.put('/partner', function (req, res, next) {
-    PartnerController.edit(_.omit(req.body, ['fee']))
+    PartnerController.edit(_.omit(req.body, ['fee', 'partner_fee']))
         .then(function (partner) {
             res.send(partner)
         }).catch(function (err) {
@@ -180,6 +182,25 @@ router.put('/partner/fee', function (req, res, next) {
     } else {
         res.send({});
     }
+
+});
+
+
+router.put('/partner/individual_fee', function (req, res, next) {
+
+    var newObj = {
+        client_id: req.clientObj.id,
+        partner_id: req.body.id,
+        fee: req.body.partner_fee
+    };
+
+    PartnerClientsController.edit(newObj)
+    .then(function (data) {
+        res.send(data);
+        }).catch(function (err) {
+        next(err);
+    });
+
 
 });
 
