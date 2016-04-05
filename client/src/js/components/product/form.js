@@ -677,7 +677,7 @@ class ProductForm extends React.Component {
                              checked={this.state.product.material}
                              onChange={this.onChange}
                              onClick = {this.onClick}/>
-                      Доставляемый</label>
+                      Доставляемый { this.state.product.material  ? '(данные о доставке не должны повторяться)' : ''}</label>
                 </div>
 
                 {this.state.product.material

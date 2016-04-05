@@ -168,12 +168,12 @@ class Orders extends React.Component {
                 var basic_currency = this.state.currencies[order.basic_currency_id - 1];
                 basic_currency = basic_currency ? basic_currency.name : '';
 
-                order.product_price = order.product_price_base_rate;
+                order.product_price = order.total_price_base_rate;
                 order.delivery_price = order.delivery_price_base_rate;
                 order.total_price = order.total_price_base_rate;
                 order.currency = basic_currency;
             } else {
-                order.product_price = order.product_price_order_rate;
+                order.product_price = order.total_price_order_rate;
                 order.delivery_price = order.delivery_price_order_rate;
                 order.total_price = order.total_price_order_rate;
                 order.currency = _.findWhere(this.state.currencies, {id: order.product[0].currency_id}) || {};
@@ -194,7 +194,7 @@ class Orders extends React.Component {
                 {name: 'Комментарий', key: ''},
                 {name: 'Доставка', key: ''},
                 {name: 'Оплачен', key: ''},
-                {name: 'Цена за товар', key: 'product.price'},
+                {name: 'Цена за товры', key: 'product.price'},
                 {name: 'Промо код', key: ''},
                 {name: 'Метод оплаты', key: 'method'}
             ]}

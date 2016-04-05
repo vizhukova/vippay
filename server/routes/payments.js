@@ -90,7 +90,13 @@ router.post('/payments/yandex', (req, res) => {
 
 router.post('/payments/interkassa', (req, res) => {
 
-    console.log('INTERKASSA', req.body);
+    var id = +req.body.ik_pm_no;
+
+    OrderController.pay(id).then(() => {
+        res.send('ok')
+    }).catch((err) => {
+        res.status(500).send('Error');
+    })
 
 });
 
