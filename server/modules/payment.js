@@ -15,7 +15,7 @@ module.exports = function(req, res, next){
 
         order = o;
 
-        if(! order) throw new Error();
+        if(! order || order.client_id != req.clientObj.id) throw new Error();
         else  return InterKassa.getData(req.params.order_id, req.clientObj.id)
 
     }).then((interkassa) => {

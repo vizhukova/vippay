@@ -26,7 +26,7 @@ window.onload = function() {
                 }
 
                 var id = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1);
-                    ApiActions.put(`order/${id}`, {method: item.name, id: id});
+                    ApiActions.put(`order/payments/${id}`, {method: item.name, id: id});
 
                 description.html(item.details || paymentTranslate[`${item.name}_details`]);
 

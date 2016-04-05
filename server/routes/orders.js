@@ -65,6 +65,20 @@ router.put('/order/:id', function(req, res, next) {
         }
 });
 
+router.put('/order/payments/:id', function(req, res, next) {
+
+    OrderController.edit(req.body).then((order) => {
+
+        res.send(order);
+
+    }).catch((err) => {
+
+        next(err);
+
+    });
+
+});
+
 router.post('/order', function(req, res, next) {
 
     var product = req.body.product;

@@ -119,7 +119,7 @@ app.use(require('./routes/redirect'));
 
 app.get('/basket/:id*',basketModule, function(req, res){ //show basket
 
-    res.render('basket', {basketItems: req.basketItems, currency: req.currency, timestamp: timestamp});
+    res.render('basket', {basketItems: req.basketItems, currency: req.currency, redirectBack: req.headers.referer, timestamp: timestamp});
 });
 
 app.get('/order/basket/:id*', basketModule, function(req, res){

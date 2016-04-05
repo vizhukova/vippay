@@ -9,7 +9,7 @@ module.exports = function(req, res, next){
     var product;
     var upsell_products;
 
-     Product.get({id: req.params.id}).then((p) => {
+     Product.get({id: req.params.id, client_id: req.clientObj}).then((p) => {
 
          product = p[0];
          product.delivery = product.delivery || [];

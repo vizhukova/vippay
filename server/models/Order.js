@@ -82,7 +82,7 @@ var Order = bookshelf.Model.extend({
     edit(data) {
         return knex('orders')
             .update(data)
-            .where('id', '=', data.id)
+            .where('id', '=', +data.id)
             .returning('*')
     }
 
