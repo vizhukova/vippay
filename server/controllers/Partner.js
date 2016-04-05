@@ -148,10 +148,10 @@ module.exports = {
         })
     },
 
-    getFee(id) {
+    getFee(client_id) {
         return new Promise(function(resolve, reject){
 
-            Fee.get(id).then(function(model){
+            Fee.get(client_id).then(function(model){
                 resolve(model);
             }).catch(function(err){
                 reject(err);

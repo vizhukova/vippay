@@ -27,10 +27,19 @@ var Order = bookshelf.Model.extend({
                                partner_id: data.partner_id,
                                client_id: data.client_id,
                                product: data.product,
-                               action: data.action
+                               action: data.action,
+                               order_id: data.order_id || null
         });
 
         return record.save();
+    },
+
+    edit(data) {
+
+        return knex('statistics')
+            .update(data)
+            .where({order_id: data.order_id});
+
     },
 
      get(client_id){
@@ -54,6 +63,18 @@ var Order = bookshelf.Model.extend({
                     reject(err);
                 })
         })
+    },
+
+    getAll(data) {
+        return knex('statistics')
+            .select('*')
+            .where(data);
+    },
+
+    delete(data) {
+        return knex('statistics')
+            .del()
+            .where(data);
     },
 
     getByPartner(data){

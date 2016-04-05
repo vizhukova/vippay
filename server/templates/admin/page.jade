@@ -48,22 +48,24 @@ html
                                             button.glyphicon.glyphicon-ban-circle.btn.btn-danger.btn-action
 
                                 td
-                                    span.text-danger #{u.tariff_name ? '' : 'тариф не выбран'}
-                                    form(action='#{action + "/admin/user/tariff?_method=PUT"}' method="POST" encType="application/x-www-form-urlencoded")
+                                    if u.type === 'client'
+                                        span.text-danger #{u.tariff_name ? '' : 'тариф не выбран'}
+                                        form(action='#{action + "/admin/user/tariff?_method=PUT"}' method="POST" encType="application/x-www-form-urlencoded")
 
-                                        input(type="hidden", name="_method", value="PUT")
-                                        input(type="hidden", name="id", value="#{u.id}")
+                                            input(type="hidden", name="_method", value="PUT")
+                                            input(type="hidden", name="id", value="#{u.id}")
 
-                                        select.form-control(name="tariff_name", onchange="this.form.submit()")
-                                            each t in tariff_names
-                                                option(value='#{t}', selected=u.tariff_name == t) #{tariffs[t].name}
+                                            select.form-control(name="tariff_name", onchange="this.form.submit()")
+                                                each t in tariff_names
+                                                    option(value='#{t}', selected=u.tariff_name == t) #{tariffs[t].name}
 
-                                        select.form-control(name="tariff_duration", onchange="this.form.submit()")
-                                            each price in tariffs[u.tariff_name || 'start'].prices
-                                                option(selected=u.tariff_duration == price.time) #{price.time}
+                                            select.form-control(name="tariff_duration", onchange="this.form.submit()")
+                                                each price in tariffs[u.tariff_name || 'start'].prices
+                                                    option(selected=u.tariff_duration == price.time) #{price.time}
 
                                 td
-                                    .text-center #{u.tariff_date ? new Date(u.tariff_date).toLocaleString("ru") : '-'}
+                                    if u.type === 'client'
+                                        .text-center #{u.tariff_date ? new Date(u.tariff_date).toLocaleString("ru") : '-'}
                                 td
                                     form(action='#{action + "/admin/user/tariff?_method=PUT"}' method="POST" encType="application/x-www-form-urlencoded")
                                         input(type="hidden", name="_method", value="PUT")
@@ -74,7 +76,7 @@ html
                                         else
                                             button.glyphicon.glyphicon-ban-circle.btn.btn-danger.btn-action
                                 td
-                                    form(action='#{action + "/admin/user/login"}' method="POST" encType="application/x-www-form-urlencoded")
+                                    form(action='#{action + "/admin/" + u.type + "/login"}' method="POST" encType="application/x-www-form-urlencoded")
                                         input(type="hidden", name="id", value='#{u.id}')
                                         button.btn.btn-default.glyphicon.glyphicon-log-in
                                 td

@@ -5,6 +5,8 @@ var ProductController = require('../controllers/Product');
 var CustomerController = require('../controllers/Customer');
 var StatisticController = require('../controllers/Statistic');
 var UserController = require('../controllers/User');
+var PartnerClientsController = require('../controllers/PartnerClients');
+var PartnerController = require('../controllers/Partner');
 var convert = require('./../modules/convert');
 var email = require('../utils/email');
 var Promise = require('bluebird');
@@ -35,18 +37,32 @@ router.get('/order/:id', function(req, res, next) {
 
 router.put('/order/:id', function(req, res, next) {
 
-        new Promise((resolve, reject) => {
 
-            if(req.body.step) return  OrderController.setComplete({id:req.params.id, step: req.body.step}).then((order) => resolve(order));
-            else return OrderController.edit(req.body).then((order) => resolve(order).then((err) => reject(err)));
+        if(req.body.step == 'complete') {
 
-        }).then(function (order) {
-            res.send(order[0]);
-        }).catch(function (err) {
-            //res.status(400).send(err);
-            next(err);
-        })
+            OrderController.pay(req.params.id).then((order) => {
 
+                res.send(order);
+
+            }).catch((err) => {
+
+                next(err);
+
+            });
+
+        } else {
+
+             OrderController.cancelPay(req.params.id).then((order) => {
+
+                res.send(order);
+
+            }).catch((err) => {
+
+                next(err);
+
+            });
+
+        }
 });
 
 router.post('/order', function(req, res, next) {
@@ -63,6 +79,7 @@ router.post('/order', function(req, res, next) {
     var customer;
     var user;
     var total = req.body.total;
+    var order;
 
     if(! _.trim(delivery.email).length
         || ! _.trim(delivery.name).length
@@ -149,7 +166,20 @@ router.post('/order', function(req, res, next) {
                             basic_currency_id: user.basic_currency
         })
 
-    }).then((order) => {
+    }).then((o) => {
+
+        order = o;
+
+        return StatisticController.add({
+           order_id: order.id,
+           client_id: order.client_id,
+           partner_id: order.partner_id,
+           customer_id: order.customer_id,
+           action: 'start_order',
+           product: JSON.stringify(order.product)
+        });
+
+    }).then((s) => {
 
         var redirect;
 

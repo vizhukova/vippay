@@ -3,6 +3,7 @@ var User = require('../models/Users');
 var Rate = require('../models/Rate');
 var Customer = require('../models/Customer');
 var Statistic = require('../models/Statistic');
+var PartnersClients = require('../models/PartnerClients');
 var Fee = require('../models/Fee');
 var Promise = require('bluebird');
 var _ = require('lodash');
@@ -34,7 +35,7 @@ module.exports = {
         })
     },
 
-    setComplete(data) {
+    /*setComplete(data) {
         return new Promise(function (resolve, reject) {
 
             var order;
@@ -62,7 +63,7 @@ module.exports = {
                 reject(err);
             });
         })
-    },
+    },*/
 
     getById(id) {
         return new Promise(function (resolve, reject) {
@@ -93,64 +94,194 @@ module.exports = {
     },
 
     pay(id) {
-        return new Promise(function (resolve, reject) {
+
+        return new Promise((resolve, reject) => {
 
             var order;
             var customer;
+            var partner_id;
+            var feeToAdd;
 
-            Order.pay(id)
-                .then(function (orderObj) {
+           Order.pay(id).then((o) => {
 
-                    order = orderObj[0];
-                    return Customer.get(order.customer_id)
+               var text;
 
-                }).then((c) => {
-
-                var text;
-                customer = c;
+               order = o[0];
 
                 if(order.product.material){
                     text = 'Спасибо за оплату заказа. Оплата прошла успешно';
                 }else{
                     text = `Спасибо за оплату заказа. Оплата прошла успешно. Ссылка на товар: `;
                     order.product.map((product) => {
-                        text += `${product.link_download}  `;
+                        text += `${product.link_download}`;
                     })
                 }
 
                 email.send(order.delivery.email, 'Успешная оплата заказа', text);
 
-                if (order.partner_id) {
-                    return User.get({id: order.client_id})
-                } else {
-                    resolve(order);
-                }
+               return Customer.get(order.customer_id);
 
-            }).then((user) => {
-                var arr = customer.partner_product_id.partner_id;
-                var partner_id = user[0].partner_fee == 'first' ? arr[0] : arr[arr.length - 1];
+           }).then((c) => {
 
-                return Fee.set({
-                    fee_added: user[0].fee,
+               customer = c;
+
+               return Statistic.add({
+                    partner_id: order.partner_id,
+                    product: JSON.stringify(order.product),
+                    customer_id: order.customer_id,
                     client_id: order.client_id,
-                    partner_id: partner_id
+                    order_id: order.id,
+                    action: "pending_order"
                 })
-            }).then((fee) => {
-                    return Statistic.add({
-                        partner_id: order.partner_id,
-                        product: JSON.stringify(order.product),
-                        customer_id: order.customer_id,
-                        client_id: order.client_id,
-                        action: "pending_order"
-                    })
-                }).then(() => {
-                    resolve(order);
-                })
-                .catch(function (err) {
-                    reject(err);
-                });
 
-        })
+
+           }).then((s) => {
+
+                if(! customer.partner_product_id.partner_id.length) {
+                        resolve([order]);
+                        return;
+                    }
+
+                    return User.getById(order.client_id);
+
+           }).then((u) => {
+
+               partner_id = u.partner_fee == 'last'
+                        ? customer.partner_product_id.partner_id[customer.partner_product_id.partner_id.length - 1]
+                        : customer.partner_product_id.partner_id[0];
+
+                return PartnersClients.get({client_id: order.client_id, partner_id: partner_id});
+
+           }).then((p_c) => {
+
+               feeToAdd = p_c[0].fee;
+
+               return Fee.get(order.client_id);
+
+           }).then((fees) => {
+
+               var fee = _.findWhere(fees, {partner_id: partner_id});
+
+               if(!fee) {
+
+                   return Fee.set({
+                       client_id: order.client_id,
+                       partner_id: partner_id,
+                       fee_payed: 0,
+                       fee_added: feeToAdd
+                   })
+
+               } else {
+
+                   var newFee = (+fee.fee_added) + (+feeToAdd);
+
+                   return Fee.put({
+                       client_id: order.client_id,
+                       partner_id: partner_id,
+                       fee_added: newFee
+                   })
+
+               }
+
+           }).then((newFee) => {
+
+               resolve(order);
+
+           }).catch((err) => {
+
+               reject(err);
+           })
+
+        });
+
+    },
+
+    cancelPay(id) {
+
+         return new Promise((resolve, reject) => {
+
+            var order;
+            var customer;
+            var partner_id;
+            var feeToAdd;
+
+           Order.setComplete({id: id, step: 'pending'}).then((o) => {
+
+               order = o[0];
+
+               return Customer.get(order.customer_id);
+
+           }).then((c) => {
+
+               customer = c;
+
+               return Statistic.delete({
+                   partner_id: order.partner_id,
+                   customer_id: order.customer_id,
+                   client_id: order.client_id,
+                   order_id: order.id,
+                   action: "pending_order"
+               })
+
+           }).then((s) => {
+
+                if(! customer.partner_product_id.partner_id.length) {
+                        resolve([order]);
+                        return;
+                    }
+
+                    return User.getById(order.client_id);
+
+           }).then((u) => {
+
+               partner_id = u.partner_fee == 'last'
+                        ? customer.partner_product_id.partner_id[customer.partner_product_id.partner_id.length - 1]
+                        : customer.partner_product_id.partner_id[0];
+
+                return PartnersClients.get({client_id: order.client_id, partner_id: partner_id});
+
+           }).then((p_c) => {
+
+               feeToAdd = p_c[0].fee;
+
+               return Fee.get(order.client_id);
+
+           }).then((fees) => {
+
+               var fee = _.findWhere(fees, {partner_id: partner_id});
+
+               if(!fee) {
+
+                   return Fee.set({
+                       client_id: order.client_id,
+                       partner_id: partner_id,
+                       fee_payed: 0,
+                       fee_added: 0
+                   })
+
+               } else {
+
+                   var newFee = (+fee.fee_added) - (+feeToAdd);
+
+                   return Fee.put({
+                       client_id: order.client_id,
+                       partner_id: partner_id,
+                       fee_added: newFee
+                   })
+
+               }
+
+           }).then((newFee) => {
+
+               resolve(order);
+
+           }).catch((err) => {
+
+               reject(err);
+           })
+
+        });
+
     }
 
 };

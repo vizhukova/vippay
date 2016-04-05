@@ -117,7 +117,7 @@ router.put('/basket/:product_id', function(req, res, next) {
 
     }).then((b_c) => {
 
-        res.redirect(req.body.redirect_link);
+        res.redirect(`http://${req.clientObj.login}.${req.postdomain}/basket/${basket.id}`);
 
     }).catch((err) => {
 
@@ -142,9 +142,10 @@ router.get('/basket/product/:basket_id', function(req, res, next) {
 
 router.get('/basket', function(req, res, next) {
 
-    BasketController.get({customer_id: +req.cookies.id, step: 'pending'}).then((basket) => {
+    BasketController.get({customer_id: +req.cookies.id, step: 'pending'}).then((b) => {
 
-        return BasketProductController.getWithConvertToBaseCurr(basket[0].id);
+        var basket = b[0] || {};
+        return BasketProductController.getWithConvertToBaseCurr(basket.id || 0);
 
     }).then((b_p) => {
 

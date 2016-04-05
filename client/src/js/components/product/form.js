@@ -398,7 +398,12 @@ class ProductForm extends React.Component {
 
             result = this.state.product.delivery.filter((item, index) => {
 
-                var isUnique = _.findWhere(self.state.product.delivery, {condition: item.condition}, index + 1) == -1;
+                var uniqueArr = _.uniq(self.state.product.delivery, function(d) {
+                      return d.condition;
+                    }, Math);
+
+                var isUnique = uniqueArr.length === this.state.product.delivery.length;
+
                 return !isUnique || !_.trim(item.condition).length || !_.trim(item.price).length;
 
             });

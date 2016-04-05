@@ -6,6 +6,7 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 
 var UserController = require('./../controllers/User');
+var PartnerClientsController = require('./../controllers/PartnerClients');
 
 
 router.post('/admin/login', function (req, res, next) {
@@ -24,7 +25,7 @@ router.post('/admin/login', function (req, res, next) {
 
 });
 
-router.post('/admin/user/login', function (req, res, next) {
+router.post('/admin/client/login', function (req, res, next) {
 
     var id = +req.body.id;
     var user;
@@ -35,6 +36,40 @@ router.post('/admin/user/login', function (req, res, next) {
 
         res.cookie('token', jwt.encode({id: user.id, role: user.type}, 'secret'), {maxAge: 9000000000, domain: `.${req.postdomain}`});
         res.redirect(`http://${user.login}.${req.postdomain}`);
+
+    }).catch((err) => {
+
+        next(err);
+
+    })
+
+});
+
+router.post('/admin/partner/login', function (req, res, next) {
+
+    var id = +req.body.id;
+    var user;
+
+    UserController.getByData({id: id}).then((u) => {
+
+        user = u[0];
+
+        return PartnerClientsController.get({partner_id: user.id});
+
+    }).then((p_c) => {
+
+        if(! p_c.length) {
+            throw new Error('no client');
+        }
+
+        return UserController.getByData({id: p_c[0].client_id});
+
+    }).then((c) => {
+
+        var client = c[0];
+
+        res.cookie('token', jwt.encode({id: user.id, role: user.type}, 'secret'), {maxAge: 9000000000, domain: `.${req.postdomain}`});
+        res.redirect(`http://${client.login}.${req.postdomain}/${user.login}`);
 
     }).catch((err) => {
 

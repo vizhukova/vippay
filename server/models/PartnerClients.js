@@ -26,6 +26,12 @@ var PartnerCliets = bookshelf.Model.extend({
             .update(data)
             .where({client_id: data.client_id, partner_id: data.partner_id})
             .returning('*');
+    },
+
+    get(data) {
+        return knex('clients-partners')
+            .select('*')
+            .where(data);
     }
 
 

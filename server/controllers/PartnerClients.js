@@ -8,10 +8,22 @@ var _ = require('lodash');
 
 module.exports = {
 
-    edit(fee){
+    edit(data){
         return new Promise(function(resolve, reject){
 
-            PartnerClients.edit(fee).then(function(model){
+            PartnerClients.edit(data).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
+    },
+
+     get(data){
+        return new Promise(function(resolve, reject){
+
+            PartnerClients.get(data).then(function(model){
                 resolve(model);
             }).catch(function(err){
                 reject(err);

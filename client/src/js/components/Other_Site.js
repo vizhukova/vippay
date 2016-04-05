@@ -108,7 +108,6 @@ class Other_Sites extends React.Component {
 
             <form method="POST" action={`http://${this.state.domain}/api/basket/${this.state.id_product}?_method=PUT`} encType="application/x-www-form-urlencoded">
                             <input type="hidden" name="_method" value="PUT" />
-                            <input type="hidden" name="redirect_link" value={document.location.href} />
                             <input type="submit" value="Заказать"/>
                          </form>
             
