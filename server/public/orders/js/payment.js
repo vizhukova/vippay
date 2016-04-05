@@ -5,6 +5,7 @@ var order = JSON.parse($('[name="order"]')[0].value)[0];
 var container = $('#container');
 var description = $('#description');
 var paymentBlock = $('#paymentBlock');
+var descriptionContainer = $('.description');
 
 window.onload = function() {
 
@@ -20,6 +21,8 @@ window.onload = function() {
 
             div.on('click', function(e) {
 
+                descriptionContainer.removeClass('hide');
+
                 if(item.name == 'yandex' || item.name == 'interkassa') {
 
                     hidePaymentSettingsItems(item.name);
@@ -29,6 +32,8 @@ window.onload = function() {
                     ApiActions.put(`order/payments/${id}`, {method: item.name, id: id});
 
                 description.html(item.details || paymentTranslate[`${item.name}_details`]);
+
+                if(item.details && ! item.details.length) descriptionContainer.addClass('hide');
 
 
             });

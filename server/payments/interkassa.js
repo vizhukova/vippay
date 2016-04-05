@@ -24,7 +24,7 @@ class InterKassa{
 
                 return OrderController.getById(order_id).then(function(order){
 
-                    payment_data.ik_co_id = '56b498bb3d1eaf37148b4572';
+                    //payment_data.ik_co_id = '56b498bb3d1eaf37148b4572';
                     payment_data.ik_pm_no = order_id;
                     payment_data.ik_cur = _.findWhere(currency, {id: order.basic_currency_id}).name;
                     payment_data.ik_am = order.total_price_base_rate;
@@ -39,7 +39,9 @@ class InterKassa{
 
             }).then((user) => {
 
-                payment_data.ik_co_id = user.payment.interkassa;
+                var interkassa = _.findWhere(user.payment, {name: 'interkassa'});
+
+                payment_data.ik_co_id = interkassa.fields.id_kassa;
 
                 resolve(payment_data);
 

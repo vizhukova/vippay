@@ -23,11 +23,11 @@ html(lang='en')
                       .col-md-3#paymentBlock
                           include ./payments/interkassa.jade
                           include ./payments/yandex.jade
-                      .col-md-9
-                          .col-md-4.text-uppercase
-                              b Описание:
-                              span
-                          .col-md-8#description
+                      .col-md-9.description.hide
+                              .col-md-4.text-uppercase
+                                  b Описание:
+                                  span
+                              .col-md-8#description
 
 
           input.form-control(type='hidden', name='payments', value='#{JSON.stringify([payments])}')

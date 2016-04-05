@@ -13,7 +13,7 @@ module.exports = function(req, res, next){
    Users.getByLogin(req.subdomain).then((c) => {
 
        client = c;
-       return Basket.get({id: req.params.id, client_id: client.id, step: 'pending'})
+       return Basket.get({id: +req.params.id, client_id: client.id, step: 'pending'})
 
    }).then((b) => {
 
