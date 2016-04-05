@@ -1,6 +1,7 @@
 var Product = require('./../models/Product');
 var Currency = require('./../models/Currency');
 var UpsellProduct = require('./../models/UpsellProduct');
+var User = require('./../models/Users');
 var _ = require('lodash');
 
 module.exports = function(req, res, next){
@@ -14,7 +15,7 @@ module.exports = function(req, res, next){
         
         client = c;
         
-        return Product.get({id: req.params.id, client_id: req.clientObj})
+        return Product.get({id: req.params.id, user_id: client.id})
     
     }).then((p) => {
 
