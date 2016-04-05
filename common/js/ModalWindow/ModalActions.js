@@ -5,7 +5,6 @@ import _ from 'lodash';
 class ModalActions {
 
     set(data) {
-        debugger
         var m = $('#myModal');
         if (!m.is(':visible')) m.modal();
         this.dispatch(data);

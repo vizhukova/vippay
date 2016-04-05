@@ -17,6 +17,8 @@ class Order extends React.Component {
                      <input  name="ik_am" type="hidden" value={payments.interkassa.method.ik_am} />
                      <input  name="ik_cur" type="hidden" value={payments.interkassa.method.ik_cur} />
                      <input  name="ik_desc" type="hidden" value={payments.interkassa.method.ik_desc} />
+                     <input  name="ik_ia_u" type="hidden" value={payments.interkassa.method.ik_ia_u} />
+                     <input  name="ik_ia_m" type="hidden" value={payments.interkassa.method.ik_ia_m} />
 
                         <input type="submit" value="Pay" />
                 </form>

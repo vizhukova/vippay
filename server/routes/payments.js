@@ -88,5 +88,11 @@ router.post('/payments/yandex', (req, res) => {
 
 });
 
+router.post('/payments/interkassa', (req, res) => {
+
+    console.log('INTERKASSA', req.body);
+
+});
+
 
 module.exports = router;

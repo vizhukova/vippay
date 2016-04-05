@@ -29,6 +29,8 @@ class InterKassa{
                     payment_data.ik_cur = _.findWhere(currency, {id: order.basic_currency_id}).name;
                     payment_data.ik_am = order.total_price_base_rate;
                     payment_data.ik_desc = order.delivery.description || '';
+                    payment_data.ik_ia_u = 'http://payment.vippay.info/payment/interkassa';
+                    payment_data.ik_ia_m = 'POST';
                     payment_data.action = 'https://sci.interkassa.com/';
 
                     return UserController.getById(user_id);
@@ -37,7 +39,7 @@ class InterKassa{
 
             }).then((user) => {
 
-                //payment_data.ik_co_id = user.payment.interkassa;
+                payment_data.ik_co_id = user.payment.interkassa;
 
                 resolve(payment_data);
 
