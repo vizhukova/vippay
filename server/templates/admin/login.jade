@@ -1,0 +1,35 @@
+html
+  head
+      meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
+      link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
+  body
+    script(src="/public/partners/vendor.js?timestamp=#{timestamp}")
+    div
+      .container
+        .tab-container.col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3.auth-form
+          .tab-body.boxed
+            form(role='form')
+              div
+                  include ./../partial/alert.jade
+                  .form-group
+                    input#password.form-control.input-lg(name='password', type='password', placeholder='Пароль')
+                  .btn.btn-primary.btn-block(onclick='logIn()') Отправить
+
+    script(src="/public/ajax.js")
+    script.
+        function logIn() {
+
+            var password = $('#password').val();
+
+            ApiActions.post('admin/login', {password: password}).then(function(data) {
+
+                location.href = data.redirect;
+
+            }).catch( function(err) {
+                setAlert({
+                        type: 'error',
+                        text: 'Не правильный пароль',
+                        title: 'Ошибка'
+                        });
+        })
+        }

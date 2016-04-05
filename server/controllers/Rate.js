@@ -38,5 +38,16 @@ module.exports = {
                reject(err);
             });
     })
+    },
+
+    getBank() {
+        return new Promise(function (resolve, reject) {
+
+            Rate.getBank().then(function(rate) {
+               resolve(rate);
+            }).catch(function(err){
+               reject(err);
+            });
+    })
     }
 };

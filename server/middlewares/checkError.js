@@ -1,3 +1,6 @@
+var log = require('./../utils/log');
+var logg = new log('db');
+
 
 module.exports = function(err, res){
 
@@ -53,11 +56,28 @@ module.exports = function(err, res){
         case 'no_promo_product':
             res.status(400).send('Такого промо кода не существует или он неприменим к выбранному продукту');
             break;
+        case 'upsell_product_product_id_foreign':
+            res.status(400).send('Нельзя удалить этот продукт, так как он участвует в акции 1+1');
+            break;
+        case 'too_long_link':
+            res.status(400).send('Слишком длинное значение ссылки');
+            break;
+        case 'wrong_password':
+            res.status(400).send('Не верный пароль');
+            break;
+        case 'you_are_not_registered':
+            res.status(400).send('Вы не зарегистрированы');
+            break;
+        case 'no_client':
+            res.status(400).send('Такого клиента не существует');
+            break;
         default:
             if(err.errors) {
                 var keys = Object.keys(err.errors) || [];
                 res.status(400).send(err.errors[keys[0]].message);
             }
-            else res.status(400).send('Упс, что-то пошло не так');
+            else res.status(400).send();
+
+            logg.log(err, 'error');
     }
 };

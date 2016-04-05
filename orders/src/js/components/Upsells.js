@@ -16,9 +16,13 @@ class UpsellItem extends React.Component {
 
     addApsell(e) {
         ModalActions.hide();
+
+        var delivery = _.clone(this.props.delivery);
+        delivery.total = parseFloat(this.props.item.upsell_price) + parseFloat(this.props.delivery.price) || 0;
+
         OrderActions.add({
             prod_id: [this.props.product.id, this.props.item.id],
-            delivery: this.props.delivery,
+            delivery: delivery,
             promo: this.props.promo
         });
     }
@@ -26,11 +30,16 @@ class UpsellItem extends React.Component {
     render() {
         var discount = this.props.promo.discount || 0;
         var price = this.props.product.price - this.props.product.price * discount / 100;
-        var total = parseFloat(price) + parseFloat(this.props.item.price) || 0;
+        var old_total = parseFloat(price) + parseFloat(this.props.item.price) || 0;
+        var new_total = parseFloat(this.props.item.upsell_price) || 0;
+
         return <div className="row">
                                 <div className="col-md-3">{this.props.item.name}</div>
                                 <div className="col-md-3">{price.toFixed(2)} {this.props.product.currency_name}</div>
-                                <div className="col-md-3">{total.toFixed(2)} {this.props.product.currency_name}</div>
+                                <div className="col-md-3">
+                                    <del>{old_total.toFixed(2)} {this.props.product.currency_name}</del>
+                                    <p>{new_total.toFixed(2)} {this.props.product.currency_name}</p>
+                                </div>
                                 <div className="col-md-3">
                                     <div className="btn btn-action" name={this.props.product.id} onClick={this.addApsell} data-dismiss="modal">Купить</div>
                                 </div>
@@ -59,17 +68,13 @@ class Upsells extends React.Component {
     }
 
     addApsell(e) {
-        debugger
     }
 
     addOrder(e) {
         ModalActions.hide();
         OrderActions.add({prod_id: [this.props.data.product.id],
                         delivery: this.props.data.delivery,
-                        promo: {
-                            code: this.props.data.code,
-                            discount: this.props.data.discount
-                            }
+                        promo: this.props.data.promo
                         });
     }
 
@@ -96,7 +101,7 @@ class Upsells extends React.Component {
                                                item={item}
                                                product={self.props.data.product}
                                                delivery={self.props.data.delivery}
-                                               promo={self.props.data.promo}/>
+                                               promo={{}}/>
                         })}
                           <div className="btn" data-dismiss="modal" onClick={this.addOrder}>Нет, спасибо</div>
                       </div>

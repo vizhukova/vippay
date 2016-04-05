@@ -1,8 +1,9 @@
 import AlertActions from './../common/js/Alert/AlertActions';
+import AuthActions from './src/js/actions/AuthActions';
 
 module.exports = {
     check(error) {
-        debugger
+
         switch(error.status) {
             case 402: {
                 AlertActions.set({
@@ -23,11 +24,7 @@ module.exports = {
             }
 
                 case 401: {
-                /*AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Вы не авторизованы'
-                });*/
+                window.location.replace(`${window.location.origin}/partner/#/auth`);
                 break;
             }
         }

@@ -75,7 +75,7 @@ class ProductsAction {
     getProductsForUpsell() {
         var self = this;
         return new Promise((resolve, reject) => {
-            ApiActions.get(`product/upsell`).then(function(data){
+            ApiActions.get(`product`).then(function(data){
                 self.dispatch(data);
                 resolve(data);
             }).catch(function(err){

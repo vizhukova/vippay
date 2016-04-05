@@ -1,0 +1,80 @@
+doctype html
+html(lang='en')
+  head
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
+    link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
+  body
+      script(src="/public/orders/vendor.js?timestamp=#{timestamp}")
+      div
+          form#form.panel.panel-default.col-md-10.col-md-offset-1.form-margin.boxed(action='#{formSettings.action}' method='#{formSettings.method}')
+              include ./partial/alert.jade
+              .panel-body
+                  .text-danger.title Оформление заказа
+                  .col-md-6
+                      img.img-responsive.img-thumbnail.image(src='#{product.image}')
+                      .field
+                          b Название:
+                          |  #{product.name}
+                      .field
+                          b Цена:
+                          |  #{product.price + ' ' + currency.name}
+                      .description.image
+                          b Описание:
+                          |  #{product.description}
+                  if product.delivery.length
+                      .col-md-6
+                          .description.boxed
+                              div
+                                  div
+                                      span
+                                          b Условия доставки:
+                                      span#condition
+                                  div
+                                      span
+                                          b Цена:
+                                      span#price
+                              .form-group
+                                  select#sell.form-control(name='condition', onchange='onChange(this.selectedIndex, {product})')
+                                      each del in product.delivery
+                                          option=del.condition
+                                  input#priceToSent(type='hidden', name='price')
+                  .col-md-6
+                      .form-group
+                          label
+                              | Электронная почта:
+                              span.text-danger  *
+                          input.form-control(type='email', name='email', placeholder='Введите электронную почту')
+                      .form-group
+                          label
+                              | ФИО:
+                              span.text-danger  *
+                          input.form-control(type='text', name='name', placeholder='Введите ФИО')
+                      .form-group
+                          label
+                              | Телефон:
+                              span.text-danger  *
+                          input#telephone.form-control(type='text', name='telephone', placeholder='(ХХХ) ХХ ХХ ХХХ')
+                      .form-group
+                          label Комментарий:
+                          textarea.form-control(name='comment', rows='5', placeholder='Комментарий')
+                      .form-inline
+                          .form-group
+                              label Промо код:
+                              input(type='text', name='promo_code')
+                      .text-warning.text-uppercase.pull-right
+                          b
+                              | Итоговая цена:
+                              span#total
+                              | #{currency.name}
+                      br
+                      .text-danger.small.pull-right *Поля обязательные для заполнения
+                      br
+                  input.form-control(type='hidden', name='product', value='#{JSON.stringify([product])}')
+                  input.form-control(type='hidden', name='currency', value='#{JSON.stringify(currency)}')
+                  input.form-control(type='hidden', name='upsell_products', value='#{JSON.stringify(upsell_products)}')
+                  button.btn.btn-danger.btn-lg.pull-right.btn-order(type='submit') Оформить
+
+  include ./partial/message.jade
+
+  script(src="/public/ajax.js")
+  script(src="/public/orders/js/pending.js")

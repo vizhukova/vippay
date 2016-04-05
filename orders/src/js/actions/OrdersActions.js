@@ -18,7 +18,7 @@ class ProductsAction {
         ApiActions.post(`order`, data).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
         })
     }
 
@@ -27,7 +27,16 @@ class ProductsAction {
         ApiActions.get(`product/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            self.dispatch(err);
+            //self.dispatch(err);
+        })
+    }
+
+    getBasket(id) {
+        var self = this;
+        ApiActions.get(`basket/product/${id}`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+            //self.dispatch(err);
         })
     }
 
@@ -40,7 +49,16 @@ class ProductsAction {
         })
     }
 
-    getMethod(data) {
+    getMethodYandex(data) {
+        var self = this;
+        ApiActions.get(`payments/data/${data.order_id}/${data.method}`).then(function(data){
+            self.dispatch(data);
+        }).catch(function(err){
+
+        })
+    }
+
+    getMethodInterkassa(data) {
         var self = this;
         ApiActions.get(`payments/data/${data.order_id}/${data.method}`).then(function(data){
             self.dispatch(data);
@@ -77,6 +95,30 @@ class ProductsAction {
         var self = this;
         return new Promise((resolve,reject) => {
            ApiActions.get(`promo/order`, data).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                reject(err);
+            })
+        });
+    }
+
+    getPayments(client_id) {
+        var self = this;
+        return new Promise((resolve,reject) => {
+           ApiActions.get(`order/payments/${client_id}`).then(function(data){
+                self.dispatch(data);
+                resolve(data);
+            }).catch(function(err){
+                reject(err);
+            })
+        });
+    }
+
+    setMethod(data) {
+        var self = this;
+        return new Promise((resolve,reject) => {
+           ApiActions.put(`order/${data.id}`, data).then(function(data){
                 self.dispatch(data);
                 resolve(data);
             }).catch(function(err){

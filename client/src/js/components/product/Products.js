@@ -30,6 +30,7 @@ class ProductItem extends React.Component {
         this.setActive = this.setActive.bind(this);
         this.update = this.update.bind(this);
         this.setModelData = this.setModelData.bind(this);
+        this.showCode = this.showCode.bind(this);
     }
 
     componentDidMount() {
@@ -62,9 +63,24 @@ class ProductItem extends React.Component {
     }
 
     setModelData(e) {
-        var materials = this.props.item.materials || [];
-        debugger
-        ModalActions.set({data: materials, name: 'Materials'});
+        ModalActions.set({data: this.props.item.materials || [], name: 'Materials'});
+    }
+
+    showCode(e) {
+
+          var src = `http://${document.location.hostname}/api/basket/${this.props.item.id}?_method=PUT`;
+
+        ModalActions.set({
+            data: {
+                title: 'Установите код кнопки "Заказать" на страницу своего сайта',
+                message: `<form method="POST" action="${src}" enctype="application/x-www-form-urlencoded">
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input type="submit" value="Добавить в корзину"/>
+                 </form>`
+
+            },
+            name: 'MessageError'
+        })
     }
 
     render(){
@@ -74,25 +90,27 @@ class ProductItem extends React.Component {
         var materials = this.props.item.materials || [];
         currency = currency ? currency.name : currency;
 
-
         return <tr>
-                    <td>{this.props.item.name}</td>
-                    <td><a href={`/order/${this.props.item.id}`} target="_blank">{getAbsoluteUrl(`/order/${this.props.item.id}`)}</a></td>
-                    <td>{`${parseFloat(this.props.item.price).toFixed(2)} ${currency}`}</td>
-                    <td>
+                     <td>{this.props.item.name}</td>
+                     <td><a href={`/order/${this.props.item.id}`} target="_blank">{getAbsoluteUrl(`/order/${this.props.item.id}`)}</a></td>
+                     <td>{`${parseFloat(this.props.item.price).toFixed(2)} ${currency}`}</td>
+                     <td>
                         { materials.length > 0
                           ? <button type="button" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.setModelData} />
                           : '-'}
-                    </td>
+                     </td>
                      <td className="action"><button type="button" className={this.props.item.available ? available : notAvailable} onClick={this.setAvailable} /></td>
                      <td className="action"><button type="button" className={this.props.item.active ? available : notAvailable} onClick={this.setActive} /></td>
+                     <td>
+                         <button type="button" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.showCode} />
+                     </td>
                      <td className="action">
                         <Link to={`/category/${this.props.item.category_id}/products/${this.props.item.id}`}
                               className={`btn btn-default btn-action glyphicon glyphicon-pencil
                               ${this.props.isActiveTariff ? '' : 'disabled'}`}/>
                         <button type="button" className={`btn btn-danger btn-action pull-right glyphicon glyphicon-remove
                         ${this.props.isActiveTariff ? '' : 'disabled'}`} onClick={this.removeProduct} />
-                    </td>
+                     </td>
                 </tr>
     }
 
@@ -157,6 +175,7 @@ class Products extends React.Component {
                 {name: 'Дополнительные материалы', key: ''},
                 {name: 'Доступность', key: 'available'},
                 {name: 'Активность', key: 'active'},
+                {name: 'Код формы', key: ''},
                 {name: '', key: ''}
             ]}
         />

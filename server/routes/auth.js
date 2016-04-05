@@ -37,13 +37,13 @@ router.get('/check', function(req, res){
 
 router.get('/out', function(req, res) {
     res.cookie('token', '', {maxAge: 9000000000, domain: `.${config.get('domain')}`});
-    var link = `http://${req.clientObj.login}.${req.postdomain}`
+    var link = `http://${req.clientObj.login}.${req.postdomain}`;
     res.redirect(link)
 });
 
 router.get('/partner/out', function(req, res) {
     res.cookie('token', '', {maxAge: 9000000000, domain: `.${config.get('domain')}`});
-    var link = `http://${req.clientObj.login}.${req.postdomain}/partner`
+    var link = `http://${req.clientObj.login}.${req.postdomain}/partner`;
     res.redirect(link)
 });
 

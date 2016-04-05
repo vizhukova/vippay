@@ -14,7 +14,7 @@ router.post('/staff/login', function (req, res, next) {
     req.body.client_id = req.clientObj.id;
 
     StaffController.get(req.body).then((staff) => {
-        var a;
+
         if(staff.length > 0 && staff[0].active) {
             var token = jwt.encode({id: staff[0].id, role: 'staff'}, 'secret');
             res.cookie('token', token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});

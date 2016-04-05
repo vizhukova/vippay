@@ -10,7 +10,9 @@ module.exports = function(req, res, next){
         if( moment.max(today, registered_day) == today) {//if trial period end
 
             req.tariff.active = false;
-            if(req.method != 'GET') {res.status(402).send(); return;}
+            if(req.method != 'GET') {
+                res.status(402).send(); return;
+            }
 
         }
 

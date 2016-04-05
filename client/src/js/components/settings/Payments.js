@@ -4,7 +4,7 @@ import SettingsStore from'./../../stores/SettingsStore';
 import PasswordInput from'./../../../../../common/js/PasswordInput';
 import Alert from './../../../../../common/js/Alert/Alert';
 import AlertActions from './../../../../../common/js/Alert/AlertActions';
-import paymentSettings from './../../../../paymentSettings';
+import paymentSettings from './../../../../../common/paymentSettings';
 import _ from 'lodash';
 
 
@@ -38,6 +38,10 @@ class PaymentItem extends React.Component {
             this.state.payment.active = !this.state.payment.active;
         }
 
+        else if(e.target.name == 'details') {
+            this.props.payment[`details`] = e.target.value;
+        }
+
         else {
             this.state.payment.fields[e.target.name] = e.target.value;
         }
@@ -63,8 +67,9 @@ class PaymentItem extends React.Component {
 
 
     render() {
+        console.log(this.props.payment.active)
         return <div className="">
-            <div className="block">
+            <div className="block boxed">
                 <div className="block-title">
                     <h3>
                         { paymentSettings[this.props.payment.name] }
@@ -87,15 +92,17 @@ class PaymentItem extends React.Component {
                         <div className="checkbox">
                             <label className="text-warning">
                                 <input name="active"
-                                       checked={this.state.payment.active} type="checkbox"
+                                       checked={this.props.payment.active} type="checkbox"
                                        onChange={this.onChange}
                                        onClick={this.hideError}/>
                                 Активность</label>
                         </div>
                     </div>
                     <div className="col-sm-6">
-                        <span>Детали: </span>{ paymentSettings[`${this.props.payment.name}_details`] }<br/>
-                        <span/>
+                        <label>Детали:</label>
+                            <textarea rows="6" name={`details`} onChange={this.onChange}>
+                                { this.props.payment.details || paymentSettings[`${this.props.payment.name}_details`] }
+                            </textarea>
                     </div>
                 </div>
                 <div className="row-footer row">
@@ -180,4 +187,6 @@ class Payment extends React.Component {
 }
 
 
-export default Payment;
+export default Payment;/**
+ * Created by andrew on 14.03.16.
+ */

@@ -6,22 +6,31 @@ class OrdersStore {
 
     constructor() {
         this.product = {};
+        this.products = [];
         this.order = {};
         this.delivery_id = 0;
         this.delivery = {};
-        this.method = {};
+        this.yandex = {};
+        this.interkassa = {};
         this.payed = false;
+        this.payments = [];
+
         this.bindListeners({
             onAdd: OrdersActions.ADD,
             onGet: OrdersActions.GET,
             onPay: OrdersActions.PAY,
             onGetProduct: OrdersActions.GET_PRODUCT,
-            onGetMethod: OrdersActions.GET_METHOD
+            onGetMethodYandex: OrdersActions.GET_METHOD_YANDEX,
+            onGetMethodInterkassa: OrdersActions.GET_METHOD_INTERKASSA,
+            onGetPayments: OrdersActions.GET_PAYMENTS,
+            onSetMethod: OrdersActions.SET_METHOD,
+            onGetBasket: OrdersActions.GET_BASKET
         });
     }
 
     onAdd(order){
         this.order = order;
+        this.payed = order.total_price_order_rate == 0;
     }
 
     onGet(order){
@@ -38,8 +47,30 @@ class OrdersStore {
         this.payed = true;
     }
 
-    onGetMethod(data) {
-        this.method = data;
+    onGetMethodYandex(data) {
+        this.yandex = data;
+    }
+
+    onGetMethodInterkassa(data) {
+        this.interkassa = data;
+    }
+
+    onGetPayments(data) {
+        this.payments = data;
+    }
+
+    onSetMethod(data) {
+        this.order = data;
+    }
+
+    onGetBasket(items) {
+        this.products = items;
+
+        this.products.map((item) => {
+            if(!item.product.image) item.product.image = '/public/orders/images/noimage.png';
+        })
+
+        console.log('OrdersStore  onGetBasket', this.products)
     }
 
 }

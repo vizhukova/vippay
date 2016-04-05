@@ -39,7 +39,6 @@ class PartnersAction {
             resolve(data);
         }).catch(function(err){
             //self.dispatch(err);
-            debugger
             reject(err);
         })
         })
@@ -53,7 +52,30 @@ class PartnersAction {
             resolve(data);
         }).catch(function(err){
             //self.dispatch(err);
-            debugger
+            reject(err);
+        })
+        })
+    }
+
+    getPartnerQuery() {
+        var self = this;
+
+        ApiActions.get(`client/partner_query`).then(function(data){
+            self.dispatch(data);
+            resolve(data);
+        }).catch(function(err){
+            //self.dispatch(err);
+        })
+    }
+
+     setPartnerFee(obj) {
+        return new Promise((resolve, reject) => {
+            var self = this;
+        ApiActions.put(`partner/individual_fee`, obj).then(function(data){
+            self.dispatch(data);
+            resolve(data);
+        }).catch(function(err){
+            //self.dispatch(err);
             reject(err);
         })
         })

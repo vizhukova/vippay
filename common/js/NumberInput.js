@@ -8,7 +8,9 @@ class NumberInput extends React.Component {
         super();
         this.state = {
             value: null,
-            timeoutId: null
+            timeoutId: null,
+            max: 10000000000,
+            min: 0
         };
 
         this.onChange = this.onChange.bind(this);
@@ -16,33 +18,43 @@ class NumberInput extends React.Component {
     }
 
     componentDidMount() {
+
         this.setState({
-            value: this.props.value || this.state.value,
-            toFixed: this.props.toFixed || 0
+            value: ! isNaN(parseFloat(this.props.value)) ?  this.props.value : this.state.value,
+            toFixed: this.props.toFixed || 0,
+            max: this.props.max || this.state.max,
+            min: this.props.min || this.state.min
         })
     }
 
     componentWillReceiveProps(props) {
+
         this.setState({
-            value: props.value || this.state.value,
-            toFixed: this.props.toFixed || 0
+            value: ! isNaN(parseFloat(props.value)) ? props.value : this.state.value,
+            toFixed: props.toFixed || 0,
+            max: props.max || this.state.max,
+            min: props.min || this.state.min
         })
     }
 
     checkValue(e) {
         var val = this.state.value;
-        val = val.replace(/[^0-9.,]/g,'')
+
+
+            val = val.replace(/[^0-9.,]/g,'')
                 .replace(',', '.')
                 .split('.')
                 .filter((item) => item.length);
-        debugger
-        if(val.length) {
-            val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
-        } else {
-            val = 0;
-        }
 
-        val = parseFloat(val).toFixed(this.state.toFixed);
+            if(val.length) {
+                val = val.length > 1 ? `${val[0]}.${val[1].slice(0, 2)}` : val[0];
+                if(parseFloat(val) > this.state.max) val = this.state.max;
+                if(parseFloat(val) < this.state.min) val = this.state.min;
+            } else {
+                val = this.state.min;
+            }
+
+            val = parseFloat(val).toFixed(this.state.toFixed);
 
         var e = {target:{name: this.props.name, value: null}};
 

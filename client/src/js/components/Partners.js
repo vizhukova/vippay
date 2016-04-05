@@ -15,11 +15,13 @@ class PartnerItem extends React.Component {
         super();
         this.state = {
             partner: {},
-            value: ''
+            value: '',
+            clear: false
         };
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
         this.setActive = this.setActive.bind(this);
+        this.setPartnerFee = this.setPartnerFee.bind(this);
     }
 
     componentDidMount() {
@@ -27,7 +29,7 @@ class PartnerItem extends React.Component {
     }
 
     componentWillReceiveProps() {
-        this.state.value =  '';
+        this.state.clear =  true;
         this.setState({});
     }
 
@@ -45,26 +47,60 @@ class PartnerItem extends React.Component {
     }
 
     onChange(e) {
-        debugger
-        var fee = {};
-        fee[e.target.name] = e.target.value;
-        this.state.value = e.target.value;
-        _.assign(this.props.item.fee, fee);
+
+        if(e.target.name == 'fee_pay') {
+            var fee = {};
+            fee[e.target.name] = e.target.value;
+            this.state.value = e.target.value;
+            _.assign(this.props.item.fee, fee);
+        } else {
+
+            var state = {};
+            state[e.target.name] = e.target.value;
+            _.assign(this.props.item, state);
+
+        }
+
+        this.state.clear = false;
+
         this.setState({partner: this.props.item});
     }
 
     onClick() {
-        debugger
-        PartnersAction.setFee(this.state.partner).then((result) => {
-            AlertActions.set({
-                type: 'success',
-                title: 'Успех',
-                text: 'Выплата прошла успешно'
-            }, true);
 
-            this.state.partner.fee.fee_pay = null;
-            this.setState({});
-        })
+        if(!this.state.partner.fee.fee_pay) {
+            AlertActions.set({
+                title: "Ошибка",
+                text: "Введите правильное значение для перевода",
+                type: 'error'
+            }, true);
+        } else {
+            PartnersAction.setFee(this.state.partner).then((result) => {
+                AlertActions.set({
+                    type: 'success',
+                    title: 'Успех',
+                    text: 'Выплата прошла успешно'
+                }, true);
+                this.state.partner.fee.fee_pay = 0;
+                this.state.value = 0;
+                this.state.clear = false;
+                this.setState({});
+            })
+        }
+
+    }
+
+    setPartnerFee() {
+
+        PartnersAction.setPartnerFee(this.state.partner).then((result) => {
+                AlertActions.set({
+                    type: 'success',
+                    title: 'Успех',
+                    text: 'Установка комиссии прошла успешно'
+                }, true);
+
+            })
+
     }
 
     render(){
@@ -74,7 +110,7 @@ class PartnerItem extends React.Component {
         var fee = this.props.item.fee || {};
         var fee_added = fee.fee_added || 0;
         var fee_payed = fee.fee_payed || 0;
-        console.log(fee.fee_added);
+        var partner_fee = this.props.item.partner_fee || '';
 
         return <tr>
                 <td>{this.props.item.login}</td>
@@ -87,7 +123,11 @@ class PartnerItem extends React.Component {
             </td>
             <td className="col-md-2">
                 <div className="input-group input-group-inline">
-                    <NumberInput onChange={this.onChange} name="fee_pay" value={this.state.value} toFixed={2}/>
+                    <NumberInput onChange={this.onChange}
+                                 name="fee_pay"
+                                 value={this.state.value}
+                                 toFixed={2}
+                                 clear={this.state.clear} />
                                 <span className="input-group-btn">
                                     <button className="btn btn-default glyphicon glyphicon-sort" type="button"
                                             onClick={this.onClick}/>
@@ -97,6 +137,21 @@ class PartnerItem extends React.Component {
             </td>
             <td>{ parseFloat(fee_added).toFixed(2) }</td>
             <td>{ parseFloat(fee_payed).toFixed(2) }</td>
+             <td className="col-md-2">
+                <div className="input-group input-group-inline">
+                    <NumberInput onChange={this.onChange}
+                                 name="partner_fee"
+
+                                 toFixed={2}
+                                 value={partner_fee}
+                                 clear={this.state.clear} />
+                                <span className="input-group-btn">
+                                    <div className="btn btn-default btn-action " type="button"
+                                            onClick={this.setPartnerFee}>Установить</div>
+                                </span>
+                </div>
+
+            </td>
         </tr>
     }
 
@@ -117,6 +172,7 @@ class Partners extends React.Component {
         this.setState({sort: ''});
         PartnersAction.getAll();
         PartnersAction.getFee();
+        PartnersAction.getPartnerQuery();
         PartnersStore.listen(this.update);
         AuthStore.listen(this.update);
     }
@@ -143,14 +199,14 @@ class Partners extends React.Component {
 
     render(){
         var self = this;
-        console.log('USERRRt',this.state.user.partner_fee)
+        console.log(this.state.partners)
         return  <div>
                 <div className="boxed">
                     <h4>Партнер, которому будут перчисляться бонусы</h4>
                     <div>
                      <label>
                         <input type="radio" value="first"
-                               checked={this.state.user.partner_fee == 'first'}
+                               checked={this.state.partner_query == 'first'}
                                onChange={this.onChange}/>
                         Первый
                       </label>
@@ -158,7 +214,7 @@ class Partners extends React.Component {
                     <div>
                       <label>
                         <input type="radio" value="last"
-                               checked={this.state.user.partner_fee == 'last'}
+                               checked={this.state.partner_query == 'last'}
                                onChange={this.onChange}/>
                         Последний
                       </label>
@@ -178,7 +234,8 @@ class Partners extends React.Component {
                         {name: 'Активность', key: 'active'},
                         {name: 'Выплатить', key: ''},
                         {name: 'Должен', key: 'fee.fee_added'},
-                        {name: 'Выплачено', key: 'fee.fee_payed'}
+                        {name: 'Выплачено', key: 'fee.fee_payed'},
+                        {name: 'Комиссия', key: ''}
                     ]}
                 />
             </div>

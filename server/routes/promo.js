@@ -6,33 +6,53 @@ var moment = require('moment');
 var _ = require('lodash');
 var router = express.Router();
 
-router.get('/promo', function(req, res){
+
+router.get('/promo', function(req, res, next){
+
     var obj = {client_id: req.clientObj.id};
     _.assign(obj, req.query);
     PromoController.get(obj).then(function(data){
         res.send(data);
     }).catch(function(err){
-        res.status(400).send(err.errors)
-    })
-
-});
-
-router.get('/promo/order', function(req, res, next){
-    var promo;
-    PromoController.get({client_id: req.clientObj.id, code: req.query.code}).then(function(p){
-        promo = p[0];
-        return ProductPromo.get({promo_id: promo.id, product_id: +req.query.product_id});
-    }).then((p_p) => {
-        if(! p_p.length) throw new Error();
-        else res.send(promo);
-    }).catch(function(err){
-        if(! err.constraint) err.constraint = 'no_promo_product';
+        //res.status(400).send(err.errors)
         next(err);
     })
 
 });
 
-router.get('/promo/:id', function(req, res){
+router.get('/order/promo', function(req, res, next){
+
+    var promo;
+    var product_id = req.query.product_id; //array
+    PromoController.get({client_id: req.clientObj.id, code: req.query.code}).then(function(p){
+
+        promo = p[0] || {};
+
+        var today = moment();
+        var endPromo = moment(promo.date);
+
+        if(moment.max(today, endPromo) == today) throw new Error();
+
+        return ProductPromo.get({promo_id: promo.id});
+
+    }).then((p_p) => {
+
+        var promo_prod = p_p.filter((item) => _.indexOf(product_id, item.product_id.toString()) != -1);
+
+        if(! promo_prod.length) throw new Error();
+        else res.send({promo: promo, promo_prod: promo_prod});
+
+    }).catch(function(err){
+
+        if(! err.constraint) err.constraint = 'no_promo_product';
+        next(err);
+
+    })
+
+});
+
+
+router.get('/promo/:id', function(req, res, next){
     var promo;
     PromoController.get({client_id: req.clientObj.id, id: req.params.id}).then(function(data){
 
@@ -50,7 +70,8 @@ router.get('/promo/:id', function(req, res){
 
 
     }).catch(function(err){
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+        next(err);
     })
 
 });
@@ -69,6 +90,7 @@ router.post('/promo', function(req, res, next){
     }).then((p_p) => {
         res.send(promo);
     }).catch(function(err){
+        if(err.code == '22009') err.constraint = 'too_big_value';
         next(err);
         //res.status(400).send(err.errors)
     })
@@ -96,14 +118,15 @@ router.put('/promo', function(req, res, next){
 
 });
 
-router.delete('/promo/:id', function(req, res){
+router.delete('/promo/:id', function(req, res, next){
     ProductPromo.delete({promo_id: req.params.id}).then((result) => {
          return PromoController.delete({id: req.params.id});
     }).then(function(data){
         res.send(data[0]);
     })
    .catch(function(err){
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+       next(err);
     })
 
 });

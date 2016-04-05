@@ -47,17 +47,39 @@ var User = bookshelf.Model.extend({
 }, {
 
 
-    login: Promise.method(function (user) {
-        if (!user.email || !user.password) throw new Error('Email и пароль обязательны');
-        return new this({email: user.email.toLowerCase().trim()}).fetch({require: true}).tap(function (customer) {
+    login(user) {
+
+        return new Promise((resolve, reject) => {
+             if (!user.email || !user.password) reject(new Error('Email и пароль обязательны'));
+
+            knex('users')
+                .where({email: user.email.toLowerCase().trim()})
+                .first('*')
+            .then((customer) => {
+
+                if(customer.password !== user.password)  throw new Error('wrong_password');
+                if(customer.type !== 'client')  throw new Error('you_are_not_registered');
+                if( !customer.active )  throw new Error('you_are_not_registered');
+
+                resolve({
+                    attributes: customer
+                });
+
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+        /*return new this({email: user.email.toLowerCase().trim()}).fetch({require: true}).tap(function (customer) {
             //return bcrypt.compareAsync(customer.get('password'), password)
             //    .then(function (res) {
             //        if (!res) throw new Error('Неверный пароль');
             //    });
-            if(customer.get('password') !== user.password)  throw new Error('Неверный пароль');
-            if(customer.get('type') !== 'client')  throw new Error('Вы нее зарегестрированы');
-        });
-    }),
+            if(customer.get('password') !== user.password)  throw new Error('wrong_password');
+            if(customer.get('type') !== 'client')  throw new Error('you_are_not_registered');
+            if( !customer.get('active') )  throw new Error('you_are_not_registered');
+        });*/
+    },
 
     register: Promise.method(function (user) {
 
@@ -73,6 +95,13 @@ var User = bookshelf.Model.extend({
                     .join('clients-partners', 'clients-partners.client_id', '=', 'users.id')
                     .where('clients-partners.partner_id', '=', +partner_id)
     }),
+
+    getByData(data) {
+        return knex('users')
+            .select('*')
+            .where(data)
+            .orderBy('id', 'asc')
+    },
 
     set(obj) {
          return knex('users')
@@ -183,7 +212,16 @@ var User = bookshelf.Model.extend({
                 .update({payment: JSON.stringify(data.payment)})
                 .where('id', '=', data.user_id)
                 .returning('payment')
-    })
+    }),
+
+    remove(data) {
+
+        return knex('users')
+            .where(data)
+            .del()
+            .returning('*');
+
+    }
 
 });
 

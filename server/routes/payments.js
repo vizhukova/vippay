@@ -36,7 +36,6 @@ router.get('/payments/data/:order/:method', function (req, res) {
 
 });
 
-
 router.post('/payments/yandex', (req, res) => {
 
     console.log(req.body);
@@ -86,6 +85,18 @@ router.post('/payments/yandex', (req, res) => {
 
 
 
+
+});
+
+router.post('/payments/interkassa', (req, res) => {
+
+    var id = +req.body.ik_pm_no;
+
+    OrderController.pay(id).then(() => {
+        res.send('ok')
+    }).catch((err) => {
+        res.status(500).send('Error');
+    })
 
 });
 

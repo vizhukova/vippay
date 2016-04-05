@@ -35,8 +35,7 @@ class List extends React.Component {
     }
 
     update(state) {
-        _.assign(this.state, state);
-        this.setState({});
+        this.setState(state);
     }
 
     componentWillReceiveProps(props) {
@@ -94,12 +93,14 @@ class List extends React.Component {
     }
 
     render() {
+
         var Item = this.props.itemComponent;
         var ChildrenComponents = this.props.ChildrenComponents;
 
         if (!this.props.items) return;
         var self = this;
-        var items = this.props.items.slice((this.state.currentPage - 1) * this.state.perPage, ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
+        var items = this.props.items
+        //var items = this.props.items.slice((this.state.currentPage - 1) * this.state.perPage, ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
         var pages = Math.ceil(this.props.items.length / this.state.perPage);
 
         var isPagination = pages > 1;
@@ -121,7 +122,7 @@ class List extends React.Component {
                                   ${this.state.isActiveTariff ? '' : 'disabled'}`}>{this.props.add_link_name}</Link> : null }
                         </div>
 
-                        <table className="table table-hover">
+                        <table className="table table-hover list">
                             {this.props.thead ?
                                 <thead>
                                 <tr>
@@ -136,7 +137,7 @@ class List extends React.Component {
                                                    key={index}
                                                    data-name={item.key}
                                                    onClick={this.props.sort ? this.props.sort : this.sort}
-                                                    className={this.state.sort.name == item.key ? 'check' : ''}>
+                                                   className={this.state.sort.name == item.key ? 'check list-head' : 'list-head'}>
                                             <span className={classItem}  data-name={item.key}>
                                                 {item.name}
                                             </span>

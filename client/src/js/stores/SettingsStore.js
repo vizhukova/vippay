@@ -11,6 +11,7 @@ class SettingsStore {
         this.fee = '';
         this.isStaff = false;
         this.rate={};
+        this.bankRate = [];
         this.payment = [];
         this.tariff = {};
         this.isActiveTariff = true;
@@ -21,6 +22,7 @@ class SettingsStore {
             onSetBasicCurrency: SettingsAction.SET_BASIC_CURRENCY,
             onGetBasicCurrency: SettingsAction.GET_BASIC_CURRENCY,
             onAddRate: SettingsAction.ADD_RATE,
+            onGetBankRate: SettingsAction.GET_BANK_RATE,
             onGetRate: SettingsAction.GET_RATE,
             onGetFee: SettingsAction.GET_FEE,
             onEditFee: SettingsAction.EDIT_FEE,
@@ -65,6 +67,10 @@ class SettingsStore {
         console.log('SettingsStore rate = ', rate);
     }
 
+    onGetBankRate(rate) {
+        this.bankRate = rate;
+    }
+
     onGetFee(obj) {
         this.fee = obj.fee;
         console.log('SettingsStore fee = ', obj.fee);
@@ -86,9 +92,8 @@ class SettingsStore {
     }
 
     onGetTariff(tariff) {
-        ;
         this.tariff = tariff;
-        console.log('SettingStore tariff', tariff)
+        console.log('SettingStore tariff', tariff);
 
         if(tariff.tariff_name === 'start') { this.isActiveTariff = tariff.isActive; return; }
 
@@ -97,8 +102,7 @@ class SettingsStore {
 
         if(tariff.tariff_date) end_tariff = moment(tariff.tariff_date).add(tariff.tariff_duration, 'months');
         else end_tariff = moment(tariff.created_at).add(3, 'days');
-
-        this.isActiveTariff = moment.min(today, end_tariff) == today;
+        this.isActiveTariff = moment.min(today, end_tariff) == today && tariff.tariff_payed;
         console.log('SettingStore isActiveTariff', this.isActiveTariff)
     }
 

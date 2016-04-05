@@ -33,35 +33,50 @@ router.get('/settings/partner', function(req, res){
 
 });
 
-router.put('/rate', checkTrialTariff, checkBaseTariff, checkStartTariff,  function(req, res) {
+router.put('/rate', checkTrialTariff, checkBaseTariff, checkStartTariff,  function(req, res, next) {
 
     RateController.edit({rate: req.body, client_id: req.clientObj.id})
             .then(function(rate){
                 res.send(rate);
             }).catch(function(err) {
-                res.status(400).send(err.errors);
+                //res.status(400).send(err.errors);
+                next(err);
             });
 
 });
 
-router.get('/rate', function(req, res) {
+router.get('/rate', function(req, res, next) {
 
     RateController.get(req.clientObj.id)
             .then(function(rate){
                 res.send(rate);
             }).catch(function(err) {
-                res.status(400).send(err.errors);
+                //res.status(400).send(err.errors);
+                next(err);
             });
 
 });
 
-router.get('/fee', function(req, res) {
+router.get('/bank_rate', function(req, res, next) {
+
+    RateController.getBank()
+            .then(function(rate){
+                res.send(rate);
+            }).catch(function(err) {
+                //res.status(400).send(err.errors);
+                 next(err);
+            });
+
+});
+
+router.get('/fee', function(req, res, next) {
 
     FeeController.getFee(req.clientObj.id)
             .then(function(fee){
                 res.send(fee);
             }).catch(function(err) {
-                res.status(400).send(err.errors);
+                //res.status(400).send(err.errors);
+                next(err);
             });
 
 });
@@ -79,83 +94,107 @@ router.put('/fee', checkTrialTariff, checkBaseTariff, checkStartTariff,  functio
 
 });
 
-router.get('/payments', function(req, res) {
+router.get('/payments', function(req, res, next) {
 
     UserController.getPayment(req.clientObj.id)
             .then(function(data){
                 res.send(data.payment);
             }).catch(function(err) {
-                res.status(400).send(err.errors);
+                //res.status(400).send(err.errors);
+                next(err);
             });
 
 });
 
-router.put('/payments', checkTrialTariff, checkBaseTariff, checkStartTariff,   function(req, res) {
+router.put('/payments', checkTrialTariff, checkBaseTariff, checkStartTariff,   function(req, res, next) {
 
     UserController.putPayment({payment: req.body, user_id: req.clientObj.id})
             .then(function(payment){
                 res.send(payment);
             }).catch(function(err) {
-                res.status(400).send(err.errors);
+                //res.status(400).send(err.errors);
+                next(err);
             });
 
 });
 
-router.get('/settings/tariff', checkTrialTariff, checkBaseTariff, checkStartTariff, function(req, res) {
+router.get('/settings/tariff', checkTrialTariff, checkBaseTariff, checkStartTariff, function(req, res, next) {
     var active = req.tariff.active;
 
     UserController.getTariff(req.clientObj.id).then((result) => {
         if(result.tariff_name === 'start') result.isActive = active;
         res.send(result)
     }).catch((err) => {
-        res.status(404).send(err.errors)
+        //res.status(404).send(err.errors)
+        next(err);
     })
 
 });
 
 
-router.put('/settings/tariff', function(req, res) {
-    UserController.setTariff({
-        tariff_duration: req.body.time,
-        tariff_name: req.body.name,
-        tariff_date: moment(),
-        id: req.clientObj.id
-    }).then((result) => {
+router.put('/settings/tariff', function(req, res, next) {
+
+    var newTariff = _.omit(req.body, ['_method']);
+
+    newTariff.tariff_date = moment();
+    newTariff.id = +newTariff.id || req.clientObj.id;
+    newTariff.active = false;
+
+    UserController.setTariff(newTariff).then((result) => {
         res.send(result)
     }).catch((err) => {
-        res.status(404).send(err.error)
+        //res.status(404).send(err.error)
+        next(err);
     })
 });
 
-router.put('/settings/tariff/pay', function(req, res) {
-    UserController.setTariff({
-        tariff_payed: true,
-        tariff_date: moment(),
-        id: req.clientObj.id
-    }).then((result) => {
-        res.send(result)
+router.put('/settings/tariff/pay', function(req, res, next) {
+
+    var newUser = _.omit(req.body, ['_method']);
+
+    newUser.id = newUser.id || req.clientObj.id;
+
+    if(req.body.tariff_payed === undefined) {
+
+        newUser.tariff_payed = true;
+        newUser.tariff_date = moment();
+
+    } else {
+
+        newUser.tariff_payed = req.body.tariff_payed;
+        newUser.tariff_date = req.body.tariff_payed ? moment() : null;
+        if (! newUser.tariff_payed) newUser.tariff_name = null;
+
+    }
+
+    UserController.setTariff(newUser).then((result) => {
+        //res.send(result)
+        res.redirect('back');
     }).catch((err) => {
-        res.status(404).send(err.error)
+        //res.status(404).send(err.error)
+        next(err);
     })
 });
 
-router.get('/staff', function(req, res) {
+router.get('/staff', function(req, res, next) {
     StaffController.get({
         client_id: req.clientObj.id
     }).then((result) => {
         res.send(result)
     }).catch((err) => {
-        res.status(404).send(err.error)
+        //res.status(404).send(err.error)
+        next(err);
     })
 });
 
-router.get('/staff/:id', function(req, res) {
+router.get('/staff/:id', function(req, res, next) {
     StaffController.get({
         id: req.params.id
     }).then((result) => {
         res.send(result[0])
     }).catch((err) => {
-        res.status(404).send(err.error)
+        //res.status(404).send(err.error)
+        next(err);
     })
 });
 
@@ -182,11 +221,12 @@ router.post('/staff', function(req, res, next) {
     })
 });
 
-router.put('/staff/active/:id', function(req, res) {
+router.put('/staff/active/:id', function(req, res, next) {
     StaffController.edit(req.body).then((result) => {
         res.send(result[0])
     }).catch((err) => {
-        res.status(404).send(err.error)
+        //res.status(404).send(err.error)
+        next(err);
     })
 });
 
@@ -225,17 +265,19 @@ router.delete('/staff/:id', function(req, res, next) {
     StaffController.remove(req.params.id).then((result) => {
         res.send(result[0])
     }).catch((err) => {
-       res.status(400).send(err.error)
+       //res.status(400).send(err.error)
+        next(err);
     })
 });
 
-router.get('/routes/:id', function(req, res) {
+router.get('/routes/:id', function(req, res, next) {
     AclController.get({
         staff_id: req.params.id
     }).then((routes) => {
         res.send(routes)
     }).catch((err) => {
-        res.status(404).send(err.error)
+        //res.status(404).send(err.error)
+        next(err);
     })
 });
 

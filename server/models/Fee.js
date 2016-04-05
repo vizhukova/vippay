@@ -43,11 +43,11 @@ var Fee = bookshelf.Model.extend({
             .returning('*')
     },
 
-    get(id) {
+    get(client_id) {
         return new Promise((resolve, reject) => {
             knex('fee')
             .select('*')
-            .where('client_id', '=', id)
+            .where('client_id', '=', client_id)
             .then((res) => {
                 resolve(replaceFee(res));
             }).catch((err) => {

@@ -5,12 +5,13 @@ var Promise = require('bluebird');
 var _ = require('lodash');
 var router = express.Router();
 
-router.get('/products/:id', function(req, res){
+router.get('/products/:id', function(req, res, next){
 
     ProductController.getAllProducts(req.params.id).then(function(products){
         res.send(products)
     }).catch(function(err){
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+        next(err);
     })
 
 });
@@ -20,7 +21,7 @@ router.post('/product', function(req, res, next){
     req.body.isUpsell = !!req.body.upsell_id;
     var new_product = _.omit(req.body, ['upsell_id', 'upsells']);
     new_product.delivery = new_product.delivery ? JSON.stringify(new_product.delivery) : null;
-    new_product.materials = new_product.materials ? JSON.stringify(new_product.materials) : null;
+    new_product.materials = new_product.materials && new_product.materials.length ? JSON.stringify(new_product.materials) : null;
     var product;
 
     new Promise((resolve, reject) => {
@@ -33,21 +34,22 @@ router.post('/product', function(req, res, next){
         res.send(product);
     }).catch(function(err){
         if(err.code == "22003") err.constraint = 'too_big_value';
+        else if(err.code=="22001") err.constraint = "too_long_link";
         next(err);
     })
 });
 
-router.get('/product/upsell', function(req, res, next){
+/*router.get('/product/upsell', function(req, res, next){
 
-    ProductController.get({user_id: req.clientObj.id, isUpsell: false}).then(function(products){
+    ProductController.get({user_id: req.clientObj.id}).then(function(products){
         res.send(products)
     }).catch(function(err){
         next(err);
     })
-});
+});*/
 
 
-router.get('/product/:id', function(req, res){
+router.get('/product/:id', function(req, res, next){
 
     var product;
     ProductController.getCurrentProduct(req.params.id).then(function(p){
@@ -63,7 +65,7 @@ router.get('/product/:id', function(req, res){
 
 });
 
-router.get('/product/upsell/:id', function(req, res){
+router.get('/product/upsell/:id', function(req, res, next){
     UpsellProductController.getUpsells({upsell_id: req.params.id}).then(function(upsells){
         res.send(upsells)
     }).catch(function(err){
@@ -71,11 +73,17 @@ router.get('/product/upsell/:id', function(req, res){
     })
 });
 
-router.get('/product/upsell_products/:id', function(req, res){
-    UpsellProductController.getForUpsell({upsell_id: req.params.id}).then(function(upsells){
-        res.send(upsells)
-    }).catch(function(err){
-        next(err);
+router.get('/product/upsell_products/:id', function(req, res, next){
+    ProductController.get({id: req.params.id}).then((products) => {
+
+        return UpsellProductController.getForUpsell({upsell_id: req.params.id, currency_id: products[0].currency_id}).then(function(upsells){
+                res.send(upsells)
+            }).catch(function(err){
+                next(err);
+            })
+
+    }).catch((err) => {
+        res.status(400).send(err);
     })
 });
 
@@ -90,13 +98,15 @@ router.get('/product/upsells/:id', function(req, res, next){
 router.put('/product/:id', function(req, res, next){
 
     req.body.delivery = req.body.delivery ? JSON.stringify(req.body.delivery) : null;
-    req.body.materials = req.body.materials ? JSON.stringify(req.body.materials) : null;
+    req.body.materials = req.body.materials && req.body.materials.length ? JSON.stringify(req.body.materials) : null;
 
     var product = _.omit(req.body, ['currency_name','upsell_id', 'upsells']);
 
     ProductController.editProduct(product).then(function(product){
             res.send(product[0])
     }).catch(function(err){
+        if(err.code == "22003") err.constraint = 'too_big_value';
+        else if(err.code=="22001") err.constraint = "too_long_link";
         next(err);
     })
 
@@ -104,7 +114,11 @@ router.put('/product/:id', function(req, res, next){
 
 router.delete('/product/:id', function(req, res, next){
 
-    ProductController.deleteProduct(req.params.id).then(function(id){
+    UpsellProductController.remove({upsell_id: req.params.id}).then((upsells) => {
+
+        return ProductController.deleteProduct(req.params.id);
+
+    }).then(function(id){
         res.send(id)
     }).catch(function(err){
         next(err);

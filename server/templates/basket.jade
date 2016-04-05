@@ -1,0 +1,44 @@
+doctype html
+html(lang='en')
+  head
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
+    link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
+  body
+      script(src="/public/partners/vendor.js?timestamp=#{timestamp}")
+      form#basket.boxed.col-md-offset-1.col-md-10.form-margin
+          h3 Корзина
+          .btn.btn-default.glyphicon.glyphicon-refresh.pull-right.hide  Обновить
+          table.table.table-hover.list
+              thead
+                  tr
+                      th Изображение
+                      th Название
+                      th Описание
+                      th Цена за единицу
+                      th Количество
+              tbody
+                  each item, index in basketItems
+                      tr
+                          td
+                              img(src='#{item.product.image}', width='100px', height='auto')
+                          td #{item.product.name}
+                          td #{item.product.description}
+                          td #{parseFloat(item.price_per_unit).toFixed(2)}
+                          td
+                            input(type="text" value='#{item.quantity}' onchange='onChange(' + index + ', this)')
+                          td
+                            div.btn.btn-action.btn-danger.glyphicon.glyphicon-remove.remove(data-index='#{index}')
+          div.col-md-12
+              h5
+                  b Общая цена:
+                    span#total
+
+          .pull-left.btn.btn-default
+              a(href='#{redirectBack}') Назад
+          input#submit.btn.pull-right(type='submit', value='Перейти к оформлению')
+
+          input(type='hidden', name="basketItems", value='#{JSON.stringify(basketItems)}')
+          input(type='hidden', name="currency", value='#{JSON.stringify(currency)}')
+
+      script(src="/public/ajax.js")
+      script(src="/public/orders/js/basket.js")

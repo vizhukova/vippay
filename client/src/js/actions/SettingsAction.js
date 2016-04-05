@@ -30,11 +30,15 @@ class SettingsAction {
     setBasicCurrency(id) {
 
          var self = this;
+        return new Promise ((resolve, reject) => {
             ApiActions.put(`basicCurrency`, {id: id}).then(function(data){
                 self.dispatch(data);
+                resolve(data);
             }).catch(function(err){
                 //self.dispatch(err);
+                reject(err);
             })
+        });
     }
 
     getBasicCurrency() {
@@ -66,6 +70,15 @@ class SettingsAction {
     getRate() {
         var self = this;
             ApiActions.get(`rate`).then(function(data){
+                self.dispatch(data);
+            }).catch(function(err){
+                //self.dispatch(err);
+        })
+    }
+
+    getBankRate() {
+        var self = this;
+            ApiActions.get(`bank_rate`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
                 //self.dispatch(err);

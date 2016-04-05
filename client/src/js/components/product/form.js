@@ -72,7 +72,8 @@ class AddDeliveryFields extends React.Component {
                                value={this.state.price}
                                onChange={this.onChange}
                                onClick={this.props.onClick}
-                               onKeyDown={this.props.onKeyDown}/>
+                               onKeyDown={this.props.onKeyDown}
+                               toFixed={2}/>
                     </fieldset>
                 </div>
     }
@@ -150,7 +151,7 @@ class AddUpsellFields extends React.Component {
 
     componentWillReceiveProps(nextProps){
 
-        if(! nextProps.item.product_id) nextProps.item.product_id = 1;
+        if(! nextProps.item.product_id) nextProps.item.product_id = this.upsellProducts[0].id;
 
          if(nextProps){
              this.setState(nextProps.item);
@@ -205,8 +206,9 @@ class AddUpsellFields extends React.Component {
                            className="form-control" id="price"
                            onChange={this.onChange}
                            onKeyDown={this.onKeyDown}
-                           onClick = {this.onClick} placeholder="Цена"
-                           value={this.state.price}/>
+                           onClick = {this.onClick} placeholder="Цена набора"
+                           value={this.state.price}
+                           toFixed={2}/>
                     </div>
                     <div className="col-md-1">
                         <button type="submit" className={`btn btn-danger btn-action glyphicon glyphicon-minus pull-right
@@ -232,7 +234,7 @@ class AddItems extends React.Component {
     }
 
     componentDidMount(){
-        debugger
+        
         if(this.props.items) {
             _.assign(this.state, {items: this.props.items});
             this.setState({});
@@ -240,7 +242,6 @@ class AddItems extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        debugger
         if(nextProps.items) {
             _.assign(this.state, {items: nextProps.items});
             this.setState({});
@@ -275,9 +276,18 @@ class AddItems extends React.Component {
             return;
         }
 
-        var newObj = {};
-        _.map(this.props.fields, (item) => newObj[item] = '');
-        this.state.items.push(newObj);
+        if(this.props.default) {
+
+             this.state.items.push(this.props.default);
+
+        } else {
+
+            var newObj = {};
+            _.map(this.props.fields, (item) => newObj[item] = '');
+            this.state.items.push(newObj);
+
+        }
+
         this.setState({});
         this.props.onClick();
     }
@@ -352,6 +362,8 @@ class ProductForm extends React.Component {
             ProductsAction.getCurrentProduct(this.props.params.prod_id);
         }
 
+        ProductsAction.getProductsForUpsell();
+
         console.log('ProductForm - componentDidMount', this.state.product);
 
         CategoriesStore.listen(this.update);
@@ -376,6 +388,7 @@ class ProductForm extends React.Component {
 
     checkFields() {
         var result;
+        var self = this;
 
         if (this.state.product.material) {
 
@@ -383,13 +396,22 @@ class ProductForm extends React.Component {
 
             if (!this.state.product.delivery) return false;
 
-            result = this.state.product.delivery.filter((item) => {
-                return _.trim(item.condition).length == 0 || _.trim(item.price).length == 0
+            result = this.state.product.delivery.filter((item, index) => {
+
+                var uniqueArr = _.uniq(self.state.product.delivery, function(d) {
+                      return d.condition;
+                    }, Math);
+
+                var isUnique = uniqueArr.length === this.state.product.delivery.length;
+
+                return !isUnique || !_.trim(item.condition).length || !_.trim(item.price).length;
+
             });
             result = result.length > 0;
+            if(result) return false;
         } else {
             this.state.product.delivery = [];
-            result = !this.state.product.link_download || _.trim(this.state.product.link_download).length == 0
+            result = !this.state.product.link_download || _.trim(this.state.product.link_download).length == 0;
             if (result) return false;
         }
 
@@ -470,8 +492,8 @@ class ProductForm extends React.Component {
         else if(e.target.name == "isUpsell")  {
 
             ProductsAction.setStateProduct({
-                upsell_id:  this.state.product.upsell_id ? null : 1,
-                upsells: this.state.product.upsell_id ? [] : [{product_id: 1, price: ''}]
+                upsell_id:  this.state.product.upsell_id ? null : this.state.upsell_products[0].id,
+                upsells: this.state.product.upsell_id ? [] : [{product_id: this.state.upsell_products[0].id, price: ''}]
 
             });
 
@@ -637,6 +659,10 @@ class ProductForm extends React.Component {
                           name="upsells"
                           min_length={1}
                           fields={['product_id', 'price']}
+                          default={{
+                            product_id: this.state.upsell_products[0].id,
+                            price: ''
+                          }}
                           title=""
                           fieldsComponent={AddUpsellFields}
                           isButtonPlus={true}
@@ -651,7 +677,7 @@ class ProductForm extends React.Component {
                              checked={this.state.product.material}
                              onChange={this.onChange}
                              onClick = {this.onClick}/>
-                      Доставляемый</label>
+                      Доставляемый { this.state.product.material  ? '(данные о доставке не должны повторяться)' : ''}</label>
                 </div>
 
                 {this.state.product.material

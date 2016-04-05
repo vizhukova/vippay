@@ -1,0 +1,18 @@
+
+form#yandex.hide(method='POST', action='#{payments.yandex.action}')
+        input(type='hidden', name='receiver', value='#{payments.yandex.receiver}')
+        input(type='hidden', name='formcomment', value='#{payments.yandex.formcomment.name}')
+        input(type='hidden', name='short-dest', value='#{payments.yandex["short-dest"].name}')
+        input(type='hidden', name='label', value='#{payments.yandex.label}')
+        input(type='hidden', name='targets', value='#{payments.yandex.targets}')
+        input(type='hidden', name='quickpay-form', value='donate')
+        input(type='hidden', name='sum', value='#{payments.yandex.sum}', data-type='number')
+        label
+          input(type='radio', onclick='{clickYandex("money")}', name='paymentType', value='PC')
+          |                     Яндекс.Деньгами
+        br
+        label
+          input(type='radio', onclick='{clickYandex("card")}', name='paymentType', value='AC')
+          |                     Банковской картой
+        br
+        input.btn(type='submit', value='Оплатить')

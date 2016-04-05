@@ -88,12 +88,14 @@ class PromoForm extends React.Component {
 
         var promo = _.clone(this.state.promo);
 
-        promo.date = this.state.promo.type == 'during'
+        if(! this.props.params.id) {
+            promo.date = this.state.promo.type == 'during'
             ? moment().add(promo.date.days || 0, 'day')
                      .add(promo.date.hours || 0, 'hour')
                      .add(promo.date.minutes || 0, 'minute')
                      .add(promo.date.seconds || 0, 'second')
-            : moment(promo.date);
+            : moment(`${promo.date.year}-${promo.date.month}-${promo.date.day}`);
+        }
 
         return promo;
     }
@@ -106,7 +108,8 @@ class PromoForm extends React.Component {
     }
 
     edit() {
-        if (this.checkFields()) PromoAction.edit(this.state.promo).then((res) => {
+        var promo = this.beforeSend();
+        if (promo) PromoAction.edit(this.state.promo).then((res) => {
             history.back();
         })
     }
@@ -115,12 +118,16 @@ class PromoForm extends React.Component {
 
         if(e.target.name == 'product') {
             if(e.target.checked) this.state.promo.products.push(e.target.value);
-            else this.state.promo.products = _.filter(this.state.promo.products, (id) => id != e.target.value);
+            else {
+                this.state.promo.products = _.filter(this.state.promo.products, (id) => id != e.target.value);
+                this.state.checkAll = false;
+            }
         }
 
         else if(e.target.name == 'checkAll') {
             if(! e.target.checked) this.state.promo.products = [];
             else this.state.promo.products = this.state.products.map((p) => p.id);
+            this.state.checkAll = e.target.checked;
         }
 
         else if(e.target.name == 'until' || e.target.name == 'during') {
@@ -141,7 +148,7 @@ class PromoForm extends React.Component {
         var p = this.state.promo;
         var timeDiff = true;
 
-        if(! this.props.params.id) {
+        if(! this.props.params.id && p.date) {
             var now = moment();
             var date = this.state.promo.type == 'during'
 
@@ -156,7 +163,7 @@ class PromoForm extends React.Component {
             timeDiff = date.diff(now) > 0;
         }
 
-        return timeDiff && p.discount && p.code && p.products.length;
+        return timeDiff && ! isNaN(p.discount) && _.trim(p.code).length && p.products.length && p.date;
     }
 
     onTimeChange(e) {
@@ -183,6 +190,7 @@ class PromoForm extends React.Component {
     render(){
 
         var self = this;
+        console.log('checkAll', this.state.checkAll)
 
         return  <div className="col-sm-7 form-ui boxed">
             <form className="">
@@ -201,7 +209,8 @@ class PromoForm extends React.Component {
                                   <NumberInput name="discount"
                                          value={this.state.promo.discount}
                                          onChange={this.onChange}
-                                         toFixed={2}/>
+                                         toFixed={2}
+                                         max={100}/>
                             </div>
                             <div className="col-md-3">%</div>
                         </div>
@@ -269,7 +278,7 @@ class PromoForm extends React.Component {
                     </div>
                     <div>
                         <labe>
-                            <input type="checkbox" name="checkAll" onChange={this.onChange}/>
+                            <input type="checkbox" name="checkAll" checked={self.state.checkAll} onChange={this.onChange}/>
                             выбрать все
                         </labe>
                         <hr/>

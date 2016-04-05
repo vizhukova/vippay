@@ -24,11 +24,13 @@ import Fee from './components/settings/Fee';
 import Profile from './components/settings/Profile';
 import Staff from './components/settings/staff/Staff';
 import formStaff from './components/settings/staff/form';
-import Payment from './components/settings/Payment';
+import Payment from './components/settings/Payments';
+import Basket from './components/settings/Basket';
 import NewProductForm from './components/product/form';
 import PartnerLinks from './components/partner_links/Links';
 import NewPartnerLinkForm from './components/partner_links/form';
 import AlertActions from './../../../common/js/Alert/AlertActions';
+import Other_Site from './components/Other_Site';
 
     function onLeave() {
         AlertActions.onLeave();
@@ -67,6 +69,7 @@ import AlertActions from './../../../common/js/Alert/AlertActions';
                 <Route path="/fee" component={Fee} onLeave={onLeave} />
                 <Route path="/payment" component={Payment} onLeave={onLeave} />
                 <Route path="/profile" component={Profile} onLeave={onLeave} />
+                <Route path="/basket" component={Basket} onLeave={onLeave} />
 
                 <Route path="/partners_links" component={PartnerLinks} onLeave={onLeave} />
                 <Route path="/partners_links" onLeave={onLeave} >
@@ -85,6 +88,7 @@ import AlertActions from './../../../common/js/Alert/AlertActions';
                 </Route>>
             </Route>
             <Route path="/auth" component={Auth} />
+            <Route path="/other" component={Other_Site} />
             <Route path="/partners/:id" component={Auth} />
         </Router>
     ), document.getElementById("app-container"));

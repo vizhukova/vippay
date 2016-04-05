@@ -13,15 +13,20 @@ module.exports = function(req, res, next){
 
             orders = orders || [];
 
-            Promise.map(orders, (order) => {
+            return Promise.map(orders, (order) => {
+
                 return Rate.getResult({
                     client_id: order.client_id,
-                    from: order.product.currency_id,
+                    from: order.basic_currency,
                     to: 4
                     }).then((rate) => {
-                        count += rate.result * order.total_price_order_rate;
+                        var result = rate ? rate.result : 1;
+                        count += result * order.total_price_order_rate;
                     })
-            }).then((end_result) => {
+
+            })
+
+        }).then((end_result) => {
                 if(count > 150000) {
 
                     req.tariff.active = false;
@@ -37,11 +42,11 @@ module.exports = function(req, res, next){
                         next();
                     }
                 } else {
-                        next();
-                    }
+                    next();
+                }
+            }).catch((err) => {
+                next();
             })
-
-        })
     } else {
         next();
     }

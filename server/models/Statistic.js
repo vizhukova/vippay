@@ -27,10 +27,19 @@ var Order = bookshelf.Model.extend({
                                partner_id: data.partner_id,
                                client_id: data.client_id,
                                product: data.product,
-                               action: data.action
+                               action: data.action,
+                               order_id: data.order_id || null
         });
 
         return record.save();
+    },
+
+    edit(data) {
+
+        return knex('statistics')
+            .update(data)
+            .where({order_id: data.order_id});
+
     },
 
      get(client_id){
@@ -41,8 +50,8 @@ var Order = bookshelf.Model.extend({
               (SELECT COUNT(id) as count_start_order from statistics WHERE client_id = ${client_id} AND action = 'start_order'),
               (SELECT COUNT(id) as count_pending_order from statistics WHERE client_id = ${client_id} AND action = 'pending_order'),
               (SELECT COUNT(id) as count_complete_order from statistics WHERE client_id = ${client_id} AND action = 'complete_order'),
-              (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_pending_order FROM orders WHERE step = 'pending'),
-              (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_complete_order FROM orders WHERE step = 'complete'),
+              (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_pending_order FROM orders WHERE step = 'pending' AND client_id = ${client_id}),
+              (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_complete_order FROM orders WHERE step = 'complete' AND client_id = ${client_id}),
               (SELECT SUM(fee_added::NUMERIC) as sum_fee_added from fee WHERE client_id = ${client_id}),
               (SELECT SUM(fee_payed::NUMERIC) as sum_fee_payed from fee WHERE client_id = ${client_id})
               `))
@@ -54,6 +63,18 @@ var Order = bookshelf.Model.extend({
                     reject(err);
                 })
         })
+    },
+
+    getAll(data) {
+        return knex('statistics')
+            .select('*')
+            .where(data);
+    },
+
+    delete(data) {
+        return knex('statistics')
+            .del()
+            .where(data);
     },
 
     getByPartner(data){

@@ -15,7 +15,7 @@ class ApiActions{
 
         var BASE_URL = getDomain();
         var token = cookie.getCookie('token') || '';
-
+        console.log(window.location);
         return new Promise(function (resolve, reject) {
             $.ajax({
 
@@ -56,7 +56,6 @@ class ApiActions{
                     auth: token
                 },
                 error(response){
-                    debugger
                     checkError.check(response);
                     SettingsActions.getMessages(); // get error-messages from server
                     reject(new Error());

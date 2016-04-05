@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var checkLoginAccess = require('./../middlewares/checkLoginAccess');
 var UserController = require('../controllers/User');
 var StaffController = require('../controllers/Staff');
 var PartnerController = require('../controllers/Partner');
@@ -9,13 +8,19 @@ var config = require('../config');
 var payments = require('../payment_systems/payment_systems');
 var email = require('../utils/email');
 var _ = require('lodash');
+var passport = require('passport');
 
 
-router.post('/client/register', checkLoginAccess, function (req, res, next) {
+router.post('/client/register', function (req, res, next) {
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
     });
     var user;
+
+    if(req.body.login == 'auth' || req.body.login == 'admin' || req.body.login == 'payments' || req.body.login == 'cdn') {
+        next({constraint: 'users_login_unique'});
+        return;
+    }
 
     UserController.register({
         name: req.body.name,
@@ -26,18 +31,25 @@ router.post('/client/register', checkLoginAccess, function (req, res, next) {
         basic_currency: 1,
         type: 'client',
         domain: req.postdomain,
-        payment: JSON.stringify(payments)
+        payment: JSON.stringify(payments),
+        tariff_payed: true
+
     }).then(function (userObj) {
+
         user = userObj;
-        email.send(user.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${user.domain}`);
+        email.send(userObj.modelData.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${user.domain}`);
         return RateController.setDefault(userObj.modelData.id)
 
     }).then((rate) => {
+
         res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
         res.send(user);
+
     }).catch(function (err) {
+
         if(! err.constraint) err.constraint = 'check_this_data';
         next(err);
+
     })
 
 });
@@ -60,6 +72,25 @@ router.post('/client/login', function (req, res, next) {
     })
 
 });
+
+/*router.post('/client/login',  () => {
+
+    passport.authenticate('userLogin', {
+    successRedirect: '/api/',
+    failureRedirect: '/loginFailure'
+  })
+
+}
+);
+
+router.get('/loginFailure', function(req, res, next) {
+  res.send('Failed to authenticate');
+});
+
+router.get('/loginSuccess', function(req, res, next) {
+  res.send('Successfully authenticated');
+});*/
+
 
 router.post('/guest_login', (req, res, next) => {
 
@@ -113,40 +144,49 @@ router.put('/user/password', (req, res, next) => { //get all clients for partner
 
     UserController.setPassword({passwords: req.body, user_id: req.user.id})
         .then(function (data) {
+
+            var user = data[0];
+            email.send(user.email, 'Успешная установка нового пароля', `Ваш новый пароль: ${user.password}`);
             res.send(data)
+
         }).catch(function (err) {
+
             if(! err.constraint) err.constraint = 'check_old_password';
             next(err);
+
     })
 
 });
 
-router.put('/partner/partner_fee', function (req, res) {
+router.put('/partner/partner_fee', function (req, res, next) {
     req.body.id = req.clientObj.id;
 
     UserController.set(req.body)
         .then(function (user) {
-            res.send(user[0])
+            res.send({partner_query: user[0].partner_fee});
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+            next(err);
     });
 });
 
-router.get('/partnerlinks', function (req, res) {
+router.get('/partnerlinks', function (req, res, next) {
     UserController.getPartnerLink({user_id: req.clientObj.id})
         .then(function (partnerLinks) {
             res.send(partnerLinks)
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+            next(err);
     });
 });
 
-router.get('/partnerlinks/:id', function (req, res) {
+router.get('/partnerlinks/:id', function (req, res, next) {
     UserController.getPartnerLink({id: req.params.id})
         .then(function (partnerLink) {
             res.send(partnerLink[0])
         }).catch(function (err) {
-        res.status(400).send(err.errors)
+        //res.status(400).send(err.errors)
+            next(err);
     });
 });
 
@@ -184,6 +224,45 @@ router.delete('/partnerlinks/:id', function (req, res, next) {
             next(err);
         });
 });
+
+router.get('/client/partner_query', function (req, res, next) {
+
+    UserController.getById(req.clientObj.id)
+        .then(function (client) {
+            res.send({partner_query: client.partner_fee})
+        }).catch(function (err) {
+            next(err);
+        });
+});
+
+router.put('/user', function (req, res, next) {
+
+    var newUser = _.omit(req.body, ['_method']);
+
+    UserController.set(newUser)
+        .then(function (user) {
+            res.send(user)
+        }).catch(function (err) {
+            next(err);
+        });
+});
+
+router.delete('/user', function (req, res, next) {
+
+    var id = +req.body.id;
+
+    UserController.remove({id: id})
+        .then(function (user) {
+            //res.send(user)
+             res.redirect('back')
+        }).catch(function (err) {
+            next(err);
+        });
+});
+
+
+
+
 
 
 module.exports = router;

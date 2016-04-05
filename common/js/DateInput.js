@@ -6,7 +6,7 @@ var DateInput = React.createClass({
 
     getDefaultProps(){
         return {
-            birthday: ''
+            date: {}
         }
     },
 
@@ -41,7 +41,7 @@ var DateInput = React.createClass({
     },
 
     onChange(e){
-        debugger;
+
         e.preventDefault();
         this.setState({date: this.props.default})
 

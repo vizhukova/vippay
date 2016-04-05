@@ -24,9 +24,12 @@ var Partner = bookshelf.Model.extend({
 }, {
 
     add: Promise.method(function (data) {
+        var partner_id = [];
+        if(data.partner_id) partner_id.push(data.partner_id);
+
         var record = new this({
             partner_product_id: JSON.stringify({product_id:data.product_id,
-                                                partner_id: [data.partner_id]})
+                                                partner_id: partner_id})
         });
         return record.save();
     }),

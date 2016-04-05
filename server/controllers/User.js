@@ -47,7 +47,7 @@ module.exports = {
 
             User.login(data).then(function(model){
 
-                var token = jwt.encode({id: model.id, role: 'client'}, 'secret');
+                var token = jwt.encode({id: model.attributes.id, role: 'client'}, 'secret');
                 resolve({modelData: model.attributes, token: token, domain: `${model.attributes.login}.${data.domain}`});
 
             }).catch(function(err){
@@ -228,6 +228,30 @@ module.exports = {
         return new Promise(function (resolve, reject) {
 
             User.getTariff(user_id).then((model) => {
+                resolve(model);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+    },
+
+    remove(data) {
+        return new Promise(function (resolve, reject) {
+
+            User.remove(data).then((model) => {
+                resolve(model);
+            }).catch((err) => {
+                reject(err);
+            })
+
+        })
+    },
+
+    getByData(data) {
+        return new Promise(function (resolve, reject) {
+
+            User.getByData(data).then((model) => {
                 resolve(model);
             }).catch((err) => {
                 reject(err);

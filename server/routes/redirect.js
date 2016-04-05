@@ -7,7 +7,7 @@ var StatisticController = require('../controllers/Statistic');
 var UserController = require('../controllers/User');
 
 
-router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, function (req, res)
+router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, function (req, res, next)
 {
     var product;
     var customer;
@@ -46,18 +46,20 @@ router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, 
     }).then(() => {
 
         res.cookie('id', customer.id, {maxAge: 9000000000, httpOnly: true});
+        res.cookie('client_id', req.clientObj.id, {maxAge: 9000000000, httpOnly: true});
         var link = testLink(product.product_link) ? product.product_link : `http://${product.product_link}`;
         res.redirect(link)
 
     }).catch(function (err) {
 
-        res.status(400).send(err.errors);
+        //res.status(400).send(err.errors);
+        next(err);
 
     });
 
 });
 
-router.get('/redirect/link/:partner_login/:link', getPartnerIdByLogin, function (req, res)
+router.get('/redirect/link/:partner_login/:link', getPartnerIdByLogin, function (req, res, next)
 {
     var product;
     var customer;
@@ -96,12 +98,14 @@ router.get('/redirect/link/:partner_login/:link', getPartnerIdByLogin, function 
     }).then(() => {
 
         res.cookie('id', customer.id, {maxAge: 9000000000, httpOnly: true});
+        res.cookie('client_id', req.clientObj.id, {maxAge: 9000000000, httpOnly: true});
         var link = testLink(product.link) ? product.link : `http://${product.link}`;
         res.redirect(link)
 
     }).catch(function (err) {
 
-        res.status(400).send(err.errors);
+        //res.status(400).send(err.errors);
+        next(err);
 
     });
 

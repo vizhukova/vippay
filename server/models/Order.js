@@ -11,6 +11,10 @@ function replacePrice(orders) {
     return orders;
 }
 
+function perCent(price, discount) {
+    return price  - (price * discount / 100);
+}
+
 var Order = bookshelf.Model.extend({
 
     tableName: 'orders',
@@ -62,37 +66,8 @@ var Order = bookshelf.Model.extend({
     }),
 
     add: Promise.method(function (data) {
-        data.delivery = data.delivery || {};
-        var partnerId = data.customer.partner_product_id.partner_id;
-        var lastPartnerId = partnerId ? partnerId[partnerId.length - 1] : null;
-        var delivery_price = data.delivery.price ? parseFloat(data.delivery.price, 8) : 0;
-        var product  = data.product;
-        var convert = parseFloat(data.convert);
-        var product_price = 0;
-        _.filter(data.products, (item) => item.id != product.id).map((prod) => {
-            product_price += parseFloat(prod.price);
-        })
 
-        product_price += data.isPromo ? product.price - (product.price * data.discount / 100) : parseFloat(product.price);
-
-        var record = new this({customer_id: data.customer.id,
-                               partner_id: lastPartnerId,
-                               client_id: product.user_id,
-                               product_id: product.id,
-                               product: JSON.stringify(data.products),
-                               step: "pending",
-                               delivery: JSON.stringify(data.delivery),
-                               product_price_order_rate: product_price,
-                               product_price_base_rate: product_price * data.convert,
-                               delivery_price_order_rate: delivery_price,
-                               delivery_price_base_rate: delivery_price * data.convert,
-                               total_price_order_rate: delivery_price + product_price,
-                               total_price_base_rate: (delivery_price + product_price) * data.convert,
-                               basic_currency_id: data.basic_currency_id,
-                               isPromo: data.isPromo,
-                               discount: data.discount,
-                               promo_code: data.promo_code
-        });
+        var record = new this(data);
 
         return record.save();
     }),
@@ -101,7 +76,14 @@ var Order = bookshelf.Model.extend({
             return knex('orders')
             .update({'step': 'complete'})
             .where('id', id)
-            .returning(['partner_id','customer_id', 'client_id', 'product_id', 'id', 'product', 'delivery']);
+            .returning('*');
+    },
+
+    edit(data) {
+        return knex('orders')
+            .update(data)
+            .where('id', '=', +data.id)
+            .returning('*')
     }
 
 })
