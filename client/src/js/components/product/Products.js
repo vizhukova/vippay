@@ -73,11 +73,10 @@ class ProductItem extends React.Component {
         ModalActions.set({
             data: {
                 title: 'Установите код кнопки "Заказать" на страницу своего сайта',
-                message:
-                    `<form method="POST" action=${src} enctype="application/x-www-form-urlencoded">
-                            <input type="hidden" name="_method" value="PUT" />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  "PUT" />
-                            <input type="submit" value="Добавить в корзину"/>
-                         </form>`
+                message: `<form method="POST" action="${src}" enctype="application/x-www-form-urlencoded">
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input type="submit" value="Добавить в корзину"/>
+                 </form>`
 
             },
             name: 'MessageError'

@@ -57,7 +57,7 @@ var User = bookshelf.Model.extend({
                 .first('*')
             .then((customer) => {
 
-                 if(customer.password !== user.password)  throw new Error('wrong_password');
+                if(customer.password !== user.password)  throw new Error('wrong_password');
                 if(customer.type !== 'client')  throw new Error('you_are_not_registered');
                 if( !customer.active )  throw new Error('you_are_not_registered');
 

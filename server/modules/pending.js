@@ -8,8 +8,15 @@ module.exports = function(req, res, next){
     var currency;
     var product;
     var upsell_products;
+    var client;
 
-     Product.get({id: req.params.id, client_id: req.clientObj}).then((p) => {
+    User.getByLogin(req.subdomain).then((c) => { 
+        
+        client = c;
+        
+        return Product.get({id: req.params.id, client_id: req.clientObj})
+    
+    }).then((p) => {
 
          product = p[0];
          product.delivery = product.delivery || [];
@@ -57,7 +64,7 @@ module.exports = function(req, res, next){
              total: total.toFixed(2),
              formSettings: {
                  method: 'POST',
-                 action: `http://${req.clientObj.login}.${req.postdomain}/api/order`
+                 action: `http://${client.login}.${req.postdomain}/api/order`
              }
          };
 
