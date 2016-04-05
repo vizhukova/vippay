@@ -1,5 +1,5 @@
 
-form#yandex.hide(method='POST', action='{this.props.method.action}')
+form#yandex.hide(method='POST', action='#{payments.yandex.action}')
         input(type='hidden', name='receiver', value='#{payments.yandex.receiver}')
         input(type='hidden', name='formcomment', value='#{payments.yandex.formcomment}')
         input(type='hidden', name='short-dest', value='#{payments.yandex["short-dest"]}')
