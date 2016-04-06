@@ -102,7 +102,7 @@ class ProductItem extends React.Component {
                      <td className="action"><button type="button" className={this.props.item.available ? available : notAvailable} onClick={this.setAvailable} /></td>
                      <td className="action"><button type="button" className={this.props.item.active ? available : notAvailable} onClick={this.setActive} /></td>
                      <td>
-                         <button type="button" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.showCode} />
+                         {this.state.isBusinessTariff ? '-' : <button type="button" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.showCode} />}
                      </td>
                      <td className="action">
                         <Link to={`/category/${this.props.item.category_id}/products/${this.props.item.id}`}
@@ -164,7 +164,6 @@ class Products extends React.Component {
             title="Товары"
             add_link={`/category/${this.props.params.id}/products/new`}
             add_link_name = 'Добавить товар'
-            error={this.state.error}
             items={this.state.products}
             itemComponent={ProductItem}
             isPaginate={true}

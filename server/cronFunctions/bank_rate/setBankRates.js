@@ -1,13 +1,15 @@
 var convert = require('./convert');
 var Promise = require('bluebird');
 var _ = require('lodash');
-var Currency = require('./../models/Currency');
-var BankRate = require('./../models/BankRate');
+var Currency = require('./../../models/Currency');
+var BankRate = require('./../../models/BankRate');
 
 var currencies;
 var convertResult;
 
-(function() {
+
+module.exports = function () {
+    return new Promise((resolve, reject) => {
 
     Currency.get().then((c) => {
 
@@ -50,13 +52,13 @@ var convertResult;
 
     }).then((res) => {
 
-        var a;
+        resolve();
 
     }).catch((err) => {
 
-        var a
+        reject(err);
 
     })
 
-
-})();
+});
+}
