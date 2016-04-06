@@ -2,8 +2,9 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser')
-var morgan = require('morgan')
+var cookieParser = require('cookie-parser');
+var methodOverride = require('method-override');
+var morgan = require('morgan');
 var config = require('./config');
 var _ = require('lodash');
 //var session = require('express-session');
@@ -22,6 +23,11 @@ var getInterkassaId = require('./middlewares/getInterkassaId');
 var checkError = require('./middlewares/checkError');
 var checkStaffAccess = require('./middlewares/checkStaffAccess');
 var redirect = require('./middlewares/redirect');
+var isAdmin = require('./middlewares/admin');
+var pendingModule = require('./modules/pending');
+var basketModule = require('./modules/basket');
+var paymentModule = require('./modules/payment');
+var getAdminData = require('./modules/admin');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
@@ -31,8 +37,9 @@ app.set('view engine', 'jade');
 app.set('views', path.join(__dirname, 'templates'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(methodOverride('_method'));
 
-
+app.use(isAdmin);
 app.use(getSubdomain);
 app.use(getUserId);
 app.use(getClientObj);
@@ -42,8 +49,52 @@ app.use(getInterkassaId);
 app.use(checkStaffAccess);
 app.use(redirect);
 
+
+/*var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+app.use(session({ secret: 'anything' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash({ locals: 'flash' }));
+
+passport.use('userLogin', new LocalStrategy(
+  function(req, login, password, done) {
+
+      User.login({
+          email: req.body.email,
+          password:  req.body.password
+      }).then((user) => {
+            console.log('111111111111111111111111111111111111')
+            console.log(user)
+          return done(null, user);
+
+      })
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});*/
+
+
 var timestamp = Date.now();
 
+app.get('/admin', getAdminData, function(req, res) {
+
+    if(! req.admin) res.render('admin/login', {timestamp: timestamp});
+
+    else {
+        var data = _.assign(req.adminData, {timestamp: timestamp});
+        res.render('admin/page', data);
+    }
+
+})
 
 app.get('/', redirect, function(req, res){
 
@@ -57,26 +108,40 @@ app.get('/', redirect, function(req, res){
     var id_confirm = payment.fields ? payment.fields.id_confirm : payment.fields;
 
    res.render('client', {timestamp: timestamp, id_confirm: id_confirm})
+
+
 });
 
 app.use(require('./routes/log'));
 app.use(require('./routes/api'));
+
 app.use(require('./routes/redirect'));
 
-app.get('/order/:id*', function(req, res){
+app.get('/basket/:id*',basketModule, function(req, res){ //show basket
 
-    Product.getCurrentProduct(req.params.id).then((product) => {
+    res.render('basket', {basketItems: req.basketItems, currency: req.currency, redirectBack: req.headers.referer, timestamp: timestamp});
+});
 
-        if(req.tariff.active && product.active) res.render('order', {timestamp: timestamp})
-        else res.render('error', {timestamp: timestamp})
+app.get('/order/basket/:id*', basketModule, function(req, res){
 
-    }).catch((err) => {
-
-        res.render('error', {timestamp: timestamp})
-
-    })
+    res.render('basketPending', {basketItems: req.basketItems, currency: req.currency, timestamp: timestamp});
 
 });
+
+app.get('/order/payment/:order_id*', paymentModule, function(req, res){ //pending order
+
+    var data = _.assign(req.payment, {timestamp: timestamp});
+    res.render('payment', data);
+
+});
+
+app.get('/order/:id*', pendingModule, function(req, res){ //pending order
+
+    var data = _.assign(req.pending, {timestamp: timestamp});
+    res.render('pending', data);
+
+});
+
 app.get('/:partner', function(req, res){
 
     if(req.user.role && req.user.role != 'partner') {
@@ -92,9 +157,7 @@ app.get('/:partner', function(req, res){
         if(result == -1) {
             res.redirect(`http://auth.${req.postdomain}`);
         }
-    } /*else if(req.clientObj && !req.partnerObj) {
-        res.redirect(`http://${req.clientObj.login}.${req.postdomain}/partner`);
-    }*/
+    }
 
     res.render('partner', {timestamp: timestamp});
 });

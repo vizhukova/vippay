@@ -640,7 +640,8 @@ class ProductForm extends React.Component {
                           value={this.state.product.description} />
                 </fieldset>
 
-                <fieldset className={`product-form boxed ${this.state.upsellFormState == 'hide' ? 'hide': ''}`}
+                <fieldset className={`product-form boxed ${this.state.upsellFormState == 'hide' || this.state.isBusinessTariff
+                    ? 'hide': ''}`}
                           disabled={this.state.upsellFormState == 'disable'} >
                     <label className="text-warning">
                        <input name="isUpsell"
@@ -651,7 +652,7 @@ class ProductForm extends React.Component {
                         {`  Акция (1 + 1)`}
                      </label>
 
-                    {this.state.product.upsell_id ?
+                    {this.state.product.upsell_id  ?
                         <AddItems onChange={this.onChange}
                           onClick = {this.onClick}
                           onKeyDown={this.onKeyDown}

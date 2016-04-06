@@ -15,6 +15,7 @@ class SettingsStore {
         this.payment = [];
         this.tariff = {};
         this.isActiveTariff = true;
+        this.isBusinessTariff = false;
 
         this.bindListeners({
             onGetAll: SettingsAction.GET,
@@ -94,6 +95,8 @@ class SettingsStore {
     onGetTariff(tariff) {
         this.tariff = tariff;
         console.log('SettingStore tariff', tariff);
+
+        this.isBusinessTariff =  tariff.tariff_name === 'business';
 
         if(tariff.tariff_name === 'start') { this.isActiveTariff = tariff.isActive; return; }
 

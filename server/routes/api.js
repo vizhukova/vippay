@@ -7,7 +7,7 @@ var getTariff = require('./../middlewares/tariffs/getTariff');
 var checkTrialTariff = require('./../middlewares/tariffs/checkTrialTariff');
 var checkBaseTariff = require('./../middlewares/tariffs/checkBaseTariff');
 var checkStartTariff = require('./../middlewares/tariffs/checkStartTariff');
-var checkTariffAccess = require('./../middlewares/tariffs/checkTariffAccess');
+var checkTariffAccess = require('./../middlewares/tariffs/checkBusinessTariffAccess');
 
 router.use(api_prefix, require('./admin'));
 router.use(api_prefix, require('./payments'));
