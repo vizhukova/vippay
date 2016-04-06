@@ -1,16 +1,18 @@
-var config = require('./../config');
-var auth_domain = config.get('auth_domain');
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
+var config = require('./../config');
 var Promise = require('bluebird');
+var _ = require('lodash');
+var moment = require('moment');
+var email = require('../utils/email');
+var auth_domain = config.get('auth_domain');
 var RateController = require('../controllers/Rate');
 var FeeController = require('../controllers/Fee');
 var UserController = require('../controllers/User');
 var StaffController = require('../controllers/Staff');
 var AclController = require('../controllers/Acl');
-var _ = require('lodash');
-var moment = require('moment');
-var email = require('../utils/email');
+
 
 var checkTrialTariff = require('./../middlewares/tariffs/checkTrialTariff');
 var checkBaseTariff = require('./../middlewares/tariffs/checkBaseTariff');
@@ -107,6 +109,47 @@ router.get('/payments', function(req, res, next) {
 });
 
 router.put('/payments', checkTrialTariff, checkBaseTariff, checkStartTariff,   function(req, res, next) {
+
+    var interkassa = _.findWhere(req.body, {name: 'interkassa'});
+    var fileName = `${__dirname}/../interkassa_files/${interkassa.fields.id_kassa}`;
+    var fileVal = interkassa.fields.id_confirm;
+
+    fs.access(fileName, fs.F_OK, (err) => {
+
+        if(err) {
+
+            console.log(`File ${fileName} does not exists`);
+
+            fs.appendFile(fileName, fileVal, function (err) {
+                  if (err) return console.log(err);
+                  console.log(`Write  ${fileVal} > ${fileName}.txt`);
+               });
+
+        } else {
+
+            fs.unlink(fileName, (err) => {
+
+              if (err) {
+
+                  console.log(`Error: can't delete file ${fileName}`);
+
+              } else {
+
+                console.log(`File ${fileName} successfully deleted`);
+
+                  fs.appendFile(fileName, fileVal, function (err) {
+                      if (err) return console.log(err);
+                      console.log(`Write  ${fileVal} > ${fileName}.txt`);
+                   });
+
+              }
+
+            });
+
+        }
+
+    });
+
 
     UserController.putPayment({payment: req.body, user_id: req.clientObj.id})
             .then(function(payment){

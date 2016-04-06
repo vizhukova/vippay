@@ -1,8 +1,16 @@
 
 module.exports = function(req, res, next){
-   var a;
 
-    //if(originalUrl.indexOf("/api/basket") == -1) res.send(403);
-    //else
-    next();
+    if(req.clientObj.tariff_name == 'business') {
+
+        if(req.originalUrl.indexOf("/api/basket") != -1) res.sendStatus(404);
+        else if(req.originalUrl.indexOf("/api/promo") != -1) res.sendStatus(404);
+        else if(req.originalUrl.indexOf("/api/staff") != -1) res.sendStatus(404);
+        else next();
+
+    } else {
+
+        next();
+
+    }
 };

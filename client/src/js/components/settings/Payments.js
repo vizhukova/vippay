@@ -107,7 +107,7 @@ class PaymentItem extends React.Component {
                 </div>
                 <div className="row-footer row">
                     <div className={` more ${this.state.isMoreInformation ? '' : 'hide'}`}>
-                        <span>{ paymentSettings[`${this.props.payment.name}_more_info`] }</span>
+                        <pre>{ paymentSettings[`${this.props.payment.name}_more_info`] }</pre>
                     </div>
                     <div className="col-sm-6 left">
                         <button className="btn" onClick={this.onClick}>Подробнее..</button>

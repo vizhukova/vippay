@@ -102,7 +102,6 @@ class SettingsAction {
                  resolve(data);
             }).catch(function(err){
                 //self.dispatch(err);
-                 debugger
                  reject(err);
             })
         })
@@ -149,7 +148,6 @@ class SettingsAction {
                  self.dispatch(result);
                  resolve(result);
             }).catch(function(err){
-                debugger
                  reject(err);
             })
          })
@@ -162,7 +160,7 @@ class SettingsAction {
                  self.dispatch(result);
                  resolve(result);
             }).catch(function(err){
-                debugger
+                
             })
          })
     }
@@ -172,7 +170,7 @@ class SettingsAction {
          ApiActions.get(`messages`).then(function(result){
                  self.dispatch(result);
             }).catch(function(err){
-                debugger
+
             })
     }
 
@@ -181,7 +179,7 @@ class SettingsAction {
          ApiActions.put(`messages/${data.id}`, data.data).then(function(result){
                  self.dispatch(result);
             }).catch(function(err){
-                debugger
+
             })
     }
 
@@ -194,7 +192,7 @@ class SettingsAction {
          ApiActions.get(`staff`).then(function(result){
                  self.dispatch(result);
             }).catch(function(err){
-                debugger
+
             })
     }
 
@@ -203,7 +201,7 @@ class SettingsAction {
          ApiActions.get(`staff/${id}`).then(function(result){
                  self.dispatch(result);
             }).catch(function(err){
-                debugger
+
             })
     }
 
@@ -212,7 +210,7 @@ class SettingsAction {
          ApiActions.remove(`staff/${data.id}`).then(function(result){
                  self.dispatch(result);
             }).catch(function(err){
-                debugger
+
             })
     }
 

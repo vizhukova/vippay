@@ -6,6 +6,7 @@ var currency = JSON.parse($('[name="currency"]')[0].value);
 
 var basketForm = $('#basket');
 var submitButton = $('#submit');
+var refreshButton = $('#refresh');
 
 var pendingForm = $('#form');
 
@@ -45,6 +46,8 @@ function setTotal() {
 
 //////////////////////////basket//////////////////////////
 
+ refreshButton.on('click', refresh);
+
 function onClickSubmitButton() {
 
     ApiActions.put('basket', basketItems).then((res) => {
@@ -54,6 +57,17 @@ function onClickSubmitButton() {
     }).catch((err) => {
 
     })
+}
+
+function refresh() {
+
+    ApiActions.put('basket', basketItems).then((res) => {
+
+
+    }).catch((err) => {
+
+    })
+
 }
 
 
@@ -69,6 +83,7 @@ function onChange(index, target) {
     setTotal();
 
 }
+
 
 $('.remove').on('click', function(e) { onDelete(e) });
 

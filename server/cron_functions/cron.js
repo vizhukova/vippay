@@ -6,7 +6,7 @@ var checkEndOfTariff = require('./checkEndOfTariff');
 
 (function() {
 
-   return setBankRates().then(() => {
+    setBankRates().then(() => {
 
        return checkEndOfTariff();
 

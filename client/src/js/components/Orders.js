@@ -194,7 +194,7 @@ class Orders extends React.Component {
                 {name: 'Комментарий', key: ''},
                 {name: 'Доставка', key: ''},
                 {name: 'Оплачен', key: ''},
-                {name: 'Цена за товры', key: 'product.price'},
+                {name: 'Цена за товары', key: 'product.price'},
                 {name: 'Промо код', key: ''},
                 {name: 'Метод оплаты', key: 'method'}
             ]}

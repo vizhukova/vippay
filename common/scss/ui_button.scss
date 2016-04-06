@@ -77,3 +77,7 @@
 .btn-danger{
   @include button-color(#E96A46);
 }
+
+.btn .text {
+  color: #fff;
+}
