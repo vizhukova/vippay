@@ -1,12 +1,11 @@
-input[type="text"], input[type="password"], input[type="email"], textarea {
-    border: 1px solid #e5d4c2;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+input[type="text"], input[type="password"], input[type="email"], textarea, select {
+    border: 1px solid #D6D1D1;
+    border-radius: 0;
     padding: 0 16px;
     font-size: 16px;
     color: #8e8071;
     width: 100%;
+
 
   &.invalid{
     border: 1px solid #E86741 !important;
@@ -27,4 +26,8 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
     padding: 15px;
     background-color: #fff;
   }
+}
+
+input {
+  border-radius: 0;
 }

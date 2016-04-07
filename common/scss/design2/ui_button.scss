@@ -1,0 +1,61 @@
+@mixin crossbrowser-gradient($color, $light-gradient: 90, $dark-gradient: 5) {
+}
+
+@mixin button-color($color, $text-color: #fff){
+  color: $text-color!important;
+  background: $color;
+  border: 1px solid #EAEAEA;
+  @include crossbrowser-gradient($color);
+
+  &:active, &:focus {
+
+  }
+
+  &:hover{
+  color: $text-color!important;
+  background: $color;
+  border: 1px solid darken($color, 15);
+  }
+
+}
+
+@mixin button-size($padding: 0 25px, $line-height: 41px) {
+
+  display: inline-block;
+  outline: 0 !important;
+  line-height: $line-height;
+  padding: $padding;
+  font-size: 16px;
+  font-weight: 400;
+  white-space: nowrap;
+  text-shadow: none;
+
+}
+
+.btn {
+  @include button-color(#82D85B);
+  @include button-size();
+}
+
+.btn-default{
+  @include button-color(#82D85B);
+  @include button-size();
+}
+
+.btn-action{
+  @include button-size(0 5px, 23px);
+  font-size: 12px;
+}
+
+.btn-action-big{
+  @include button-size(0 10px, 31px);
+  font-size: 12px;
+}
+
+.btn-danger{
+  @include button-color(#F0AD4E);
+}
+
+.btn .text {
+  color: #fff;
+}

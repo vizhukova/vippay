@@ -14,7 +14,6 @@
     margin-right: 5px;
     margin-top: 5px;
 
-    border-radius: 5px 5px 0 0;
 
     padding: 0 16px;
     min-width: 100px;
@@ -25,11 +24,6 @@
 
     &.active{
       background: #FFFFFF;
-      -webkit-border-radius: 5px 5px 0 0;
-      -moz-border-radius: 5px 5px 0 0;
-      -webkit-box-shadow: 0 8px 12px rgba(58, 51, 46, 0.26);
-      -moz-box-shadow: 0 8px 12px rgba(58, 51, 46, 0.26);
-      box-shadow: 0 8px 12px rgba(58, 51, 46, 0.26);
     }
   }
 }
@@ -38,12 +32,6 @@
   top:-15px;
 
   background: #fff;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -webkit-box-shadow: 0 8px 12px rgba(58, 51, 46, 0.26);
-  -moz-box-shadow: 0 8px 12px rgba(58, 51, 46, 0.26);
-  box-shadow: 0 8px 12px rgba(58, 51, 46, 0.26);
   margin-bottom: 30px;
   position: relative;
   z-index: 5;
