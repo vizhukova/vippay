@@ -1,70 +1,69 @@
 @import './../../node_modules/bootstrap/dist/css/bootstrap.min';
-.form-register {
-  margin-top: 125px;
-}
 
-@import 'ui_common';
-@import 'ui_button';
-@import 'ui_input';
-@import 'ui_tabs';
-@import 'ui_navigation';
-@import 'ui_table';
-@import 'ui_alert';
-@import 'ui_block';
-@import 'loader';
-@import 'ui_pricing_box';
+.design1 {
 
-@import "auth";
-
-pre {
-  white-space: pre-wrap;       /* css-3 */
-  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;      /* Opera 4-6 */
-  white-space: -o-pre-wrap;    /* Opera 7 */
-  word-wrap: break-word;       /* Internet Explorer 5.5+ */
-  width: 99%;
-
-
-}
-
-.row {
-  margin-left: 0px;
-  margin-right: 0px;
-}
-
-body{
   font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    color: #8e8071;
-    font-size: 13px;
-    position: relative;
-    background: url(images/bg.jpg);
-}
+  font-weight: 400;
+  color: #8e8071;
+  font-size: 13px;
+  position: relative;
+  background: url(images/bg.jpg);
 
 
-.list-group {
-  list-style-type: none;
-}
+  .form-register {
+    margin-top: 125px;
+  }
 
-.text-center-pos {
-  text-align: center;
-}
+  @import 'design1/ui_common';
+  @import 'design1/ui_button';
+  @import 'design1/ui_input';
+  @import 'design1/ui_tabs';
+  @import 'design1/ui_navigation';
+  @import 'design1/ui_table';
+  @import 'design1/ui_alert';
+  @import 'design1/ui_block';
+  @import 'design1/loader';
+  @import 'design1/ui_pricing_box';
+  @import "design1/auth";
 
-#app-container {
-  padding-top: 1px;
-}
+  pre {
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    width: 99%;
+  }
 
-.text-danger {
-  color: #BB2724;
-}
+  .row {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 
-.error-block {
-  text-align: center;
-  padding: 130px;
-  background-color: rgba(214, 62, 19, 0.68);
-}
 
-div.error-block div.btn {
+  .list-group {
+    list-style-type: none;
+  }
+
+  .text-center-pos {
+    text-align: center;
+  }
+
+  #app-container {
+    padding-top: 1px;
+  }
+
+  .text-danger {
+    color: #BB2724;
+  }
+
+  .error-block {
+    text-align: center;
+    padding: 130px;
+    background-color: rgba(214, 62, 19, 0.68);
+  }
+
+  div.error-block div.btn {
     background: #f2fafe;
     border: 1px solid #f2fafe;
     background: -moz-linear-gradient(top, #fff 0%, #DAD1CF 2%, #EFDCD8 100%);
@@ -72,22 +71,32 @@ div.error-block div.btn {
   }
 
 
-.input-group-inline input.form-control.input-lg {
-    height: 30px;
-    font-size: 14pt;
-    padding: 3px;
+  .input-group-inline input.form-control.input-lg {
+      height: 30px;
+      font-size: 14pt;
+      padding: 3px;
+  }
+
+  .input-group-btn:last-child>.btn {
+      line-height: 21px;
+      vertical-align: top;
+  }
+
+  .list-head {
+    cursor: pointer;
+  }
+
 }
 
-.input-group-btn:last-child>.btn {
-    line-height: 21px;
-    vertical-align: top;
+.design2 {
+
+  background: #f1f3f6;
+
+  @import "design2/auth";
+  @import "design2/ui_common";
+  @import 'design2/ui_tabs';
+  @import 'design2/ui_input';
+  @import 'design2/ui_navigation';
+  @import 'design2/ui_table';
+
 }
-
-.list-head {
-  cursor: pointer;
-}
-
-
-
-
-

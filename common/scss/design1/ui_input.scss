@@ -1,0 +1,30 @@
+input[type="text"], input[type="password"], input[type="email"], textarea {
+    border: 1px solid #e5d4c2;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding: 0 16px;
+    font-size: 16px;
+    color: #8e8071;
+    width: 100%;
+
+  &.invalid{
+    border: 1px solid #E86741 !important;
+  }
+}
+
+.input-label {
+  padding: 10px;
+}
+
+.password-field{
+  position: relative;
+
+  i{
+    position: absolute;
+    right: 1px;
+    top: 2px;
+    padding: 15px;
+    background-color: #fff;
+  }
+}

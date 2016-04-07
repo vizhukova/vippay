@@ -31,7 +31,7 @@ class Auth extends React.Component {
         var baseClass = 'tab';
 
         return <div>
-            <div class="container">
+            <div className="container">
                 <div className="tab-container col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3 auth-form">
                     <ul className="tabs clearfix">
 

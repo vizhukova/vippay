@@ -5,7 +5,7 @@ html
     if id_confirm
       meta(name="interkassa-verification" content=id_confirm)
     link(href="/public/client/app.css?timestamp=#{timestamp}", rel="stylesheet")
-  body
+  body(class=designClass)
     #app-container
   script(src="/public/clientLog.js")
   script(src="/public/client/vendor.js?timestamp=#{timestamp}")

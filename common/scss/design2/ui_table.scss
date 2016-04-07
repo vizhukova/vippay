@@ -1,0 +1,133 @@
+.table-wrapper {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 12px rgba(58, 51, 46, 0.26);
+  -moz-box-shadow: 0 0 12px rgba(58, 51, 46, 0.26);
+  box-shadow: 0 0 12px rgba(58, 51, 46, 0.26);
+  background-color: #f8f8f8;
+  border-color: #e7e7e7;
+  margin-bottom: 20px;
+
+  .table-head {
+    padding: 8px;
+
+    .title {
+      font-size: 30px;
+      color: #5c5146;
+      font-weight: 400;
+      letter-spacing: -1px;
+      line-height: 1.2em;
+      margin-bottom: .8em;
+    }
+
+    .btn {
+      float: right;
+    }
+  }
+
+  .table {
+    margin-bottom: 0;
+  }
+
+  thead {
+    .check {
+      background-color: #f6f0ec;
+    }
+    .uncheck {
+      background-color: #F8F8F8;
+    }
+  }
+
+  tbody {
+    tr {
+      border-left: 3px solid #f8f8f8;
+
+      &:hover {
+        border-left: 3px solid #4daf7b;
+      }
+
+      td {
+
+        &.actions {
+          .btn {
+            margin-left: 8px;
+          }
+        }
+
+      }
+    }
+  }
+
+  .table-footer {
+    padding: 19px 8px;
+    background: #f6f0ec;
+    -webkit-border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
+    text-align: right;
+
+    .inner {
+      display: inline-block;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      -webkit-box-shadow: 0 0 16px rgba(0, 0, 0, 0.16);
+      -moz-box-shadow: 0 0 16px rgba(0, 0, 0, 0.16);
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.16);
+
+      .page_prev {
+        float: left;
+        margin-right: 1px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background: #8d7f70;
+
+        span {
+          display: inline-block;
+          width: 8px;
+          height: 10px;
+          background: transparent url(images/pagination.png) no-repeat 0 center;
+        }
+      }
+
+      .page_next {
+        float: left;
+        margin-right: 1px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background: #8d7f70;
+
+        span {
+          display: inline-block;
+          width: 8px;
+          height: 10px;
+          background: transparent url(images/pagination.png) no-repeat -10px center;
+        }
+      }
+
+      .page-numbers {
+        float: left;
+        margin-right: 1px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background: #fff;
+        color: #8d7f70;
+        text-decoration: none;
+
+        &:hover {
+          color: #fff;
+          background: #e86741;
+        }
+
+        &.page_current {
+          color: #fff;
+          background: #e86741;
+        }
+      }
+    }
+  }
+}

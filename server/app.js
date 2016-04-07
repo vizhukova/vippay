@@ -24,6 +24,7 @@ var checkError = require('./middlewares/checkError');
 var checkStaffAccess = require('./middlewares/checkStaffAccess');
 var redirect = require('./middlewares/redirect');
 var isAdmin = require('./middlewares/admin');
+var crossDomainQueries = require('./middlewares/crossDomainQueries');
 var pendingModule = require('./modules/pending');
 var basketModule = require('./modules/basket');
 var paymentModule = require('./modules/payment');
@@ -39,6 +40,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(methodOverride('_method'));
 
+app.use(crossDomainQueries);
 app.use(isAdmin);
 app.use(getSubdomain);
 app.use(getUserId);
@@ -84,13 +86,14 @@ passport.deserializeUser(function(id, done) {
 
 
 var timestamp = Date.now();
+var designClass = config.get('designClass');
 
 app.get('/admin', getAdminData, function(req, res) {
 
     if(! req.admin) res.render('admin/login', {timestamp: timestamp});
 
     else {
-        var data = _.assign(req.adminData, {timestamp: timestamp});
+        var data = _.assign(req.adminData, {designClass: designClass}, {timestamp: timestamp});
         res.render('admin/page', data);
     }
 
@@ -107,7 +110,7 @@ app.get('/', redirect, function(req, res){
     payment = payment || {};
     var id_confirm = payment.fields ? payment.fields.id_confirm : payment.fields;
 
-   res.render('client', {timestamp: timestamp, id_confirm: id_confirm})
+   res.render('client', {timestamp: timestamp, designClass: designClass, id_confirm: id_confirm})
 
 
 });
@@ -119,25 +122,25 @@ app.use(require('./routes/redirect'));
 
 app.get('/basket/:id*',basketModule, function(req, res){ //show basket
 
-    res.render('basket', {basketItems: req.basketItems, currency: req.currency, redirectBack: req.headers.referer, timestamp: timestamp});
+    res.render('basket', {basketItems: req.basketItems, currency: req.currency, redirectBack: req.headers.referer, designClass: designClass, timestamp: timestamp});
 });
 
 app.get('/order/basket/:id*', basketModule, function(req, res){
 
-    res.render('basketPending', {basketItems: req.basketItems, currency: req.currency, timestamp: timestamp});
+    res.render('basketPending', {basketItems: req.basketItems, currency: req.currency, designClass: designClass, timestamp: timestamp});
 
 });
 
 app.get('/order/payment/:order_id*', paymentModule, function(req, res){ //pending order
 
-    var data = _.assign(req.payment, {timestamp: timestamp});
+    var data = _.assign(req.payment, {designClass: designClass}, {timestamp: timestamp});
     res.render('payment', data);
 
 });
 
 app.get('/order/:id*', pendingModule, function(req, res){ //pending order
 
-    var data = _.assign(req.pending, {timestamp: timestamp});
+    var data = _.assign(req.pending, {designClass: designClass}, {timestamp: timestamp});
     res.render('pending', data);
 
 });
@@ -159,7 +162,7 @@ app.get('/:partner', function(req, res){
         }
     }
 
-    res.render('partner', {timestamp: timestamp});
+    res.render('partner', {designClass: designClass, timestamp: timestamp});
 });
 
 app.use((err, req, res, next) => {

@@ -3,7 +3,7 @@ html(lang='en')
   head
     meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
     link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
-  body
+  body(class=designClass)
       script(src="/public/orders/vendor.js?timestamp=#{timestamp}")
       div
           form#form.panel.panel-default.col-md-10.col-md-offset-1.form-margin.boxed(action='#{formSettings.action}' method='#{formSettings.method}')
