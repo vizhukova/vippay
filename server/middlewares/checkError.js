@@ -76,7 +76,7 @@ module.exports = function(err, res){
                 var keys = Object.keys(err.errors) || [];
                 res.status(400).send(err.errors[keys[0]].message);
             }
-            else res.status(400).send();
+            else res.status(400).send(err);
 
             logg.log(err, 'error');
     }
