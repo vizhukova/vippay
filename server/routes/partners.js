@@ -9,11 +9,12 @@ var email = require('../utils/email');
 
 
 router.post('/partner/register', function (req, res, next) {
+
     Object.keys(req.body).map((k) => {
         if (req.body[k] === '') req.body[k] = null
     })
 
-    var user;
+    var partner;
     var client_id = req.clientObj.id;
 
     if(req.body.login == 'auth' || req.body.login == 'admin' || req.body.login == 'payments' || req.body.login == 'payments') {
@@ -38,21 +39,31 @@ router.post('/partner/register', function (req, res, next) {
 
     }).then((u) => {
 
-        user = u;
+        partner = u;
 
-        var link = `http://${req.clientObj.login}.${req.postdomain}/${user.modelData.login}`;
-         email.send(user.modelData.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${link}`);
+        var link = `http://${req.clientObj.login}.${req.postdomain}/${partner.modelData.login}`;
+         email.send(partner.modelData.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${link}`);
 
         return PartnerController.setFee({
             client_id: client_id,
-            partner_id: user.modelData.id,
-            fee: req.clientObj.fee
+            partner_id: partner.modelData.id,
+            fee_added: 0,
+            fee_payed: 0
         })
 
     }).then((fee) => {
 
-        res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
-        res.send({user: user, redirect: `http://${req.hostname}/${user.modelData.login}`})
+        return PartnerClientsController.set({
+                        client_id: req.clientObj.id,
+                        partner_id: partner.modelData.id,
+                        fee: req.clientObj.fee
+
+                    })
+
+    }).then((fee) => {
+
+        res.cookie('token', partner.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
+        res.send({user: partner, redirect: `http://${req.hostname}/${partner.modelData.login}`})
 
     }).catch((err) => {
         if(! err.constraint) err.constraint =  'check_this_data';

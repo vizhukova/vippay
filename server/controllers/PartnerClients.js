@@ -30,5 +30,17 @@ module.exports = {
             })
 
         })
-    }
+    },
+
+    set(data){
+        return new Promise(function(resolve, reject){
+
+            PartnerClients.set(data).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
+    },
 };

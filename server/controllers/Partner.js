@@ -25,11 +25,10 @@ module.exports = {
                         errors: errors
                     })
                 }
-                    Partner.bindWithClient({client_id: partner.client_id, partner_id: model.id})
-                    .then(() => {
-                        var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
-                        resolve({modelData: model.attributes, token: token});
-                    })
+
+                    var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
+                    resolve({modelData: model.attributes, token: token});
+
                 }).catch(function(err){
                 reject(err);
             });

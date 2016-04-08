@@ -334,7 +334,7 @@ class LinkForm extends React.Component {
                 edit ? "Редактировать" : "Добавить"}
             </button>
 
-              <Link to={`/links`}>
+              <Link to={`/partners_links`}>
                  <button type="button" className="btn btn-danger pull-right btn-submit">
                      {"Отмена"}
                  </button>

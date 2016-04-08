@@ -32,6 +32,12 @@ var PartnerCliets = bookshelf.Model.extend({
         return knex('clients-partners')
             .select('*')
             .where(data);
+    },
+
+    set(data) {
+        return knex('clients-partners')
+            .insert(data)
+            .returning('*');
     }
 
 

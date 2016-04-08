@@ -160,13 +160,12 @@
 
 
         footerButton.html('Нет, спасибо');
+        footerButton.unbind('click');
         footerButton.on('click', function(e) {
 
             var newData = $.extend({}, data);
             newData.product = [newData.product];
             sendOrder(newData);
-            footerButton.unbind('click');
-
         })
 
     }
@@ -184,11 +183,11 @@
                    Со скидкой ' + data.discount + ' % составляет ' + newTotal + currency.name);
 
         footerButton.html('Продолжить');
+        footerButton.unbind('click');
         footerButton.on('click', function() {
 
             data.total = newTotal;
             beforeSend(data);
-            footerButton.unbind('click');
 
         });
 

@@ -154,9 +154,11 @@ module.exports = {
 
            }).then((p_c) => {
 
-               feeToAdd = p_c[0].fee;
-
-               return Fee.get(order.client_id);
+               if(! p_c.length) throw new Error('no_partners');
+               else {
+                   feeToAdd = p_c[0].fee;
+                   return Fee.get(order.client_id);
+               }
 
            }).then((fees) => {
 
@@ -189,7 +191,8 @@ module.exports = {
 
            }).catch((err) => {
 
-               reject(err);
+               if(err.message == 'no_partners') resolve(order);
+               else reject(err);
            })
 
         });
@@ -242,9 +245,11 @@ module.exports = {
 
            }).then((p_c) => {
 
-               feeToAdd = p_c[0].fee;
-
-               return Fee.get(order.client_id);
+               if(! p_c.length) throw new Error('no_partners');
+               else {
+                   feeToAdd = p_c[0].fee;
+                   return Fee.get(order.client_id);
+               }
 
            }).then((fees) => {
 
@@ -277,7 +282,8 @@ module.exports = {
 
            }).catch((err) => {
 
-               reject(err);
+               if(err.message == 'no_partners') resolve(order);
+               else reject(err);
            })
 
         });

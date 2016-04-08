@@ -29,6 +29,7 @@ var pendingModule = require('./modules/pending');
 var basketModule = require('./modules/basket');
 var paymentModule = require('./modules/payment');
 var getAdminData = require('./modules/admin');
+var getTariffData = require('./modules/getTariffData');
 
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
@@ -90,14 +91,21 @@ var designClass = config.get('designClass');
 
 app.get('/admin', getAdminData, function(req, res) {
 
-    if(! req.admin) res.render('admin/login', {timestamp: timestamp});
+    if(! req.admin) res.render('admin/login', {designClass: designClass, timestamp: timestamp});
 
     else {
         var data = _.assign(req.adminData, {designClass: designClass}, {timestamp: timestamp});
         res.render('admin/page', data);
     }
 
-})
+});
+
+app.get('/checkout', getTariffData, function(req, res) {
+
+    var data = _.assign(req.tariffData, {designClass: designClass}, {timestamp: timestamp});
+    res.render('paymentTariff', data);
+
+});
 
 app.get('/', redirect, function(req, res){
 
@@ -134,7 +142,7 @@ app.get('/order/basket/:id*', basketModule, function(req, res){
 app.get('/order/payment/:order_id*', paymentModule, function(req, res){ //pending order
 
     var data = _.assign(req.payment, {designClass: designClass}, {timestamp: timestamp});
-    res.render('payment', data);
+    res.render('paymentOrder', data);
 
 });
 

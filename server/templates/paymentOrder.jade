@@ -4,10 +4,7 @@ html(lang='en')
     meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
     link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
   body(class=designClass)
-      script(src="/public/orders/vendor.js?timestamp=#{timestamp}")
-      html
-          body
-              div
+      div
                   .panel.panel-default.col-md-10.col-md-offset-1.form-margin
                       .panel-body
                           .text-danger.title
@@ -30,10 +27,11 @@ html(lang='en')
                               .col-md-8#description
 
 
-          input.form-control(type='hidden', name='payments', value='#{JSON.stringify([payments])}')
-          input.form-control(type='hidden', name='paymentSettings', value='#{JSON.stringify([paymentSettings])}')
-          input.form-control(type='hidden', name='order', value='#{JSON.stringify([order])}')
+      input.form-control(type='hidden', name='payments', value='#{JSON.stringify([payments])}')
+      input.form-control(type='hidden', name='paymentSettings', value='#{JSON.stringify([paymentSettings])}')
+      input.form-control(type='hidden', name='order', value='#{JSON.stringify([order])}')
 
-  script(src="/public/ajax.js")
-  script(src="/public/orders/js/paymentSettings.js")
-  script(src="/public/orders/js/payment.js")
+      script(src="/public/orders/vendor.js?timestamp=#{timestamp}")
+      script(src="/public/ajax.js")
+      script(src="/public/orders/js/paymentSettings.js")
+      script(src="/public/orders/js/payment.js")

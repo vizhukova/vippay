@@ -122,6 +122,27 @@
     padding: 40px;
   }
 
+   .error-block {
+    text-align: center;
+    padding: 130px;
+    background-color: rgba(118, 120, 123, 0.36);
+  }
+
+  .error-block a {
+    color: #76787B;
+  }
+
+  .error-block a:hover {
+    color: #5A5C5F;
+  }
+
+  /*div.error-block div.btn {
+    background: #f2fafe;
+    border: 1px solid #f2fafe;
+    background: -moz-linear-gradient(top, #fff 0%, #DAD1CF 2%, #EFDCD8 100%);
+    background: -webkit-linear-gradient(top, #fff 0%, #DAD1CF 2%, #EFDCD8 100%);
+  }*/
+
   @import "design2/auth";
   @import "design2/ui_common";
   @import 'design2/ui_tabs';
@@ -131,5 +152,6 @@
   @import 'design2/ui_button';
   @import 'design2/ui_alert';
   @import 'design2/ui_block';
+  @import 'design2/ui_pricing_box';
 
 }

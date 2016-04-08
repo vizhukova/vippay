@@ -169,7 +169,7 @@ router.post('/order', function(req, res, next) {
                             promo_code: req.body.promo_code || null,
                             discount: req.body.discount || null,
                             partner_id: partner_id,
-                            step: 'pending',
+                            step: req.body.total === 0 ? 'complete' : 'pending',
                             client_id: req.clientObj.id,
                             product_price_order_rate: req.body.total - delivery.price,
                             product_price_base_rate: total_price_base_rate - delivery_price_base_rate,

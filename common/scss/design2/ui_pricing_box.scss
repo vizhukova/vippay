@@ -1,0 +1,166 @@
+
+.price_item {
+  border: solid 1px rgba(118, 120, 123, 0.18);
+}
+
+.pricing-box {
+  padding: 2% 10%;
+}
+
+.price-list {
+  padding: 25px 0px;
+  text-align: center;
+  margin: 0px -4%;
+  list-style: none;
+}
+
+.price_col {
+  width: 30%;
+  margin: 0px 10px;
+  text-align: center;
+  background-color: #fff;
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+  transition: 0.3s;
+}
+
+.price_body_inner ul.description {
+  padding: 25px;
+  list-style: square outside;
+  text-align: left;
+}
+
+li.price_col:hover {
+  transform: scale(1.2);
+  z-index: 5;
+  margin-bottom: 20px;
+}
+
+li.price_col {
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  padding: 0;
+}
+
+.price_col_head {
+  position: relative;
+  background: #fff;
+  color: #76787B;
+}
+
+.price_col_head .price {
+  display: block;
+  padding: 0;
+  color: #76787B;
+  font-size: 25px;
+  font-weight: 100;
+  height: 52px;
+  line-height: 52px;
+  letter-spacing: -1px;
+  border-bottom: #82D85B solid 3px;
+}
+
+.pricing_box li.price_col {
+  display: inline-block;
+  width: 220px;
+  padding: 0;
+  margin: 0 -4px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.price_body_inner {
+  background: #fff;
+  color: #76787B;
+}
+
+.price_body_inner {
+  .select {
+
+  }
+}
+
+.price_body_top span {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 100;
+}
+
+.price_body_top strong {
+  font-size: 27px;
+  display: block;
+  margin-bottom: 10px;
+  color: #76787B;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.price_body_top {
+  .line {
+    background: #a4cee7;
+    height: 1px;
+    margin: 0 auto;
+  }
+}
+
+.price_body_inner ul {
+  list-style: none;
+  color: #76787B;
+  font-size: 12px;
+  display: block;
+  line-height: 17px;
+  padding: 0;
+  margin: 0;
+}
+
+.price_body_inner ul li:first-child {
+  margin-top: 10px;
+}
+
+.price_col_foot .price-btn {
+  visibility: hidden;
+  margin-bottom: 15px;
+}
+
+.price_col_foot .visible .price-btn {
+  visibility: visible;
+}
+
+li.price_col.chosen {
+  transform: scale(1.2);
+  z-index: 5;
+  margin-bottom: 20px;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.price_item {
+  .form-group {
+    width: 100%;
+
+    div {
+      width: 30%;
+      display: inline-block;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+    }
+
+    select {
+      width: 100%;
+      height: 100%;
+      line-height: 109%;
+      padding: 3% 0;
+      vertical-align: baseline;
+      background: #fff;
+    }
+  }
+}
+
+
+
+

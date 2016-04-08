@@ -102,7 +102,9 @@ class Profile extends React.Component {
 
 
     render() {
-        console.log('Profile render: ', this.state)
+        console.log('Profile render: ', this.state);
+        var arr = location.host.split('.');
+        var paymentDomain = `http://payment.${arr[1]}.${arr[2]}/checkout`;
         var self = this;
         return <div>
             <form className="col-sm-12 form-ui block boxed" onSubmit={this.onSubmit}>
@@ -145,6 +147,11 @@ class Profile extends React.Component {
                            onClick={this.onClick}
                     />
                 </fieldset>
+                <fieldset>
+                    <div className="boxed">
+                        <a className="btn btn-block" href={paymentDomain}> Выбор тарифа</a>
+                    </div>
+                </fieldset>
                 <div className="row-footer clearfix">
                     <input type="submit" className="btn btn-warning pull-left btn-submit" value="Сохранить"/>
                     <button type="button" className="btn btn-danger pull-right btn-submit" onClick={this.cancel}>
@@ -154,7 +161,6 @@ class Profile extends React.Component {
 
             </form>
 
-            <Pricing />
         </div>
 
 
