@@ -96,9 +96,9 @@ router.post('/payments/interkassa', (req, res) => {
 
     if(data.length === 3){
 
-        var user_id = data[0];
-        var tariff_name = data[1];
-        var tariff_duration = data[2];
+        var user_id = data[2];
+        var tariff_name = data[0];
+        var tariff_duration = data[1];
 
         UserController.getById(user_id).then((user) => {
 
