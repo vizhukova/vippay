@@ -12,7 +12,7 @@ html(lang='en')
               .price_item
                 .price_col_head
                   tariff
-                  .price(class='#{currentTariff.name == tariff ? "" : "total"}') #{currentTariff.name == tariff ? "Осталось " + currentTariff.daysToEnd + " дней" : tariffs[tariff].prices[0].price + " руб"}
+                  .price(class='#{currentTariff.name == tariff ? "" : "total"}') #{currentTariff.name == tariff ? "Осталось " + currentTariff.daysToEnd + " дней" : tariffs[tariff].prices[0].price.rub + " руб"}
                 .price_col_body.clearfix
                   .price_body_inner
                     .price_body_top
@@ -46,18 +46,17 @@ html(lang='en')
                         input(type='hidden', name='targets', value='#{"Тариф " + tariffs[tariff].name}')
                         input(type='hidden', name='quickpay-form', value='donate')
                         input(type='hidden', name='pymentType', value='')
-                        input(type='hidden', name='sum', value='#{currentTariff.name == tariff ? currentTariff.price : tariffs[tariff].prices[0].price}')
+                        input(type='hidden', name='sum', value='#{currentTariff.name == tariff ? currentTariff.price.rub : tariffs[tariff].prices[0].price.rub}')
                         input.btn.btn-danger(type='submit', value='Яндекс')
 
                     form.interkassa(method='POST', action='https://sci.interkassa.com/', enctype='utf-8')
                         input(name='ik_co_id', type='hidden', value='#{interkassa.ik_co_id}')
                         input(name='ik_pm_no', type='hidden', value='#{currentTariff.name == tariff ? currentTariff.name + "-" + currentTariff.duration + "-" + user.id : tariff + "-" + tariffs[tariff].prices[0].time + "-" + user.id}')
-                        input(name='ik_am', type='hidden', value='#{currentTariff.name == tariff ? currentTariff.price : tariffs[tariff].prices[0].price}')
+                        input(name='ik_am', type='hidden', value='#{currentTariff.name == tariff ? currentTariff.price.uah : tariffs[tariff].prices[0].price.uah}')
                         input(name='ik_cur', type='hidden', value='#{interkassa.ik_cur}')
                         input(name='ik_desc', type='hidden', value='#{"Тариф " + tariffs[tariff].name}')
                         input(name='ik_ia_u', type='hidden', value='#{interkassa.ik_ia_u}')
                         input(name='ik_ia_m', type='hidden', value='#{interkassa.ik_ia_m}')
-                        input(name='ik_cur', type='hidden', value='RUB')
                         input.btn.btn-danger(type='submit', value='Интеркасса')
 
       input#userId(type='hidden', value='#{user.id}')

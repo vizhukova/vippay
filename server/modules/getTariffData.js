@@ -3,6 +3,8 @@ var moment = require('moment');
 var _ = require('lodash');
 var Users = require('./../models/Users');
 var tariffSettings =  require("./tariffSettings");
+var Currency =  require("./../models/Currency");
+var BankRate =  require("./../models/BankRate");
 var Interkassa =  require("./../payments/interkassa");
 var Yandex =  require("./../payments/yandex");
 
@@ -11,6 +13,9 @@ module.exports = function(req, res, next){
     var user;
     var currentTariff = {};
     var interkassa = {};
+    var yandex = {};
+    var uah;
+    var rub;
 
     return new Promise((resolve, reject) => {
 
@@ -28,24 +33,11 @@ module.exports = function(req, res, next){
 
                if(! user) reject(new Error('no_client'));
 
-                else {
+               resolve();
 
-                   if(user.tariff_name && user.tariff_payed) {
+           }).catch((err) => {
 
-                       currentTariff.name = user.tariff_name;
-                       currentTariff.payed = user.tariff_payed;
-                       currentTariff.duration = user.tariff_duration;
-                       currentTariff.price = _.findWhere(tariffSettings[user.tariff_name].prices, {time: +user.tariff_duration}).price;
-
-                       var tariff_date = user.tariff_date;
-                       var day_end = moment(tariff_date).add(user.tariff_duration, 'month');
-                       var days = day_end.diff(moment(), 'days');
-
-                       currentTariff.daysToEnd = days < 0 ? 0 : days;
-                   }
-
-                   resolve();
-               }
+               reject(new Error(err));
 
            })
 
@@ -61,22 +53,64 @@ module.exports = function(req, res, next){
 
         return Yandex.getServiceData(user);
 
-    }).then((yandex) => {
+    }).then((y) => {
+
+        yandex = y;
+        return Currency.get();
+
+    }).then((currencies) => {
+
+        uah = _.findWhere(currencies, {name: 'UAH'}).id;
+        rub = _.findWhere(currencies, {name: 'RUB'}).id;
+
+        return BankRate.get({'from': rub, 'to': uah});
+
+    }).then((toUahObj) => {
+
+        var toUAH = toUahObj[0].result;
+        var newTariffSettings = _.clone(tariffSettings);
+
+        Object.keys(tariffSettings).map((tariff) => {
+
+            tariffSettings[tariff].prices.map((priceObj, index) => {
+
+                newTariffSettings[tariff].prices[index].price = {
+                    uah: priceObj.price * toUAH,
+                    rub: +priceObj.price
+                }
+
+            })
+
+        });
+
+
+        if(user.tariff_name && user.tariff_payed) {
+
+           currentTariff.name = user.tariff_name;
+           currentTariff.payed = user.tariff_payed;
+           currentTariff.duration = user.tariff_duration;
+           currentTariff.price = _.findWhere(newTariffSettings[user.tariff_name].prices, {time: +user.tariff_duration}).price;
+
+           var tariff_date = user.tariff_date;
+           var day_end = moment(tariff_date).add(user.tariff_duration, 'month');
+           var days = day_end.diff(moment(), 'days');
+
+           currentTariff.daysToEnd = days < 0 ? 0 : days;
+        }
+
 
         req.tariffData = {
            user: user,
-           tariffs: tariffSettings,
+           tariffs: newTariffSettings,
            currentTariff: currentTariff,
            tariffOutput: {
-               'start': `${(tariffSettings['start'].prices[0].price / tariffSettings['start'].prices[0].time).toFixed(2) } руб / мес`,
-               'business': `${tariffSettings['business'].prices[0].price / tariffSettings['business'].prices[0].time} руб / мес`,
-               'magnate': `${tariffSettings['magnate'].prices[0].price / tariffSettings['magnate'].prices[0].time} руб / мес`
+               'start': `${(newTariffSettings['start'].prices[0].price.rub / newTariffSettings['start'].prices[0].time).toFixed(2) } руб / мес`,
+               'business': `${newTariffSettings['business'].prices[0].price.rub / newTariffSettings['business'].prices[0].time} руб / мес`,
+               'magnate': `${newTariffSettings['magnate'].prices[0].price.rub / newTariffSettings['magnate'].prices[0].time} руб / мес`
            },
            yandex: yandex,
            interkassa: interkassa
        };
-
-    }).then((data) => {
 
         next();
 

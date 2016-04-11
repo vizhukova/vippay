@@ -14,6 +14,7 @@ module.exports = function () {
     var users;
     var endOfTrialTariff = [];
     var endOfTariff = []; // in 5 days
+        console.log('emails')
 
     Users.getByData({}).then((u) => {
 
@@ -26,7 +27,7 @@ module.exports = function () {
             if(! user.tariff_name) {
 
                 var registered_day = moment(user.created_at);
-                var isEnded = registered_day.diff(moment(), 'days') == -2;
+                var isEnded = registered_day.diff(moment(), 'days') == -3;
 
                 if(isEnded) {
                     endOfTrialTariff.push(user);
@@ -36,7 +37,7 @@ module.exports = function () {
             else if(user.tariff_name && user.tariff_payed) {
 
                 var end_day_tariff = moment(user.tariff_date).add(user.tariff_duration, 'months');
-                var isSoonEnd = end_day_tariff.diff(moment(), 'days') == 5;
+                var isSoonEnd = end_day_tariff.diff(moment(), 'days') == -5;
 
                 if(isSoonEnd) {
                     endOfTariff.push(user);
@@ -62,7 +63,7 @@ module.exports = function () {
 
     }).catch((err) => {
 
-        reject();
+        reject(err);
 
     });
 

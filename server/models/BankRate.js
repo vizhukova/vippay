@@ -36,6 +36,13 @@ var Rate = bookshelf.Model.extend({
             .del()
             .where(data)
             .returning('*');
+    },
+
+    getWhereIn(data) {
+        return knex('bank_rate')
+            .select('*')
+            .whereIn(data)
+            .orderBy('from', 'asc');
     }
 });
 

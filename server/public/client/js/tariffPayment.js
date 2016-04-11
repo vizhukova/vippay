@@ -38,18 +38,18 @@ tariffSelect.on('change', function(e) {
 
         data = data ? JSON.parse(data) : {};
 
-        total.html(data.price + " руб");
-        perMonth.html((data.price / data.time).toFixed(2) + " руб / мес");
+        total.html(data.price.rub + " руб");
+        perMonth.html((data.price.rub / data.time).toFixed(2) + " руб / мес");
 
         yandex.find("input[name$='label']").attr('value', tariff + '::' + data.time + '::' + userId)
         yandex.find("input[name$='formcomment']").attr('value', tariff + '::' + data.time + '::' + userId)
         yandex.find("input[name$='short-dest']").attr('value', tariff + '::' + data.time + '::' + userId)
-        yandex.find("input[name$='sum']").attr('value', data.price)
+        yandex.find("input[name$='sum']").attr('value', data.price.rub)
 
 
         interkassa.find("input[name$='ik_pm_no']").attr('value', tariff + '::' + data.time + '::' + userId)
         interkassa.find("input[name$='ik_am']").attr('value', tariff + '::' + data.time + '::' + userId)
-        interkassa.find("input[name$='ik_am']").attr('value', data.price)
+        interkassa.find("input[name$='ik_am']").attr('value', data.price.uah)
 
     })
 

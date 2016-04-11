@@ -65,7 +65,7 @@ class InterKassa{
 
                 payment_data.ik_co_id = '57064bad3d1eaf67478b4570';
                 payment_data.ik_pm_no = `${user.id}-start-12`;
-                payment_data.ik_cur = 'RUB';
+                payment_data.ik_cur = 'UAH';
                 payment_data.ik_am = 2500;
                 payment_data.ik_desc = 'Тариф Старт' || '';
                 payment_data.ik_ia_u = 'http://payment.vippay.info/api/payments/interkassa';

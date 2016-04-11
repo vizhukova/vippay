@@ -2,6 +2,8 @@ var Promise = require('bluebird');
 var _ = require('lodash');
 var setBankRates = require('./bank_rate/setBankRates');
 var checkEndOfTariff = require('./checkEndOfTariff');
+var log = require('./../utils/log');
+var logg = new log('db');
 
 
 (function() {
@@ -14,8 +16,10 @@ var checkEndOfTariff = require('./checkEndOfTariff');
 
        process.exit(1);
 
-   }).catch(() => {
+   }).catch((err) => {
 
+       console.log(err.message);
+       logg.log(err, 'error');
        process.exit(0);
 
    })
