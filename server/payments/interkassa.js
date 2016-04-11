@@ -64,7 +64,7 @@ class InterKassa{
             CurrencyController.get().then((currency) => {
 
                 payment_data.ik_pm_no = `${user.id}::start::12`;
-                payment_data.ik_cur = _.findWhere(currency, {id: user.basic_currency}).name;
+                payment_data.ik_cur = 'RUB';
                 payment_data.ik_am = 2500;
                 payment_data.ik_desc = 'Тариф Старт' || '';
                 payment_data.ik_ia_u = 'http://payment.vippay.info/api/payments/interkassa';

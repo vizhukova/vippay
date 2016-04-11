@@ -3,6 +3,7 @@
 var Promise = require('bluebird');
 var OrderController = require('../controllers/Order');
 var UserController = require('../controllers/User');
+var CurrencyController = require('../controllers/Currency');
 var Rate = require('./../models/Rate');
 var _ = require('lodash');
 
@@ -64,6 +65,29 @@ class YandexMoney {
             })
 
         })
+
+    }
+
+
+    static getServiceData(user){
+
+        return new Promise((resolve, reject) => {
+
+            var payment_data = {};
+
+                payment_data.formcomment = `${user.id}::start::12`;
+                payment_data.label = 'start';
+                payment_data.targets = 'Тариф Старт' || '';
+                payment_data['short-dest'] = 'Тариф Старт' || '';
+                payment_data['need-fio'] = true;
+                payment_data['need-email'] = true;
+                payment_data.action = 'https://money.yandex.ru/quickpay/confirm.xml';
+                payment_data.receiver = _.findWhere(user.payment, {name: 'yandex'}).fields.receiver;
+                payment_data.sum = 2500;
+
+                resolve(payment_data);
+
+            })
 
     }
 

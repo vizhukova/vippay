@@ -25,7 +25,7 @@ html(lang='en')
                     .form-inline
                       .form-group
                         .input-group-addon Срок:
-                        div
+                        div.select-container
                           select.select(name="tariff", id='#{id}')
                             each priceObj, index in tariffs[tariff].prices
                               option(selected = currentTariff.name == tariff ? currentTariff.duration == priceObj.time : index == 0, value="#{JSON.stringify(priceObj)}") #{priceObj.time}
@@ -38,25 +38,25 @@ html(lang='en')
                       each limitation in tariffs[tariff].limitation
                         li.text-danger #{limitation}
                 .payment.hide
-                    form.yandex(method='POST', action='{yandex.action}')
+                    form.yandex(method='POST', action='#{yandex.action}')
                         input(type='hidden', name='receiver', value='#{yandex.receiver}')
-                        input(type='hidden', name='formcomment', value='#{yandex.formcomment}')
-                        input(type='hidden', name='short-dest', value='#{yandex.formcomment}')
+                        input(type='hidden', name='formcomment', value='#{currentTariff.name == tariff ? currentTariff.name + "::" + currentTariff.duration + "::" + user.id : tariff + "::" + tariffs[tariff].prices[0].time + "::" + user.id}')
+                        input(type='hidden', name='short-dest', value='#{currentTariff.name == tariff ? currentTariff.name + "::" + currentTariff.duration + "::" + user.id : tariff + "::" + tariffs[tariff].prices[0].time + "::" + user.id}')
                         input(type='hidden', name='label', value='#{currentTariff.name == tariff ? currentTariff.name + "::" + currentTariff.duration + "::" + user.id : tariff + "::" + tariffs[tariff].prices[0].time + "::" + user.id}')
-                        input(type='hidden', name='targets', value='#{yandex.targets}')
+                        input(type='hidden', name='targets', value='#{"Тариф " + tariffs[tariff].name}')
                         input(type='hidden', name='quickpay-form', value='donate')
-                        input(type='hidden', name='sum', value='#{yandex.sum}', data-type='number')
+                        input(type='hidden', name='sum', value='#{currentTariff.name == tariff ? currentTariff.price : tariffs[tariff].prices[0].price}')
                         input.btn.btn-danger(type='submit', value='Яндекс')
 
                     form.interkassa(method='POST', action='https://sci.interkassa.com/', enctype='utf-8')
-                        input(name='ik_co_id', type='hidden', value='{interkassa.ik_co_id}')
-                        input(name='ik_pm_no', type='hidden', value='{interkassa.ik_pm_no}')
-                        input(name='ik_am', type='hidden', value='{interkassa.ik_am}')
-                        input(name='ik_cur', type='hidden', value='{interkassa.ik_cur}')
-                        input(name='ik_desc', type='hidden', value='{interkassa.ik_desc}')
-                        input(name='ik_ia_u', type='hidden', value='{interkassa.ik_ia_u}')
-                        input(name='ik_ia_m', type='hidden', value='{interkassa.ik_ia_m}')
+                        input(name='ik_co_id', type='hidden', value='#{interkassa.ik_co_id}')
+                        input(name='ik_pm_no', type='hidden', value='#{currentTariff.name == tariff ? currentTariff.name + "::" + currentTariff.duration + "::" + user.id : tariff + "::" + tariffs[tariff].prices[0].time + "::" + user.id}')
+                        input(name='ik_am', type='hidden', value='#{currentTariff.name == tariff ? currentTariff.price : tariffs[tariff].prices[0].price}')
+                        input(name='ik_cur', type='hidden', value='#{interkassa.ik_cur}')
+                        input(name='ik_desc', type='hidden', value='#{"Тариф " + tariffs[tariff].name}')
+                        input(name='ik_ia_u', type='hidden', value='#{interkassa.ik_ia_u}')
+                        input(name='ik_ia_m', type='hidden', value='#{interkassa.ik_ia_m}')
                         input.btn.btn-danger(type='submit', value='Интеркасса')
 
-      //input#userId(type='hidden', value='#{user.id}')
+      input#userId(type='hidden', value='#{user.id}')
       script(src="/public/client/js/tariffPayment.js")
