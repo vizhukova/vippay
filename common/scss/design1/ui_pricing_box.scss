@@ -27,7 +27,7 @@
 }
 
 li.price_col:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
   z-index: 5;
   margin-bottom: 20px;
 }
@@ -62,7 +62,7 @@ li.price_col {
 }
 
 .price_col_body {
-  padding: 0px 27px;
+  padding: 0px 10px;
 }
 
 .pricing_box li.price_col {
@@ -137,7 +137,7 @@ li.price_col {
 }
 
 li.price_col.chosen {
-  transform: scale(1.2);
+  transform: scale(1.1);
   z-index: 5;
   margin-bottom: 20px;
 }

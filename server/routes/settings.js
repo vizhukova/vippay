@@ -180,8 +180,9 @@ router.put('/settings/tariff', function(req, res, next) {
     var newTariff = _.omit(req.body, ['_method']);
 
     newTariff.tariff_date = moment();
+    newTariff.tariff_payed = false;
     newTariff.id = +newTariff.id || req.clientObj.id;
-    newTariff.active = false;
+    //newTariff.active = false;
 
     UserController.setTariff(newTariff).then((result) => {
         res.send(result)

@@ -16,6 +16,7 @@ $('.price_col').on('click', function(e) {
         $(e.currentTarget).addClass('chosen');
         $(e.currentTarget).find('.payment').removeClass('hide');
 
+        chooseTariff($(e.currentTarget));
     }
 
 });
@@ -41,6 +42,8 @@ tariffSelect.on('change', function(e) {
         total.html(data.price.rub + " руб");
         perMonth.html((data.price.rub / data.time).toFixed(2) + " руб / мес");
 
+        chooseTariff(currentItem);
+
         yandex.find("input[name$='label']").attr('value', tariff + '::' + data.time + '::' + userId)
         yandex.find("input[name$='formcomment']").attr('value', tariff + '::' + data.time + '::' + userId)
         yandex.find("input[name$='short-dest']").attr('value', tariff + '::' + data.time + '::' + userId)
@@ -52,4 +55,14 @@ tariffSelect.on('change', function(e) {
         interkassa.find("input[name$='ik_am']").attr('value', data.price.uah)
 
     })
+
+function chooseTariff(currentItem) {
+
+        var tariff_name = $(currentItem).data('tariff');
+        var data = $(currentItem).find('.select').val();
+        data = data ? JSON.parse(data) : {};
+
+        ApiActions.put('/settings/tariff', {id: userId, tariff_name: tariff_name, tariff_duration: data.time});
+
+}
 

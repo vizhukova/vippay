@@ -5,7 +5,7 @@ var moment = require('moment');
 
 module.exports = function(req, res, next){
 
-    if( req.tariff && req.tariff.tariff_name ) {
+    if( req.tariff && req.tariff.tariff_name && req.subdomain != 'payment') {
 
         var today = moment();
         var end_tariff = moment(req.tariff.tariff_date).add(req.tariff.tariff_duration, 'months');
