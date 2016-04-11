@@ -104,9 +104,9 @@ module.exports = function(req, res, next){
            tariffs: newTariffSettings,
            currentTariff: currentTariff,
            tariffOutput: {
-               'start': `${(newTariffSettings['start'].prices[0].price.rub / newTariffSettings['start'].prices[0].time).toFixed(2) } руб / мес`,
-               'business': `${newTariffSettings['business'].prices[0].price.rub / newTariffSettings['business'].prices[0].time} руб / мес`,
-               'magnate': `${newTariffSettings['magnate'].prices[0].price.rub / newTariffSettings['magnate'].prices[0].time} руб / мес`
+               'start': `${(newTariffSettings['start'].prices[0].price.rub / tariffSettings['start'].prices[0].time).toFixed(2) } руб / мес`,
+               'business': `${newTariffSettings['business'].prices[0].price.rub / tariffSettings['business'].prices[0].time} руб / мес`,
+               'magnate': `${newTariffSettings['magnate'].prices[0].price.rub / tariffSettings['magnate'].prices[0].time} руб / мес`
            },
            yandex: yandex,
            interkassa: interkassa
