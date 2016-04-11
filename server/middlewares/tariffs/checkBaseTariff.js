@@ -10,14 +10,32 @@ module.exports = function(req, res, next){
         var today = moment();
         var end_tariff = moment(req.tariff.tariff_date).add(req.tariff.tariff_duration, 'months');
 
-        if( moment.max(today, end_tariff) == today ) {//if trial period end
+        if(!req.tariff.tariff_payed || moment.max(today, end_tariff) == today) {
 
-            req.tariff.active = false;
-            if(req.method != 'GET') {
-                res.status(402).send(); return;
+            if(!req.xhr){
+                res.render('error')
+            } else {
+                res.sendStatus(403);
             }
+
+            /*if( moment.max(today, end_tariff) == today) {//if trial period end
+
+                req.tariff.active = false;
+                if(req.method != 'GET') {
+                    res.status(402).send();
+            } else {
+                next();
+            }
+        } else {
+            next();
+        }*/
+
+        } else {
+            next();
         }
+
+    } else {
+        next();
     }
-    
-    next();
+
 };

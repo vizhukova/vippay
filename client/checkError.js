@@ -23,11 +23,6 @@ module.exports = {
                 break;
             }
             case 403: {
-                AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: error.responseText
-                }, true);
                 SettingsAction.setIsActive(false);
                 break;
             }

@@ -24,7 +24,7 @@ class InterKassa{
 
                 return OrderController.getById(order_id).then(function(order){
 
-                    //payment_data.ik_co_id = '56b498bb3d1eaf37148b4572';
+                    payment_data.ik_co_id = '57064bad3d1eaf67478b4570';
                     payment_data.ik_pm_no = order_id;
                     payment_data.ik_cur = _.findWhere(currency, {id: order.basic_currency_id}).name;
                     payment_data.ik_am = order.total_price_base_rate;
@@ -63,6 +63,7 @@ class InterKassa{
 
             CurrencyController.get().then((currency) => {
 
+                payment_data.ik_co_id = '57064bad3d1eaf67478b4570';
                 payment_data.ik_pm_no = `${user.id}::start::12`;
                 payment_data.ik_cur = 'RUB';
                 payment_data.ik_am = 2500;

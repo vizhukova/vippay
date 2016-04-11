@@ -9,7 +9,9 @@ var payments = require('../payment_systems/payment_systems');
 var email = require('../utils/email');
 var _ = require('lodash');
 var passport = require('passport');
-
+var getTariff = require('./../middlewares/tariffs/getTariff');
+var checkTrialTariff = require('./../middlewares/tariffs/checkTrialTariff');
+var checkBaseTariff = require('./../middlewares/tariffs/checkBaseTariff');
 
 router.post('/client/register', function (req, res, next) {
     Object.keys(req.body).map((k) => {
@@ -170,7 +172,7 @@ router.put('/partner/partner_fee', function (req, res, next) {
     });
 });
 
-router.get('/partnerlinks', function (req, res, next) {
+router.get('/partnerlinks', getTariff, checkTrialTariff, checkBaseTariff, function (req, res, next) {
     UserController.getPartnerLink({user_id: req.clientObj.id})
         .then(function (partnerLinks) {
             res.send(partnerLinks)
@@ -180,7 +182,7 @@ router.get('/partnerlinks', function (req, res, next) {
     });
 });
 
-router.get('/partnerlinks/:id', function (req, res, next) {
+router.get('/partnerlinks/:id', getTariff, checkTrialTariff, checkBaseTariff, function (req, res, next) {
     UserController.getPartnerLink({id: req.params.id})
         .then(function (partnerLink) {
             res.send(partnerLink[0])
@@ -190,7 +192,7 @@ router.get('/partnerlinks/:id', function (req, res, next) {
     });
 });
 
-router.post('/partnerlinks', function (req, res, next) {
+router.post('/partnerlinks', getTariff, checkTrialTariff, checkBaseTariff, function (req, res, next) {
 
     req.body.user_id = req.clientObj.id;
     req.body.materials = JSON.stringify(req.body.materials);
@@ -203,7 +205,7 @@ router.post('/partnerlinks', function (req, res, next) {
         });
 });
 
-router.put('/partnerlinks', function (req, res, next) {
+router.put('/partnerlinks', getTariff, checkTrialTariff, checkBaseTariff, function (req, res, next) {
 
     req.body.materials = JSON.stringify(req.body.materials);
     UserController.editPartnerLink(req.body)
@@ -215,7 +217,7 @@ router.put('/partnerlinks', function (req, res, next) {
         });
 });
 
-router.delete('/partnerlinks/:id', function (req, res, next) {
+router.delete('/partnerlinks/:id', getTariff, checkTrialTariff, checkBaseTariff, function (req, res, next) {
 
     UserController.removePartnerLink(req.params.id)
         .then(function (partnerLink) {

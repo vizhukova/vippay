@@ -89,6 +89,8 @@ passport.deserializeUser(function(id, done) {
 var timestamp = Date.now();
 var designClass = config.get('designClass');
 
+app.use(require('./routes/log'));
+
 app.get('/admin', getAdminData, function(req, res) {
 
     if(! req.admin) res.render('admin/login', {designClass: designClass, timestamp: timestamp});
@@ -123,7 +125,7 @@ app.get('/', redirect, function(req, res){
 
 });
 
-app.use(require('./routes/log'));
+
 app.use(require('./routes/api'));
 
 app.use(require('./routes/redirect'));

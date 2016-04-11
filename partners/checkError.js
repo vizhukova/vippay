@@ -23,7 +23,16 @@ module.exports = {
                 break;
             }
 
-                case 401: {
+            case 403: {
+                AlertActions.set({
+                    type: 'error',
+                    title: 'Ошибка',
+                    text: 'Такого партнера не зарегестрированно. Проверьте правильность введения данных или ссылку входа.'
+                }, true);
+                break;
+            }
+
+            case 401: {
                 window.location.replace(`${window.location.origin}/partner/#/auth`);
                 break;
             }
