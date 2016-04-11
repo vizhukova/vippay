@@ -68,12 +68,9 @@ class OrderItem extends React.Component {
         var notComplete = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
         var delivery = this.props.item.delivery;
         var comment = delivery.comment || '';
-        var products_name = '';
 
+        console.log('!!!!!!',this.props.item);
 
-        this.props.item.product.map((prod, index) => {
-            products_name += (index > 0 ? '+' : '') + prod.name;
-        });
 
         if(comment.length > this.state.commentLength) {
             comment = comment.slice(0, this.state.commentLength);
@@ -85,7 +82,7 @@ class OrderItem extends React.Component {
             <td>
                 {
                     this.props.item.product.map((item, index) => {
-                        return <span key={index}>{index > 0 ? '+' : ''}<a href='#' target="_blank">{item.name}</a></span>
+                        return <span key={index}>{index > 0 ? '+' : ''}<a href='#' target="_blank">{`${item.name}${item.quantity > 1 ? '('+ item.quantity +')': ''}`}</a></span>
                     })
                 }
                 <div>

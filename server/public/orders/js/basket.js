@@ -119,9 +119,11 @@ function finishPending(e) {
     var prod_id = [];
 
     basketItems.map((item) => {
+        item.product.quantity = item.quantity;
         product_array.push(item.product);
         prod_id.push(item.product.id);
     });
+
 
     data.product = product_array;
 

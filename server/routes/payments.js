@@ -92,7 +92,7 @@ router.post('/payments/interkassa', (req, res) => {
 
 
 
-    var data = req.body.ik_pm_no.split('::');
+    var data = req.body.ik_pm_no.split('-');
 
     if(data.length === 3){
 
