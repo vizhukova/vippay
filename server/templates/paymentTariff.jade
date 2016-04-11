@@ -57,6 +57,7 @@ html(lang='en')
                         input(name='ik_desc', type='hidden', value='#{"Тариф " + tariffs[tariff].name}')
                         input(name='ik_ia_u', type='hidden', value='#{interkassa.ik_ia_u}')
                         input(name='ik_ia_m', type='hidden', value='#{interkassa.ik_ia_m}')
+                        input(name='ik_cur', type='hidden', value='RUB')
                         input.btn.btn-danger(type='submit', value='Интеркасса')
 
       input#userId(type='hidden', value='#{user.id}')
