@@ -56,8 +56,9 @@ html
                                             input(type="hidden", name="id", value="#{u.id}")
 
                                             select.form-control(name="tariff_name", onchange="this.form.submit()")
+                                                option(selected = !u.tariff_name, disabled = true) Выберите тариф
                                                 each t in tariff_names
-                                                    option(value='#{t}', selected=u.tariff_name == t) #{tariffs[t].name}
+                                                    option(value = '#{t}', selected = u.tariff_name == t) #{tariffs[t].name}
 
                                             select.form-control(name="tariff_duration", onchange="this.form.submit()")
                                                 each price in tariffs[u.tariff_name || 'start'].prices

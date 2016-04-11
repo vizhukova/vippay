@@ -2,11 +2,9 @@
 node_modules/
 server/public/**/*.css
 server/public/**/*.js
-!server/public/orders/js/basket.js
-!server/public/orders/js/payment.js
-!server/public/orders/js/paymentSettings.js
-!server/public/orders/js/pending.js
+!server/public/orders/js/*.js
 !server/public/ajax.js
+!server/public/client/js/*.js
 server/config.json
 server/logs/
 *.pyc
