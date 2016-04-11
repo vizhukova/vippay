@@ -90,13 +90,53 @@ router.post('/payments/yandex', (req, res) => {
 
 router.post('/payments/interkassa', (req, res) => {
 
-    var id = +req.body.ik_pm_no;
 
-    OrderController.pay(id).then(() => {
-        res.send('ok')
-    }).catch((err) => {
-        res.status(500).send('Error');
-    })
+
+    var data = req.body.ik_pm_no.split('::');
+
+    if(data.length === 3){
+
+        var user_id = data[0];
+        var tariff_name = data[1];
+        var tariff_duration = data[2];
+
+        UserController.getById(user_id).then((user) => {
+
+            console.log('GET USER', user);
+
+            if(user.tariff_duration === tariff_duration && user.tariff_name === tariff_name){
+
+                console.log('PASS CHECK');
+
+                UserController.activateTariff(user_id).then(() => {
+
+                    res.send('ok');
+
+                })
+
+            }else{
+
+                console.log('CHECK DID NOT PASS');
+
+                res.status(500).send('Error')
+            }
+
+        }).catch((err) => {
+            console.log(err.stack);
+        })
+
+    }else{
+
+        var id = +req.body.ik_pm_no;
+
+        OrderController.pay(id).then(() => {
+            res.send('ok')
+        }).catch((err) => {
+            res.status(500).send('Error');
+        })
+    }
+
+
 
 });
 

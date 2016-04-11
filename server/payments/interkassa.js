@@ -55,6 +55,34 @@ class InterKassa{
 
     }
 
+    static getServiceData(user){
+
+        return new Promise((resolve, reject) => {
+
+            var payment_data = {};
+
+            CurrencyController.get().then((currency) => {
+
+                payment_data.ik_pm_no = `${user.id}::start::12`;
+                payment_data.ik_cur = _.findWhere(currency, {id: user.basic_currency}).name;
+                payment_data.ik_am = 2500;
+                payment_data.ik_desc = 'Тариф Старт' || '';
+                payment_data.ik_ia_u = 'http://payment.vippay.info/api/payments/interkassa';
+                payment_data.ik_ia_m = 'POST';
+                payment_data.action = 'https://sci.interkassa.com/';
+
+                resolve(payment_data);
+
+            }).catch((err) => {
+
+                reject(err);
+
+            })
+
+        })
+
+    }
+
 }
 
 module.exports = InterKassa;
