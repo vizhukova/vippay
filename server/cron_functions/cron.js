@@ -12,10 +12,12 @@ var checkEndOfTariff = require('./checkEndOfTariff');
 
    }).then(() => {
 
-       var a;
+       process.exit(1);
 
    }).catch(() => {
-       var a;
+
+       process.exit(0);
+
    })
 
 

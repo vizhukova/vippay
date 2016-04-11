@@ -141,6 +141,8 @@ class PromoForm extends React.Component {
             _.assign(this.state.promo, state);
         }
 
+        this.state.checkAll = this.state.products.length == this.state.promo.products.length;
+
         this.setState({});
     }
 
@@ -184,6 +186,7 @@ class PromoForm extends React.Component {
 	}
 
     update(state){
+        state.checkAll = state.products.length == state.promo.products.length;
         this.setState(state);
     }
 
