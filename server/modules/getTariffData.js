@@ -68,7 +68,7 @@ module.exports = function(req, res, next){
     }).then((toUahObj) => {
 
         var toUAH = toUahObj[0].result;
-        var newTariffSettings = _.clone(tariffSettings);
+        var newTariffSettings = JSON.parse(JSON.stringify(tariffSettings));
 
         Object.keys(tariffSettings).map((tariff) => {
 
