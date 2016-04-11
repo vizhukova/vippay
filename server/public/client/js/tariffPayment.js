@@ -47,8 +47,8 @@ tariffSelect.on('change', function(e) {
         yandex.find("input[name$='sum']").attr('value', data.price.rub)
 
 
-        interkassa.find("input[name$='ik_pm_no']").attr('value', tariff + '::' + data.time + '::' + userId)
-        interkassa.find("input[name$='ik_am']").attr('value', tariff + '::' + data.time + '::' + userId)
+        interkassa.find("input[name$='ik_pm_no']").attr('value', tariff + '-' + data.time + '-' + userId)
+        interkassa.find("input[name$='ik_am']").attr('value', tariff + '-' + data.time + '-' + userId)
         interkassa.find("input[name$='ik_am']").attr('value', data.price.uah)
 
     })
