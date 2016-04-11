@@ -23,7 +23,7 @@ html(lang='en')
                               td
                                   img(src='#{item.product.image}', width='100px', height='auto')
                               td #{item.product.name}
-                              td #{item.product.description}
+                              td #{item.product.description ? item.product.description.slice(0, 20) : ""}
                               td #{parseFloat(item.price_per_unit).toFixed(2)}
                               td #{item.quantity}
           .col-md-6
