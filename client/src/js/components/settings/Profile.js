@@ -147,19 +147,17 @@ class Profile extends React.Component {
                            onClick={this.onClick}
                     />
                 </fieldset>
-                <fieldset>
-                    <div className="boxed">
-                        <a className="btn btn-block" href={paymentDomain}> Выбор тарифа</a>
-                    </div>
-                </fieldset>
                 <div className="row-footer clearfix">
                     <input type="submit" className="btn btn-warning pull-left btn-submit" value="Сохранить"/>
                     <button type="button" className="btn btn-danger pull-right btn-submit" onClick={this.cancel}>
                         Отмена
                     </button>
                 </div>
-
             </form>
+
+             <div className="boxed col-md-12 text-center">
+                <a className="btn btn-block btn-md-7" href={paymentDomain}> Выбор тарифа</a>
+            </div>
 
         </div>
 

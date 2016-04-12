@@ -114,13 +114,20 @@ router.put('/product/:id', function(req, res, next){
 
 router.delete('/product/:id', function(req, res, next){
 
-    UpsellProductController.remove({upsell_id: req.params.id}).then((upsells) => {
+    UpsellProductController.getUpsells({product_id: req.params.id}).then((upsellProducts) => {
+
+        if(upsellProducts.length > 0) throw new Error('upsell_product_product_id_foreign');
+
+        return UpsellProductController.remove({upsell_id: req.params.id});
+
+    }).then((upsells) => {
 
         return ProductController.deleteProduct(req.params.id);
 
     }).then(function(id){
         res.send(id)
     }).catch(function(err){
+        if( !err.constraint) err.constraint = err.message;
         next(err);
         //res.status(400).send(err.errors)
     })

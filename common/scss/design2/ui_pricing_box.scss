@@ -1,6 +1,7 @@
 
 .price_item {
   border: solid 1px rgba(118, 120, 123, 0.18);
+  padding-bottom: 15px;
 }
 
 .pricing-box {
@@ -158,6 +159,12 @@ li.price_col.chosen {
       vertical-align: baseline;
       background: #fff;
     }
+  }
+}
+
+.payment {
+  input[type="submit"] {
+    width: 80%;
   }
 }
 
