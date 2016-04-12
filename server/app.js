@@ -109,6 +109,12 @@ app.get('/checkout', getTariffData, function(req, res) {
 
 });
 
+app.get('/success', function(req, res) {
+
+    res.render('success', {timestamp: timestamp});
+
+});
+
 app.get('/', redirect, function(req, res){
 
     if(req.user.role && (req.user.role != 'staff' && req.user.role != 'client')) {

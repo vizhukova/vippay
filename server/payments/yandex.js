@@ -34,6 +34,7 @@ class YandexMoney {
                 payment_data['need-fio'] = true;
                 payment_data['need-email'] = true;
                 payment_data.action = 'https://money.yandex.ru/quickpay/confirm.xml';
+                payment_data.successURL = `http://payment.vippay.info/success`;
 
                 return UserController.getById(user_id);
 
@@ -84,6 +85,7 @@ class YandexMoney {
                 payment_data.action = 'https://money.yandex.ru/quickpay/confirm.xml';
                 payment_data.receiver = _.findWhere(user.payment, {name: 'yandex'}).fields.receiver;
                 payment_data.sum = 2500;
+                payment_data.successURL = `http://payment.vippay.info/success`;
 
                 resolve(payment_data);
 

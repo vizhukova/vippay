@@ -151,3 +151,11 @@
   @import 'design2/ui_pricing_box';
 
 }
+
+.response-page {
+    img {
+        margin: 5% calc(50% - 250px);
+        width: 500px;
+        height: 400px;
+    }
+}
