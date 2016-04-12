@@ -33,6 +33,7 @@ class InterKassa{
                     payment_data.ik_ia_m = 'POST';
                     payment_data.action = 'https://sci.interkassa.com/';
                     payment_data.ik_suc_u = `http://payment.vippay.info/success`;
+                    payment_data. ik_suc_m = `GET`;
 
                     return UserController.getById(user_id);
 
@@ -73,6 +74,7 @@ class InterKassa{
                 payment_data.ik_ia_m = 'POST';
                 payment_data.action = 'https://sci.interkassa.com/';
                 payment_data.ik_suc_u = `http://payment.vippay.info/success`;
+                payment_data. ik_suc_m = `GET`;
 
                 resolve(payment_data);
 
