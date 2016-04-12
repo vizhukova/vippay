@@ -99,8 +99,8 @@ class List extends React.Component {
 
         if (!this.props.items) return;
         var self = this;
-        var items = this.props.items
-        //var items = this.props.items.slice((this.state.currentPage - 1) * this.state.perPage, ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
+        //var items = this.props.items
+        var items = this.props.items.slice((this.state.currentPage - 1) * this.state.perPage, ((this.state.currentPage - 1) * this.state.perPage + this.state.perPage));
         var pages = Math.ceil(this.props.items.length / this.state.perPage);
 
         var isPagination = pages > 1;
