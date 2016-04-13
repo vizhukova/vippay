@@ -82,7 +82,11 @@ class OrderItem extends React.Component {
             <td>
                 {
                     this.props.item.product.map((item, index) => {
-                        return <span key={index}>{index > 0 ? '+' : ''}<a href='#' target="_blank">{`${item.name}${item.quantity > 1 ? '('+ item.quantity +')': ''}`}</a></span>
+                        return <span key={index}>{index > 0 ? '+' : ''}
+                            <a href={item.product_link} target="_blank">
+                                {`${item.name}${item.quantity > 1 ? '('+ item.quantity +')': ''}`}
+                            </a>
+                        </span>
                     })
                 }
                 <div>
