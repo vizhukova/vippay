@@ -83,7 +83,7 @@ class Other_Sites extends React.Component {
                   quantity += item.quantity;
               });
 
-              a.innerHTML = quantity + ' ' + declOfNum( quantity, ['товар', 'товара', 'товаров'] );
+              a.innerHTML = quantity ? quantity + ' ' + declOfNum( quantity, ['товар', 'товара', 'товаров'] ) : '';
               a.setAttribute('href', "http://" + basket.dataset.domain + "/basket/" + basket_id);
 
           } else {
