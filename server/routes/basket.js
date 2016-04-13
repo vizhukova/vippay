@@ -142,12 +142,15 @@ router.get('/basket/product/:basket_id', function(req, res, next) {
 
 router.get('/basket', function(req, res, next) {
 
-    BasketController.get({customer_id: +req.cookies.id, step: 'pending'}).then((b) => {
+    var customer_id = req.cookies.id || 0;
+
+    BasketController.get({customer_id: +customer_id, step: 'pending'}).then((b) => {
 
         var basket = b[0] || {};
         return BasketProductController.getWithConvertToBaseCurr(basket.id || 0);
 
     }).then((b_p) => {
+
 
         res.send(b_p);
 

@@ -26,6 +26,7 @@ module.exports = function(req, res, next){
        b_p.rows.map((item) => {
            if (!item.product.image || item.product.image.indexOf('http://') == -1) {
                item.product.image = '/public/orders/images/noimage.png';
+               delete item.product.link_download;
            }
        });
 

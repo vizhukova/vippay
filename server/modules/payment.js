@@ -20,8 +20,20 @@ module.exports = function(req, res, next){
     
             order = o;
     
-            if(! order || order.client_id != client.id) throw new Error();
-            else  return InterKassa.getData(req.params.order_id, client.id)
+            if(! order || order.client_id != client.id) {
+                throw new Error();
+            }
+
+            else  {
+
+                order.product.map((product) => {
+
+                    delete product.link_download;
+
+                });
+
+                return InterKassa.getData(req.params.order_id, client.id)
+            }
     
         }).then((interkassa) => {
     

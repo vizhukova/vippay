@@ -26,6 +26,7 @@ module.exports = function(req, res, next){
 
          if(!product.image || product.image.indexOf('http://') == -1) {
               product.image = '/public/orders/images/noimage.png';
+              delete product.link_download;
          }
 
          return Currency.get();
