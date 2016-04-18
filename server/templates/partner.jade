@@ -8,5 +8,30 @@ html
 
   script(src="/public/partners/vendor.js?timestamp=#{timestamp}")
   script(src="/public/partners/build.js?timestamp=#{timestamp}")
-  script.
-    alert(document.cookie);
+
+  script(type='text/javascript').
+    console.log("--------iframe.jade worked")
+    window.onmessage = function (e) {
+
+      var data = JSON.parse(e.data);
+      var parent = window.parent;
+      var cookie = window.document.cookie;
+      var obj = {};
+
+      cookie.split(';').map(function(item) {
+
+        var res = item.split('=');
+        obj[res[0]] = res[1];
+
+       });
+
+
+      console.log("--------iframe.jade onmessage", e.data, e.origin, obj.id)
+
+      switch (data.method) {
+        case 'get':
+          var result = obj[data.key];
+          parent.postMessage({method: 'set', key: data.key, data: result}, "*");
+          break;
+      }
+    }

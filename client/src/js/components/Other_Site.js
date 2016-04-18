@@ -57,6 +57,15 @@ class Other_Sites extends React.Component {
 
     basket(e) {
 
+        var basket = document.getElementById('basket');
+        var basketPicDiv = document.createElement('div');
+        var quantityDiv = document.createElement('div');
+        var a = document.createElement('a');
+        var iframe = document.createElement('iframe');
+
+        iframe.src = "http://" + basket.dataset.domain + "/partner";
+        basket.appendChild(iframe);
+
          function getXmlHttp(){
           var xmlhttp;
           try {
@@ -80,12 +89,19 @@ class Other_Sites extends React.Component {
                 ? 2
                 : cases[ (number % 10 < 5) ? number % 10 : 5] ];
         }
+////////////////////////////////////////////////////////////////////////////////
+
+        window.onmessage = function(e) {
+            console.log(e.origin)
+            console.log('onmessage:', e.data);
+        }
 
 
-        var basket = document.getElementById('basket');
-        var basketPicDiv = document.createElement('div');
-        var quantityDiv = document.createElement('div');
-        var a = document.createElement('a');
+        var win = document.getElementsByTagName('iframe')[0].contentWindow;
+
+        win.postMessage(JSON.stringify({key: 'id', method: 'get'}), "*");
+
+////////////////////////////////////////////////////////////////////////////////
 
         basketPicDiv.setAttribute('class', 'basket-picture');
         quantityDiv.setAttribute('class', 'basket-quantity');
@@ -97,26 +113,6 @@ class Other_Sites extends React.Component {
         basket.appendChild(basketPicDiv);
         basket.appendChild(quantityDiv);
 
-        var iframe = document.createElement('iframe');
-        iframe.src = "http://" + basket.dataset.domain + "/partner";
-        basket.appendChild(iframe);
-
-        var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-        var obj = {};
-
-        iframeDocument.cookie.split(';').map(function(item)  {
-           var cookie = item.split('=');
-           obj[cookie[0]] = cookie[1];
-
-        });
-
-        if(obj.id) {
-            //document.cookie = "id=" + obj.id; //set customer id
-            this.setCookie('id', obj.id);
-        }
-
-        console.log('customer_id', obj)
-        console.log(basket.dataset.domain)
 
         var xmlhttp = getXmlHttp();
         xmlhttp.open("GET", "http://" + basket.dataset.domain + "/api/basket", true);
