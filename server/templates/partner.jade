@@ -10,28 +10,31 @@ html
   script(src="/public/partners/build.js?timestamp=#{timestamp}")
 
   script(type='text/javascript').
-    console.log("--------iframe.jade worked")
+    //console.log("--------iframe.jade worked")
     window.onmessage = function (e) {
 
       var data = JSON.parse(e.data);
       var parent = window.parent;
       var cookie = window.document.cookie;
+        //console.log('COOKIE', cookie)
       var obj = {};
 
       cookie.split(';').map(function(item) {
 
         var res = item.split('=');
-        obj[res[0]] = res[1];
+        obj[res[0].replace(' ', '')] = res[1];
 
        });
 
+      //console.log('OBJ', obj)
+      //console.log("--------iframe.jade onmessage", e.data, e.origin, location.href,  obj.id)
 
-      console.log("--------iframe.jade onmessage", e.data, e.origin, obj.id)
+        //alert(location.href)
 
       switch (data.method) {
         case 'get':
           var result = obj[data.key];
-          parent.postMessage({method: 'set', key: data.key, data: result}, "*");
+          parent.postMessage({method: 'get', key: data.key, data: result}, "*");
           break;
       }
     }

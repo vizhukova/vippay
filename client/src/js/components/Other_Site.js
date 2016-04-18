@@ -26,34 +26,6 @@ class Other_Sites extends React.Component {
         this.basket();
     }
 
-    setCookie(name, value, options) {
-        options = options || {};
-
-        var expires = options.expires;
-
-        if (typeof expires == "number" && expires) {
-            var d = new Date();
-            d.setTime(d.getTime() + expires * 1000);
-            expires = options.expires = d;
-        }
-        if (expires && expires.toUTCString) {
-            options.expires = expires.toUTCString();
-        }
-
-        value = encodeURIComponent(value);
-
-        var updatedCookie = name + "=" + value;
-
-        for (var propName in options) {
-            updatedCookie += "; " + propName;
-            var propValue = options[propName];
-            if (propValue !== true) {
-                updatedCookie += "=" + propValue;
-            }
-        }
-
-        document.cookie = updatedCookie;
-    }
 
     basket(e) {
 
@@ -61,10 +33,6 @@ class Other_Sites extends React.Component {
         var basketPicDiv = document.createElement('div');
         var quantityDiv = document.createElement('div');
         var a = document.createElement('a');
-        var iframe = document.createElement('iframe');
-
-        iframe.src = "http://" + basket.dataset.domain + "/partner";
-        basket.appendChild(iframe);
 
          function getXmlHttp(){
           var xmlhttp;
@@ -89,19 +57,6 @@ class Other_Sites extends React.Component {
                 ? 2
                 : cases[ (number % 10 < 5) ? number % 10 : 5] ];
         }
-////////////////////////////////////////////////////////////////////////////////
-
-        window.onmessage = function(e) {
-            console.log(e.origin)
-            console.log('onmessage:', e.data);
-        }
-
-
-        var win = document.getElementsByTagName('iframe')[0].contentWindow;
-
-        win.postMessage(JSON.stringify({key: 'id', method: 'get'}), "*");
-
-////////////////////////////////////////////////////////////////////////////////
 
         basketPicDiv.setAttribute('class', 'basket-picture');
         quantityDiv.setAttribute('class', 'basket-quantity');
@@ -114,30 +69,62 @@ class Other_Sites extends React.Component {
         basket.appendChild(quantityDiv);
 
 
-        var xmlhttp = getXmlHttp();
-        xmlhttp.open("GET", "http://" + basket.dataset.domain + "/api/basket", true);
-        xmlhttp.onreadystatechange = function(){
+////////////////////////////////////////////////////////////////////////////////
 
-          if (xmlhttp.status == 200) {
+        var iframe = document.createElement('iframe');
 
-              var products = xmlhttp.responseText == "" ? [] : JSON.parse(xmlhttp.responseText);
-              var basket_id = products[0] ? products[0].basket_id : undefined;
+        iframe.style.display = 'none';
+        iframe.src = "http://" + basket.dataset.domain + "/partner";
+        basket.appendChild(iframe);
 
-              var quantity = 0;
+        window.onmessage = function(e) {
+            console.log(e.origin)
+            console.log('onmessage:', e.data);
+            var customer_id = e.data.data;
 
-              products.map((item) => {
-                  quantity += item.quantity;
-              });
+            var xmlhttp = getXmlHttp();
 
-              a.innerHTML = quantity ? quantity + ' ' + declOfNum( quantity, ['товар', 'товара', 'товаров'] ) : '';
-              a.setAttribute('href', "http://" + basket.dataset.domain + "/basket/" + basket_id);
+            var str = "http://" + basket.dataset.domain + "/api/basket" + "?customer_id=" + customer_id;
+            console.log('STR', str)
 
-          } else {
-              //handleError(xmlhttp.statusText); // вызвать обработчик ошибки с текстом ответа
-          }
-        };
+            xmlhttp.open("GET", str, true);
+            xmlhttp.onreadystatechange = function(){
 
-        xmlhttp.send(null);
+              if (xmlhttp.status == 200) {
+
+                  var products = xmlhttp.responseText == "" ? [] : JSON.parse(xmlhttp.responseText);
+                  var basket_id = products[0] ? products[0].basket_id : undefined;
+
+                  var quantity = 0;
+
+                  products.map((item) => {
+                      quantity += item.quantity;
+                  });
+
+                  a.innerHTML = quantity ? quantity + ' ' + declOfNum( quantity, ['товар', 'товара', 'товаров'] ) : '';
+                  a.setAttribute('href', "http://" + basket.dataset.domain + "/basket/" + basket_id);
+
+              } else {
+                  //handleError(xmlhttp.statusText); // вызвать обработчик ошибки с текстом ответа
+              }
+            };
+
+            console.log("customer_id=" + customer_id);
+            //xmlhttp.send("customer_id=" + customer_id + "");
+            //xmlhttp.send("a=1&b=2");
+            xmlhttp.send(null);
+
+        }
+
+        iframe.onload = function(e) {
+
+            var win = document.getElementsByTagName('iframe')[0].contentWindow;
+            win.postMessage(JSON.stringify({key: 'id', method: 'get', data: ''}), "*");
+
+        }
+
+////////////////////////////////////////////////////////////////////////////////
+
     }
 
     render(){
