@@ -26,6 +26,35 @@ class Other_Sites extends React.Component {
         this.basket();
     }
 
+    setCookie(name, value, options) {
+        options = options || {};
+
+        var expires = options.expires;
+
+        if (typeof expires == "number" && expires) {
+            var d = new Date();
+            d.setTime(d.getTime() + expires * 1000);
+            expires = options.expires = d;
+        }
+        if (expires && expires.toUTCString) {
+            options.expires = expires.toUTCString();
+        }
+
+        value = encodeURIComponent(value);
+
+        var updatedCookie = name + "=" + value;
+
+        for (var propName in options) {
+            updatedCookie += "; " + propName;
+            var propValue = options[propName];
+            if (propValue !== true) {
+                updatedCookie += "=" + propValue;
+            }
+        }
+
+        document.cookie = updatedCookie;
+    }
+
     basket(e) {
 
          function getXmlHttp(){
@@ -67,6 +96,27 @@ class Other_Sites extends React.Component {
         basket.innerHTML = '';
         basket.appendChild(basketPicDiv);
         basket.appendChild(quantityDiv);
+
+        var iframe = document.createElement('iframe');
+        iframe.src = "http://" + basket.dataset.domain + "/partner";
+        basket.appendChild(iframe);
+
+        var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        var obj = {};
+
+        iframeDocument.cookie.split(';').map(function(item)  {
+           var cookie = item.split('=');
+           obj[cookie[0]] = cookie[1];
+
+        });
+
+        if(obj.id) {
+            //document.cookie = "id=" + obj.id; //set customer id
+            this.setCookie('id', obj.id);
+        }
+
+        console.log('customer_id', obj)
+        console.log(basket.dataset.domain)
 
         var xmlhttp = getXmlHttp();
         xmlhttp.open("GET", "http://" + basket.dataset.domain + "/api/basket", true);

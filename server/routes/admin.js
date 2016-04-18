@@ -68,8 +68,11 @@ router.post('/admin/partner/login', function (req, res, next) {
 
         var client = c[0];
 
-        res.cookie('token', jwt.encode({id: user.id, role: user.type}, 'secret'), {maxAge: 9000000000, domain: `.${req.postdomain}`});
+        if(user.active) {
+            res.cookie('token', jwt.encode({id: user.id, role: user.type}, 'secret'), {maxAge: 9000000000, domain: `.${req.postdomain}`});
+        }
         res.redirect(`http://${client.login}.${req.postdomain}/${user.login}`);
+
 
     }).catch((err) => {
 

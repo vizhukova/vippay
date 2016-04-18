@@ -45,7 +45,7 @@ router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, 
 
     }).then(() => {
 
-        res.cookie('id', customer.id, {maxAge: 9000000000, httpOnly: true});
+        res.cookie('id', customer.id, {maxAge: 9000000000});
         res.cookie('client_id', req.clientObj.id, {maxAge: 9000000000, httpOnly: true});
         var link = testLink(product.product_link) ? product.product_link : `http://${product.product_link}`;
         res.redirect(link)
