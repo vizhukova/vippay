@@ -69,8 +69,6 @@ class OrderItem extends React.Component {
         var delivery = this.props.item.delivery;
         var comment = delivery.comment || '';
 
-        console.log('!!!!!!',this.props.item);
-
 
         if(comment.length > this.state.commentLength) {
             comment = comment.slice(0, this.state.commentLength);

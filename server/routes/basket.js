@@ -47,7 +47,7 @@ router.put('/basket/:product_id', function(req, res, next) {
 
                  CustomerController.add({product_id: req.params.product_id}).then((new_customer) => {
 
-                     res.cookie('id', new_customer.id, {maxAge: 9000000000, httpOnly: true});
+                     res.cookie('id', new_customer.id, {maxAge: 9000000000});
                      resolve(new_customer)
 
                  }).catch((err) => {
