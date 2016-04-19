@@ -74,7 +74,7 @@ class CategoryForm extends React.Component {
     }
 
     editCategory() {
-        console.log('CATEGORY', this.state.category)
+        //console.log('CATEGORY', this.state.category)
         var self = this;
         if (! this.state.category.category || _.trim(this.state.category.category).length == 0) {
             AlertActions.set({

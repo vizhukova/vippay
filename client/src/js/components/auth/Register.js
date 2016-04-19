@@ -45,7 +45,7 @@ class Register extends React.Component {
 
         ApiActions.post('client/register', this.state)
 			.then(function(data){
-				console.log('Token: ' + data.token);
+				//console.log('Token: ' + data.token);
 				location.assign('http://' + data.domain)
 			})
     }

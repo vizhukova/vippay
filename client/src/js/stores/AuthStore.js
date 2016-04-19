@@ -22,7 +22,7 @@ class AuthStore {
     }
 
     onGetMe(user){
-        console.log('AuthStore user:', user);
+        //console.log('AuthStore user:', user);
         this.user = user;
     }
 

@@ -36,7 +36,7 @@ class SettingsStore {
     }
 
     onGetAll(state){
-        console.log('SettingsStore settings', state);
+        //console.log('SettingsStore settings', state);
         this.link = state.link;
         this.auth_domain = state.auth_domain;
         this.out_link = state.out_link;
@@ -44,19 +44,19 @@ class SettingsStore {
     }
 
     onGetAllCurrencies(currencies) {
-        console.log('SettingsStore currencies', currencies);
+        //console.log('SettingsStore currencies', currencies);
         this.currencies = currencies;
     }
 
 
     onSetBasicCurrency(currency) {
         this.basicCurrency = currency.id;
-        console.log('SettingsStore basicCurrency', currency.id);
+        //console.log('SettingsStore basicCurrency', currency.id);
     }
 
     onGetBasicCurrency(currency) {
         this.basicCurrency = currency.id;
-        console.log('SettingsStore basicCurrency', currency.id);
+        //console.log('SettingsStore basicCurrency', currency.id);
     }
 
     onAddRate(rate) {
@@ -65,7 +65,7 @@ class SettingsStore {
 
     onGetRate(rate) {
         this.rate = rate.sort((a, b) =>  a.from == b.from ? a.to - b.to : a.from - b.from );
-        console.log('SettingsStore rate = ', rate);
+       // console.log('SettingsStore rate = ', rate);
     }
 
     onGetBankRate(rate) {
@@ -74,27 +74,27 @@ class SettingsStore {
 
     onGetFee(obj) {
         this.fee = obj.fee;
-        console.log('SettingsStore fee = ', obj.fee);
+        //console.log('SettingsStore fee = ', obj.fee);
     }
 
     onEditFee(obj) {
         this.fee = obj.fee;
-        console.log('SettingsStore fee = ', obj.fee);
+        //console.log('SettingsStore fee = ', obj.fee);
     }
 
     onGetPayment(payment) {
         this.payment = payment;
-         console.log('SettingsStore payment = ', payment);
+         //console.log('SettingsStore payment = ', payment);
     }
 
     onEditPayment(payment) {
         this.payment = payment;
-         console.log('SettingsStore payment = ', payment);
+         //console.log('SettingsStore payment = ', payment);
     }
 
     onGetTariff(tariff) {
         this.tariff = tariff;
-        console.log('SettingStore tariff', tariff);
+        //console.log('SettingStore tariff', tariff);
 
         this.isBusinessTariff =  tariff.tariff_name === 'business';
 
@@ -106,12 +106,12 @@ class SettingsStore {
         if(tariff.tariff_date) end_tariff = moment(tariff.tariff_date).add(tariff.tariff_duration, 'months');
         else end_tariff = moment(tariff.created_at).add(3, 'days');
         this.isActiveTariff = moment.min(today, end_tariff) == today && tariff.tariff_payed;
-        console.log('SettingStore isActiveTariff', this.isActiveTariff)
+        //console.log('SettingStore isActiveTariff', this.isActiveTariff)
     }
 
     onSetTariff(tariff) {
         this.tariff = tariff;
-        console.log('SettingStore tariff', tariff)
+        //console.log('SettingStore tariff', tariff)
     }
 
     onSetIsActive(data) {

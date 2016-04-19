@@ -67,7 +67,7 @@ class PaymentItem extends React.Component {
 
 
     render() {
-        console.log(this.props.payment.active)
+        //console.log(this.props.payment.active)
         return <div className="">
             <div className="block boxed">
                 <div className="block-title">

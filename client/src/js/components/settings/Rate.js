@@ -126,7 +126,7 @@ class Rate extends React.Component {
         var res = [];
         var counter = 0;
         var uniqueBankRate = _.unique(self.state.bankRate, 'from');
-        console.log('Currencies', this.state.currencies)
+        //console.log('Currencies', this.state.currencies)
         return  <div>
 
                         <div className="boxed">

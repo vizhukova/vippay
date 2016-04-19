@@ -308,7 +308,7 @@ class AddItems extends React.Component {
     render(){
         var self = this;
         var ItemComponent = this.props.fieldsComponent;
-        console.log('AddForm render', this.state);
+        //console.log('AddForm render', this.state);
 
         return  <div role="form">
                   {this.props.isTitlePlus
@@ -364,7 +364,7 @@ class ProductForm extends React.Component {
 
         ProductsAction.getProductsForUpsell();
 
-        console.log('ProductForm - componentDidMount', this.state.product);
+        //console.log('ProductForm - componentDidMount', this.state.product);
 
         CategoriesStore.listen(this.update);
         ProductsStore.listen(this.update);
@@ -536,10 +536,10 @@ class ProductForm extends React.Component {
     render(){
         var self = this;
         var edit = this.props.params.prod_id;
-        console.log('ProductForm basicCurrency', this.state.basicCurrency);
+        //console.log('ProductForm basicCurrency', this.state.basicCurrency);
         if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
         var isEdit = !!this.props.params.id;
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!',this.state.product.upsell_id)
+        //console.log('!!!!!!!!!!!!!!!!!!!!!!!!!',this.state.product.upsell_id)
 
          return <form className="col-sm-7 form-ui table-wrapper">
 

@@ -15,7 +15,7 @@ class ApiActions{
 
         var BASE_URL = getDomain();
         var token = cookie.getCookie('token') || '';
-        console.log(window.location);
+        //console.log(window.location);
         return new Promise(function (resolve, reject) {
             $.ajax({
 

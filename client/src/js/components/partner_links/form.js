@@ -19,7 +19,7 @@ class AddMaterialFields extends React.Component {
          if(nextProps){
              this.setState(nextProps.materials);
          }
-        console.log('AddMaterialFields', this.state)
+        //console.log('AddMaterialFields', this.state)
     }
 
     onDel(e) {
@@ -82,7 +82,7 @@ class AddMaterials extends React.Component {
         if(nextProps.link.materials && nextProps.link.materials.length > 0) {
             _.assign(this.state, {materials: nextProps.link.materials});
         }
-        console.log('AddForm2', this.state)
+        //console.log('AddForm2', this.state)
     }
 
     onChange(state) {
@@ -126,7 +126,7 @@ class AddMaterials extends React.Component {
 
     render(){
         var self = this;
-        console.log('AddForm render', this.state);
+        //console.log('AddForm render', this.state);
 
         return  <div role="form">
                   <div className="btn boxed" onClick={this.onAdd}>Добавить материалы</div>
@@ -162,7 +162,7 @@ class LinkForm extends React.Component {
 
     componentDidMount() {
         var self = this;
-        console.log('PROOPS',this.props)
+        //console.log('PROOPS',this.props)
 
         if(!this.props.params.id) {
 
@@ -178,7 +178,7 @@ class LinkForm extends React.Component {
             PartnerLinksAction.getCurrent(this.props.params.id);
         }
 
-        console.log('ProductForm - componentDidMount', this.state.link)
+        //console.log('ProductForm - componentDidMount', this.state.link)
 
         PartnerLinksStore.listen(this.update);
     }

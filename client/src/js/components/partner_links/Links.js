@@ -67,7 +67,7 @@ class LinkItem extends React.Component {
         var available = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
         var notAvailable = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
 
-        console.log(this.state.isCommentCut)
+        //console.log(this.state.isCommentCut)
 
         var comment = this.props.item.description || '';
         var materials = this.props.item.materials || [];
