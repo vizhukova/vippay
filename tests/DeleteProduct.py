@@ -27,20 +27,21 @@ class DeleteProduct(unittest.TestCase, Helpers, AuthHelpers):
 
 
             {
-                'driver': 'http://111.vippay.test',
-                'email': '111',
+                'driver': 'http://auth.vippay.info',
+                'email': 'luna_tu@TempEMail.net',
                 'password': '111'
-            },
-            {
-                'driver': 'http://222.vippay.test',
-                'email': '222',
-                'password': '222'
-            },
-            {
-                'driver': 'http://333.vippay.test',
-                'email': '333',
-                'password': '333'
             }
+            # ,
+            # {
+            #     'driver': 'http://auth.vippay.test',
+            #     'email': '222',
+            #     'password': '222'
+            # },
+            # {
+            #     'driver': 'http://auth.vippay.test',
+            #     'email': '333',
+            #     'password': '333'
+            # }
 
             ]
 
@@ -51,12 +52,21 @@ class DeleteProduct(unittest.TestCase, Helpers, AuthHelpers):
             driver.implicitly_wait(5)
             category = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[1]/a')
             category.click()
-            new_categories = driver.find_elements_by_class_name('category-link')
+            all_categories = driver.find_elements_by_class_name('category-link')
+            i = 0
+            for elem_category in all_categories:
+                all_categories = driver.find_elements_by_class_name('category-link')
+                all_categories[i].click()
 
-            for elem_category in new_categories:
 
-                elem_category.click()
                 self.delete_product(elem_category, driver)
+
+                category = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[1]/a')
+                category.click()
+                i += 1
+
+
+
             self.logout()
 
     def tearDown(self):
