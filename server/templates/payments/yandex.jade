@@ -7,7 +7,6 @@ form#yandex.hide(method='POST', action='#{payments.yandex.action}')
         input(type='hidden', name='label', value='#{payments.yandex.label}')
         input(type='hidden', name='targets', value='#{payments.yandex.targets}')
         input(type='hidden', name='quickpay-form', value='donate')
-        input(type='hidden', name='paymentType', value='')
         input(type='hidden', name='sum', value='#{payments.yandex.sum}', data-type='number')
         input(type='hidden', name='successURL', value='#{payments.yandex.successURL}')
         label
