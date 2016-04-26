@@ -18,7 +18,7 @@ class PartnerLinksStore {
 
     onGet(links){
         this.links = links;
-        console.log('PartnerLinksStore links: ', links);
+        //console.log('PartnerLinksStore links: ', links);
     }
 
     onAdd(link) {

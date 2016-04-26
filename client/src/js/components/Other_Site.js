@@ -78,14 +78,14 @@ class Other_Sites extends React.Component {
         basket.appendChild(iframe);
 
         window.onmessage = function(e) {
-            console.log(e.origin)
-            console.log('onmessage:', e.data);
+            //console.log(e.origin)
+            //console.log('onmessage:', e.data);
             var customer_id = e.data.data;
 
             var xmlhttp = getXmlHttp();
 
             var str = "http://" + basket.dataset.domain + "/api/basket" + "?customer_id=" + customer_id;
-            console.log('STR', str)
+            //console.log('STR', str)
 
             xmlhttp.open("GET", str, true);
             xmlhttp.onreadystatechange = function(){
@@ -109,7 +109,7 @@ class Other_Sites extends React.Component {
               }
             };
 
-            console.log("customer_id=" + customer_id);
+            //console.log("customer_id=" + customer_id);
             //xmlhttp.send("customer_id=" + customer_id + "");
             //xmlhttp.send("a=1&b=2");
             xmlhttp.send(null);

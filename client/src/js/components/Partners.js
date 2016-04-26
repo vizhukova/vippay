@@ -199,7 +199,7 @@ class Partners extends React.Component {
 
     render(){
         var self = this;
-        console.log(this.state.partners)
+        //console.log(this.state.partners)
         return  <div>
                 <div className="boxed">
                     <h4>Партнер, которому будут перчисляться бонусы</h4>

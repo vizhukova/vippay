@@ -31,7 +31,7 @@ class ProductItem extends React.Component {
     }
 
     render() {
-        console.log(this.props.checked)
+        //console.log(this.props.checked)
         return  <label>
                     <input type="checkbox" name="product" checked={this.props.checked != -1} onChange={this.onChange}/>
                     {this.props.item.name}
@@ -193,7 +193,7 @@ class PromoForm extends React.Component {
     render(){
 
         var self = this;
-        console.log('checkAll', this.state.checkAll)
+        //console.log('checkAll', this.state.checkAll)
 
         return  <div className="col-sm-7 form-ui boxed">
             <form className="">

@@ -5,7 +5,6 @@ var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 var moment = require('moment');
-
 module.exports = {
 
     register(data){

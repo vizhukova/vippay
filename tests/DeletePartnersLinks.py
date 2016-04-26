@@ -53,8 +53,8 @@ class DeletePartnersLinks(unittest.TestCase, Helpers, AuthHelpers):
             partners_links = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul[1]/li[2]/ul/li[3]/a')
             partners_links.click()
 
-            for i in xrange(3):
-                self.delete_partners_links()
+
+            self.delete_partners_links()
             self.logout()
 
 

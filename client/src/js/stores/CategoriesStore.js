@@ -30,10 +30,10 @@ class CategoriesStore {
     onAddNewCat(category){
         var self = this;
         if(category instanceof Error) {
-            console.log(JSON.parse(category.message).category);
+            //console.log(JSON.parse(category.message).category);
                 JSON.parse(category.message).category
                 .forEach(function(i){
-                    console.log(i)
+                    //console.log(i)
                 })
         } else {
             this.categories.push({category: category.category, id: category.id});
@@ -43,7 +43,7 @@ class CategoriesStore {
 
     onEditCategory(category) {
         if(category instanceof Error) {
-            console.log(JSON.parse(category.message).category);
+            //console.log(JSON.parse(category.message).category);
                 JSON.parse(category.message).category
                 .forEach(function(i){alert(i)})
         } else {
@@ -55,7 +55,7 @@ class CategoriesStore {
 
     onGetCurrentCat(categoryObj) {
         this.category = categoryObj;
-        console.log(categoryObj)
+        //console.log(categoryObj)
     }
 
     onDeleteCat(category) {

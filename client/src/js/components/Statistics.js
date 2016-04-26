@@ -21,7 +21,7 @@ class Statistics extends React.Component {
     }
 
     update(state) {
-        console.log(state)
+        //console.log(state)
         this.setState(state)
     }
 

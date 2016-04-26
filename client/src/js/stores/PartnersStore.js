@@ -36,7 +36,7 @@ class PartnersStore {
     }
 
     onSetFee(fee) {
-        console.log('SetFee', fee);
+        //console.log('SetFee', fee);
         var index = _.findIndex(this.partners, {id: fee.partner_id});
         if(index >= 0)this.partners[index].fee = fee;
 
@@ -44,12 +44,12 @@ class PartnersStore {
 
     onGetPartnerQuery(data) {
         this.partner_query = data.partner_query;
-        console.log('PartnersStore onGetPartnerQuery', data)
+        ///console.log('PartnersStore onGetPartnerQuery', data)
     }
 
     onEditFeeQuery(data) {
         this.partner_query = data.partner_query;
-        this.partner_query = data.partner_query;console.log('PartnersStore onEditFeeQuery', data)
+        this.partner_query = data.partner_query;//console.log('PartnersStore onEditFeeQuery', data)
 
     }
 

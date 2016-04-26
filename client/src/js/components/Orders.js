@@ -143,14 +143,14 @@ class Orders extends React.Component {
     }
 
     update(state) {
-        console.log(state)
+        //console.log(state)
         this.setState(state);
     }
 
     onChange(e) {
         var state = {}
         state[e.target.name] = e.target.value;
-        console.log(state)
+        //console.log(state)
         _.assign(this.state, state);
         this.setState({});
     }

@@ -5,6 +5,7 @@ var CustomerController = require('./../controllers/Customer');
 var BasketController = require('./../controllers/Basket');
 var BasketProductController = require('./../controllers/BasketProduct');
 var ProductController = require('./../controllers/Product');
+var UserController = require('./../controllers/User');
 var _ = require('lodash');
 var Promise = require('bluebird');
 
@@ -28,14 +29,21 @@ router.put('/basket/:product_id', function(req, res, next) {
     var customer;
     var basket;
     var product;
+    var user;
 
-    ProductController.get({id: req.params.product_id, user_id: req.clientObj.id}).then((p) => {
+    UserController.getByData({login: req.subdomain}).then((u) => {
 
-        product = p[0];
+        user = u[0];
 
-        if( !product || !product.active ) throw new Error();
+        return ProductController.get({id: req.params.product_id, user_id: user.id});
 
-        return CustomerController.get(req.cookies.id)
+    }).then((p) => {
+
+            product = p[0];
+
+            if( !product || !product.active ) throw new Error();
+
+            return CustomerController.get(req.cookies.id)
 
     }).then((c) => {
 
@@ -66,7 +74,7 @@ router.put('/basket/:product_id', function(req, res, next) {
 
         customer = c;
 
-        return BasketController.get({customer_id: customer.id, client_id: req.clientObj.id, step: 'pending'});
+        return BasketController.get({customer_id: customer.id, client_id: user.id, step: 'pending'});
 
     }).then((b) => {
 
@@ -76,7 +84,7 @@ router.put('/basket/:product_id', function(req, res, next) {
 
              if(! basket) {
 
-                 BasketController.add({customer_id: customer.id, client_id: req.clientObj.id, step: 'pending'}).then((new_basket) => {
+                 BasketController.add({customer_id: customer.id, client_id: user.id, step: 'pending'}).then((new_basket) => {
                      resolve(new_basket.attributes)
                  }).catch((err) => {
                      reject(err);
@@ -117,7 +125,7 @@ router.put('/basket/:product_id', function(req, res, next) {
 
     }).then((b_c) => {
 
-        res.redirect(`http://${req.clientObj.login}.${req.postdomain}/basket/${basket.id}`);
+        res.redirect(`http://${user.login}.${req.postdomain}/basket/${basket.id}`);
 
     }).catch((err) => {
 
@@ -143,8 +151,15 @@ router.get('/basket/product/:basket_id', function(req, res, next) {
 router.get('/basket', function(req, res, next) {
 
     var customer_id = req.query.customer_id || 0;
+    var user;
 
-    BasketController.get({customer_id: +customer_id, step: 'pending', client_id: req.clientObj.id}).then((b) => {
+    UserController.getByData({login: req.subdomain}).then(() => {
+
+        user = u[0];
+
+        return BasketController.get({customer_id: +customer_id, step: 'pending', client_id: user.id})
+
+    }).then((b) => {
 
         var basket = b[0] || {};
         return BasketProductController.getWithConvertToBaseCurr(basket.id || 0);

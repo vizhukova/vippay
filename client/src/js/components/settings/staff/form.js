@@ -46,7 +46,7 @@ class formStaff extends React.Component {
 
     componentWillUnmount() {
         StaffStore.unlisten(this.update);
-        console.log(StaffStore.getState())
+        //console.log(StaffStore.getState())
     }
 
     update(state) {

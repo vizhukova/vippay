@@ -18,7 +18,7 @@ class OrdersStore {
         /*orders.map((order) => {
             order.product = _.findWhere(order.product, {id: +order.product_id});
         })*/
-        console.log('OrdersStore orders:', orders);
+        //console.log('OrdersStore orders:', orders);
     }
 
     setComplete(order) {
