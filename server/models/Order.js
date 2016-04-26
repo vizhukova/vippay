@@ -73,10 +73,28 @@ var Order = bookshelf.Model.extend({
     }),
 
     pay(id){
-            return knex('orders')
+
+        return new Promise((resolve, reject) => {
+
+            var order;
+            var links;
+
+            knex('orders')
             .update({'step': 'complete'})
             .where('id', id)
-            .returning('*');
+            .returning('*').then((o) => {
+                order = o;
+
+                var ids = o.products.map((p) => p.id);
+
+                knex('products').select('link_download').where({material: false}).then((l) => {
+                    links = l;
+                    resolve({order: order, links: links});
+                })
+
+            })
+
+        });
     },
 
     edit(data) {

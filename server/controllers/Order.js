@@ -105,15 +105,16 @@ module.exports = {
            Order.pay(id).then((o) => {
 
                var text;
+               var links = o.links;
 
-               order = o[0];
+               order = o.order;
 
-                if(order.product.material){
+                if(order.product[0].material){
                     text = 'Спасибо за оплату заказа. Оплата прошла успешно';
                 }else{
                     text = `Спасибо за оплату заказа. Оплата прошла успешно. Ссылка на товар: `;
-                    order.product.map((product) => {
-                        text += `${product.link_download}`;
+                    links.map((link_download) => {
+                        text += `${link_download}`;
                     })
                 }
 
