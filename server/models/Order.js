@@ -83,7 +83,7 @@ var Order = bookshelf.Model.extend({
             .update({'step': 'complete'})
             .where('id', id)
             .returning('*').then((o) => {
-                order = o;
+                order = o[0];
 
                 var ids = o.product.map((p) => p.id);
 
