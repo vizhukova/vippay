@@ -11,11 +11,11 @@ form#yandex.hide(method='POST', action='#{payments.yandex.action}')
         input(type='hidden', name='sum', value='#{payments.yandex.sum}', data-type='number')
         input(type='hidden', name='successURL', value='#{payments.yandex.successURL}')
         label
-          input(type='radio', onclick='{clickYandex("money")}', name='paymentType', value='PC')
+          input(type='radio', name='paymentType', value='PC')
           |                     Яндекс.Деньгами
         br
         label
-          input(type='radio', onclick='{clickYandex("card")}', name='paymentType', value='AC')
+          input(type='radio', name='paymentType', value='AC')
           |                     Банковской картой
         br
         input.btn(type='submit', value='Оплатить')
