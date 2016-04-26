@@ -85,7 +85,7 @@ var Order = bookshelf.Model.extend({
             .returning('*').then((o) => {
                 order = o[0];
 
-                var ids = o.product.map((p) => p.id);
+                var ids = order.product.map((p) => p.id);
 
                 knex('products').select('link_download').where({material: false}).andWhere('id', 'in', ids).then((l) => {
                     links = l;
