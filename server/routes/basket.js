@@ -153,7 +153,7 @@ router.get('/basket', function(req, res, next) {
     var customer_id = req.query.customer_id || 0;
     var user;
 
-    UserController.getByData({login: req.subdomain}).then(() => {
+    UserController.getByData({login: req.subdomain}).then((u) => {
 
         user = u[0];
 

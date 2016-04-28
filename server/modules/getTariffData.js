@@ -7,6 +7,7 @@ var Currency =  require("./../models/Currency");
 var BankRate =  require("./../models/BankRate");
 var Interkassa =  require("./../payments/interkassa");
 var Yandex =  require("./../payments/yandex");
+var Liqpay =  require("./../payments/liqpay");
 
 module.exports = function(req, res, next){
 
@@ -14,6 +15,7 @@ module.exports = function(req, res, next){
     var currentTariff = {};
     var interkassa = {};
     var yandex = {};
+    var liqpay = {};
     var uah;
     var rub;
 
@@ -55,7 +57,15 @@ module.exports = function(req, res, next){
 
     }).then((y) => {
 
-        yandex = y;
+         yandex = y;
+
+        /*return Promise.map(() => {
+
+        })*/
+
+    }).then((l) => {
+
+        //yandex = y;
         return Currency.get();
 
     }).then((currencies) => {

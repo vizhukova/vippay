@@ -18,7 +18,7 @@ class AuthActions {
 
             }).catch(function(err){
                 self.dispatch(false);
-                reject(err);
+                reject(new Error(err.responseText));
 
             })
         })

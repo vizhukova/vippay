@@ -5,6 +5,7 @@ env.roledefs['stage'] = ['root@188.166.116.177']
 
 project_root = '/var/www/vippay'
 
+
 def prepare_branch():
     local('git checkout master')
     local('git push -u origin master')
@@ -12,7 +13,7 @@ def prepare_branch():
 
 def update_code():
     with(cd(project_root)):
-	run('git stash')
+        run('git stash')
         run('git checkout master')
         run('git pull')
 

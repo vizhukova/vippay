@@ -2,6 +2,7 @@ var basket = document.getElementById('basket');
 var basketPicDiv = document.createElement('div');
 var quantityDiv = document.createElement('div');
 var a = document.createElement('a');
+var span = document.createElement('span');
 
  function getXmlHttp(){
   var xmlhttp;
@@ -30,8 +31,10 @@ function declOfNum(number, titles) {
 basketPicDiv.setAttribute('class', 'basket-picture');
 quantityDiv.setAttribute('class', 'basket-quantity');
 a.setAttribute('href', '#');
+span.innerHTML = '0 товаров';
 
 quantityDiv.appendChild(a);
+quantityDiv.appendChild(span);
 
 basket.innerHTML = '';
 basket.appendChild(basketPicDiv);
@@ -48,7 +51,6 @@ window.onmessage = function(e) {
 
     var customer_id = e.data.data;
     var xmlhttp = getXmlHttp();
-
     var str = "http://" + basket.dataset.domain + "/api/basket" + "?customer_id=" + customer_id;
 
     xmlhttp.open("GET", str, true);
@@ -61,17 +63,19 @@ window.onmessage = function(e) {
 
           var quantity = 0;
 
-          products.map((item) => {
+          products.map( function(item) {
               quantity += item.quantity;
           });
-
+          span.innerHTML = '';
           a.innerHTML = quantity ? quantity + ' ' + declOfNum( quantity, ['товар', 'товара', 'товаров'] ) : '';
           a.setAttribute('href', "http://" + basket.dataset.domain + "/basket/" + basket_id);
 
       } else {
-
+          span.innerHTML = '0 товаров';
+          a.innerHTML = '';
       }
     };
+
     xmlhttp.send(null);
 
 }
@@ -82,3 +86,4 @@ iframe.onload = function(e) {
     win.postMessage(JSON.stringify({key: 'id', method: 'get', data: ''}), "*");
 
 }
+

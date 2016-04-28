@@ -3,7 +3,7 @@ import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore';
 import AlertActions from'./../../../../../common/js/Alert/AlertActions';
 import Select from'./../../../../../common/js/Select';
-import Yandex from'./../../../../../orders/src/js/components/Yandex';
+import Yandex from'./../../../../../common/js/Yandex';
 import _ from 'lodash';
 import moment from 'moment';
 

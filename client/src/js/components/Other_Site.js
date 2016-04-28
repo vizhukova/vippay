@@ -33,6 +33,7 @@ class Other_Sites extends React.Component {
         var basketPicDiv = document.createElement('div');
         var quantityDiv = document.createElement('div');
         var a = document.createElement('a');
+        var span = document.createElement('span');
 
          function getXmlHttp(){
           var xmlhttp;
@@ -61,8 +62,10 @@ class Other_Sites extends React.Component {
         basketPicDiv.setAttribute('class', 'basket-picture');
         quantityDiv.setAttribute('class', 'basket-quantity');
         a.setAttribute('href', '#');
+        span.innerHTML = '0 товаров';
 
         quantityDiv.appendChild(a);
+        quantityDiv.appendChild(span);
 
         basket.innerHTML = '';
         basket.appendChild(basketPicDiv);
@@ -79,7 +82,7 @@ class Other_Sites extends React.Component {
 
         window.onmessage = function(e) {
             //console.log(e.origin)
-            //console.log('onmessage:', e.data);
+            console.log('onmessage:', e.data);
             var customer_id = e.data.data;
 
             var xmlhttp = getXmlHttp();
@@ -97,14 +100,16 @@ class Other_Sites extends React.Component {
 
                   var quantity = 0;
 
-                  products.map((item) => {
+                  products.map( function(item) {
                       quantity += item.quantity;
                   });
-
+                  span.innerHTML = '';
                   a.innerHTML = quantity ? quantity + ' ' + declOfNum( quantity, ['товар', 'товара', 'товаров'] ) : '';
                   a.setAttribute('href', "http://" + basket.dataset.domain + "/basket/" + basket_id);
 
               } else {
+                  span.innerHTML = '0 товаров';
+                  a.innerHTML = '';
                   //handleError(xmlhttp.statusText); // вызвать обработчик ошибки с текстом ответа
               }
             };
@@ -118,6 +123,7 @@ class Other_Sites extends React.Component {
 
         iframe.onload = function(e) {
 
+            console.log('iframe loaded')
             var win = document.getElementsByTagName('iframe')[0].contentWindow;
             win.postMessage(JSON.stringify({key: 'id', method: 'get', data: ''}), "*");
 

@@ -23,7 +23,7 @@ window.onload = function() {
 
                 descriptionContainer.removeClass('hide');
 
-                if(item.name == 'yandex' || item.name == 'interkassa') {
+                if(item.name == 'yandex' || item.name == 'interkassa' || item.name == 'liqpay') {
 
                     hidePaymentSettingsItems(item.name);
                 }
@@ -54,16 +54,4 @@ function hidePaymentSettingsItems(name) {
 
     })
 
-}
-
-function clickYandex(method) {
-
-    if(method == 'money') {
-
-    }
-
-    else if(method == 'card') {
-
-
-    }
 }

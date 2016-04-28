@@ -4,7 +4,9 @@ import Staff from './auth/Staff';
 import Register from './auth/Register';
 import AlertActions from './../../../../common/js/Alert/AlertActions';
 
-
+/**
+ * Component for login/register form for client/staff
+ */
 class Auth extends React.Component {
 
     constructor() {

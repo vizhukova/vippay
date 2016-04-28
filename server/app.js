@@ -52,40 +52,6 @@ app.use(getInterkassaId);
 app.use(checkStaffAccess);
 app.use(redirect);
 
-
-/*var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
-app.use(session({ secret: 'anything' }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash({ locals: 'flash' }));
-
-passport.use('userLogin', new LocalStrategy(
-  function(req, login, password, done) {
-
-      User.login({
-          email: req.body.email,
-          password:  req.body.password
-      }).then((user) => {
-            console.log('111111111111111111111111111111111111')
-            console.log(user)
-          return done(null, user);
-
-      })
-  }
-));
-
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});*/
-
-
 var timestamp = Date.now();
 var designClass = config.get('designClass');
 

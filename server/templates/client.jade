@@ -11,3 +11,25 @@ html
   script(src="/public/client/vendor.js?timestamp=#{timestamp}")
   script(src="/public/client/build.js?timestamp=#{timestamp}")
 
+  script(type='text/javascript').
+    window.onmessage = function (e) {
+
+      var data = JSON.parse(e.data);
+      var parent = window.parent;
+      var cookie = window.document.cookie;
+      var obj = {};
+
+      cookie.split(';').map(function (item) {
+
+        var res = item.split('=');
+        obj[res[0].replace(' ', '')] = res[1];
+
+      });
+
+      switch (data.method) {
+        case 'get':
+          var result = obj[data.key];
+          parent.postMessage({method: 'get', key: data.key, data: result}, "*");
+          break;
+      }
+    }

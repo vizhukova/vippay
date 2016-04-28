@@ -7,7 +7,7 @@ var CurrencyController = require('../controllers/Currency');
 var Rate = require('./../models/Rate');
 var _ = require('lodash');
 var liqpay_module = require('./liqpay_lib');
-var liqpay = new LiqPay('i54801282901', '55bTuXm3vHSaTAQfs3qRmTubY453pVqyk3ifJr6f');
+var liqpay = new liqpay_module('i54801282901', '55bTuXm3vHSaTAQfs3qRmTubY453pVqyk3ifJr6f');
 
 
 class LiqPay {
@@ -59,7 +59,7 @@ class LiqPay {
                 /*order.product.map((p) => payment_data.sum += +p.price);
                 payment_data.sum *= data.result;*/
 
-                var info = liqpay_module.data_for_form(payment_data);
+                var info = liqpay.data_for_form(payment_data);
 
                 resolve(info);
             }).catch((err) => {
@@ -93,7 +93,7 @@ class LiqPay {
 
             });
 
-        var data = liqpay_module.data_for_form(payment_data);
+        var data = liqpay.data_for_form(payment_data);
 
         resolve(data);
 

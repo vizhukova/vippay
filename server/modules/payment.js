@@ -3,6 +3,7 @@ var User = require('./../models/Users');
 
 var InterKassa = require('./../payments/interkassa');
 var Yandex = require('./../payments/yandex');
+var LiqPay = require('./../payments/liqpay');
 
 var _ = require('lodash');
 
@@ -32,19 +33,26 @@ module.exports = function(req, res, next){
 
                 });
 
-                return InterKassa.getData(req.params.order_id, client.id)
+                return InterKassa.getData(+req.params.order_id, +client.id)
             }
     
         }).then((interkassa) => {
     
             payments.interkassa = interkassa;
     
-            return Yandex.getData(req.params.order_id, client.id);
+            return Yandex.getData(+req.params.order_id, +client.id);
     
         }).then((yandex) => {
+
+            payments.yandex = yandex;
+
+            return LiqPay.getData(+req.params.order_id, +client.id);
+
+
+        }).then((liqpay) => {
     
-           payments.yandex = yandex;
-    
+            payments.liqpay = liqpay;
+
             return User.getPayment(client.id);
     
         }).then((p) => {

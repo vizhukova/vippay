@@ -5,9 +5,9 @@ import { Router, Route, IndexRoute, Link } from 'react-router';
 import _  from 'lodash';
 
 import Materials from './../../../client/src/js/components/Materials';
-import Upsells from './../../../orders/src/js/components/Upsells';
-import Message from './../../../orders/src/js/components/Message';
-import MessageError from './../../../orders/src/js/components/MessageError';
+//import Upsells from './../../../orders/src/js/components/Upsells';
+//import Message from './../../../orders/src/js/components/Message';
+//import MessageError from './../../../orders/src/js/components/MessageError';
 
 
 class ModalWindow extends React.Component {
@@ -15,10 +15,10 @@ class ModalWindow extends React.Component {
     constructor() {
         super();
         this.components = {
-            'Materials': Materials,
-            'Upsells': Upsells,
-            'Message': Message,
-            'MessageError': MessageError
+            'Materials': Materials
+            //'Upsells': Upsells,
+            //'Message': Message
+            //'MessageError': MessageError
         }
         this.state = ModalStore.getState();
         this.update = this.update.bind(this);

@@ -1,6 +1,4 @@
-import React from 'react'
-import OrdersStore from'./../stores/OrdersStore'
-import OrderActions from'./../actions/OrdersActions'
+import React from 'react';
 
 class Yandex extends React.Component {
 
@@ -37,6 +35,5 @@ class Yandex extends React.Component {
     }
 }
 
-//type="hidden"
 
 export default Yandex;
