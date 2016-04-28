@@ -1,0 +1,4 @@
+form#liqpay-btn(method='POST', action='https://www.liqpay.com/api/checkout', style='display:none;')
+      input(type='hidden', name='data', value='#{payment.data}')
+      input(type='hidden', name='signature', value='#{payment.signature}')
+      input(type='image', src='//static.liqpay.com/buttons/p1ru.radius.png', name='btn_text')

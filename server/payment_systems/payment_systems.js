@@ -11,5 +11,12 @@ module.exports = [{
     fields: {
         'receiver': ''
     }
+},{
+    name: 'liqpay',
+    active: false,
+    fields: {
+        'private_key': '',
+        'public_key': ''
+    }
 }];
 
