@@ -152,4 +152,57 @@ router.post('/payments/interkassa', (req, res) => {
 });
 
 
+router.post('/payments/liqpay/:id', (req, res) => {
+
+    console.log(req.params);
+
+    var data = req.params.id.split('-');
+
+    if(data.length === 3){
+
+        console.log('PAY TARIFF');
+
+        var user_id = data[0];
+        var tariff_name = data[1];
+        var tariff_duration = data[2];
+
+        UserController.getById(user_id).then((user) => {
+
+            console.log('GET USER', user);
+
+            if(user.tariff_duration === tariff_duration && user.tariff_name === tariff_name){
+
+                console.log('PASS CHECK');
+
+                UserController.activateTariff(user_id).then(() => {
+
+                    res.send('ok');
+
+                })
+
+            }else{
+
+                console.log('CHECK DID NOT PASS');
+
+                res.status(500).send('Error')
+            }
+
+        }).catch((err) => {
+            console.log(err.stack);
+        })
+
+    }else if(data.length === 1){
+        OrderController.pay(+req.params.id).then(() => {
+            res.send('ok')
+        }).catch((err) => {
+            res.status(500).send('Error');
+        })
+    }
+
+
+
+
+});
+
+
 module.exports = router;

@@ -85,7 +85,7 @@ class LiqPay {
             var payment_data = {};
 
                 payment_data.version = 3;
-                payment_data.order_id = `${tarrif_name}-${tarrif_duration}-${user_id}`;
+                payment_data.order_id = `${user_id}-${tarrif_name}-${tarrif_duration}-`;
                 payment_data.action = 'pay';
                 payment_data.currency = 'UAH';
                 payment_data.description = tarrif_name;
