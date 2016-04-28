@@ -10,7 +10,6 @@ refresh_db:
 
 build_static:
 	cd client && gulp build && \
-	cd ../orders && gulp build && \
 	cd ../partners && gulp build
 
 
