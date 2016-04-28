@@ -80,6 +80,8 @@ class LiqPay {
 
         return new Promise((resolve, reject) => {
 
+            var liqpay = new liqpay_module('i71763863612', '3reGyCoxXaaErYed6xa1UV0gzXZ05QHxTghcByHR');
+
             var payment_data = {};
 
                 payment_data.version = 3;
@@ -90,7 +92,7 @@ class LiqPay {
                 payment_data.server_url = 'http://payment.vippay.info/api/payments/liqpay/' + `${tarrif_name}-${tarrif_duration}-${user_id}`;
                 payment_data.result_url = `http://payment.vippay.info/success`;
                 payment_data.amount = 5000;
-                payment_data.public_key = 'sdfsdf';
+                payment_data.public_key = 'i71763863612';
 
                 resolve(payment_data);
 
