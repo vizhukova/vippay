@@ -7,7 +7,7 @@ var CurrencyController = require('../controllers/Currency');
 var Rate = require('./../models/Rate');
 var _ = require('lodash');
 var liqpay_module = require('./liqpay_lib');
-var liqpay = new liqpay_module('i54801282901', '55bTuXm3vHSaTAQfs3qRmTubY453pVqyk3ifJr6f');
+
 
 
 class LiqPay {
@@ -21,6 +21,7 @@ class LiqPay {
 
         var payment_data = {};
         var order;
+        var liqpay;
 
         return new Promise((resolve, reject) => {
 
@@ -42,6 +43,8 @@ class LiqPay {
             }).then((user) => {
 
                 payment_data.public_key = _.findWhere(user.payment, {name: 'liqpay'}).fields.public_key;
+
+                liqpay = new liqpay_module(payment_data.public_key, _.findWhere(user.payment, {name: 'liqpay'}).fields.private_key);
 
                 if(order.basic_currency_id !== 4){
                     return Rate.getResult({
@@ -93,7 +96,7 @@ class LiqPay {
 
             });
 
-        var data = liqpay.data_for_form(payment_data);
+            var data = liqpay.data_for_form(payment_data);
 
         resolve(data);
 
