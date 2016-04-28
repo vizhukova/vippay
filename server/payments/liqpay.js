@@ -7,7 +7,7 @@ var CurrencyController = require('../controllers/Currency');
 var Rate = require('./../models/Rate');
 var _ = require('lodash');
 var liqpay_module = require('./liqpay_lib');
-var liqpay = new liqpay_module('i54801282901', '55bTuXm3vHSaTAQfs3qRmTubY453pVqyk3ifJr6f');
+
 
 
 class LiqPay {
@@ -21,6 +21,7 @@ class LiqPay {
 
         var payment_data = {};
         var order;
+        var liqpay;
 
         return new Promise((resolve, reject) => {
 
@@ -42,6 +43,8 @@ class LiqPay {
             }).then((user) => {
 
                 payment_data.public_key = _.findWhere(user.payment, {name: 'liqpay'}).fields.public_key;
+
+                liqpay = new liqpay_module(payment_data.public_key, _.findWhere(user.payment, {name: 'liqpay'}).fields.private_key);
 
                 if(order.basic_currency_id !== 4){
                     return Rate.getResult({
@@ -77,25 +80,27 @@ class LiqPay {
 
         return new Promise((resolve, reject) => {
 
+            var liqpay = new liqpay_module('i71763863612', '3reGyCoxXaaErYed6xa1UV0gzXZ05QHxTghcByHR');
+
             var payment_data = {};
 
                 payment_data.version = 3;
-                payment_data.order_id = `${tarrif_name}-${tarrif_duration}-${user_id}`;
+                payment_data.order_id = `${user_id}-${tarrif_name}-${tarrif_duration}-`;
                 payment_data.action = 'pay';
                 payment_data.currency = 'RUB';
                 payment_data.description = tarrif_name;
                 payment_data.server_url = 'http://payment.vippay.info/api/payments/liqpay/' + `${tarrif_name}-${tarrif_duration}-${user_id}`;
                 payment_data.result_url = `http://payment.vippay.info/success`;
                 payment_data.amount = 5000;
-                payment_data.public_key = 'sdfsdf';
+                payment_data.public_key = 'i71763863612';
 
-                var data = liqpay.data_for_form(payment_data);
-
-                resolve(data);
+                resolve(payment_data);
 
             });
 
+            var data = liqpay.data_for_form(payment_data);
 
+        resolve(data);
 
     }
 
