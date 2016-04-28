@@ -32,7 +32,7 @@ class LiqPay {
                 payment_data.version = 3;
                 payment_data.order_id = order_id;
                 payment_data.action = 'pay';
-                payment_data.currency = 'UAH';
+                payment_data.currency = 'RUB';
                 payment_data.description = products_name;
                 payment_data.server_url = 'http://payment.vippay.info/api/payments/liqpay/' + order_id;
                 payment_data.result_url = `http://payment.vippay.info/success`;
@@ -82,20 +82,20 @@ class LiqPay {
                 payment_data.version = 3;
                 payment_data.order_id = `${tarrif_name}-${tarrif_duration}-${user_id}`;
                 payment_data.action = 'pay';
-                payment_data.currency = 'UAH';
+                payment_data.currency = 'RUB';
                 payment_data.description = tarrif_name;
                 payment_data.server_url = 'http://payment.vippay.info/api/payments/liqpay/' + `${tarrif_name}-${tarrif_duration}-${user_id}`;
                 payment_data.result_url = `http://payment.vippay.info/success`;
                 payment_data.amount = 5000;
                 payment_data.public_key = 'sdfsdf';
 
-                resolve(payment_data);
+                var data = liqpay.data_for_form(payment_data);
+
+                resolve(data);
 
             });
 
-        var data = liqpay.data_for_form(payment_data);
 
-        resolve(data);
 
     }
 

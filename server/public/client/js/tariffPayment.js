@@ -1,7 +1,7 @@
-
 var tariffSelect = $('.select');
 var selectContainer = $('.select-container');
 var userId = $('#userId').val();
+var liqpayData = JSON.parse( $('#liqpay').val() );
 
 $('.price_col').on('click', function(e) {
 
@@ -36,6 +36,7 @@ tariffSelect.on('change', function(e) {
         var tariff = $(currentItem).data('tariff');
         var yandex = $(currentItem).find('.yandex');
         var interkassa = $(currentItem).find('.interkassa');
+        var liqpay = $(currentItem).find('.liqpay');
 
         data = data ? JSON.parse(data) : {};
 
@@ -53,6 +54,9 @@ tariffSelect.on('change', function(e) {
         interkassa.find("input[name$='ik_pm_no']").attr('value', tariff + '-' + data.time + '-' + userId)
         interkassa.find("input[name$='ik_am']").attr('value', tariff + '-' + data.time + '-' + userId)
         interkassa.find("input[name$='ik_am']").attr('value', data.price.uah)
+
+        liqpay.find("input[name$='data']").attr('value', liqpayData[tariff][`time_${data.time}`].data)
+        liqpay.find("input[name$='signature']").attr('value', liqpayData[tariff][`time_${data.time}`].signature)
 
     })
 

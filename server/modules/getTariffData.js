@@ -1,6 +1,7 @@
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var _ = require('lodash');
+var Promise = require('bluebird');
 var Users = require('./../models/Users');
 var tariffSettings =  require("./tariffSettings");
 var Currency =  require("./../models/Currency");
@@ -59,13 +60,25 @@ module.exports = function(req, res, next){
 
          yandex = y;
 
-        /*return Promise.map(() => {
+        var a = Object.keys(tariffSettings);
+        return Promise.map(Object.keys(tariffSettings), (tariff_name) => {
 
-        })*/
+            liqpay[tariff_name] = {};
+
+            return Promise.map(tariffSettings[tariff_name].prices, (priceObj) => {
+
+                return Liqpay.getServiceData(tariff_name, priceObj.time, user.id).then((data) => {
+
+                    liqpay[tariff_name][`time_${priceObj.time}`] = data;
+
+                })
+
+            })
+
+        })
 
     }).then((l) => {
 
-        //yandex = y;
         return Currency.get();
 
     }).then((currencies) => {
@@ -119,7 +132,8 @@ module.exports = function(req, res, next){
                'magnate': `${newTariffSettings['magnate'].prices[0].price.rub / tariffSettings['magnate'].prices[0].time} руб / мес`
            },
            yandex: yandex,
-           interkassa: interkassa
+           interkassa: interkassa,
+           liqpay: liqpay
        };
 
         next();

@@ -62,7 +62,15 @@ html(lang='en')
                         input(name='ik_suc_m', type='hidden', value='#{interkassa.ik_suc_m}')
                         input.btn.btn-danger(type='submit', value='Интеркасса')
 
+                    form.liqpay(method='POST', action='https://www.liqpay.com/api/checkout')
+                        input(type='hidden', name='data', value='#{liqpay.start.time_12.data}')
+                        input(type='hidden', name='signature', value='#{liqpay.start.time_12.signature}')
+                        input(type='image', src='//static.liqpay.com/buttons/p1ru.radius.png', name='btn_text')
+
+
+
       input#userId(type='hidden', value='#{user.id}')
+      input#liqpay(type='hidden', value='#{JSON.stringify(liqpay)}')
 
       script(src="/public/ajax.js")
       script(src="/public/client/js/tariffPayment.js")
