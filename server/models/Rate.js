@@ -41,6 +41,10 @@ var Rate = bookshelf.Model.extend({
         return knex('rate').select('*').where('client_id', '=', client_id);
     }),
 
+    getSymbol(id){
+        return knex('currency').first('name').where({id: id})
+    },
+
     edit(data){
         return new Promise((resolve, reject) => {
 

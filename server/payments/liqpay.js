@@ -28,13 +28,15 @@ class LiqPay {
             OrderController.getById(order_id).then(function (o) {
 
                 order = o;
-                var products_name = order.product.reduce((prev, curr) => `${prev.name}+${curr.name}`);
+                var products_name = [];
+
+                order.product.map((p) => {products_name.push(p.name)});
 
                 payment_data.version = 3;
                 payment_data.order_id = order_id;
                 payment_data.action = 'pay';
                 payment_data.currency = 'RUB';
-                payment_data.description = products_name;
+                payment_data.description = products_name.join(' + ');
                 payment_data.server_url = 'http://payment.vippay.info/api/payments/liqpay/' + order_id;
                 payment_data.result_url = `http://payment.vippay.info/success`;
 
@@ -46,19 +48,12 @@ class LiqPay {
 
                 liqpay = new liqpay_module(payment_data.public_key, _.findWhere(user.payment, {name: 'liqpay'}).fields.private_key);
 
-                if(order.basic_currency_id !== 4){
-                    return Rate.getResult({
-                        client_id: order.client_id,
-                        from: order.basic_currency_id,
-                        to: 4
-                    })
-                }else{
-                    return Promise.resolve({result: 1})
-                }
+                return Rate.getSymbol(order.basic_currency_id)
 
             }).then((data) => {
 
-                payment_data.amount = order.total_price_base_rate * data.result;
+                payment_data.amount = order.total_price_base_rate;
+                payment_data.currency = data.name;
                 /*order.product.map((p) => payment_data.sum += +p.price);
                 payment_data.sum *= data.result;*/
 

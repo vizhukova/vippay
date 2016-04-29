@@ -5,7 +5,7 @@ import Register from './auth/Register';
 import AlertActions from './../../../../common/js/Alert/AlertActions';
 
 /**
- * Component for login/register form for client/staff
+ * Компонент формы логина/регистрации клиента/сотрудника
  */
 class Auth extends React.Component {
 

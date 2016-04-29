@@ -2,7 +2,9 @@ import React from 'react';
 import Statistics from './Statistics';
 import Orders from './Orders';
 
-
+/**
+ * Компонент домашней страницы клиента
+ */
 class Home extends React.Component {
 
     constructor(){

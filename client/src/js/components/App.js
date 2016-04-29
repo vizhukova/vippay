@@ -11,7 +11,9 @@ import cookie from'./../../../../common/Cookies';
 import Error from'./../../../../common/js/Error';
 import _  from 'lodash';
 
-
+/**
+ * Основной компонент интерфейса клиента
+ */
 class Application extends React.Component {
 
     constructor() {
