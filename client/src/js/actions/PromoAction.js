@@ -9,7 +9,6 @@ class PromoAction {
         ApiActions.get('promo').then(function(res){
             self.dispatch(res);
         }).catch(function(err){
-            //self.dispatch(err);
         })
     }
 
@@ -20,7 +19,6 @@ class PromoAction {
             self.dispatch(res);
                 resolve(res)
         }).catch(function(err){
-            //self.dispatch(err);
                 reject(err);
         })
         })
@@ -33,7 +31,6 @@ class PromoAction {
                 self.dispatch(res);
                 resolve(res);
         }).catch(function(err){
-            //self.dispatch(err);
                 reject(err);
         })
         })
@@ -44,7 +41,6 @@ class PromoAction {
         ApiActions.get(`promo/${id}`).then(function(res){
             self.dispatch(res);
         }).catch(function(err){
-            //self.dispatch(err);
         })
     }
 
@@ -55,7 +51,6 @@ class PromoAction {
             self.dispatch(res);
                 resolve(res);
             }).catch(function(err){
-                //self.dispatch(err);
                 reject(err);
             })
         })

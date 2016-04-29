@@ -4,7 +4,9 @@ import PasswordInput from './../../../../../common/js/PasswordInput';
 import Alert from './../../../../../common/js/Alert/Alert'
 import AlertActions from './../../../../../common/js/Alert/AlertActions'
 
-
+/**
+ * Форма регистрации партнера
+ */
 class Register extends React.Component {
 
     constructor() {
@@ -34,6 +36,10 @@ class Register extends React.Component {
         AlertActions.hide();
     }
 
+	/**
+	 * Проверка нажатия на Enter
+	 * @param e
+     */
 	onKeyDown(e) {
 		if(e.keyCode == 13) {
             this.register();

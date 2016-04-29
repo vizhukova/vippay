@@ -9,7 +9,6 @@ class PartnerLinksAction {
         ApiActions.get(`partnerlinks`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            //self.dispatch(err);
         })
     }
 
@@ -20,7 +19,6 @@ class PartnerLinksAction {
                 self.dispatch(res);
                 resolve()
             }).catch(function(err){
-                //self.dispatch(err);
             })
         })
     }
@@ -33,7 +31,6 @@ class PartnerLinksAction {
                 self.dispatch(data);
                 resolve(data);
             }).catch(function(err){
-                //self.dispatch(err);
             })
         })
     }
@@ -45,7 +42,6 @@ class PartnerLinksAction {
         ApiActions.get(`partnerlinks/${id}`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
-                //self.dispatch(err);
             })
     }
 
@@ -56,7 +52,6 @@ class PartnerLinksAction {
         ApiActions.remove(`partnerlinks/${id}`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
-                //self.dispatch(err);
             })
     }
 

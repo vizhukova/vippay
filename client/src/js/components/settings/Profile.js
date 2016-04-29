@@ -65,6 +65,10 @@ class Profile extends React.Component {
         }
     }
 
+    /**
+     * Валидация
+     * @returns {boolean}
+     */
     checkFields() {
         var result = [this.state.old_password, this.state.new_password, this.state.confirm_new_password]
             .filter((item) => {
@@ -106,7 +110,6 @@ class Profile extends React.Component {
 
 
     render() {
-        //console.log('Profile render: ', this.state);
         var arr = location.host.split('.');
         var paymentDomain = `http://payment.${arr[1]}.${arr[2]}/checkout`;
         var self = this;

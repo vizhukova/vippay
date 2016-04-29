@@ -16,12 +16,8 @@ class Category extends React.Component {
         this.state = _.assign(CategoriesStore.getState(), {edit: false});
         _.assign(this.state, {error: {}});
         this.update = this.update.bind(this);
-        this.onError = this.onError.bind(this);
     }
 
-    onError(error) {
-        this.setState({error: error});
-    }
 
     componentDidMount() {
         CategoriesStore.listen(this.update);

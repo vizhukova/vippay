@@ -78,7 +78,6 @@ class CategoryForm extends React.Component {
     }
 
     editCategory() {
-        //console.log('CATEGORY', this.state.category)
         var self = this;
         if (!this.state.category.category || _.trim(this.state.category.category).length == 0) {
             AlertActions.set({
@@ -105,7 +104,7 @@ class CategoryForm extends React.Component {
     }
 
     onKeyDown(e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode == 13) { //если пользователь нажал на Enter
             this.props.params.id ? this.editCategory() : this.addNewCategory();
             e.preventDefault();
         }

@@ -1,3 +1,8 @@
+/**
+ * Объект для работы с cookies
+ * @type {{setCookie: (function(*, *=, *=)), deleteCookie: (function(*=)), getCookie: (function(*))}}
+ */
+
  var Cookie = {
 
      setCookie(name, value, options) {

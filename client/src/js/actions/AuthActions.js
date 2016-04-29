@@ -5,7 +5,7 @@ import ApiActions from '../actions/ApiActions';
 class AuthActions {
 
     /**
-     * получение ошибки с сервера
+     * проверка залогинен ли клиент
      */
 
     check(token) {

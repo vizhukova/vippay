@@ -35,6 +35,11 @@ class CategoryItem extends React.Component {
         CategoriesAction.deleteCategory(this.props.item.id);
     }
 
+    /**
+     * Блокирует фуекционал при неоплаченом тарифе
+     * @param isDisabled
+     * @returns {Function}
+     */
     cancelClick(isDisabled) {
 
         if (isDisabled) {
@@ -45,8 +50,7 @@ class CategoryItem extends React.Component {
 
         } else {
 
-            return function () {
-            }
+            return function () {}
 
         }
 

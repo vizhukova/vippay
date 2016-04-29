@@ -9,7 +9,6 @@ class ProductsAction {
         ApiActions.get(`products/${category_id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            //self.dispatch(err);
         })
     }
 
@@ -18,7 +17,6 @@ class ProductsAction {
         ApiActions.get(`product`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            //self.dispatch(err);
         })
     }
 
@@ -31,7 +29,6 @@ class ProductsAction {
             self.dispatch(data);
                 resolve(data);
         }).catch(function(err){
-            //self.dispatch(err);
                 reject(err);
         })
         })
@@ -45,7 +42,6 @@ class ProductsAction {
             self.dispatch(data);
         }).catch(function(err){
             reject(err);
-            //self.dispatch(err);
         })
        })
     }
@@ -57,7 +53,6 @@ class ProductsAction {
                     self.dispatch(data);
                     resolve(data)
                 }).catch(function(err){
-                    //self.dispatch(err);
                     reject(err)
                 })
         })
@@ -68,7 +63,6 @@ class ProductsAction {
         ApiActions.remove(`product/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            //self.dispatch(err);
         })
     }
 
@@ -79,7 +73,6 @@ class ProductsAction {
                 self.dispatch(data);
                 resolve(data);
             }).catch(function(err){
-                //self.dispatch(err);
                 reject(err);
             })
         })
@@ -91,7 +84,6 @@ class ProductsAction {
         ApiActions.get(`product/upsell/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            //self.dispatch(err);
         })
 
     }

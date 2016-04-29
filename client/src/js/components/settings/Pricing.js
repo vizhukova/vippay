@@ -54,7 +54,6 @@ class PricingItem extends React.Component {
             ? _.findWhere(this.props.tariffs[this.props.item].prices, {time: +this.props.tariff_payed.tariff_duration}).price
             : null;
 
-        //console.log('this.props.tariff_payed', this.props.tariff_payed);
         return <li className={`price_col price_col_blue  first ${this.props.isVisible ? 'chosen' : ''}`} onClick={this.onChoose}>
                             <div className="price_item">
                                 <div className="price_col_head">

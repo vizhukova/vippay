@@ -8,6 +8,10 @@ class AuthActions {
         this.dispatch(auth);
     }
 
+
+    /**
+     * Проверка залогинен ли партнер
+     */
     check() {
         var self = this;
         return new Promise ((resolve, reject) => {

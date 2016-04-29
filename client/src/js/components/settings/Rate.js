@@ -90,6 +90,10 @@ class Rate extends React.Component {
 
     }
 
+    /**
+     * Валидация
+     * @returns {boolean}
+     */
     checkFields() {
         var result = this.state.rate.filter((item) => isNaN(parseInt(item.result)))
         return result.length == 0;
@@ -130,7 +134,6 @@ class Rate extends React.Component {
         var res = [];
         var counter = 0;
         var uniqueBankRate = _.unique(self.state.bankRate, 'from');
-        //console.log('Currencies', this.state.currencies)
         return  <div>
 
                         <div className="boxed">

@@ -49,7 +49,6 @@ class formStaff extends React.Component {
 
     componentWillUnmount() {
         StaffStore.unlisten(this.update);
-        //console.log(StaffStore.getState())
     }
 
     update(state) {
@@ -87,6 +86,10 @@ class formStaff extends React.Component {
     }
 
 
+    /**
+     * Валидация
+      * @returns {*|Number}
+     */
     checkFields() {
         return this.state.staff.login && _.trim(this.state.staff.login).length &&
                 this.state.staff.email && _.trim(this.state.staff.email).length &&

@@ -82,7 +82,6 @@ class Alert extends React.Component {
     }
 
     render(){
-        console.log('Alert this.state', this.state)
         var self = this;
         return <div>
             {this.state.messages.map((item, index) => {

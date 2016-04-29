@@ -34,7 +34,6 @@ class ProductItem extends React.Component {
     }
 
     render() {
-        //console.log(this.props.checked)
         return  <label>
                     <input type="checkbox" name="product" checked={this.props.checked != -1} onChange={this.onChange}/>
                     {this.props.item.name}
@@ -152,6 +151,10 @@ class PromoForm extends React.Component {
         this.setState({});
     }
 
+    /**
+     * Валидация
+     * @returns {boolean|Number|*}
+     */
     checkFields() {
         var p = this.state.promo;
         var timeDiff = true;
@@ -185,7 +188,7 @@ class PromoForm extends React.Component {
     }
 
     onKeyDown(e) {
-		if(e.keyCode == 13) {
+		if(e.keyCode == 13) { //если пользователь нажал на Enter
             this.props.params.id  ? this.edit() : this.add();
             e.preventDefault();
         }
@@ -199,7 +202,6 @@ class PromoForm extends React.Component {
     render(){
 
         var self = this;
-        //console.log('checkAll', this.state.checkAll)
 
         return  <div className="col-sm-7 form-ui boxed">
             <form className="">

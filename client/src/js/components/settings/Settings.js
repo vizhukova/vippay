@@ -42,7 +42,6 @@ class Settings extends React.Component {
         </div>
 
     }
-//<a href={this.state.link}>Ссылка</a>
 
 }
 

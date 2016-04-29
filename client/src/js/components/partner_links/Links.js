@@ -7,7 +7,7 @@ import ModalActions from'./../../../../../common/js/ModalWindow/ModalActions';
 import _  from 'lodash';
 
 /**
- * Список дополнительных партнёрских ссылок
+ * Элемент списка дополнительных партнёрских ссылок
  */
 class LinkItem extends React.Component {
 
@@ -61,6 +61,9 @@ class LinkItem extends React.Component {
 
     }
 
+    /**
+     * Установка и вывод данных в модальном окне
+     */
     setModelData() {
         var materials = this.props.item.materials || [];
         ModalActions.set({data: materials, name: 'Materials'});
@@ -112,6 +115,11 @@ class LinkItem extends React.Component {
 
 
 }
+
+
+/**
+ * Список дополнительных партнёрских ссылок
+ */
 
 class Links extends React.Component {
 

@@ -9,7 +9,6 @@ class SettingsAction {
         ApiActions.get('settings').then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            //self.dispatch(err);
         })
     }
 
@@ -21,7 +20,6 @@ class SettingsAction {
                 self.dispatch(data);
                 resolve(data);
             }).catch(function(err){
-                //self.dispatch(err);
                 reject(err);
             })
         })
@@ -35,7 +33,6 @@ class SettingsAction {
                 self.dispatch(data);
                 resolve(data);
             }).catch(function(err){
-                //self.dispatch(err);
                 reject(err);
             })
         });
@@ -48,7 +45,6 @@ class SettingsAction {
                 self.dispatch(data);
                 resolve(data);
             }).catch(function(err){
-                //self.dispatch(err);
                 reject(err);
             })
         })
@@ -61,7 +57,6 @@ class SettingsAction {
                  self.dispatch(data);
                  resolve(data);
              }).catch(function (err) {
-                 //self.dispatch(err);
                   reject(err);
              })
          })
@@ -72,7 +67,6 @@ class SettingsAction {
             ApiActions.get(`rate`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
-                //self.dispatch(err);
         })
     }
 
@@ -81,7 +75,6 @@ class SettingsAction {
             ApiActions.get(`bank_rate`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
-                //self.dispatch(err);
         })
     }
 
@@ -90,7 +83,6 @@ class SettingsAction {
             ApiActions.get(`fee`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
-                //self.dispatch(err);
         })
     }
 
@@ -101,7 +93,6 @@ class SettingsAction {
                 self.dispatch(data);
                  resolve(data);
             }).catch(function(err){
-                //self.dispatch(err);
                  reject(err);
             })
         })
@@ -112,7 +103,6 @@ class SettingsAction {
             ApiActions.get(`payments`).then(function(data){
                 self.dispatch(data);
             }).catch(function(err){
-               // self.dispatch(err);
         })
     }
 
@@ -123,8 +113,6 @@ class SettingsAction {
                 self.dispatch(result);
                 resolve(result);
             }).catch(function(err){
-                //self.dispatch(err);
-                //reject(err);
         })
         })
     }

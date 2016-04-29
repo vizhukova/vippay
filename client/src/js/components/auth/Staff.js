@@ -30,7 +30,7 @@ class Staff extends React.Component {
     }
 
     onKeyDown(e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode == 13) {// если пользователь нажал на Enter
             this.login();
         }
     }

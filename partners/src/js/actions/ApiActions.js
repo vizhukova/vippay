@@ -8,6 +8,10 @@ function getDomain(){
     return '/api/';
 }
 
+
+/**
+*Отправка запросов на сервер
+ */
 class ApiActions{
 
     static get(path, data) {

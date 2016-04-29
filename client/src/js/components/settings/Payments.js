@@ -26,10 +26,6 @@ class PaymentItem extends React.Component {
     }
 
 
-    update(state) {
-        //this.setState(state);
-    }
-
     componentDidMount() {
         this.state.payment = this.props.payment;
         this.setState({});
@@ -69,7 +65,6 @@ class PaymentItem extends React.Component {
 
 
     render() {
-        //console.log(this.props.payment.active)
         return <div className="">
             <div className="block boxed">
                 <div className="block-title">

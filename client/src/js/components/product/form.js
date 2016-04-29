@@ -227,7 +227,7 @@ class AddUpsellFields extends React.Component {
 }
 
 /**
- * Компонент списка методов доставки/апселов
+ * Компонент списка методов доставки/апселов/материалов
  */
 class AddItems extends React.Component {
 
@@ -361,7 +361,6 @@ class ProductForm extends React.Component {
         this.onChangeCategory = this.onChangeCategory.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
-        this.onChangeUpsell = this.onChangeUpsell.bind(this);
 
     }
 
@@ -377,8 +376,6 @@ class ProductForm extends React.Component {
 
         ProductsAction.getProductsForUpsell();
 
-        //console.log('ProductForm - componentDidMount', this.state.product);
-
         CategoriesStore.listen(this.update);
         ProductsStore.listen(this.update);
         SettingsStore.listen(this.update);
@@ -386,7 +383,7 @@ class ProductForm extends React.Component {
     }
 
     onKeyDown(e) {
-        if(e.keyCode == 13) {
+        if(e.keyCode == 13) {// если пользователь нажал на Enter
             this.props.params.prod_id ? this.editProduct() : this.addNewProduct()
         }
     }
@@ -399,44 +396,49 @@ class ProductForm extends React.Component {
         ProductsAction.clear();
     }
 
+
+    /**
+     * Валидация
+     * @returns {*}
+     */
     checkFields() {
         var result;
         var self = this;
 
-        if (this.state.product.material) {
+        if (this.state.product.material) {  //если продукт материальный(доставляемый)
 
             this.state.product.link_download = '';
 
-            if (!this.state.product.delivery) return false;
+            if (!this.state.product.delivery) return false; //если нет ни одной записи о доставке (адрес, цена)
 
             result = this.state.product.delivery.filter((item, index) => {
 
-                var uniqueArr = _.uniq(self.state.product.delivery, function(d) {
+                var uniqueArr = _.uniq(self.state.product.delivery, function(d) { //проверка на уникальность записи о доставке в этом продукте
                       return d.condition;
                     }, Math);
 
                 var isUnique = uniqueArr.length === this.state.product.delivery.length;
 
-                return !isUnique || !_.trim(item.condition).length || !_.trim(item.price).length;
+                return !isUnique || !_.trim(item.condition).length || !_.trim(item.price).length;//проверка на уникальность всех записей доставки в товаре, на отсутствие пустых полей
 
             });
             result = result.length > 0;
             if(result) return false;
-        } else {
+        } else {//проверка на то, что поле ссылки скачивания не пустое
             this.state.product.delivery = [];
             result = !this.state.product.link_download || _.trim(this.state.product.link_download).length == 0;
             if (result) return false;
         }
 
 
-        if(this.state.product.materials) {
+        if(this.state.product.materials) {//валидация материалов продукта
             result = this.state.product.materials.filter((item) => {
                 return _.trim(item.name).length == 0 || _.trim(item.description).length == 0
             });
             if (result.length) return false;
         }
 
-        if(this.state.product.upsells) {
+        if(this.state.product.upsells) {//валидация апселов продукта
             result = this.state.product.upsells.filter((item) => {
                 return ! _.trim(item.price).length || ! _.trim(item.product_id).length;
             });
@@ -532,13 +534,6 @@ class ProductForm extends React.Component {
         this.setState({});
     }
 
-    onChangeUpsell(e) {
-        
-        /*var state = {};
-        state['upsell_id'] =  e.target.value;
-        _.assign(this.state.product, state);
-        this.setState({});*/
-    }
 
     onClick(e) {
         AlertActions.hide();
@@ -549,10 +544,8 @@ class ProductForm extends React.Component {
     render(){
         var self = this;
         var edit = this.props.params.prod_id;
-        //console.log('ProductForm basicCurrency', this.state.basicCurrency);
         if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
         var isEdit = !!this.props.params.id;
-        //console.log('!!!!!!!!!!!!!!!!!!!!!!!!!',this.state.product.upsell_id)
 
          return <form className="col-sm-7 form-ui table-wrapper">
 

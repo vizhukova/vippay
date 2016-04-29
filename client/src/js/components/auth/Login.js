@@ -23,12 +23,11 @@ class Login extends React.Component {
     }
 
     onChange(e){
-        if(e.keyCode == 13) {
+        if(e.keyCode == 13) { // если пользователь нажал на Enter
             this.login();
             return;
         }
         var state = {};
-        //console.log(e.target.name)
         state[e.target.name] = e.target.value;
         this.setState(state);
     }
@@ -73,8 +72,6 @@ class Login extends React.Component {
                     result = data;
                     location.assign('http://' + data.domain)
                 }
-                //console.log('Token: ' + result.token);
-
             })
 
     }

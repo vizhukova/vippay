@@ -22,7 +22,7 @@ class AlertStore {
 
     onSet(message) {
         var filter = _.filter(this.messages, (item) => message.text == item.text);
-        if(filter.length > 0) return;//if there is such messages in the list
+        if(filter.length > 0) return;//если в спике уже есть такое сообщение
 
         if(message.type == 'success') {
             this.messages = _.filter(this.messages, (item) =>  !(item.type == 'error' || item.type == 'warning'));

@@ -193,6 +193,10 @@ class LinkForm extends React.Component {
         PartnerLinksStore.unlisten(this.update);
     }
 
+    /**
+     * Валидация
+     * @returns {*}
+     */
     checkFields() {
         var result;
 
