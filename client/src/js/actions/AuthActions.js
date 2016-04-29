@@ -4,9 +4,9 @@ import ApiActions from '../actions/ApiActions';
 
 class AuthActions {
 
-    setAuth(auth){
-        this.dispatch(auth);
-    }
+    /**
+     * получение ошибки с сервера
+     */
 
     check(token) {
 
@@ -25,21 +25,10 @@ class AuthActions {
 
     }
 
-    guestLogin(login){
 
-        return new Promise((resolve, reject) => {
-
-            ApiActions.post('guest_login', {login: login}).then((data) => {
-                localStorage.setItem('token', data.token);
-                resolve(data.token);
-            }).catch((err) => {
-                reject(err);
-            })
-
-        })
-
-    }
-
+    /**
+     * Получение данных о клиенте
+     */
     getMe(){
 
         return new Promise((resolve,reject) => {

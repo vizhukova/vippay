@@ -8,7 +8,7 @@ import SettingsAction from './src/js/actions/SettingsAction';
 export default {
     check(error) {
         switch(error.status) {
-            case 402: {
+            case 402: {//ограничения по тарифу
                 AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
@@ -17,7 +17,7 @@ export default {
                 break;
             }
 
-            case 400: {
+            case 400: {//общие ошибки
                 AlertActions.set({
                     type: 'error',
                     title: 'Ошибка',
@@ -25,17 +25,13 @@ export default {
                 }, true);
                 break;
             }
-            case 403: {
+            case 403: {//тариф не оплачен и действие пробного периода окончено
                 SettingsAction.setIsActive(false);
                 break;
             }
 
-            case 401: {
+            case 401: {//клиент не залогинен
                 window.location.replace(`http://auth.${(window.location.host).slice(window.location.host.indexOf('.') + 1)}/#/auth`);
-            }
-
-            default: {
-                 // no AlertActions.set при регистрации/логине приходит ошибка что пользователь не зарегистрирован
             }
 
         }

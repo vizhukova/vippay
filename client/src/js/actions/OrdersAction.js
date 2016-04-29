@@ -9,7 +9,6 @@ class OrdersAction {
         ApiActions.get(`orders`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-           // self.dispatch(err);
         })
     }
 
@@ -18,7 +17,6 @@ class OrdersAction {
         ApiActions.put(`order/${data.id}`, {step: data.step}).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-           // self.dispatch(err);
         })
     }
 

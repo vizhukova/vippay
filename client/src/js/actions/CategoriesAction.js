@@ -9,7 +9,6 @@ class CategoriesAction {
         ApiActions.get('category').then(function(data){
             self.dispatch({page: page, data: data});
         }).catch(function(err){
-            //self.dispatch(err);
         })
     }
 
@@ -20,7 +19,6 @@ class CategoriesAction {
             self.dispatch(data);
                 resolve(data)
         }).catch(function(err){
-            //self.dispatch(err);
                 reject(err);
         })
         })
@@ -33,7 +31,6 @@ class CategoriesAction {
                 self.dispatch(data);
                 resolve(data);
         }).catch(function(err){
-            //self.dispatch(err);
                 reject(err);
         })
         })
@@ -44,7 +41,6 @@ class CategoriesAction {
         ApiActions.get(`category/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
-            //self.dispatch(err);
         })
     }
 
@@ -55,7 +51,6 @@ class CategoriesAction {
             self.dispatch(data);
                 resolve(data);
             }).catch(function(err){
-                //self.dispatch(err);
                 reject(err);
             })
         })

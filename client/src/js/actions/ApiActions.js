@@ -9,6 +9,10 @@ function getDomain(){
     return '/api/';
 }
 
+/**
+*Отправка запросов на сервер
+ */
+
 class ApiActions{
 
     static get(path, data) {
@@ -57,7 +61,7 @@ class ApiActions{
                 },
                 error(response){
                     checkError.check(response);
-                    SettingsActions.getMessages(); // get error-messages from server
+                    SettingsActions.getMessages(); // получение ошибки с сервера
                     reject(new Error());
                 }
 
@@ -85,7 +89,7 @@ class ApiActions{
                 },
                 error(response){
                     checkError.check(response);
-                    SettingsActions.getMessages();// get error-messages from server
+                    SettingsActions.getMessages();// получение ошибки с сервера
                     reject(new Error())
                 }
 
@@ -112,7 +116,7 @@ class ApiActions{
                 },
                 error(response){
                     checkError.check(response);
-                    SettingsActions.getMessages();// get error-messages from server
+                    SettingsActions.getMessages();// получение ошибки с сервера
                     reject(new Error())
                 }
 

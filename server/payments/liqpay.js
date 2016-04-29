@@ -91,14 +91,10 @@ class LiqPay {
                 payment_data.amount = 5000;
                 payment_data.public_key = 'i71763863612';
 
-                resolve(payment_data);
+                var data = liqpay.data_for_form(payment_data);
+                resolve(data);
 
             });
-
-            var data = liqpay.data_for_form(payment_data);
-
-        resolve(data);
-
     }
 
 }
