@@ -7,7 +7,9 @@ var CurrencyController = require('../controllers/Currency');
 var Rate = require('./../models/Rate');
 var _ = require('lodash');
 
-
+/**
+ * Оплата через ЯндексДеньги
+ */
 class YandexMoney {
 
     constructor() {

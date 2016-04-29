@@ -10,6 +10,9 @@ function replacePrice(products) {
     return products;
 }
 
+/**
+ * Модель продукта
+ */
 var Product = bookshelf.Model.extend({
 
     tableName: 'products',

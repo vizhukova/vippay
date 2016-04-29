@@ -9,9 +9,12 @@ import AlertActions from'./../../../../common/js/Alert/AlertActions';
 import _  from 'lodash';
 
 
+/**
+ * Компонент строки в списке партнёров
+ */
 class PartnerItem extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = {
             partner: {},
@@ -29,7 +32,7 @@ class PartnerItem extends React.Component {
     }
 
     componentWillReceiveProps() {
-        this.state.clear =  true;
+        this.state.clear = true;
         this.setState({});
     }
 
@@ -39,16 +42,9 @@ class PartnerItem extends React.Component {
         PartnersAction.edit(partner);
     }
 
-    login(e){
-        e.preventDefault();
-        AuthAction.guestLogin(e.target.dataset.login).then(() => {
-            location = '/partner'
-        });
-    }
-
     onChange(e) {
 
-        if(e.target.name == 'fee_pay') {
+        if (e.target.name == 'fee_pay') {
             var fee = {};
             fee[e.target.name] = e.target.value;
             this.state.value = e.target.value;
@@ -68,7 +64,7 @@ class PartnerItem extends React.Component {
 
     onClick() {
 
-        if(!this.state.partner.fee.fee_pay) {
+        if (!this.state.partner.fee.fee_pay) {
             AlertActions.set({
                 title: "Ошибка",
                 text: "Введите правильное значение для перевода",
@@ -90,20 +86,23 @@ class PartnerItem extends React.Component {
 
     }
 
+    /**
+     * Метод для установки комиссии конкретному партнёру
+     */
     setPartnerFee() {
 
         PartnersAction.setPartnerFee(this.state.partner).then((result) => {
-                AlertActions.set({
-                    type: 'success',
-                    title: 'Успех',
-                    text: 'Установка комиссии прошла успешно'
-                }, true);
+            AlertActions.set({
+                type: 'success',
+                title: 'Успех',
+                text: 'Установка комиссии прошла успешно'
+            }, true);
 
-            })
+        })
 
     }
 
-    render(){
+    render() {
         var available = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
         var notAvailable = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
 
@@ -113,9 +112,9 @@ class PartnerItem extends React.Component {
         var partner_fee = this.props.item.partner_fee || '';
 
         return <tr>
-                <td>{this.props.item.login}</td>
-                <td>{this.props.item.email}</td>
-                <td>{this.props.item.name}</td>
+            <td>{this.props.item.login}</td>
+            <td>{this.props.item.email}</td>
+            <td>{this.props.item.name}</td>
             <td>
                 <button type="button"
                         className={this.props.item.active ? available : notAvailable}
@@ -127,7 +126,7 @@ class PartnerItem extends React.Component {
                                  name="fee_pay"
                                  value={this.state.value}
                                  toFixed={2}
-                                 clear={this.state.clear} />
+                                 clear={this.state.clear}/>
                                 <span className="input-group-btn">
                                     <button className="btn btn-default glyphicon glyphicon-sort" type="button"
                                             onClick={this.onClick}/>
@@ -137,17 +136,18 @@ class PartnerItem extends React.Component {
             </td>
             <td>{ parseFloat(fee_added).toFixed(2) }</td>
             <td>{ parseFloat(fee_payed).toFixed(2) }</td>
-             <td className="col-md-2">
+            <td className="col-md-2">
                 <div className="input-group input-group-inline">
                     <NumberInput onChange={this.onChange}
                                  name="partner_fee"
 
                                  toFixed={2}
                                  value={partner_fee}
-                                 clear={this.state.clear} />
+                                 clear={this.state.clear}/>
                                 <span className="input-group-btn">
                                     <div className="btn btn-default btn-action " type="button"
-                                            onClick={this.setPartnerFee}>Установить</div>
+                                         onClick={this.setPartnerFee}>Установить
+                                    </div>
                                 </span>
                 </div>
 
@@ -158,9 +158,13 @@ class PartnerItem extends React.Component {
 
 }
 
+
+/**
+ * Компонент списка партнёров
+ */
 class Partners extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = _.assign(PartnersStore.getState(), AuthStore.getState());
 
@@ -197,37 +201,37 @@ class Partners extends React.Component {
     }
 
 
-    render(){
+    render() {
         var self = this;
         //console.log(this.state.partners)
-        return  <div>
-                <div className="boxed">
-                    <h4>Партнер, которому будут перчисляться бонусы</h4>
-                    <div>
-                     <label>
+        return <div>
+            <div className="boxed">
+                <h4>Партнер, которому будут перчисляться бонусы</h4>
+                <div>
+                    <label>
                         <input type="radio" value="first"
                                checked={this.state.partner_query == 'first'}
                                onChange={this.onChange}/>
                         Первый
-                      </label>
-                     </div>
-                    <div>
-                      <label>
+                    </label>
+                </div>
+                <div>
+                    <label>
                         <input type="radio" value="last"
                                checked={this.state.partner_query == 'last'}
                                onChange={this.onChange}/>
                         Последний
-                      </label>
-                    </div>
+                    </label>
                 </div>
+            </div>
 
-                <List
-                    title="Партнеры"
-                    items={this.state.partners}
-                    sort={this.sort}
-                    itemComponent={PartnerItem}
-                    isPaginate={true}
-                    thead={[
+            <List
+                title="Партнеры"
+                items={this.state.partners}
+                sort={this.sort}
+                itemComponent={PartnerItem}
+                isPaginate={true}
+                thead={[
                         {name: 'Логин', key: 'login'},
                         {name: 'Электронная почта', key: 'email'},
                         {name: 'ФИО', key: 'name'},
@@ -237,8 +241,8 @@ class Partners extends React.Component {
                         {name: 'Выплачено', key: 'fee.fee_payed'},
                         {name: 'Комиссия', key: ''}
                     ]}
-                />
-            </div>
+            />
+        </div>
 
     }
 

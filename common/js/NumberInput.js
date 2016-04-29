@@ -1,7 +1,9 @@
 import React from 'react';
 import _ from 'lodash'
 
-
+/**
+ * Поле ввода чисел
+ */
 class NumberInput extends React.Component {
 
     constructor(){

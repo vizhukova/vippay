@@ -4,7 +4,9 @@ import Pagination from'./Pagination';
 import SettingsStore from'./../../client/src/js/stores/SettingsStore';
 import _  from 'lodash';
 
-
+/**
+ * Абстрактный компонент списка
+ */
 class List extends React.Component {
 
     constructor() {

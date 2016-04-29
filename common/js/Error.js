@@ -1,7 +1,9 @@
 import React from 'react';
 import {RoutingContext, Link} from 'react-router'
 
-
+/**
+ * Компонент ошибки неоплаченного тарифа
+ */
 class Error extends React.Component {
 
     constructor(){

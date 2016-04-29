@@ -1,6 +1,8 @@
 import React from 'react';
 
-
+/**
+ * Абстрактный компонент выбора
+ */
 class Select extends React.Component {
 
     constructor(){

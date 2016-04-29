@@ -12,6 +12,9 @@ function replaceFee(fees) {
     return fees;
 }
 
+/**
+ * Модель комиссии
+ */
 var Fee = bookshelf.Model.extend({
 
     tableName: 'fee',

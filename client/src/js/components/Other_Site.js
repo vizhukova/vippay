@@ -1,5 +1,9 @@
 import React from 'react';
 
+
+/**
+ * Компонент для тестирования корзины
+ */
 class Other_Sites extends React.Component {
 
     constructor(){

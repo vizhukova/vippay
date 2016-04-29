@@ -18,6 +18,9 @@ var getAbsoluteUrl = (function() {
 	};
 })();
 
+/**
+ * Элемент списка продуктов
+ */
 class ProductItem extends React.Component {
 
     constructor(){
@@ -117,6 +120,9 @@ class ProductItem extends React.Component {
 
 }
 
+/**
+ * Список продуктов
+ */
 class Products extends React.Component {
 
     constructor(){

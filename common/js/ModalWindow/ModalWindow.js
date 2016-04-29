@@ -10,6 +10,9 @@ import Materials from './../../../client/src/js/components/Materials';
 //import MessageError from './../../../orders/src/js/components/MessageError';
 
 
+/**
+ * Компонент модального окна
+ */
 class ModalWindow extends React.Component {
 
     constructor() {

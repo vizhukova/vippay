@@ -64,6 +64,9 @@ class ProductItem extends React.Component {
     }
 }
 
+/**
+ * Список продуктов партнёра
+ */
 class Products extends React.Component {
 
     constructor(){

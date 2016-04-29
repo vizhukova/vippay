@@ -6,7 +6,9 @@ import StaffStore from './../../../stores/StaffStore';
 import List from'./../../../../../../common/js/List';
 import _ from 'lodash';
 
-
+/**
+ * Элемент списка сотрудников
+ */
 class StaffItem extends React.Component {
     constructor() {
         super();
@@ -40,6 +42,10 @@ class StaffItem extends React.Component {
         </tr>
     }
 }
+
+/**
+ * Список сотрудников
+ */
 class Staff extends React.Component {
 
     constructor() {

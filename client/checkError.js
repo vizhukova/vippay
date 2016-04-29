@@ -2,7 +2,10 @@ import AlertActions from './../common/js/Alert/AlertActions';
 import AuthActions from './src/js/actions/AuthActions';
 import SettingsAction from './src/js/actions/SettingsAction';
 
-module.exports = {
+/**
+ * Обработка серверных ошибок
+ */
+export default {
     check(error) {
         switch(error.status) {
             case 402: {
@@ -32,7 +35,7 @@ module.exports = {
             }
 
             default: {
-                 // no AlertActions.set при регистрации/логине приходит ошибка что пользователь не зарегестрирован
+                 // no AlertActions.set при регистрации/логине приходит ошибка что пользователь не зарегистрирован
             }
 
         }

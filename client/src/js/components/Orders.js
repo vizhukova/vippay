@@ -8,18 +8,20 @@ import paymentSettings from'./../../../../common/paymentSettings';
 import _  from 'lodash';
 import moment  from 'moment';
 
-
+/**
+ * Компонент строки в списке заказов
+ */
 class OrderItem extends React.Component {
-    
+
     constructor() {
         super();
 
-        this.state ={
+        this.state = {
             commentLength: 50,
             isCommentCut: 0 // 0-не выводить Подробнее; 1- Подробнее раскрыт; -1 - ПОдробнее закрыт
         };
 
-         this.statuses = {
+        this.statuses = {
             pending: 'Заказ оформлен',
             complete: 'Заказ оплачен',
             leaving: 'Заказ завершен'
@@ -35,14 +37,14 @@ class OrderItem extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.item.delivery.comment && this.props.item.delivery.comment.length > this.state.commentLength) {
+        if (this.props.item.delivery.comment && this.props.item.delivery.comment.length > this.state.commentLength) {
             this.state.isCommentCut = -1;
             this.setState({});
         }
     }
 
     componentWillReceiveProps(props) {
-        if(props.item.delivery.comment && props.item.delivery.comment.length > this.state.commentLength) {
+        if (props.item.delivery.comment && props.item.delivery.comment.length > this.state.commentLength) {
             this.state.isCommentCut = -1;
             this.setState({});
         }
@@ -51,17 +53,17 @@ class OrderItem extends React.Component {
     onClick(e) {
         e.preventDefault();
         this.state.commentLength = this.state.isCommentCut < 0 ? this.props.item.delivery.comment.length
-                                    : 50;
+            : 50;
         this.state.isCommentCut *= -1;
         this.setState({});
 
     }
 
     setComplete() {
-        if(this.props.item.step == 'complete')OrdersActions.setComplete({step: 'pending', id:this.props.item.id});
-        else OrdersActions.setComplete({step: 'complete', id:this.props.item.id});
+        if (this.props.item.step == 'complete')OrdersActions.setComplete({step: 'pending', id: this.props.item.id});
+        else OrdersActions.setComplete({step: 'complete', id: this.props.item.id});
     }
-    
+
     render() {
 
         var complete = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
@@ -70,7 +72,7 @@ class OrderItem extends React.Component {
         var comment = delivery.comment || '';
 
 
-        if(comment.length > this.state.commentLength) {
+        if (comment.length > this.state.commentLength) {
             comment = comment.slice(0, this.state.commentLength);
         }
 
@@ -82,7 +84,7 @@ class OrderItem extends React.Component {
                     this.props.item.product.map((item, index) => {
                         return <span key={index}>{index > 0 ? '+' : ''}
                             <a href={item.product_link} target="_blank">
-                                {`${item.name}${item.quantity > 1 ? '('+ item.quantity +')': ''}`}
+                                {`${item.name}${item.quantity > 1 ? '(' + item.quantity + ')' : ''}`}
                             </a>
                         </span>
                     })
@@ -97,19 +99,24 @@ class OrderItem extends React.Component {
                 {this.state.isCommentCut ? <a href="" onClick={this.onClick}>Подробнее</a> : ''}
             </td>
             <td>{this.props.item.delivery_price}</td>
-            <td><button type="button" className={` ${this.props.item.step == 'complete' ? complete : notComplete}`} onClick={this.setComplete}></button></td>
+            <td>
+                <button type="button" className={` ${this.props.item.step == 'complete' ? complete : notComplete}`}
+                        onClick={this.setComplete} />
+            </td>
             <td>{`${this.props.item.product_price} ${this.props.item.currency}`}</td>
             <td>{this.props.item.promo_code || ''}</td>
             <td>{paymentSettings[this.props.item.method] || ''}</td>
         </tr>
     }
-    
+
 }
-    
-    
+
+/**
+ * Компонент списка заказов
+ */
 class Orders extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = OrdersStore.getState();
         _.assign(this.state, SettingsStore.getState());
@@ -156,13 +163,12 @@ class Orders extends React.Component {
     }
 
 
-
-    render(){
+    render() {
         var self = this;
         var isBasicRate = this.state.isBasicRate === 'true';
         var isPaginate = this.props.isPaginate != undefined ? this.props.isPaginate : true;
         this.state.orders.map((order) => {
-            if(isBasicRate) {
+            if (isBasicRate) {
 
                 var basic_currency = this.state.currencies[order.basic_currency_id - 1];
                 basic_currency = basic_currency ? basic_currency.name : '';
@@ -197,7 +203,7 @@ class Orders extends React.Component {
                 {name: 'Промо код', key: ''},
                 {name: 'Метод оплаты', key: 'method'}
             ]}
-            >
+        >
             <Select values={this.state.values} className="col-md-3 pull-right"
                     current_value={ _.findWhere(this.state.values, {isBasicRate: this.state.isBasicRate}) }
                     fields={{
@@ -206,7 +212,7 @@ class Orders extends React.Component {
                     }}
                     onChange={this.onChange}
             />
-    </List>
+        </List>
     }
 
 

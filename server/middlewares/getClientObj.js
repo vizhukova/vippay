@@ -1,5 +1,11 @@
 var User = require('../models/Users');
 
+/**
+ * Получение объекта клиента
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     function getUser() {

@@ -3,7 +3,9 @@ import AlertStore from './AlertStore';
 import SettingsAction from './../../../client/src/js/actions/SettingsAction';
 import AlertActions from './AlertActions';
 
-
+/**
+ * Компонент уведомления
+ */
 class AlertItem extends React.Component {
     
     constructor() {
@@ -46,6 +48,9 @@ class AlertItem extends React.Component {
     }
 }
 
+/**
+ * Список уведомлений
+ */
 class Alert extends React.Component {
 
     constructor(){

@@ -1,3 +1,7 @@
+/**
+ * Список пользовательских платёжных систем
+ * @type {*[]}
+ */
 module.exports = [{
     name: 'pay_after_receive',
     active: false,

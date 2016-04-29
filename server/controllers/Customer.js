@@ -3,6 +3,11 @@ var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 
+
+/**
+ * Работа с покупателями
+ * @type {{add: (function(*=)), push: (function(*=)), get: (function(*=))}}
+ */
 module.exports = {
 
     add(data) {

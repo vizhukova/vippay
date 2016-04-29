@@ -9,6 +9,9 @@ import DateInput from './../../../../../common/js/DateInput';
 import _  from 'lodash';
 import moment  from 'moment';
 
+/**
+ * Элемент товара в промоакции
+ */
 class ProductItem extends React.Component {
 
     constructor() {
@@ -39,6 +42,9 @@ class ProductItem extends React.Component {
     }
 }
 
+/**
+ * Форма создания промоакции
+ */
 class PromoForm extends React.Component {
 
     constructor(){

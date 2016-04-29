@@ -1,7 +1,9 @@
 import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 
-
+/**
+ * Компонент пагинации
+ */
 class Pagination extends React.Component {
 
     constructor() {

@@ -13,7 +13,9 @@ import Select from './../../../../../common/js/Select';
 import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import _  from 'lodash';
 
-
+/**
+ * Информация о доставке
+ */
 class AddDeliveryFields extends React.Component {
 
     constructor(){
@@ -79,6 +81,9 @@ class AddDeliveryFields extends React.Component {
     }
 }
 
+/**
+ * Дополнительные материалы
+ */
 class AddMaterialFields extends React.Component {
 
     constructor(){
@@ -138,6 +143,9 @@ class AddMaterialFields extends React.Component {
 
 }
 
+/**
+ * Настройка апселов
+ */
 class AddUpsellFields extends React.Component {
 
     constructor(){
@@ -218,6 +226,9 @@ class AddUpsellFields extends React.Component {
     }
 }
 
+/**
+ * Компонент списка методов доставки/апселов
+ */
 class AddItems extends React.Component {
 
     constructor(){
@@ -333,7 +344,9 @@ class AddItems extends React.Component {
     }
 }
 
-
+/**
+ * Форма создания/редактирования продукта
+ */
 class ProductForm extends React.Component {
 
     constructor(){

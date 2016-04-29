@@ -6,6 +6,9 @@ import List from'./../../../../../common/js/List';
 import ModalActions from'./../../../../../common/js/ModalWindow/ModalActions';
 import _  from 'lodash';
 
+/**
+ * Список дополнительных партнёрских ссылок
+ */
 class LinkItem extends React.Component {
 
     constructor() {
@@ -82,8 +85,10 @@ class LinkItem extends React.Component {
             <td>{this.props.item.key}</td>
             <td>
                 { materials.length > 0
-                 ? <button type="button" data-toggle="modal" data-target="#myModal" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.setModelData} />
-                 : '-' }
+                    ? <button type="button" data-toggle="modal" data-target="#myModal"
+                              className="btn btn-default btn-action glyphicon glyphicon-eye-open"
+                              onClick={this.setModelData}/>
+                    : '-' }
             </td>
             <td className="action">
                 <button type="button" className={this.props.item.active ? available : notAvailable}
@@ -91,7 +96,8 @@ class LinkItem extends React.Component {
             </td>
             <td>{comment}
                 {this.state.isCommentCut
-                    ? <a href="" onClick={this.onClick}>{`${(this.state.isCommentCut > 0 ? 'Скрыть' : 'Подробнее')}`}</a>
+                    ?
+                    <a href="" onClick={this.onClick}>{`${(this.state.isCommentCut > 0 ? 'Скрыть' : 'Подробнее')}`}</a>
                     : ''}
             </td>
             <td className="action">
@@ -130,7 +136,6 @@ class Links extends React.Component {
 
 
     render() {
-        var self = this;
 
         return <List
             title="Партнерские ссылки"

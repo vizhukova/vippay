@@ -3,7 +3,9 @@ import {RoutingContext, Link} from 'react-router'
 import SettingsAction from'./../../actions/SettingsAction'
 import SettingsStore from'./../../stores/SettingsStore'
 
-
+/**
+ * Партнёрская ссылка
+ */
 class Settings extends React.Component {
 
     constructor(){

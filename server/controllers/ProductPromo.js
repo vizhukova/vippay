@@ -2,6 +2,11 @@ var ProductPromo = require('../models/ProductPromo');
 var Promise = require('bluebird');
 var _ = require('lodash');
 
+
+/**
+ * Работа со связью продукты-промоакции
+ * @type {{add: (function(*=)), get: (function(*=)), edit: (function(*=)), delete: (function(*=))}}
+ */
 module.exports = {
 
 

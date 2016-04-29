@@ -1,6 +1,11 @@
 var Product = require('../models/Product');
 var Promise = require('bluebird');
 
+
+/**
+ * Работа с продуктами
+ * @type {{newProduct: (function(*=)), get: (function(*=)), getAllProducts: (function(*=)), getCurrentProduct: (function(*=)), editProduct: (function(*=)), deleteProduct: (function(*=)), newProductWithUpsell: (function(*=)), getWhereIn: (function(*=))}}
+ */
 module.exports = {
 
     newProduct(product){

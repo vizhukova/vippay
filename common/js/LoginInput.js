@@ -1,6 +1,8 @@
 import React from 'react';
 
-
+/**
+ * Поле ввода логина
+ */
 class LoginInput extends React.Component {
 
     constructor(){

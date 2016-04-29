@@ -3,7 +3,9 @@ import Login from './auth/Login';
 import Register from './auth/Register';
 import AlertActions from './../../../../common/js/Alert/AlertActions';
 
-
+/**
+ * Форма авторизации партнёра
+ */
 class Auth extends React.Component {
 
     constructor() {

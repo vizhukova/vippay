@@ -1,3 +1,7 @@
+/**
+ * Строки описания для платёжных систем
+ * @type {{interkassa: string, id_kassa: string, id_confirm: string, interkassa_details: string, interkassa_more_info: *, yandex: string, receiver: string, yandex_details: string, yandex_more_info: *, liqpay: string, public_key: string, private_key: string, liqpay_details: string, liqpay_more_info: string, pay_after_receive: string, pay_after_receive_details: string, send_to_card: string, send_to_card_details: string, western_union: string, western_union_details: string}}
+ */
 module.exports = {
     "interkassa": "Интеркасса",
     "id_kassa": "Номер кассы",

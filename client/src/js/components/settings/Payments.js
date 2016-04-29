@@ -7,7 +7,9 @@ import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import paymentSettings from './../../../../../common/paymentSettings';
 import _ from 'lodash';
 
-
+/**
+ * Элемент формы платёжной системы
+ */
 class PaymentItem extends React.Component {
 
     constructor() {
@@ -121,7 +123,9 @@ class PaymentItem extends React.Component {
     }
 }
 
-
+/**
+ * Форма платёжной системы
+ */
 class Payment extends React.Component {
 
     constructor() {
@@ -187,6 +191,4 @@ class Payment extends React.Component {
 }
 
 
-export default Payment;/**
- * Created by andrew on 14.03.16.
- */
+export default Payment;

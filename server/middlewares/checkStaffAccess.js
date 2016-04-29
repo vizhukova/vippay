@@ -1,5 +1,11 @@
 var _ = require('lodash');
 
+/**
+ * Проверка доступа сотрудников
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
     if(req.user.role == 'staff' && req.method != 'GET') {
         var a;

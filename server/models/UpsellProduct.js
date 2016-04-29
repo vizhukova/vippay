@@ -10,6 +10,9 @@ function replacePrice(products) {
     return products;
 }
 
+/**
+ * Модель связи продукт-апсел
+ */
 var Product = bookshelf.Model.extend({
 
     tableName: 'upsell_product',

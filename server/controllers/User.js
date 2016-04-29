@@ -5,6 +5,12 @@ var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 var moment = require('moment');
+
+
+/**
+ * Работа с пользователями
+ * @type {{register: (function(*=)), login: (function(*=)), getById: (function(*=)), getFullById: (function(*=)), get: (function(*=)), setPassword: (function(*=)), set: (function(*=)), activateTariff: (function(*=)), getPartnerLink: (function(*=)), addPartnerLink: (function(*=)), editPartnerLink: (function(*=)), removePartnerLink: (function(*=)), getPayment: (function(*=)), putPayment: (function(*=)), setTariff: (function(*=)), getTariff: (function(*=)), remove: (function(*=)), getByData: (function(*=))}}
+ */
 module.exports = {
 
     register(data){

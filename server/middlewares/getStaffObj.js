@@ -2,6 +2,12 @@ var Staff = require('../models/Staff');
 var User = require('../models/Users');
 var getStaffsRoutes = require('./getStaffsRoutes');
 
+/**
+ * Получение объекта сотрудника
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     if(req.user.role == 'staff') {

@@ -1,7 +1,9 @@
 'use strict';
 var crypto = require('crypto');
 
-
+/**
+ * Оплата через Робокассу
+ */
 class Robokassa{
 
     constructor(login, password, orderId){

@@ -7,7 +7,9 @@ import Yandex from'./../../../../../common/js/Yandex';
 import _ from 'lodash';
 import moment from 'moment';
 
-
+/**
+ * Элемент тарифа
+ */
 class PricingItem extends React.Component {
 
     constructor() {
@@ -125,6 +127,9 @@ class PricingItem extends React.Component {
     }
 }
 
+/**
+ * Список тарифов
+ */
 class Pricing extends React.Component{
 
     constructor(){

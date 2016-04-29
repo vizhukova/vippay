@@ -4,7 +4,9 @@ import SettingsStore from'./../stores/SettingsStore';
 import AlertActions from'./../../../../common/js/Alert/AlertActions';
 import _ from 'lodash';
 
-
+/**
+ * Профиль партнёра
+ */
 class Profile extends React.Component {
 
     constructor() {

@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
+/**
+ * Компонент ввода даты
+ */
 var DateInput = React.createClass({
 
     getDefaultProps(){

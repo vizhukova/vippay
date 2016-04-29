@@ -7,6 +7,9 @@ import PasswordInput from './../../../../../../common/js/PasswordInput';
 import LoginInput from './../../../../../../common/js/LoginInput';
 import _ from 'lodash';
 
+/**
+ * Форма создания/редактирвоания сотрдуника
+ */
 class formStaff extends React.Component {
 
     constructor() {

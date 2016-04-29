@@ -5,7 +5,9 @@ var checkEndOfTariff = require('./checkEndOfTariff');
 var log = require('./../utils/log');
 var logg = new log('db');
 
-
+/**
+ * Функция для выполнения операций по расписанию
+ */
 (function() {
 
     setBankRates().then(() => {

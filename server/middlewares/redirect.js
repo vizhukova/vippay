@@ -1,5 +1,12 @@
 var User = require('../models/Users');
 
+
+/**
+ * Обработка правил редиректа
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     if (req.subdomain == 'payments') {

@@ -1,6 +1,10 @@
 var UpsellProduct = require('../models/UpsellProduct');
 var Promise = require('bluebird');
 
+/**
+ * Работа с апселами
+ * @type {{add: (function(*=)), remove: (function(*=)), getForUpsell: (function(*=)), getUpsells: (function(*=)), getForUpsellsProduct: (function(*=))}}
+ */
 module.exports = {
 
 

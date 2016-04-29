@@ -6,7 +6,9 @@ import CategoriesAction from'./../../actions/CategoriesAction';
 import List from'./../../../../../common/js/List';
 import _  from 'lodash';
 
-
+/**
+ * Список категорий
+ */
 class Category extends React.Component {
 
     constructor() {
@@ -26,7 +28,7 @@ class Category extends React.Component {
         CategoriesAction.getAllCategories();
     }
 
-    componentWillReceiveProps(props){
+    componentWillReceiveProps(props) {
         CategoriesAction.getAllCategories();
     }
 
@@ -43,7 +45,7 @@ class Category extends React.Component {
         return <List
             title="Каталог товаров"
             add_link="/category/new"
-            add_link_name = 'Добавить категорию'
+            add_link_name='Добавить категорию'
             items={this.state.categories}
             itemComponent={CategoryItem}
             isPaginate={true}

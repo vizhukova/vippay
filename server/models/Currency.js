@@ -4,6 +4,9 @@ var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
 
+/**
+ * Модель валюты
+ */
 var Currency = bookshelf.Model.extend({
 
     tableName: 'currency',

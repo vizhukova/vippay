@@ -4,6 +4,9 @@ var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
 
+/**
+ * Модель связи партнёр-клиент
+ */
 var PartnerCliets = bookshelf.Model.extend({
 
     tableName: 'clients-partners',

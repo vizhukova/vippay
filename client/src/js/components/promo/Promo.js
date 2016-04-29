@@ -6,7 +6,9 @@ import PromoAction from'./../../actions/PromoAction';
 import List from'./../../../../../common/js/List';
 import _  from 'lodash';
 
-
+/**
+ * Список промоакций
+ */
 class Promo extends React.Component {
 
     constructor() {

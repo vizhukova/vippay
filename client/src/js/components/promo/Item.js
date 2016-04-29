@@ -5,6 +5,9 @@ import PromoAction from'./../../actions/PromoAction';
 import moment  from 'moment';
 import _  from 'lodash';
 
+/**
+ * Элемент промоакции
+ */
 class Item extends React.Component {
 
     constructor() {

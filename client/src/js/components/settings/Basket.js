@@ -1,6 +1,8 @@
 import React from 'react';
 
-
+/**
+ * Информация о настройках корзины
+ */
 class Basket extends React.Component {
 
     constructor(){
@@ -11,7 +13,6 @@ class Basket extends React.Component {
     }
 
     render(){
-        var self = this;
         var css = <a href="http://cdn.vippay.info/basket.css">http://cdn.vippay.info/basket.css</a>;
 
         var js = <a href="http://cdn.vippay.info/basket.js">http://cdn.vippay.info/basket.js</a>;

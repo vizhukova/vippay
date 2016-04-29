@@ -3,6 +3,10 @@ var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 
+/**
+ * Работа с комиссией
+ * @type {{getFee: (function(*=)), editFee: (function(*=))}}
+ */
 module.exports = {
 
     getFee(client_id){

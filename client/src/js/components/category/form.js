@@ -6,9 +6,13 @@ import SettingsActions from'./../../actions/SettingsAction';
 import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import _  from 'lodash';
 
+
+/**
+ * Форма создания/редактирования категории
+ */
 class CategoryForm extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = CategoriesStore.getState();
         this.update = this.update.bind(this);
@@ -21,7 +25,7 @@ class CategoryForm extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.params.id) {
+        if (this.props.params.id) {
             this.getCurrentCategory(this.props.params.id);
         } else {
             this.setState({
@@ -35,8 +39,8 @@ class CategoryForm extends React.Component {
         CategoriesStore.listen(this.update);
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.params.id) {
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.params.id) {
             this.getCurrentCategory(nextProps.params.id);
         } else {
             this.setState({
@@ -59,11 +63,11 @@ class CategoryForm extends React.Component {
     addNewCategory() {
         var self = this;
         if (!this.state.category.category || _.trim(this.state.category.category).length == 0) {
-           AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Поле "категория" обязательно для заполнения.'
-                }, true);
+            AlertActions.set({
+                type: 'error',
+                title: 'Ошибка',
+                text: 'Поле "категория" обязательно для заполнения.'
+            }, true);
 
             return;
         }
@@ -76,12 +80,12 @@ class CategoryForm extends React.Component {
     editCategory() {
         //console.log('CATEGORY', this.state.category)
         var self = this;
-        if (! this.state.category.category || _.trim(this.state.category.category).length == 0) {
+        if (!this.state.category.category || _.trim(this.state.category.category).length == 0) {
             AlertActions.set({
-                    type: 'error',
-                    title: 'Ошибка',
-                    text: 'Поле "категория" обязательно для заполнения.'
-                }, true)
+                type: 'error',
+                title: 'Ошибка',
+                text: 'Поле "категория" обязательно для заполнения.'
+            }, true)
             return;
         }
         CategoriesAction.editCategory(this.state.category).then((data) => {
@@ -91,8 +95,8 @@ class CategoryForm extends React.Component {
 
     onChange(e) {
         var state = {};
-		state[e.target.name] =  e.target.value;
-		_.assign(this.state.category, state);
+        state[e.target.name] = e.target.value;
+        _.assign(this.state.category, state);
         this.setState({});
     }
 
@@ -101,38 +105,38 @@ class CategoryForm extends React.Component {
     }
 
     onKeyDown(e) {
-		if(e.keyCode == 13) {
-            this.props.params.id  ? this.editCategory() : this.addNewCategory();
+        if (e.keyCode == 13) {
+            this.props.params.id ? this.editCategory() : this.addNewCategory();
             e.preventDefault();
         }
-	}
+    }
 
-    update(state){
-        if(state.category) _.assign(this.state.category, state.category);
+    update(state) {
+        if (state.category) _.assign(this.state.category, state.category);
         _.assign(this.state, _.omit(state, ['category']));
         this.setState({});
     }
 
-    render(){
-        return  <div className="col-sm-7 form-ui table-wrapper">
+    render() {
+        return <div className="col-sm-7 form-ui table-wrapper">
             <form className="">
-              <fieldset className="form-group">
+                <fieldset className="form-group">
 
-                  <label htmlFor="newCategory" className="text-primary">
-                      {this.props.params.id  ? "Редактировать категорию" : "Новая категория"}
-                  </label>
-                <input type="text" name="category" className="form-control" id="newCategory"
-                       placeholder="Введите название новой категории"
-                       onChange={this.onChange}
-                       onKeyDown={this.onKeyDown}
-                       onClick={this.onClick}
-                       value={this.state.category.category}
-                        />
+                    <label htmlFor="newCategory" className="text-primary">
+                        {this.props.params.id ? "Редактировать категорию" : "Новая категория"}
+                    </label>
+                    <input type="text" name="category" className="form-control" id="newCategory"
+                           placeholder="Введите название новой категории"
+                           onChange={this.onChange}
+                           onKeyDown={this.onKeyDown}
+                           onClick={this.onClick}
+                           value={this.state.category.category}
+                    />
 
-              </fieldset>
+                </fieldset>
                 <button type="button" className="btn btn-default btn-submit pull-right"
                         onClick={this.props.params.id  ? this.editCategory : this.addNewCategory}>{
-                   this.props.params.id  ? "Редактировать" : "Добавить"}
+                    this.props.params.id ? "Редактировать" : "Добавить"}
                 </button>
             </form>
         </div>

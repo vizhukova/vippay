@@ -9,7 +9,9 @@ var _ = require('lodash');
 var liqpay_module = require('./liqpay_lib');
 
 
-
+/**
+ * Оплата через Liqpay
+ */
 class LiqPay {
 
     constructor() {

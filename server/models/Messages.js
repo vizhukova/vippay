@@ -4,6 +4,9 @@ var bookshelf = require('../db');
 var knex = require('../knex_connection');
 var _ = require('lodash');
 
+/**
+ * Модель уведомления
+ */
 var Messages = bookshelf.Model.extend({
 
     tableName: 'messages',

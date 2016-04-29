@@ -1,6 +1,11 @@
 var Basket = require('../models/Basket');
 var Promise = require('bluebird');
 
+
+/**
+ * Работа с корзиной
+ * @type {{get: (function(*=)), add: (function(*=)), edit: (function(*=))}}
+ */
 module.exports = {
 
     get(data){

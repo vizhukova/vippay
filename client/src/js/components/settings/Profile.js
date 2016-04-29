@@ -7,6 +7,10 @@ import Select from'./../../../../../common/js/Select';
 import _ from 'lodash';
 import Pricing from './Pricing'
 
+
+/**
+ * Информация профиля клиента
+ */
 class Profile extends React.Component {
 
     constructor() {

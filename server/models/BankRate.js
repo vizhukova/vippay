@@ -4,6 +4,9 @@ var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
 
+/**
+ * Модель банковских курсов
+ */
 var Rate = bookshelf.Model.extend({
 
     tableName: 'bank_rate',

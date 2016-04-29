@@ -3,6 +3,10 @@ var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 
+/**
+ * Работа с курсами валют
+ * @type {{setDefault: (function(*=)), get: (function(*=)), edit: (function(*=)), getBank: (function())}}
+ */
 module.exports = {
 
     setDefault(client_id){

@@ -1,5 +1,9 @@
 import React from 'react';
 
+
+/**
+ * Компонент оплаты тарифа через Яндекс.Деньги
+ */
 class Yandex extends React.Component {
 
     constructor() {

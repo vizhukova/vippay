@@ -9,6 +9,10 @@ var Promise = require('bluebird');
 var _ = require('lodash');
 var email = require('../utils/email');
 
+/**
+ * Работа с заказами
+ * @type {{get: (function(*=)), edit: (function(*=)), getById: (function(*=)), add: (function(*=)), pay: (function(*=)), cancelPay: (function(*=))}}
+ */
 module.exports = {
 
     get(client_id) {

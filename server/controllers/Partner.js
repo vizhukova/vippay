@@ -6,6 +6,10 @@ var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 
+/**
+ * Работа с партнёрами
+ * @type {{register: (function(*=)), login: (function(*=)), guestLogin: (function(*=)), getAllProducts: (function(*)), getAll: (function(*=)), getById: (function(*=)), edit: (function(*=)), get: (function(*=)), getFee: (function(*=)), putFee: (function(*=)), setFee: (function(*=))}}
+ */
 module.exports = {
 
     register(partner){

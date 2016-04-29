@@ -4,7 +4,9 @@ var bookshelf = require('../db');
 var knex = require('../knex_connection');
 var _ = require('lodash');
 
-
+/**
+ * Модель сотрудника
+ */
 var Staff = bookshelf.Model.extend({
 
     tableName: 'staff',

@@ -1,9 +1,11 @@
 import React from 'react';
 
-
+/**
+ * Компонент выбора валюты
+ */
 class CurrencySelect extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = {};
         this.onChange = this.onChange.bind(this);
@@ -19,21 +21,21 @@ class CurrencySelect extends React.Component {
     }
 
 
-    render(){
+    render() {
         var self = this;
-        return  <select className="form-control" id="sell"  name="currency_id"
-                        value={this.props.current_currency}
-                        onChange={self.onChange}
-                        onClick = {self.props.onClick}>
+        return <select className="form-control" id="sell" name="currency_id"
+                       value={this.props.current_currency}
+                       onChange={self.onChange}
+                       onClick={self.props.onClick}>
 
-                        { this.props.currencies.map(function(item, index){
-                        return <option
-                            key={index}
-                            value={item.id}
-                        >{item.name}</option>
-                        })}
+            { this.props.currencies.map(function (item, index) {
+                return <option
+                    key={index}
+                    value={item.id}
+                >{item.name}</option>
+            })}
 
-                </select>
+        </select>
     }
 
 

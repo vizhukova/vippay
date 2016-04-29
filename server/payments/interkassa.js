@@ -6,7 +6,9 @@ var OrderController = require('../controllers/Order');
 var UserController = require('../controllers/User');
 var CurrencyController = require('../controllers/Currency');
 
-
+/**
+ * Оплата через интеркассу
+ */
 class InterKassa{
 
     constructor(){

@@ -3,6 +3,10 @@ import StaticStore from './../stores/StatisticStore';
 import StaticActions from './../actions/StatisticAction';
 import List from'./../../../../common/js/List';
 
+
+/**
+ * Компонент отображения статистики
+ */
 class Statistics extends React.Component {
 
     constructor(){

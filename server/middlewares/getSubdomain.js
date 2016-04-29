@@ -1,5 +1,11 @@
 var config = require('./../config');
 
+/**
+ * Получение сабдомена
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     var domain = req.get('host');

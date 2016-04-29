@@ -4,6 +4,9 @@ var Promise = require('bluebird');
 var bookshelf = require('../db');
 var knex = require('../knex_connection');
 
+/**
+ * Модель продукта в корзине
+ */
 var BasketProduct = bookshelf.Model.extend({
 
     tableName: 'baskets_products',

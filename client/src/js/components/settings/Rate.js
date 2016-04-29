@@ -5,7 +5,9 @@ import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import NumberInput from './../../../../../common/js/NumberInput';
 import _ from 'lodash';
 
-
+/**
+ * Элемент формы курсов валют
+ */
 class RateItem extends React.Component {
 
     constructor () {
@@ -38,7 +40,9 @@ class RateItem extends React.Component {
     }
 }
 
-
+/**
+ * Список курсов валют
+ */
 class Rate extends React.Component {
 
     constructor(){

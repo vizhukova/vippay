@@ -6,7 +6,9 @@ import Alert from './../../../../../common/js/Alert/Alert';
 import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import cookie from'./../../../../../common/Cookies';
 
-
+/**
+ * Форма логина клиента
+ */
 class Login extends React.Component {
 
     constructor() {
@@ -35,6 +37,10 @@ class Login extends React.Component {
         AlertActions.hide();
     }
 
+    /**
+     * Обработка нажатия ENTER
+     * @param e
+     */
     onKeyDown(e) {
 		if(e.keyCode == 13) {
             this.login();
@@ -73,6 +79,10 @@ class Login extends React.Component {
 
     }
 
+    /**
+     * Валидация
+     * @returns {boolean}
+     */
     isCorrectField() {
         var empty = false;
 

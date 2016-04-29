@@ -3,6 +3,9 @@ import SettingsStore from './../stores/SettingsStore';
 import SettingsActions from './../actions/SettingsActions';
 import List from'./../../../../common/js/List';
 
+/**
+ * Статиситка партнёра
+ */
 class Statistics extends React.Component {
 
     constructor(){

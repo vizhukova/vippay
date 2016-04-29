@@ -4,6 +4,10 @@ var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 
+/**
+ * Работа с валютами
+ * @type {{get: (function()), getBasic: (function(*=)), setBasic: (function(*=))}}
+ */
 module.exports = {
 
     get(){

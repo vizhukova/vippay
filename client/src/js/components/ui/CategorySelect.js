@@ -1,40 +1,41 @@
 import React from 'react';
 
-
+/**
+ * Компонент выбора категории
+ */
 class CategorySelect extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = {};
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.setState({
             current_category: this.props.current_category
         })
     }
 
-    componentWillReceiveProps(props){
+    componentWillReceiveProps(props) {
         this.setState({
             current_category: props.current_category
         })
     }
 
-    render(){
-        var self = this;
-        return  <select className="form-control" id="sell"  name="category_id"
-                        value={this.state.current_category}
-                        onChange={this.props.onChange}
-                        onClick={this.props.onClick}>
+    render() {
+        return <select className="form-control" id="sell" name="category_id"
+                       value={this.state.current_category}
+                       onChange={this.props.onChange}
+                       onClick={this.props.onClick}>
 
-                    { this.props.categories.map(function(item, index){
-                        return <option
-                            key={index}
-                            value={item.id}
-                        >{item.category}</option>
-                        })}
+            { this.props.categories.map(function (item, index) {
+                return <option
+                    key={index}
+                    value={item.id}
+                >{item.category}</option>
+            })}
 
-                </select>
+        </select>
     }
 
 

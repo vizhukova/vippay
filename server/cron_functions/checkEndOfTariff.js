@@ -7,7 +7,10 @@ var email = require('./../utils/email');
 var currencies;
 var convertResult;
 
-
+/**
+ * Проверка истечения срока тарифа
+ * @returns {bluebird|exports|module.exports}
+ */
 module.exports = function () {
     return new Promise((resolve, reject) => {
 

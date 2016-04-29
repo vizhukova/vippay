@@ -10,6 +10,9 @@ function replaceNum(items) {
     return items;
 }
 
+/**
+ * Модель промоакции
+ */
 var Promo = bookshelf.Model.extend({
 
     tableName: 'promo',

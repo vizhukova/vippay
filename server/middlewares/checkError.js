@@ -1,7 +1,11 @@
 var log = require('./../utils/log');
 var logg = new log('db');
 
-
+/**
+ * Обработка ошибок
+ * @param err
+ * @param res
+ */
 module.exports = function(err, res){
 
     switch(err.constraint) {

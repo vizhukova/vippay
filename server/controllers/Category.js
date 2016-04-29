@@ -3,6 +3,10 @@ var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 
+/**
+ * Работа с категориями
+ * @type {{newCategory: (function(*=)), editCategory: (function(*=)), getAllCategories: (function(*=)), getCurrentCategories: (function(*=)), deleteCategory: (function(*=))}}
+ */
 module.exports = {
 
     newCategory(categoryObj){

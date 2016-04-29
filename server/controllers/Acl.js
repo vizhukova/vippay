@@ -2,6 +2,10 @@ var Acl = require('./../models/Acl');
 var Promise = require('bluebird');
 var _ = require('lodash');
 
+/**
+ * Управление правами доступа
+ * @type {{add: (function(*=)), get: (function(*=)), edit: (function(*=)), getRoutes: (function())}}
+ */
 module.exports = {
 
     add(data) {

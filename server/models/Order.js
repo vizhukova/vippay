@@ -7,7 +7,7 @@ var _ = require('lodash');
 function replacePrice(orders) {
     orders.map((order) => {
         order.product.price = +parseFloat(order.product.price)
-    })
+    });
     return orders;
 }
 
@@ -88,7 +88,8 @@ var Order = bookshelf.Model.extend({
                 var ids = order.product.map((p) => p.id);
 
                 knex('products').select('link_download').where({material: false}).andWhere('id', 'in', ids).then((l) => {
-                    links = l;
+
+                    links = l.map((l) => l.link_download);
                     resolve({order: order, links: links});
                 })
 
@@ -104,6 +105,6 @@ var Order = bookshelf.Model.extend({
             .returning('*')
     }
 
-})
+});
 
 module.exports = Order;
