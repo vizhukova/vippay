@@ -56,15 +56,14 @@ class Register extends React.Component {
         ApiActions.post('partner/register', this.state)
 			.then(function(obj){
 				var data = obj.user;
-				console.log('Token: ' + data.token);
-                //cookie.setCookie('token', data.user.token, {
-                //    domain: '.vippay.loc'
-                //});
-
 				location.href = obj.redirect;
 			})
     }
 
+    /**
+     * Валидация
+     * @returns {boolean}
+     */
 	isCorrectField() {
 		var empty = false;
 		if(!this.state.login || this.state.login.length == 0) {this.state.errors.login = ["Поле 'логин' должно быть заполнено"]; empty = true;}
@@ -86,7 +85,7 @@ class Register extends React.Component {
                     type: 'error',
                     title: 'Ошибка',
                     text: 'Пароли не совпадают'
-                })
+                });
 			return false;
 		}
 

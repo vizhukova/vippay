@@ -4,7 +4,7 @@ var bookshelf = require('../db');
 var knex = require('../knex_connection');
 
 /**
- * Модель сотрудника
+ * Модель статистики
  */
 var Order = bookshelf.Model.extend({
 

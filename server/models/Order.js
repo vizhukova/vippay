@@ -15,6 +15,10 @@ function perCent(price, discount) {
     return price  - (price * discount / 100);
 }
 
+
+/**
+ * Модель заказов
+ */
 var Order = bookshelf.Model.extend({
 
     tableName: 'orders',

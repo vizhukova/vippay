@@ -6,7 +6,9 @@ var CustomerController = require('../controllers/Customer');
 var StatisticController = require('../controllers/Statistic');
 var UserController = require('../controllers/User');
 
-
+/**
+ * Переход по ссылке продукта, расположеной на странице партнера
+ */
 router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, function (req, res, next)
 {
     var product;
@@ -52,13 +54,15 @@ router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, 
 
     }).catch(function (err) {
 
-        //res.status(400).send(err.errors);
         next(err);
 
     });
 
 });
 
+/**
+ * Переход по партнерским ссылкам, расположенным на странице партнера
+ */
 router.get('/redirect/link/:partner_login/:link', getPartnerIdByLogin, function (req, res, next)
 {
     var product;
@@ -104,7 +108,6 @@ router.get('/redirect/link/:partner_login/:link', getPartnerIdByLogin, function 
 
     }).catch(function (err) {
 
-        //res.status(400).send(err.errors);
         next(err);
 
     });

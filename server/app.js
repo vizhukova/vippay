@@ -7,8 +7,6 @@ var methodOverride = require('method-override');
 var morgan = require('morgan');
 var config = require('./config');
 var _ = require('lodash');
-//var session = require('express-session');
-//var flash = require('req-flash');
 var User = require('./models/Users');
 
 var app = express();
@@ -57,6 +55,9 @@ var designClass = config.get('designClass');
 
 app.use(require('./routes/log'));
 
+/**
+ * Отрисовка страницы админа
+ */
 app.get('/admin', getAdminData, function(req, res) {
 
     if(! req.admin) res.render('admin/login', {designClass: designClass, timestamp: timestamp});
@@ -68,6 +69,9 @@ app.get('/admin', getAdminData, function(req, res) {
 
 });
 
+/**
+ * Отрисовка страницы оплаты тарифа
+ */
 app.get('/checkout', getTariffData, function(req, res) {
 
     var data = _.assign(req.tariffData, {designClass: designClass}, {timestamp: timestamp});
@@ -75,12 +79,18 @@ app.get('/checkout', getTariffData, function(req, res) {
 
 });
 
+/**
+ * Отрисовка страницы успеха (н.п.: успешная оплата)
+ */
 app.get('/success', function(req, res) {
 
     res.render('success', {timestamp: timestamp});
 
 });
 
+/**
+ * Отрисовка страницы клиента
+ */
 app.get('/', redirect, function(req, res){
 
     if(req.user.role && (req.user.role != 'staff' && req.user.role != 'client')) {
@@ -97,36 +107,51 @@ app.get('/', redirect, function(req, res){
 
 });
 
-
 app.use(require('./routes/api'));
 
 app.use(require('./routes/redirect'));
 
-app.get('/basket/:id*',basketModule, function(req, res){ //show basket
+/**
+ * Отрисовка страницы корзины
+ */
+app.get('/basket/:id*',basketModule, function(req, res){
 
     res.render('basket', {basketItems: req.basketItems, currency: req.currency, redirectBack: req.headers.referer, designClass: designClass, timestamp: timestamp});
 });
 
+/**
+ * Отрисовка страницы оформления заказа по корзине
+ */
 app.get('/order/basket/:id*', basketModule, function(req, res){
 
     res.render('basketPending', {basketItems: req.basketItems, currency: req.currency, designClass: designClass, timestamp: timestamp});
 
 });
 
-app.get('/order/payment/:order_id*', paymentModule, function(req, res){ //pending order
+/**
+ *Отрисовка страницы оплаты заказа
+ */
+app.get('/order/payment/:order_id*', paymentModule, function(req, res){
 
     var data = _.assign(req.payment, {designClass: designClass}, {timestamp: timestamp});
     res.render('paymentOrder', data);
 
 });
 
-app.get('/order/:id*', pendingModule, function(req, res){ //pending order
+/**
+ * Отрисовка страницы оформления заказа по единичному продукту
+ */
+app.get('/order/:id*', pendingModule, function(req, res){
 
     var data = _.assign(req.pending, {designClass: designClass}, {timestamp: timestamp});
     res.render('pending', data);
 
 });
 
+
+/**
+ * Отрисовка страницы партнера
+ */
 app.get('/:partner', function(req, res){
 
     if(req.user.role && req.user.role != 'partner') {

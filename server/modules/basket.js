@@ -3,7 +3,12 @@ var BasketProduct = require('./../models/BasketProduct');
 var Users = require('./../models/Users');
 var Currency = require('./../models/Currency');
 var _ = require('lodash');
-
+/**
+ * Сбор данных для отрисовки страницы корзины
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
    var basket;

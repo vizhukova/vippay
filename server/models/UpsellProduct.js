@@ -53,11 +53,6 @@ var Product = bookshelf.Model.extend({
                 FROM  products
                 JOIN upsell_product ON upsell_product.product_id = products.id
                 WHERE upsell_product.upsell_id = ${data.upsell_id}`);
-        /*return knex
-        .select(['products.*', 'upsell_product.price as upsell_price'])
-        .from('products')
-        .join('upsell_product', 'product_id', '=', 'products.id')
-        .where({'upsell_product.upsell_id': data.upsell_id});*/
     }),
 
     getForUpsellsProduct: Promise.method(function (data) {

@@ -4,7 +4,9 @@ import ProductsStore from'./../stores/ProductsStore';
 import List from'./../../../../common/js/List';
 import ModalActions from'./../../../../common/js/ModalWindow/ModalActions';
 
-
+/**
+ * Элемент списка продуктов
+ */
 class ProductItem extends React.Component {
 
     constructor() {
@@ -113,32 +115,3 @@ class Products extends React.Component {
 
 
 export default Products;
-
-/*
-<div>
-                <table className="table table-hover table-wrapper">
-                    <thead>
-                      <tr>
-                        <th>Изображение</th>
-                        <th>Товар</th>
-                        <th>Цена</th>
-                        <th>Валюта</th>
-                        <th>Описание</th>
-                        <th>Ссылка на продукт</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    { this.state.products.map(function(item, index){
-                    return <tr key={index}>
-                        <td><img src={item.image} alt="image" width="200px" height="auto"/></td>
-                        <td>{item.name}</td>
-                        <td>{item.price}</td>
-                        <td>{item.currency_name}</td>
-                        <td>{item.description}</td>
-                        <td><a href={item.ref_link}>Ссылка</a></td>
-                    </tr>
-                    })}
-                    </tbody>
-                </table>
-                </div>
- */

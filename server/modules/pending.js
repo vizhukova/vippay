@@ -4,6 +4,13 @@ var UpsellProduct = require('./../models/UpsellProduct');
 var User = require('./../models/Users');
 var _ = require('lodash');
 
+
+/**
+ * Сбор данных для отрисовки страницы оформления заказа
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     var currency;

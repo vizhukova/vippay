@@ -65,6 +65,9 @@ router.put('/order/:id', function(req, res, next) {
         }
 });
 
+/**
+ * Сохранение выбора оплаты
+ */
 router.put('/order/payments/:id', function(req, res, next) {
 
     OrderController.edit(req.body).then((order) => {
@@ -222,25 +225,24 @@ router.post('/order', function(req, res, next) {
     })
 });
 
-router.put('/order', function(req, res, next) { //pay for the order
+router.put('/order', function(req, res, next) {
 
-    //OrderController.pay(req.body.id).then((order) => {
-
-        StatisticController.add({partner_id: order[0].partner_id,
-                                    product: JSON.stringify(order[0].product),
-                                    customer_id: order[0].customer_id,
-                                    client_id: order[0].client_id,
-                                    action: "pending_order"})
-                                    .then(() => {
-                                        res.send(order);
-                                    }).catch(function(err) {
-           // res.status(400).send(err.errors)
-            next(err);
-        })
-    //})
+    StatisticController.add({partner_id: order[0].partner_id,
+                                product: JSON.stringify(order[0].product),
+                                customer_id: order[0].customer_id,
+                                client_id: order[0].client_id,
+                                action: "pending_order"})
+                                .then(() => {
+                                    res.send(order);
+                                }).catch(function(err) {
+        next(err);
+    })
 
 });
 
+/**
+ * Получение доступных методов оплаты заказа
+ */
 router.get('/order/payments/:id', function(req, res, next) {
 
     var payments;
@@ -250,7 +252,6 @@ router.get('/order/payments/:id', function(req, res, next) {
             payments = _.filter(user.payment, {active: true});
             res.send(payments)
         }).catch(function (err) {
-            //res.status(400).send(err);
             next(err);
         })
 

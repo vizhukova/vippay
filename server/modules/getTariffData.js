@@ -10,6 +10,13 @@ var Interkassa =  require("./../payments/interkassa");
 var Yandex =  require("./../payments/yandex");
 var Liqpay =  require("./../payments/liqpay");
 
+/**
+ * Сбор данных для отрисовки страницы оплаты тарифов
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise|Promise.<T>}
+ */
 module.exports = function(req, res, next){
 
     var user;

@@ -1,6 +1,11 @@
 var Users = require('./../models/Users');
 var _ = require('lodash');
-
+/**
+ * Сбор данных для отрисовки страницы админа
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     var perPage = 20;

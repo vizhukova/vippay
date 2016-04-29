@@ -9,7 +9,9 @@ var Liqpay = require('./../payments/liqpay');
 var OrderController = require('./../controllers/Order');
 var UserController = require('./../controllers/User');
 
-
+/**
+ * Ответы сторонних ресурсов об оплате тарифа/заказа
+ */
 router.get('/payments/data/:order/:method', function (req, res) {
 
     if (req.params.method === 'interkassa') {
@@ -101,8 +103,6 @@ router.post('/payments/yandex', (req, res) => {
 
 router.post('/payments/interkassa', (req, res) => {
 
-
-
     var data = req.body.ik_pm_no.split('-');
 
     if(data.length === 3){
@@ -150,7 +150,6 @@ router.post('/payments/interkassa', (req, res) => {
 
 
 });
-
 
 router.post('/payments/liqpay/:id', (req, res) => {
 

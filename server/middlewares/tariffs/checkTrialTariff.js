@@ -1,6 +1,12 @@
 var jwt = require('jwt-simple');
 var moment = require('moment');
 
+/**
+ * Проверка срока действия и активности пробного периода
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     if( req.tariff && !req.tariff.tariff_name && req.subdomain != 'payment') {

@@ -2,6 +2,10 @@ var knex = require('../knex_connection');
 var Promise = require("bluebird");
 var _ = require('lodash');
 
+/**
+ * Скрипт для модификации уже существующих данных с парнтерскими начислениями в БД
+ */
+
 var client_partner;
 var fee;
 var promiseArray = [];

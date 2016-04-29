@@ -1,3 +1,7 @@
+/**
+ * Строки описания для платёжных систем
+ * @type {{start: {name: string, prices: *[], description: string[], off_description: Array, limitation: string[]}, business: {name: string, prices: *[], description: string[], off_description: string[], limitation: string[]}, magnate: {name: string, prices: *[], description: string[], off_description: Array, limitation: string[]}}}
+ */
 module.exports = {
    'start': {
       name: 'Старт',

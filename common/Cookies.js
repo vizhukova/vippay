@@ -3,7 +3,7 @@
  * @type {{setCookie: (function(*, *=, *=)), deleteCookie: (function(*=)), getCookie: (function(*))}}
  */
 
- var Cookie = {
+export default {
 
      setCookie(name, value, options) {
         options = options || {};
@@ -47,6 +47,4 @@
         return matches ? decodeURIComponent(matches[1]) : undefined;
 
     }
-}
-
-export default Cookie;
+};

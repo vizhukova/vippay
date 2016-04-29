@@ -2,7 +2,9 @@
 var knex = require('../knex_connection');
 var moment = require('moment');
 var fs = require('fs');
-
+/**
+ * Класс логгирования ошибок (в БД или файл)
+ */
     class Log {
 
         constructor(type, fileName) {

@@ -1,3 +1,7 @@
+/**
+ * Список подключенных платежных систем
+ * @type {*[]}
+ */
 module.exports = [{
     name: 'interkassa',
     active: false,

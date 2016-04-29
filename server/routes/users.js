@@ -75,36 +75,18 @@ router.post('/client/login', function (req, res, next) {
 
 });
 
-/*router.post('/client/login',  () => {
-
-    passport.authenticate('userLogin', {
-    successRedirect: '/api/',
-    failureRedirect: '/loginFailure'
-  })
-
-}
-);
-
-router.get('/loginFailure', function(req, res, next) {
-  res.send('Failed to authenticate');
-});
-
-router.get('/loginSuccess', function(req, res, next) {
-  res.send('Successfully authenticated');
-});*/
-
-
-router.post('/guest_login', (req, res, next) => {
-
-    PartnerController.guestLogin({
-        login: req.body.login
-    }).then(function (user) {
-        res.send(user)
-    }).catch(function (err) {
-        next();
-    })
-
-});
+//
+//router.post('/guest_login', (req, res, next) => {
+//
+//    PartnerController.guestLogin({
+//        login: req.body.login
+//    }).then(function (user) {
+//        res.send(user)
+//    }).catch(function (err) {
+//        next();
+//    })
+//
+//});
 
 router.get('/me', (req, res, next) => {
 
@@ -127,7 +109,10 @@ router.get('/me', (req, res, next) => {
 
 });
 
-router.get('/clients', (req, res, next) => { //get all clients for partner
+/**
+ * Получение все клиентов для партнера
+ */
+router.get('/clients', (req, res, next) => {
 
     UserController.get(req.user.id)
         .then(function (clients) {
@@ -138,11 +123,15 @@ router.get('/clients', (req, res, next) => { //get all clients for partner
 
 });
 
-router.get('/client', (req, res, next) => { //get current client for partner
+/**
+ * Получение текущего клиента для партнера
+ */
+router.get('/client', (req, res, next) => {
         res.send(req.clientObj);
 });
 
-router.put('/user/password', (req, res, next) => { //get all clients for partner
+
+router.put('/user/password', (req, res, next) => {
 
     UserController.setPassword({passwords: req.body, user_id: req.user.id})
         .then(function (data) {
@@ -167,7 +156,6 @@ router.put('/partner/partner_fee', function (req, res, next) {
         .then(function (user) {
             res.send({partner_query: user[0].partner_fee});
         }).catch(function (err) {
-        //res.status(400).send(err.errors)
             next(err);
     });
 });
@@ -177,7 +165,6 @@ router.get('/partnerlinks', getTariff, checkTrialTariff, checkBaseTariff, functi
         .then(function (partnerLinks) {
             res.send(partnerLinks)
         }).catch(function (err) {
-        //res.status(400).send(err.errors)
             next(err);
     });
 });
@@ -187,7 +174,6 @@ router.get('/partnerlinks/:id', getTariff, checkTrialTariff, checkBaseTariff, fu
         .then(function (partnerLink) {
             res.send(partnerLink[0])
         }).catch(function (err) {
-        //res.status(400).send(err.errors)
             next(err);
     });
 });

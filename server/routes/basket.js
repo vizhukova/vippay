@@ -9,7 +9,9 @@ var UserController = require('./../controllers/User');
 var _ = require('lodash');
 var Promise = require('bluebird');
 
-
+/**
+ * Закрытие заказа корзины
+ */
 router.put('/basket/complete', function(req, res, next) {
 
     BasketController.edit(req.body).then((data) => {
@@ -24,6 +26,9 @@ router.put('/basket/complete', function(req, res, next) {
 
 });
 
+/**
+ * Добавление продукта в корзину
+ */
 router.put('/basket/:product_id', function(req, res, next) {
 
     var customer;
@@ -135,6 +140,9 @@ router.put('/basket/:product_id', function(req, res, next) {
 
 });
 
+/**
+ * Получение продуктов корзины
+ */
 router.get('/basket/product/:basket_id', function(req, res, next) {
 
     BasketProductController.getWithConvertToBaseCurr(+req.params.basket_id).then((b_p) => {
@@ -148,6 +156,9 @@ router.get('/basket/product/:basket_id', function(req, res, next) {
     })
 });
 
+/**
+ * Получение корзины по customer_id
+ */
 router.get('/basket', function(req, res, next) {
 
     var customer_id = req.query.customer_id || 0;
@@ -176,6 +187,9 @@ router.get('/basket', function(req, res, next) {
     })
 });
 
+/**
+ * Изменение данных о корзине при оформлении заказа (изменение количества товаров)
+ */
 router.put('/basket', function(req, res, next) {
 
     var redirect = `http://${req.clientObj.login}.${req.postdomain}/order/basket/${req.body[0].basket_id}`;

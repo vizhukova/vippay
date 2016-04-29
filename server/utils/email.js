@@ -3,7 +3,10 @@ var smtpTransport = require('nodemailer-smtp-transport');
 var sendmailTransport = require('nodemailer-sendmail-transport');
 
 var transporter = nodemailer.createTransport(sendmailTransport({}));
-
+/**
+ * Утилита для отправки писем на поту
+ * @type {{send: (function(*=, *=, *=))}}
+ */
 
 module.exports = {
     send(to, subject, text){

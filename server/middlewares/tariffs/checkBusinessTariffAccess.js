@@ -1,4 +1,9 @@
-
+/**
+ * Проверка ограничений для тарифа "Бизнес"
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     if(req.clientObj.tariff_name == 'business') {

@@ -20,23 +20,11 @@ var User = bookshelf.Model.extend({
 
     validateSave: function () {
         return checkit({
-            //email: ['email', function(val) {
-            //    return knex('users').where('email', '=', val).then(function(resp) {
-            //        if (resp.length > 0) throw new Error('Такой электронный адрес уже существует')
-            //    })
-            //}, {
-            //    rule: 'email',
-            //    message: 'Введите верный email'
-            //}],
             name: [{
                 rule: 'required',
                 message: 'Поле "ФИО" обязательно для заполнения'
             }],
-            login: [/*'login', function(val) {
-                return knex('users').where('login', '=', val).then(function(resp) {
-                    if (resp.length > 0) throw new Error('Такой логин уже существует')
-                })
-            },*/ {
+            login: [{
                 rule: 'required',
                 message: 'Поле "логин" обязательно для заполнения'
             }],
@@ -73,15 +61,6 @@ var User = bookshelf.Model.extend({
             })
 
         })
-        /*return new this({email: user.email.toLowerCase().trim()}).fetch({require: true}).tap(function (customer) {
-            //return bcrypt.compareAsync(customer.get('password'), password)
-            //    .then(function (res) {
-            //        if (!res) throw new Error('Неверный пароль');
-            //    });
-            if(customer.get('password') !== user.password)  throw new Error('wrong_password');
-            if(customer.get('type') !== 'client')  throw new Error('you_are_not_registered');
-            if( !customer.get('active') )  throw new Error('you_are_not_registered');
-        });*/
     },
 
     register: Promise.method(function (user) {

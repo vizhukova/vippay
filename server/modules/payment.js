@@ -7,6 +7,12 @@ var LiqPay = require('./../payments/liqpay');
 
 var _ = require('lodash');
 
+/**
+ * Сбор данных для отрисовки страницы оплаты заказа
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     var order;

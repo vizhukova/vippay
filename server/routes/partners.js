@@ -91,6 +91,9 @@ router.post('/partner/login', function (req, res, next) {
 
 });
 
+/**
+ * Получение продуктов, доступных для просмотра клиенту
+ */
 router.get(`/partner/products`, function (req, res, next) {
     var productsArr = [];
     var partner;
@@ -117,7 +120,6 @@ router.get(`/partner/products`, function (req, res, next) {
             res.send(union);
         })
         .catch(function (err) {
-            //res.status(400).send(err.errors)
             next(err);
         });
 });
@@ -128,7 +130,6 @@ router.get('/partner', function (req, res, next) {
         .then(function (partners) {
             res.send(partners)
         }).catch(function (err) {
-            //res.status(400).send(err.errors)
             next(err);
     });
 });
@@ -138,7 +139,6 @@ router.get('/partner/current', function (req, res, next) {
         .then(function (partners) {
             res.send(partners)
         }).catch(function (err) {
-        //res.status(400).send(err.errors)
             next(err);
     });
 });
@@ -148,7 +148,6 @@ router.put('/partner', function (req, res, next) {
         .then(function (partner) {
             res.send(partner)
         }).catch(function (err) {
-        //res.status(400).send(err.errors)
             next(err);
     });
 });
@@ -158,7 +157,6 @@ router.get('/partner', function (req, res, next) {
         .then(function (partner) {
             res.send(partner)
         }).catch(function (err) {
-        //res.status(400).send(err.errors)
             next(err);
     });
 });
@@ -168,7 +166,6 @@ router.get('/partner/fee', function (req, res, next) {
         .then(function (fee) {
             res.send(fee)
         }).catch(function (err) {
-        //res.status(400).send(err.errors)
             next(err);
     });
 });
@@ -187,7 +184,6 @@ router.put('/partner/fee', function (req, res, next) {
         .then(function (fee) {
             res.send(fee[0]);
             }).catch(function (err) {
-            //res.status(400).send(err.errors);
             next(err);
         });
     } else {

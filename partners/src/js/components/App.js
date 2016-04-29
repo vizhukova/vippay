@@ -12,7 +12,9 @@ import ModalWindow from'./../../../../common/js/ModalWindow/ModalWindow';
 var _ = require('lodash');
 
 
-
+/**
+ * Элемент отображения клиента, на которого подписан парнтер
+ */
 class ClientItem extends React.Component {
 
     constructor(){
@@ -27,6 +29,9 @@ class ClientItem extends React.Component {
 
 }
 
+/**
+ * Основной компонент интерфейса партнера
+ */
 class Application extends React.Component {
 
     constructor() {

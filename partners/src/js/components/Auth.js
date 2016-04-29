@@ -23,6 +23,10 @@ class Auth extends React.Component {
         this.setState({tab: e.target.dataset.tab});
     }
 
+    /**
+     * Проверка нажатия на Enter
+     * @param e
+     */
     onKeyDown(e) {
         if(e.keyCode == 13) this.changeTab(e);
     }

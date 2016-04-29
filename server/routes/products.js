@@ -5,12 +5,14 @@ var Promise = require('bluebird');
 var _ = require('lodash');
 var router = express.Router();
 
+/**
+ * Получение продуктов по id категории
+ */
 router.get('/products/:id', function(req, res, next){
 
     ProductController.getAllProducts(req.params.id).then(function(products){
         res.send(products)
     }).catch(function(err){
-        //res.status(400).send(err.errors)
         next(err);
     })
 
@@ -39,16 +41,9 @@ router.post('/product', function(req, res, next){
     })
 });
 
-/*router.get('/product/upsell', function(req, res, next){
-
-    ProductController.get({user_id: req.clientObj.id}).then(function(products){
-        res.send(products)
-    }).catch(function(err){
-        next(err);
-    })
-});*/
-
-
+/**
+ * Получение продукта по id
+ */
 router.get('/product/:id', function(req, res, next){
 
     var product;
@@ -65,6 +60,9 @@ router.get('/product/:id', function(req, res, next){
 
 });
 
+/**
+ * Получение id продуктов, относящихся к данному id апселу
+ */
 router.get('/product/upsell/:id', function(req, res, next){
     UpsellProductController.getUpsells({upsell_id: req.params.id}).then(function(upsells){
         res.send(upsells)
@@ -73,6 +71,9 @@ router.get('/product/upsell/:id', function(req, res, next){
     })
 });
 
+/**
+ *Получение полной информации о продуктах, относящихся к данному id апселу
+ */
 router.get('/product/upsell_products/:id', function(req, res, next){
     ProductController.get({id: req.params.id}).then((products) => {
 
@@ -87,6 +88,9 @@ router.get('/product/upsell_products/:id', function(req, res, next){
     })
 });
 
+/**
+ * Получение апселов, относящихся к данному id продукту
+ */
 router.get('/product/upsells/:id', function(req, res, next){
     UpsellProductController.getForUpsellsProduct({product_id: req.params.id}).then(function(upsells){
         res.send(upsells)
@@ -129,7 +133,6 @@ router.delete('/product/:id', function(req, res, next){
     }).catch(function(err){
         if( !err.constraint) err.constraint = err.message;
         next(err);
-        //res.status(400).send(err.errors)
     })
 
 });
@@ -140,7 +143,6 @@ router.get('/product', function(req, res, next){
         res.send(products)
     }).catch(function(err){
         next(err);
-        //res.status(400).send(err.errors)
     })
 
 });

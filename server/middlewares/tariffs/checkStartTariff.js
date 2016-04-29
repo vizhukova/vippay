@@ -3,6 +3,12 @@ var Order = require('./../../models/Order');
 var Rate = require('./../../models/Rate');
 var Messages = require('./../../models/Messages');
 
+/**
+ * Проверка ограничений для тарифа "Старт"
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     if(  req.tariff && req.tariff.tariff_name == 'start' ) {

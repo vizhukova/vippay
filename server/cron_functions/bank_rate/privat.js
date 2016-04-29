@@ -60,7 +60,7 @@ var request = require('request');
             });
 
         }).then((res) => {
-            var a;
+            var a =[]+[]*[];
         }).catch((err)=>{
             var a;
         })

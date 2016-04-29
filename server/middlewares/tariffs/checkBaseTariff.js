@@ -1,8 +1,12 @@
 var jwt = require('jwt-simple');
 var moment = require('moment');
 
-//check all tariffs except trial
-
+/**
+ * Проверка активности и срока всех тарифов, за исключением пробного периода
+ * @param req
+ * @param res
+ * @param next
+ */
 module.exports = function(req, res, next){
 
     if( req.tariff && req.tariff.tariff_name && req.subdomain != 'payment') {
@@ -17,18 +21,6 @@ module.exports = function(req, res, next){
             } else {
                 res.sendStatus(403);
             }
-
-            /*if( moment.max(today, end_tariff) == today) {//if trial period end
-
-                req.tariff.active = false;
-                if(req.method != 'GET') {
-                    res.status(402).send();
-            } else {
-                next();
-            }
-        } else {
-            next();
-        }*/
 
         } else {
             next();
