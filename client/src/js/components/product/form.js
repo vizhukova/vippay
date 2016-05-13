@@ -570,6 +570,17 @@ class ProductForm extends React.Component {
                        toFixed={2} />
                 </fieldset>
 
+             <fieldset className="product-form">
+                <label className="text-warning">Комиссия </label>
+                <NumberInput type="text" name="fee"
+                       className="form-control input-lg" id="price"
+                       onChange={this.onChange}
+                       onKeyDown={this.onKeyDown}
+                       onClick = {this.onClick} placeholder="Введите комиссию"
+                       value={this.state.product.fee}
+                       toFixed={2} />
+                </fieldset>
+
                  <fieldset className="product-form">
                  <label className="text-warning">Валюта</label>
                  <Select values={this.state.currencies}

@@ -105,6 +105,7 @@ module.exports = {
             var customer;
             var partner_id;
             var feeToAdd;
+            var fee;
 
            Order.pay(id).then((o) => {
 
@@ -159,17 +160,35 @@ module.exports = {
 
            }).then((p_c) => {
 
-               if(! p_c.length) throw new Error('no_partners');
-               else {
-                   feeToAdd = p_c[0].fee;
-                   return Fee.get(order.client_id);
+               var total = +order.total_price_base_rate;
+
+               if(order.product.length === 1){
+                   fee = +order.product[0].fee || 0;
+                   feeToAdd = (total * fee)/100;
                }
+
+               else {
+                   fee = p_c[0].fee;
+                   feeToAdd = (total * fee)/100;
+               }
+
+               //if(!feeToAdd){
+               //    fee = p_c[0].fee;
+               //    feeToAdd = (total * fee)/100;
+                   return Fee.get(order.client_id);
+               //}else{
+               //    return Promise.resolve([])
+               //}
 
            }).then((fees) => {
 
-               var fee = _.findWhere(fees, {partner_id: partner_id});
+               if(fees.length === 0){
+                   return Promise.resolve()
+               }
 
-               if(!fee) {
+               var resultFee = _.findWhere(fees, {partner_id: partner_id});
+
+               if(!resultFee) {
 
                    return Fee.set({
                        client_id: order.client_id,
@@ -180,7 +199,7 @@ module.exports = {
 
                } else {
 
-                   var newFee = (+fee.fee_added) + (+feeToAdd);
+                   var newFee = (+resultFee.fee_added) + (+feeToAdd);
 
                    return Fee.put({
                        client_id: order.client_id,
@@ -212,6 +231,7 @@ module.exports = {
             var customer;
             var partner_id;
             var feeToAdd;
+             var fee;
 
            Order.setComplete({id: id, step: 'pending'}).then((o) => {
 
@@ -250,17 +270,33 @@ module.exports = {
 
            }).then((p_c) => {
 
-               if(! p_c.length) throw new Error('no_partners');
-               else {
-                   feeToAdd = p_c[0].fee;
-                   return Fee.get(order.client_id);
+               var total = +order.total_price_base_rate;
+
+               if(order.product.length === 1){
+                   fee = +order.product[0].fee || 0;
+                   feeToAdd = (total * fee)/100;
+               } else {
+                   fee = p_c[0].fee;
+                   feeToAdd = (total * fee)/100;
                }
+
+               //if (!feeToAdd){
+               //    fee = p_c[0].fee;
+               //    feeToAdd = (total * fee)/100;
+                   return Fee.get(order.client_id);
+               //}else{
+               //    return Promise.resolve([])
+               //}
 
            }).then((fees) => {
 
-               var fee = _.findWhere(fees, {partner_id: partner_id});
+               if(!fees.length){
+                   return Promise.resolve();
+               }
 
-               if(!fee) {
+               var resultFee = _.findWhere(fees, {partner_id: partner_id});
+
+               if(!resultFee){
 
                    return Fee.set({
                        client_id: order.client_id,
@@ -271,7 +307,7 @@ module.exports = {
 
                } else {
 
-                   var newFee = (+fee.fee_added) - (+feeToAdd);
+                   var newFee = (+resultFee.fee_added) - (+feeToAdd);
 
                    return Fee.put({
                        client_id: order.client_id,
