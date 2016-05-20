@@ -10,6 +10,7 @@ import Promise from 'bluebird';
 import App from './components/App';
 import Auth from './components/Auth';
 import Home from './components/Home';
+import Links from './components/Links';
 import Products from './components/Products';
 import Profile from './components/Profile';
 
@@ -19,6 +20,7 @@ import Profile from './components/Profile';
             <Route path="/" component={App} >
                 <IndexRoute component={Home} />
                 <Route path="/products" component={Products} />
+                <Route path="/links" component={Links} />
                 <Route path="/profile" component={Profile} />
             </Route>
             <Route path="/auth/:id" component={Auth} />

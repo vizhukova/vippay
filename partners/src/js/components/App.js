@@ -17,13 +17,13 @@ var _ = require('lodash');
  */
 class ClientItem extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
-        this.state={};
+        this.state = {};
     }
 
-    render(){
-        return  <li><a href={this.props.href}>{this.props.client.login}</a></li>
+    render() {
+        return <li><a href={this.props.href}>{this.props.client.login}</a></li>
     }
 
 
@@ -48,11 +48,13 @@ class Application extends React.Component {
         SettingsStore.listen(this.updateSettings);
 
         AuthActions.check().then(() => {
-                SettingsActions.get();
-                SettingsActions.getClients();
-                SettingsActions.getCurrentClient();
-                SettingsActions.getCurrentPartner();
-            })
+            SettingsActions.get();
+            SettingsActions.getClients();
+            SettingsActions.getCurrentClient();
+            SettingsActions.getCurrentPartner();
+        }).catch((err) => {
+            console.log('Not authorized')
+        })
     }
 
     componentWillUnmount() {
@@ -61,8 +63,8 @@ class Application extends React.Component {
 
     }
 
-    update(state){
-        if(!this.state.auth) {
+    update(state) {
+        if (!this.state.auth) {
             if (!state.auth) {
                 location.hash = 'auth';
             }
@@ -72,20 +74,20 @@ class Application extends React.Component {
         this.setState({});
     }
 
-    updateSettings(state){
+    updateSettings(state) {
         this.setState(state);
     }
 
     render() {
-        console.log('App state: ', this.state)
 
         var self = this;
 
         return <div className="app">
-                <nav className="navbar navbar-default">
+            <nav className="navbar navbar-default">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                             <span className="sr-only">Toggle navigation</span>
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
@@ -97,30 +99,36 @@ class Application extends React.Component {
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
                             <li><Link to="/products">Продукты клиента</Link></li>
+                            <li><Link to="/links">Партнёрские ссылки</Link></li>
                         </ul>
-                       <ul className="nav navbar-nav navbar-right">
+                        <ul className="nav navbar-nav navbar-right">
                             <li className="dropdown">
-                              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.current_client.login}<span className="caret"></span></a>
-                              <ul className="dropdown-menu">
-                                  {this.state.clients.map((item, index) => {
-                                      return <ClientItem key={index} client={item} href={`http://${item.login}.${this.state.domain}/${this.state.partner.login}#/products`}/>
-                                  })}
-                              </ul>
+                                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">{this.state.current_client.login}<span
+                                    className="caret"></span></a>
+                                <ul className="dropdown-menu">
+                                    {this.state.clients.map((item, index) => {
+                                        return <ClientItem key={index} client={item}
+                                                           href={`http://${item.login}.${this.state.domain}/${this.state.partner.login}#/products`}/>
+                                    })}
+                                </ul>
                             </li>
-                             <li className="dropdown">
-                              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.partner.name}</a>
-                                  <ul className="dropdown-menu">
+                            <li className="dropdown">
+                                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false"><i
+                                    className="glyphicon glyphicon-user"></i>{this.state.partner.name}</a>
+                                <ul className="dropdown-menu">
                                     <li><Link to="/profile" activeClassName="active">Профиль</Link></li>
                                     <li><a href={this.state.out_link}>Выход</a></li>
-                                  </ul>
-                          </li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </nav>
             <ModalWindow />
             <Alert />
-              {this.state.auth ? <div>{this.props.children}</div> : <Loader />}
+            {this.state.auth ? <div>{this.props.children}</div> : <Loader />}
 
         </div>
     }
