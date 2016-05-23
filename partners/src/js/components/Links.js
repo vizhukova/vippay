@@ -1,53 +1,54 @@
 import React from 'react';
-import ProductsActions from'./../actions/ProductsActions';
-import ProductsStore from'./../stores/ProductsStore';
+import {RoutingContext, Link} from 'react-router'
+import SettingsActions from'./../actions/SettingsActions'
+import SettingsStore from './../stores/SettingsStore'
 
 /**
- * Список продуктов партнёра
+ * Партнёрская ссылка
  */
-class Products extends React.Component {
+class Links extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
-        this.state = ProductsStore.getState();
+        this.state = SettingsStore.getState() || {links: []};
+
         this.update = this.update.bind(this);
     }
 
     componentDidMount() {
-        ProductsStore.listen(this.update);
-        ProductsActions.getProducts();
+        SettingsActions.get();
+        SettingsActions.getClients();
+        SettingsActions.getCurrentClient();
+        SettingsActions.getCurrentPartner();
+        SettingsStore.listen(this.update)
     }
 
     componentWillUnmount() {
-        ProductsStore.unlisten(this.update);
+        SettingsStore.unlisten(this.update)
     }
 
     update(state) {
-        console.log('STAAAATE', state)
         this.setState(state);
     }
 
+    render() {
 
-    render(){
+        return <div>
+            <div className="boxed">
+                {this.state.links.map(function (link) {
 
-        return <List
-            title="Продукты"
-            error={this.state.error}
-            items={this.state.products}
-            itemComponent={ProductItem}
-            isPaginate={true}
-            thead={[
-                {name: 'Товар', key: 'name'},
-                {name: 'Дополнительные материалы', key: ''},
-                {name: 'Описание', key: ''},
-                {name: 'Ссылка на продукт', key: ''}
-            ]}
-            />
+                    return <h5 className="form-group">
+                        <a href={`${link.link}`}>{link.link}</a> - {link.name} <br/>
+                    </h5>
+
+                })}
+
+            </div>
+        </div>
 
     }
-
 
 }
 
 
-export default Products;
+export default Links;

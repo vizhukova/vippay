@@ -212,4 +212,11 @@ router.put('/partner/individual_fee', function (req, res, next) {
 });
 
 
+router.get('/partner/links', function(req, res){
+
+
+
+});
+
+
 module.exports = router;
