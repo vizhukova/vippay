@@ -33,14 +33,14 @@ var Partner = bookshelf.Model.extend({
                 message: 'Поле "ФИО" обязательно для заполнения'
             }],
             login: [/*'login', function(val) {
-                return knex('partners').where('login', '=', val).then(function(resp) {
-                    if (resp.length > 0) throw new Error('Такой логин уже существует')
-                })
-            },*/ {
+             return knex('partners').where('login', '=', val).then(function(resp) {
+             if (resp.length > 0) throw new Error('Такой логин уже существует')
+             })
+             },*/ {
                 rule: 'required',
                 message: 'Поле "логин" обязательно для заполнения'
             }],
-            password:[{
+            password: [{
                 rule: 'required',
                 message: 'Поле "пароль" обязательно для заполнения'
             }]
@@ -57,11 +57,11 @@ var Partner = bookshelf.Model.extend({
             //    .then(function (res) {
             //        if (!res) throw new Error('Неверный пароль');
             //    });
-            if(customer.get('password') !== partner.password)
+            if (customer.get('password') !== partner.password)
                 throw new Error('Неверный пароль');
-            if(! customer.get('active'))
+            if (!customer.get('active'))
                 throw new Error('Партнер не активен');
-            if(customer.get('type') !== 'partner')
+            if (customer.get('type') !== 'partner')
                 throw new Error('Вы нее зарегестрированы');
         });
     }),
@@ -70,11 +70,49 @@ var Partner = bookshelf.Model.extend({
         return knex.select().from('clients-partners').where('client_id', id);
     }),
 
-    register: Promise.method(function (partner) {
-        var record = new this({name: partner.name, login: partner.login, email: partner.email, password: partner.password, type: 'partner', basic_currency: 1});
+    register(partner){
 
-        return record.save();
-    }),
+        var inserted;
+
+        var record = {
+            name: partner.name,
+            login: partner.login,
+            email: partner.email,
+            password: partner.password,
+            type: 'partner',
+            basic_currency: 1
+        };
+
+        return knex('users').insert(record).returning('*').then((u) => {
+
+            inserted = u[0];
+
+            if (partner.referer) {
+
+                return knex('users').first('id').where({login: partner.referer, type: 'partner'}).then((p) => {
+
+                    return knex('referers').insert({
+
+                        user_id: u[0].id,
+                        referer_id: p.id
+
+                    })
+
+                })
+
+            } else {
+
+                return Promise.resolve();
+
+            }
+
+        }).then(() => {
+
+            return Promise.resolve(inserted)
+
+        })
+
+    },
 
     bindWithClient(data) {
         return new Promise((resolve, reject) => {
@@ -98,10 +136,10 @@ var Partner = bookshelf.Model.extend({
 
     getAll: Promise.method(function (client_id) {
         return knex.select('users.*', 'clients-partners.fee as partner_fee')
-                    .from('users')
-                    .join('clients-partners', 'partner_id', '=', 'users.id')
-                    .where('client_id', '=', client_id)
-                    .orderBy('id', 'asc')
+            .from('users')
+            .join('clients-partners', 'partner_id', '=', 'users.id')
+            .where('client_id', '=', client_id)
+            .orderBy('id', 'asc')
     }),
 
     getById: Promise.method(function (id) {
@@ -119,15 +157,24 @@ var Partner = bookshelf.Model.extend({
                 .then((res) => {
                     resolve(partner);
                 }).catch((err) => {
-                    reject(err);
-                })
+                reject(err);
+            })
         })
     },
 
     get(id){
-           return  knex('users')
-                .first('login', 'name', 'id')
-                .where({id: id})
+        return knex('users')
+            .first('login', 'name', 'id')
+            .where({id: id})
+    },
+
+    getReferer(id){
+
+        return knex('referers')
+            .first('*')
+            .join('users', 'referer_id', '=', 'users.id')
+            .where({user_id: id})
+
     }
 });
 

@@ -4,6 +4,19 @@ import PasswordInput from './../../../../../common/js/PasswordInput';
 import Alert from './../../../../../common/js/Alert/Alert'
 import AlertActions from './../../../../../common/js/Alert/AlertActions'
 
+function getSearch(){
+
+    var obj = {};
+
+    location.search.slice(1).split('&').map((el) => {
+		el = el.split('=');
+        obj[el[0]] = el[1]
+    });
+
+    return obj;
+
+}
+
 /**
  * Форма регистрации партнера
  */
@@ -16,8 +29,10 @@ class Register extends React.Component {
 		this.onKeyDown = this.onKeyDown.bind(this);
 		this.register = this.register.bind(this);
 		this.state = {
-			errors: {}
+			errors: {},
+			referer: getSearch().ref
 		};
+		debugger;
     }
 
 	componentDidMount() {

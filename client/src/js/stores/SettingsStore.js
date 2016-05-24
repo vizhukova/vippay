@@ -74,11 +74,13 @@ class SettingsStore {
 
     onGetFee(obj) {
         this.fee = obj.fee;
+        this.fee_secondary = obj.fee_secondary;
         //console.log('SettingsStore fee = ', obj.fee);
     }
 
     onEditFee(obj) {
         this.fee = obj.fee;
+        this.fee_secondary = obj.fee_secondary;
         //console.log('SettingsStore fee = ', obj.fee);
     }
 

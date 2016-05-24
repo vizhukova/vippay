@@ -107,10 +107,10 @@ class Application extends React.Component {
                                    aria-haspopup="true" aria-expanded="false">{this.state.current_client.login}<span
                                     className="caret"></span></a>
                                 <ul className="dropdown-menu">
-                                    {this.state.clients.map((item, index) => {
+                                    {self.state.clients ? self.state.clients.map((item, index) => {
                                         return <ClientItem key={index} client={item}
                                                            href={`http://${item.login}.${this.state.domain}/${this.state.partner.login}#/products`}/>
-                                    })}
+                                    }):null}
                                 </ul>
                             </li>
                             <li className="dropdown">

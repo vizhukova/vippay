@@ -31,7 +31,7 @@ module.exports = {
                 }
 
                     var token = jwt.encode({id: model.id, role: 'partner'}, 'secret');
-                    resolve({modelData: model.attributes, token: token});
+                    resolve({modelData: model, token: token});
 
                 }).catch(function(err){
                 reject(err);
@@ -116,6 +116,18 @@ module.exports = {
             var errors = {};
 
             Partner.getById(id).then(function(model){
+                resolve(model);
+            }).catch(function(err){
+                reject(err);
+            })
+
+        })
+    },
+
+    getReferer(id){
+        return new Promise(function(resolve, reject){
+
+            Partner.getReferer(id).then(function(model){
                 resolve(model);
             }).catch(function(err){
                 reject(err);

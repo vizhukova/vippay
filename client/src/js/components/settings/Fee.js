@@ -40,7 +40,7 @@ class Fee extends React.Component {
     save(e) {
         e.preventDefault();
 
-        SettingsAction.editFee(this.state.fee).then((res) => {
+        SettingsAction.editFee(this.state.fee, this.state.fee_secondary).then((res) => {
             AlertActions.set({
                 type: 'success',
                 text: 'Новая сумма комиссии успешно установлена',
@@ -57,6 +57,9 @@ class Fee extends React.Component {
                 <div className="form-group">
                     <label>Комиссия:</label>
                     <NumberInput value={this.state.fee} name="fee" onChange={this.onChange} toFixed={2}/>
+
+                    <label>Комиссия приведшему:</label>
+                    <NumberInput value={this.state.fee_secondary} name="fee_secondary" onChange={this.onChange} toFixed={2}/>
                 </div>
                 <input type="submit" className="btn btn-primary" value="Сохранить" />
             </form>

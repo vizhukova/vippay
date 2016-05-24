@@ -35,14 +35,15 @@ router.post('/partner/register', function (req, res, next) {
         email: req.body.email,
         password: req.body.password,
         confirm_pass: req.body.confirm_pass,
-        client_id: req.clientObj.id
+        client_id: req.clientObj.id,
+        referer: req.body.referer
 
     }).then((u) => {
 
         partner = u;
 
         var link = `http://${req.clientObj.login}.${req.postdomain}/${partner.modelData.login}`;
-         email.send(partner.modelData.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${link}`);
+        email.send(partner.modelData.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${link}`);
 
         return PartnerController.setFee({
             client_id: client_id,

@@ -86,10 +86,10 @@ class SettingsAction {
         })
     }
 
-    editFee(fee) {
+    editFee(fee, fee_secondary) {
         var self = this;
         return new Promise((resolve, reject) => {
-             ApiActions.put(`fee`, {fee: fee}).then(function(data){
+             ApiActions.put(`fee`, {fee: fee, fee_secondary: fee_secondary}).then(function(data){
                 self.dispatch(data);
                  resolve(data);
             }).catch(function(err){

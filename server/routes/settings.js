@@ -85,12 +85,13 @@ router.get('/fee', function(req, res, next) {
 
 router.put('/fee', checkTrialTariff, checkBaseTariff, checkStartTariff,  function(req, res, next) {
 
-    FeeController.editFee({id: req.clientObj.id, fee: req.body.fee})
+    FeeController.editFee({id: req.clientObj.id, fee: req.body.fee, fee_secondary: req.body.fee_secondary})
             .then(function(fee){
                 res.send(fee);
             }).catch(function(err) {
-                if( err.code == '22003')
-                err.constraint = 'too_big_value';
+                if( err.code == '22003'){
+                    err.constraint = 'too_big_value';
+                }
                 next(err);
             });
 

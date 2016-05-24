@@ -1,7 +1,7 @@
 import AlertActions from './../common/js/Alert/AlertActions';
 import AuthActions from './src/js/actions/AuthActions';
 
-module.exports = {
+export default {
     check(error) {
 
         switch(error.status) {

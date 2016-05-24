@@ -149,7 +149,7 @@ var User = bookshelf.Model.extend({
     getFee: Promise.method(function (id) {
 
         return knex('users')
-                .first('fee')
+                .first('fee', 'fee_secondary')
                 .where('id', '=', id)
 
     }),
@@ -159,7 +159,7 @@ var User = bookshelf.Model.extend({
         return knex('users')
                 .update(data)
                 .where('id', '=', data.id)
-                .returning(['fee'])
+                .returning(['fee', 'fee_secondary'])
     }),
 
 

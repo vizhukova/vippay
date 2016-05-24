@@ -5,6 +5,19 @@ import AlertActions from './../../../../../common/js/Alert/AlertActions';
 import PasswordInput from './../../../../../common/js/PasswordInput';
 import cookie from'./../../../../../common/Cookies';
 
+function getSearch(){
+
+    var obj = {};
+
+    location.search.slice(1).split('&').map((el) => {
+        el = el.split('=');
+        obj[el[0]] = el[1]
+    });
+
+    return obj;
+
+}
+
 /**
  * Форма логина партнера
  */
@@ -17,7 +30,8 @@ class Login extends React.Component {
         this.onKeyDown = this.onKeyDown.bind(this);
         this.login = this.login.bind(this);
         this.state = {
-            errors: {}
+            errors: {},
+            referer: getSearch().ref
             };
     }
 
@@ -103,7 +117,6 @@ class Login extends React.Component {
                             tabIndex="4"
                             placeholder="Пароль"/>
 			</div>
-
             <div className="btn btn-primary btn-block" tabIndex="5" onClick={this.login} onKeyDown={this.onKeyDown}>Отправить</div>
             </div>
 
