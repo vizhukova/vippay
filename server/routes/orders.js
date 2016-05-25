@@ -97,6 +97,9 @@ router.post('/order', function(req, res, next) {
     var user;
     var total = req.body.total;
     var order;
+    var partner_id;
+    var total_price_base_rate;
+    var delivery_price_base_rate;
 
     if(! _.trim(delivery.email).length
         || ! _.trim(delivery.name).length
@@ -152,17 +155,37 @@ router.post('/order', function(req, res, next) {
 
     }).then((prices_base_rate) => {
 
-        var partner_id;
-        var total_price_base_rate = prices_base_rate[0];
-        var delivery_price_base_rate = prices_base_rate[1];
+        total_price_base_rate = prices_base_rate[0];
+        delivery_price_base_rate = prices_base_rate[1];
 
-         if(user.partner_fee == 'first') {
+        if (user.partner_fee == 'first') {
 
-             partner_id = customer.partner_product_id.partner_id[0];
+            partner_id = customer.partner_product_id.partner_id[0];
 
-         } else {
-             partner_id = customer.partner_product_id.partner_id[ customer.partner_product_id.partner_id.length - 1 ];
-         }
+        } else {
+            partner_id = customer.partner_product_id.partner_id[customer.partner_product_id.partner_id.length - 1];
+        }
+
+        if(partner_id) {
+
+            return PartnerClientsController.get({partner_id: partner_id, client_id: user.id});
+
+        } else {
+
+            Promise.resolve();
+
+        }
+
+
+    }).then((p_c) => {
+
+        if( (product.length == 1 && product[0].fee != 0 && !product[0].fee) || product.length > 1 ) {
+
+            product[0].fee = (p_c[0] ? p_c[0].fee : null) || user.fee || 0;
+
+        }
+
+        product[0].fee_secondary = user.fee_secondary || 0;
 
         return OrderController.add({
                             customer_id: customer.id,

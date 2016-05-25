@@ -5,6 +5,7 @@ import { Router, Route, IndexRoute, Link } from 'react-router';
 import _  from 'lodash';
 
 import Materials from './../../../client/src/js/components/Materials';
+import Message from './../../../client/src/js/components/Message';
 
 
 /**
@@ -15,7 +16,8 @@ class ModalWindow extends React.Component {
     constructor() {
         super();
         this.components = {
-            'Materials': Materials
+            'Materials': Materials,
+            'Message': Message
         }
         this.state = ModalStore.getState();
         this.update = this.update.bind(this);

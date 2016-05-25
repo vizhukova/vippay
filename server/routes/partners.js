@@ -126,7 +126,6 @@ router.get(`/partner/products`, function (req, res, next) {
         });
 });
 
-
 router.get('/partner', function (req, res, next) {
     PartnerController.getAll(req.clientObj.id)
         .then(function (partners) {
@@ -193,7 +192,6 @@ router.put('/partner/fee', function (req, res, next) {
     }
 
 });
-
 
 router.put('/partner/individual_fee', function (req, res, next) {
 

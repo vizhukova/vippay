@@ -82,7 +82,7 @@ class ProductItem extends React.Component {
                  </form>`
 
             },
-            name: 'MessageError'
+            name: 'Message'
         })
     }
 

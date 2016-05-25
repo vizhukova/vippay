@@ -64,6 +64,14 @@ class Statistics extends React.Component {
                                     <td>Общая сумма клиентских выплат:</td>
                                     <td>{this.state.statistic.sum_fee_payed || 0}</td>
                                 </tr>
+                                <tr>
+                                    <td>Количество оплаченных заказов партнеров второго уровня:</td>
+                                    <td>{this.state.statistic.count_complete_order_partners_secondary || 0}</td>
+                                </tr>
+                                <tr>
+                                    <td>Общая сумма, начисленная за заказы партнеров второго уровня:</td>
+                                    <td>{parseFloat(this.state.statistic.sum_complete_order_secondary).toFixed(2) || 0}</td>
+                                </tr>
                             </tbody>
                         </table>
                         <div className="table-footer">
