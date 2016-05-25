@@ -111,7 +111,8 @@ class List extends React.Component {
 
         return <div>
             <div className="row">
-                <div>
+                <div className="col-md-12">
+                    <div>
                     <div className="table-wrapper">
 
                         <div className="table-head">
@@ -167,6 +168,8 @@ class List extends React.Component {
                         </div>
                     </div>
                 </div>
+                </div>
+
             </div>
         </div>
 
