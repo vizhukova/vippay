@@ -21,9 +21,8 @@ module.exports = {
             if(partner.password !== partner.confirm_pass){
                 errors.password = ['Пароли должны совпадать'];
             }
-                var newPartner = _.omit(partner, ['client_id']);
 
-                return Partner.register(newPartner).then(function(model){
+                return Partner.register(partner).then(function(model){
                 if(errors.password){
                     reject({
                         errors: errors
@@ -45,10 +44,17 @@ module.exports = {
             var model;
             var errors = {};
 
-            var newPartner = _.omit(partner, ['client_id']);
-
-            Partner.login(newPartner).then(function (m) {
+            Partner.login(partner).then(function (m) {
                 model = m;
+
+                return User.getByLogin(partner.referer);
+
+            }).then((referer) => {
+
+                return Partner.setReferrer({user_id: model.id, client_id: partner.client_id});
+
+            }).then(() => {
+
                 return Partner.bindWithClient({client_id: partner.client_id, partner_id: model.id})
 
             }).then(() => {

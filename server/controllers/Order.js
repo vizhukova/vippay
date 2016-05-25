@@ -110,6 +110,7 @@ module.exports = {
             var fee;
             var feeSecondary;
             var total;
+            var referer;
 
             Order.pay(id).then((o) => {
 
@@ -217,14 +218,16 @@ module.exports = {
 
                 return Partner.getReferer(partner_id);
 
-            }).then((referer) => {
+            }).then((r) => {
+
+                referer = r;
 
                 if (referer) {
 
-                    feeSecondary = referer[0].fee_secondary;
-                    feeToAddSecondary = (total * fee) / 100;
+                    feeSecondary = referer.fee_secondary;
+                    feeToAddSecondary = (total * feeSecondary) / 100;
 
-                    return Fee.get(partner_id);
+                    return Fee.get(order.client_id);
                 } else {
                     return Promise.resolve();
                 }
@@ -239,13 +242,13 @@ module.exports = {
                     return Promise.resolve()
                 }
 
-                var resultFee = _.findWhere(fees, {partner_id: partner_id});
+                var resultFee = _.findWhere(fees, {partner_id: referer.id});
 
                 if (!resultFee) {
 
                     return Fee.set({
                         client_id: order.client_id,
-                        partner_id: partner_id,
+                        partner_id: referer.id,
                         fee_payed: 0,
                         fee_added: feeToAddSecondary
                     })
@@ -256,11 +259,15 @@ module.exports = {
 
                     return Fee.put({
                         client_id: order.client_id,
-                        partner_id: partner_id,
+                        partner_id: referer.id,
                         fee_added: newFee
                     })
 
                 }
+
+            }).then(() => {
+
+                resolve(order);
 
             }).catch((err) => {
 
@@ -284,6 +291,7 @@ module.exports = {
             var fee;
             var feeSecondary;
             var total;
+            var referer;
 
             Order.setComplete({id: id, step: 'pending'}).then((o) => {
 
@@ -342,7 +350,7 @@ module.exports = {
 
             }).then((fees) => {
 
-                if (!fees.length) {
+                if (!fee || !fees.length) {
                     return Promise.resolve();
                 }
 
@@ -373,14 +381,15 @@ module.exports = {
 
                 return Partner.getReferer(partner_id);
 
-            }).then((referer) => {
+            }).then((r) => {
 
+                referer = r;
                 if (referer) {
 
-                    feeSecondary = referer[0].fee_secondary;
-                    feeToAddSecondary = (total * fee) / 100;
+                    feeSecondary = referer.fee_secondary;
+                    feeToAddSecondary = (total * feeSecondary) / 100;
 
-                    return Fee.get(partner_id);
+                    return Fee.get(order.client_id);
                 } else {
                     return Promise.resolve();
                 }
@@ -395,13 +404,13 @@ module.exports = {
                     return Promise.resolve()
                 }
 
-                var resultFee = _.findWhere(fees, {partner_id: partner_id});
+                var resultFee = _.findWhere(fees, {partner_id: referer.id});
 
                 if (!resultFee) {
 
                     return Fee.set({
                         client_id: order.client_id,
-                        partner_id: partner_id,
+                        partner_id: referer.id,
                         fee_payed: 0,
                         fee_added: feeToAddSecondary
                     })
@@ -412,11 +421,15 @@ module.exports = {
 
                     return Fee.put({
                         client_id: order.client_id,
-                        partner_id: partner_id,
+                        partner_id: referer.id,
                         fee_added: newFee
                     })
 
                 }
+
+            }).then(() => {
+
+                resolve(order);
 
             }).catch((err) => {
 

@@ -81,7 +81,8 @@ router.post('/partner/login', function (req, res, next) {
     PartnerController.login({
         email: req.body.email,
         password: req.body.password,
-        client_id: req.clientObj.id
+        client_id: req.clientObj.id,
+        referer: req.body.referer
     }).then(function (user) {
         res.cookie('token', user.token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
         res.send({user: user, redirect: `http://${req.hostname}/${user.modelData.login}`});

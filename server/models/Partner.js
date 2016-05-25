@@ -51,8 +51,14 @@ var Partner = bookshelf.Model.extend({
 
 
     login: Promise.method(function (partner) {
-        if (!partner.email || !partner.password) throw new Error('Email и пароль обязательны');
-        return new this({email: partner.email.trim()}).fetch({require: true}).tap(function (customer) {
+
+         var record = {
+            email: partner.email,
+            password: partner.password
+        };
+
+        if (!record.email || !record.password) throw new Error('Email и пароль обязательны');
+        return new this({email: record.email.trim()}).fetch({require: true}).tap(function (customer) {
             //return bcrypt.compareAsync(customer.get('password'), password)
             //    .then(function (res) {
             //        if (!res) throw new Error('Неверный пароль');
@@ -63,6 +69,7 @@ var Partner = bookshelf.Model.extend({
                 throw new Error('Партнер не активен');
             if (customer.get('type') !== 'partner')
                 throw new Error('Вы нее зарегестрированы');
+
         });
     }),
 
@@ -94,7 +101,8 @@ var Partner = bookshelf.Model.extend({
                     return knex('referers').insert({
 
                         user_id: u[0].id,
-                        referer_id: p.id
+                        referer_id: p.id,
+                        client_id: partner.client_id
 
                     })
 
@@ -112,6 +120,36 @@ var Partner = bookshelf.Model.extend({
 
         })
 
+    },
+
+    setReferrer(obj) {
+        return new Promise ((resolve, reject) => {
+
+        knex('referers')
+            .first()
+            .where(obj)
+        .then((referer) => {
+
+            if(! referer) {
+
+                return knex('referers')
+                    .insert(obj)
+
+            } else {
+                Promise.resolve();
+            }
+
+        }).then((data) => {
+
+            resolve(data);
+
+        }).catch((err) => {
+
+            reject(err);
+
+        })
+
+        })
     },
 
     bindWithClient(data) {

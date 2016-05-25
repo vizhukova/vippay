@@ -8,7 +8,7 @@ INSERT INTO users (login, email, password, name, basic_currency, type, created_a
                                                                                           ('login3', 'email3@sss.ss', '3', 'name3', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
                                                                                           ('login4', 'email4@sss.ss', '4', 'name4', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
                                                                                           ('login5', 'email5@sss.ss', '5', 'name5', '1', 'client', '2016-02-16 10:25:06 Europe/Kiev'),
-                                                                                          ('логин', 'email6@sss.ss', '6', 'name6', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
+                                                                                          ('login6', 'email6@sss.ss', '6', 'name6', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
                                                                                           ('login7', 'email7@sss.ss', '7', 'name7', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
                                                                                           ('login8', 'email8@sss.ss', '8', 'name8', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
                                                                                           ('login9', 'email9@sss.ss', '9', 'name9', '1', 'partner', '2016-02-16 10:25:06 Europe/Kiev'),
@@ -62,17 +62,17 @@ INSERT INTO "clients-partners" (client_id, partner_id) VALUES ('1', '6'),
 
 
 
-INSERT INTO "fee" (client_id, partner_id, fee_added, fee_payed) VALUES ('1', '6', '1', '1'),
-                                                                      ('1', '7', '2', '2'),
-                                                                      ('1', '8', '3', '3'),
-                                                                      ('1', '9', '4', '4'),
-                                                                      ('1', '10', '1', '1'),
-                                                                      ('1', '11', '1', '1'),
-                                                                      ('2', '6', '1', '1'),
-                                                                      ('2', '7', '1', '1'),
-                                                                      ('3', '8', '1', '1'),
-                                                                      ('3', '9', '1', '1'),
-                                                                      ('3', '10', '1', '1');
+INSERT INTO "fee" (client_id, partner_id, fee_added, fee_payed) VALUES ('1', '6', '0', '0'),
+                                                                      ('1', '7', '0', '0'),
+                                                                      ('1', '8', '0', '0'),
+                                                                      ('1', '9', '0', '0'),
+                                                                      ('1', '10', '0', '0'),
+                                                                      ('1', '11', '0', '0'),
+                                                                      ('2', '6', '0', '0'),
+                                                                      ('2', '7', '0', '0'),
+                                                                      ('3', '8', '0', '0'),
+                                                                      ('3', '9', '0', '0'),
+                                                                      ('3', '10', '0', '0');
 
 
 

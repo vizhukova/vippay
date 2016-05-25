@@ -206,7 +206,7 @@ class Partners extends React.Component {
         //console.log(this.state.partners)
         return <div>
             <div className="boxed">
-                <h4>Партнер, которому будут перчисляться бонусы</h4>
+                <h4>Партнер, которому будут перечисляться бонусы</h4>
                 <div>
                     <label>
                         <input type="radio" value="first"
