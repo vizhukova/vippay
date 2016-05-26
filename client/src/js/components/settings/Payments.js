@@ -18,7 +18,6 @@ class PaymentItem extends React.Component {
             isMoreInformation: false,
             payment: {}
         };
-        this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
         this.save = this.save.bind(this);
@@ -63,9 +62,8 @@ class PaymentItem extends React.Component {
         this.props.save(this.props.id);
     }
 
-
     render() {
-        return <div className="">
+        return <div>
             <div className="block boxed">
                 <div className="block-title">
                     <h3>
@@ -116,6 +114,7 @@ class PaymentItem extends React.Component {
             </div>
         </div>
     }
+
 }
 
 /**
