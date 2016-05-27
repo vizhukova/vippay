@@ -2,7 +2,7 @@ from fabric.api import *
 
 env.roledefs['production'] = ['root@78.109.24.70']
 env.roledefs['stage'] = ['root@188.166.116.177']
-env.roledefs['local'] = ['andrew@127.0.0.1']
+env.roledefs['local'] = ['root@127.0.0.1']
 
 project_root = '/var/www/vippay'
 

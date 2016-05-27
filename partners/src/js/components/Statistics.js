@@ -58,19 +58,19 @@ class Statistics extends React.Component {
                                 </tr>
                                 <tr>
                                     <td>Общая сумма клиентского долга :</td>
-                                    <td>{this.state.statistic.sum_fee_added || 0}</td>
+                                    <td>{this.state.statistic.sum_fee_added || '0.00'}</td>
                                 </tr>
                                 <tr>
                                     <td>Общая сумма клиентских выплат:</td>
-                                    <td>{this.state.statistic.sum_fee_payed || 0}</td>
+                                    <td>{this.state.statistic.sum_fee_payed || '0.00'}</td>
                                 </tr>
                                 <tr>
                                     <td>Количество оплаченных заказов партнеров второго уровня:</td>
-                                    <td>{this.state.statistic.count_complete_order_partners_secondary || 0}</td>
+                                    <td>{this.state.statistic.count_complete_order_partners_secondary ? this.state.statistic.count_complete_order_partners_secondary : 0}</td>
                                 </tr>
                                 <tr>
                                     <td>Общая сумма, начисленная за заказы партнеров второго уровня:</td>
-                                    <td>{parseFloat(this.state.statistic.sum_complete_order_secondary).toFixed(2) || 0}</td>
+                                    <td>{this.state.statistic.sum_complete_order_secondary ? parseFloat(this.state.statistic.sum_complete_order_secondary).toFixed(2) : '0.00'}</td>
                                 </tr>
                             </tbody>
                         </table>
