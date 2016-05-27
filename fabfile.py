@@ -2,6 +2,7 @@ from fabric.api import *
 
 env.roledefs['production'] = ['root@78.109.24.70']
 env.roledefs['stage'] = ['root@188.166.116.177']
+env.roledefs['local'] = ['andrew@127.0.0.1']
 
 project_root = '/var/www/vippay'
 
@@ -55,6 +56,16 @@ def deploy_production():
 
 @roles('stage')
 def deploy_stage():
+    prepare_branch()
+    update_code()
+    install_dependencies()
+    run_migration()
+    build_static()
+    restart_server()
+
+
+@roles('local')
+def deploy_local():
     prepare_branch()
     update_code()
     install_dependencies()

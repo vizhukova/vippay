@@ -181,7 +181,7 @@ router.post('/order', function(req, res, next) {
 
         if( (product.length == 1 && product[0].fee != 0 && !product[0].fee) || product.length > 1 ) {
 
-            product[0].fee = (p_c[0] ? p_c[0].fee : null) || user.fee || 0;
+            product[0].fee = ( p_c && p_c[0] ? p_c[0].fee : null) || user.fee || 0;
 
         }
 
