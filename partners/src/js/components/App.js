@@ -100,6 +100,7 @@ class Application extends React.Component {
                         <ul className="nav navbar-nav">
                             <li><Link to="/products">Продукты клиента</Link></li>
                             <li><Link to="/links">Партнёрские ссылки</Link></li>
+                            <li><Link to="/secondary_partners">Партнёры второго уровня</Link></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             <li className="dropdown">

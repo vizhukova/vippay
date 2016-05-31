@@ -13,6 +13,7 @@ import Home from './components/Home';
 import Links from './components/Links';
 import Products from './components/Products';
 import Profile from './components/Profile';
+import SecondaryPartners from './components/SecondaryPartners';
 
 
     ReactDOM.render((
@@ -22,6 +23,7 @@ import Profile from './components/Profile';
                 <Route path="/products" component={Products} />
                 <Route path="/links" component={Links} />
                 <Route path="/profile" component={Profile} />
+                <Route path="/secondary_partners" component={SecondaryPartners} />
             </Route>
             <Route path="/auth/:id" component={Auth} />
             <Route path="/auth" component={Auth} />
