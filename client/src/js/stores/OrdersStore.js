@@ -14,6 +14,18 @@ class OrdersStore {
     }
 
     onGet(orders){
+
+        orders.map((order) => {
+
+            order.product_title = '';
+
+            order.product.map((product, index) => {
+                if(index > 0) order.product_title += '+';
+                order.product_title += product.name;
+            });
+
+        });
+
         this.orders = orders;
     }
 

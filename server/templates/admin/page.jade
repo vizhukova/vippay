@@ -76,7 +76,10 @@ html
                                             if u.tariff_payed
                                                 button.glyphicon.glyphicon-ok-circle.btn.btn-default.btn-action
                                             else
-                                                button.glyphicon.glyphicon-ban-circle.btn.btn-danger.btn-action
+                                                if !u.tariff_name
+                                                    button.glyphicon.glyphicon-ban-circle.btn.btn-danger.btn-action(disabled=true)
+                                                else
+                                                    button.glyphicon.glyphicon-ban-circle.btn.btn-danger.btn-action
                                 td
                                     form(action='#{action + "/admin/" + u.type + "/login"}' method="POST" encType="application/x-www-form-urlencoded")
                                         input(type="hidden", name="id", value='#{u.id}')

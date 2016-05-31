@@ -6,13 +6,18 @@ class AuthStore {
     constructor() {
 
         this.bindListeners({
-            onCheck: AuthActions.CHECK
+            onCheck: AuthActions.CHECK,
+            out: AuthActions.OUT
         });
     }
 
     onCheck(auth){
         this.auth = auth;
         if(auth && location.hash.slice(2) === 'auth') location.hash = '';
+    }
+
+    out(auth){
+        this.isOut =true;
     }
 }
 

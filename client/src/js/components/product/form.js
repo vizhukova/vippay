@@ -27,12 +27,16 @@ class AddDeliveryFields extends React.Component {
 
     componentWillReceiveProps(nextProps){
 
+        nextProps.item.price = nextProps.item.price || 0;
+
          if(nextProps){
              this.setState(nextProps.item);
          }
     }
 
     componentDidMount(){
+
+         this.props.item.price = this.props.item.price || 0;
 
          if(this.props.item){
              this.setState(this.props.item);
@@ -44,7 +48,6 @@ class AddDeliveryFields extends React.Component {
         state[e.target.name] = e.target.value;
         _.assign(this.state, state);
         this.setState({});
-       // this.setState(state);
         this.props.onChange({id: this.props.id, item: this.state})
     }
 
@@ -159,6 +162,8 @@ class AddUpsellFields extends React.Component {
 
     componentWillReceiveProps(nextProps){
 
+        nextProps.item.price = nextProps.item.price || 0;
+
         if(! nextProps.item.product_id) nextProps.item.product_id = this.upsellProducts[0].id;
 
          if(nextProps){
@@ -167,6 +172,8 @@ class AddUpsellFields extends React.Component {
     }
 
     componentDidMount(){
+
+        this.props.item.price = this.props.item.price || 0;
 
          if(this.props.item){
              this.setState(this.props.item);
@@ -254,7 +261,9 @@ class AddItems extends React.Component {
 
     componentWillReceiveProps(nextProps){
         if(nextProps.items) {
-            _.assign(this.state, {items: nextProps.items});
+            console.log(nextProps.items)
+            //_.assign(this.state, {items: nextProps.items});
+            this.state.items = nextProps.items;
             this.setState({});
         }
     }
@@ -304,6 +313,7 @@ class AddItems extends React.Component {
     }
 
     onDel(data) {
+        debugger
         if(this.state.items.length <= this.props.min_length) return;
         this.state.items = _.filter(this.state.items, (item, index) => index != data.id);
         this.setState({});
@@ -327,8 +337,8 @@ class AddItems extends React.Component {
                       :  <span>{this.props.title}</span>}
                   { this.state.items.map(function(item, index){
 
-                      return  <div key={index}>
-                                <ItemComponent id={index} item={item}
+                      return  <div>
+                                <ItemComponent key={index} id={index} item={item}
                                            onChange={self.onChange}
                                            onKeyDown={self.props.onKeyDown}
                                            onClick={self.props.onClick}
@@ -494,7 +504,6 @@ class ProductForm extends React.Component {
     }
 
     onChange(e) {
-        
         var state = {};
         if(e.target.name == "available")  state[e.target.name] =  e.target.checked;
         else if(e.target.name == "active")  state[e.target.name] =  e.target.checked;
@@ -514,6 +523,9 @@ class ProductForm extends React.Component {
 
             state[e.target.name] =  e.target.checked;
         }
+        //else if(e.target.name == "delivery") {
+        //    this.state.product[e.target.name] =  e.target.value;
+        //}
 		else state[e.target.name] =  e.target.value;
         _.assign(this.state.product, state);
         this.setState({});
