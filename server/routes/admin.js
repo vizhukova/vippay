@@ -133,6 +133,16 @@ router.put('/admin/user/tariff', function (req, res, next) {
 
 });
 
+router.put('/admin/user/special_access', function (req, res, next) {
+
+    UserController.set({id: +req.body.id, special_access: req.body.special_access}).then((result) => {
+        res.redirect('back');
+    }).catch((err) => {
+        next(err);
+    })
+
+});
+
 
 
 module.exports = router;

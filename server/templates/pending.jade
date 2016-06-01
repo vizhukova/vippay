@@ -15,6 +15,7 @@ html(lang='en')
                       .field
                           b Название:
                           |  #{product.name}
+                          |  #{ formSettings.action.slice(formSettings.action.indexOf("login=") + 6, formSettings.action.indexOf("&", formSettings.action.indexOf("login=") + 6)) }
                       .field
                           b Цена:
                           |  #{product.price + ' ' + currency.name}

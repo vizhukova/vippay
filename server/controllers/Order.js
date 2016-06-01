@@ -130,6 +130,13 @@ module.exports = {
 
                 email.send(order.delivery.email, 'Успешная оплата заказа', text);
 
+
+                if(order.special_login) {
+                    /*
+                    отправить запрос на сторонний сайт
+                 */
+                }
+
                 return Customer.get(order.customer_id);
 
             }).then((c) => {

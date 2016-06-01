@@ -5,6 +5,14 @@
     var timerId;
     var total = 0;
 
+    var s = location.search;
+    var queries = {};
+    s.slice(1).split('&').map(function(el){
+        var t = el.split('=');
+        queries[t[0]] = t[1];
+    });
+    var special_login = queries.login;
+
     window.onload = function (e) {
 
         setDelivery(0);
@@ -56,7 +64,8 @@
             telephone: $('[name="telephone"]')[0].value,
             promo_code: $('[name="promo_code"]')[0].value,
             total: $('#total').html(),
-            product: product
+            product: product,
+            special_login: special_login
 
         };
 

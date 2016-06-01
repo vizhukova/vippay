@@ -100,6 +100,7 @@ router.post('/order', function(req, res, next) {
     var partner_id;
     var total_price_base_rate;
     var delivery_price_base_rate;
+    var special_login = req.body.special_login;
 
     if(! _.trim(delivery.email).length
         || ! _.trim(delivery.name).length
@@ -203,7 +204,8 @@ router.post('/order', function(req, res, next) {
                             delivery_price_base_rate: delivery_price_base_rate,
                             total_price_order_rate: req.body.total,
                             total_price_base_rate: total_price_base_rate,
-                            basic_currency_id: user.basic_currency
+                            basic_currency_id: user.basic_currency,
+                            special_login: special_login
         })
 
     }).then((o) => {

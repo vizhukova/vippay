@@ -28,6 +28,7 @@ html
                             td Дата выбора/оплаты
                             td Оплата тарифа
                             td Зайти под пользователем
+                            td Специальный пользователь
                             td Удалить
 
                     tbody
@@ -84,6 +85,16 @@ html
                                     form(action='#{action + "/admin/" + u.type + "/login"}' method="POST" encType="application/x-www-form-urlencoded")
                                         input(type="hidden", name="id", value='#{u.id}')
                                         button.btn.btn-default.glyphicon.glyphicon-log-in
+                                td
+                                    if u.type === 'client'
+                                        form(action='#{action + "/admin/user/special_access?_method=PUT"}' method="POST" encType="application/x-www-form-urlencoded")
+                                            input(type="hidden", name="_method", value="PUT")
+                                            input(type="hidden", name="id", value='#{u.id}')
+                                            input(type="hidden", name="special_access", value='#{!u.special_access}')
+                                            if u.special_access
+                                                button.glyphicon.glyphicon-ok-circle.btn.btn-default.btn-action
+                                            else
+                                                button.glyphicon.glyphicon-ban-circle.btn.btn-danger.btn-action
                                 td
                                     form(action='#{action + "/admin/user?_method=DELETE"}' method="POST" encType="application/x-www-form-urlencoded")
                                         input(type="hidden", name="_method", value="DELETE")

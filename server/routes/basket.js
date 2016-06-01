@@ -46,7 +46,7 @@ router.put('/basket/:product_id', function(req, res, next) {
 
             product = p[0];
 
-            if( !product || !product.active ) throw new Error();
+            if( !product || !product.active || product.special ) throw new Error();
 
             return CustomerController.get(req.cookies.id)
 

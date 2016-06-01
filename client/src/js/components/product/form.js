@@ -506,6 +506,7 @@ class ProductForm extends React.Component {
         var state = {};
         if(e.target.name == "available")  state[e.target.name] =  e.target.checked;
         else if(e.target.name == "active")  state[e.target.name] =  e.target.checked;
+        else if(e.target.name == "special")  state[e.target.name] =  e.target.checked;
         else if(e.target.name == "material")  {
             state[e.target.name] =  e.target.checked;
             if(e.target.checked) {
@@ -557,6 +558,9 @@ class ProductForm extends React.Component {
         var edit = this.props.params.prod_id;
         if(!this.state.product.currency_id) this.state.product.currency_id = this.state.basicCurrency;
         var isEdit = !!this.props.params.id;
+
+
+        console.log(this.state)
 
          return <form className="col-sm-7 form-ui table-wrapper">
 
@@ -638,6 +642,18 @@ class ProductForm extends React.Component {
                       Активность</label>
                 </div>
                 </fieldset>
+
+             { this.state.specialAccess ? <fieldset className="product-form">
+                <div className="checkbox">
+                  <label className="text-warning">
+                      <input name="special"
+                             checked={this.state.product.special}
+                             type="checkbox"
+                             onChange={this.onChange}
+                             onClick = {this.onClick}/>
+                      Специальный товар</label>
+                </div>
+                </fieldset> : null }
 
                 <fieldset className="product-form">
                 <label className="text-warning">Ссылка на картинку</label>

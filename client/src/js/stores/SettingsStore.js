@@ -41,6 +41,7 @@ class SettingsStore {
         this.auth_domain = state.auth_domain;
         this.out_link = state.out_link;
         this.isStaff = state.isStaff;
+        this.specialAccess = state.special_access;
     }
 
     onGetAllCurrencies(currencies) {

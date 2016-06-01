@@ -25,7 +25,8 @@ router.get('/settings', function(req, res){
     res.send({link: link,
               auth_domain: auth_domain,
               out_link: `http://${req.subdomain}.${req.postdomain}/api/out`,
-              isStaff: req.staffObj ? true : false});
+              isStaff: req.staffObj ? true : false,
+              special_access: req.clientObj.special_access });
 
 });
 
