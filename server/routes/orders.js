@@ -42,7 +42,7 @@ router.put('/order/:id', function(req, res, next) {
 
             OrderController.pay(req.params.id).then((order) => {
 
-                res.send(order);
+                res.send(order[0]);
 
             }).catch((err) => {
 
@@ -54,7 +54,7 @@ router.put('/order/:id', function(req, res, next) {
 
              OrderController.cancelPay(req.params.id).then((order) => {
 
-                res.send(order);
+                res.send(order[0]);
 
             }).catch((err) => {
 

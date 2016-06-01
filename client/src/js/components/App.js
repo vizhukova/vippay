@@ -25,6 +25,7 @@ class Application extends React.Component {
 
         this.update = this.update.bind(this);
         this.updateSettings = this.updateSettings.bind(this);
+        this.out = this.out.bind(this);
     }
 
     componentDidMount() {
@@ -54,6 +55,10 @@ class Application extends React.Component {
         if(!state.auth){
             location.hash = 'auth';
         }
+
+        if(state.isOut) {
+            location.href = `http://${this.state.auth_domain}/#/auth`;
+        }
         _.assign(this.state, state);
         this.setState({});
     }
@@ -61,6 +66,12 @@ class Application extends React.Component {
     updateSettings(state) {
         _.assign(this.state, state);
         this.setState({});
+    }
+
+    out(e) {
+        e.preventDefault();
+        console.log(this.state)
+        AuthActions.out();
     }
 
     render() {
@@ -106,7 +117,9 @@ class Application extends React.Component {
                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.user.name}</a>
                                   <ul className="dropdown-menu">
                                       {this.state.isStaff ? null : <li><Link to="/profile" activeClassName="active">Профиль</Link></li>}
-                                    <li><a href={this.state.out_link} >Выход</a></li>
+                                    <li>
+                                        <a onClick={this.out}>Выход</a>
+                                    </li>
                                   </ul>
                           </li>
                         </ul>

@@ -2,11 +2,11 @@ import alt from '../alt';
 import Promise from 'bluebird';
 import ApiActions from './ApiActions';
 
-class ProductsAction {
+class PartnersAction {
 
-    getProducts(category_id) {
+    getById(id) {
         var self = this;
-        ApiActions.get(`partner/${category_id}/products`).then(function(data){
+        ApiActions.get(`partner_secondary/${id}`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
             self.dispatch(err);
@@ -14,4 +14,4 @@ class ProductsAction {
     }
 }
 
-export default alt.createActions(ProductsAction);
+export default alt.createActions(PartnersAction);

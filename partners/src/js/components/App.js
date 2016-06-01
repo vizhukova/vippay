@@ -40,6 +40,7 @@ class Application extends React.Component {
 
         this.update = this.update.bind(this);
         this.updateSettings = this.updateSettings.bind(this);
+        this.out = this.out.bind(this);
     }
 
     componentDidMount() {
@@ -70,12 +71,20 @@ class Application extends React.Component {
             }
         }
 
+        if(state.isOut) {
+            location.href = `${location.origin}/partners/#/auth`;
+        }
+
         _.assign(this.state, state);
         this.setState({});
     }
 
     updateSettings(state) {
         this.setState(state);
+    }
+
+    out() {
+        AuthActions.out();
     }
 
     render() {
@@ -98,8 +107,9 @@ class Application extends React.Component {
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul className="nav navbar-nav">
-                            <li><Link to="/products">Продукты клиента</Link></li>
+                            <li><Link to="/categories">Продукты клиента</Link></li>
                             <li><Link to="/links">Партнёрские ссылки</Link></li>
+                            <li><Link to="/secondary_partners">Партнёры второго уровня</Link></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             <li className="dropdown">
@@ -119,7 +129,7 @@ class Application extends React.Component {
                                     className="glyphicon glyphicon-user"></i>{this.state.partner.name}</a>
                                 <ul className="dropdown-menu">
                                     <li><Link to="/profile" activeClassName="active">Профиль</Link></li>
-                                    <li><a href={this.state.out_link}>Выход</a></li>
+                                    <li><a onClick={this.out}>Выход</a></li>
                                 </ul>
                             </li>
                         </ul>

@@ -24,7 +24,7 @@ router.get('/partner/statistic', function(req, res, next) {
 
     StatisticController.getByPartner({partner_id: req.user.id, client_id: req.clientObj.id})
             .then(function(statistic){
-                res.send(statistic[0]);
+                res.send(statistic);
             }).catch(function(err) {
                 //res.status(400).send(err.errors);
                 next(err);

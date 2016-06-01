@@ -27,6 +27,7 @@ router.use(checkBaseTariff);
 router.use(checkStartTariff);
 
 router.use(api_prefix, require('./settings'));
+router.use(api_prefix, require('./partners_secondary'));
 router.use(api_prefix, require('./products'));
 router.use(api_prefix, require('./categories'));
 router.use(api_prefix, require('./statistics'));

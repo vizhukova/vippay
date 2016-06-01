@@ -8,12 +8,11 @@ class AuthStore {
 
         this.bindListeners({
             onCheck: AuthActions.CHECK,
-            onGetMe: AuthActions.GET_ME
+            onGetMe: AuthActions.GET_ME,
+            out: AuthActions.OUT
         });
 
-        this.user = {
-
-        };
+        this.user = {};
     }
 
     onCheck(auth){
@@ -22,6 +21,10 @@ class AuthStore {
 
     onGetMe(user){
         this.user = user;
+    }
+
+    out(data) {
+        this.isOut = true;
     }
 
 }

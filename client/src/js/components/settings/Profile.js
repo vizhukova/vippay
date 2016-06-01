@@ -4,6 +4,7 @@ import SettingsStore from'./../../stores/SettingsStore';
 import AuthStore from'./../../stores/AuthStore';
 import AlertActions from'./../../../../../common/js/Alert/AlertActions';
 import Select from'./../../../../../common/js/Select';
+import PasswordInput from'./../../../../../common/js/PasswordInput';
 import _ from 'lodash';
 import Pricing from './Pricing'
 
@@ -56,11 +57,20 @@ class Profile extends React.Component {
 
             SettingsAction.setNewPassword({old_pass: this.state.old_password, new_pass: this.state.new_password})
                 .then((data) => {
+
                     AlertActions.set({
                         type: 'success',
                         title: '',
                         text: 'Пароль установлен.'
                     }, true);
+
+                    debugger
+                    this.setState({
+                        old_password: '',
+                        new_password: '',
+                        confirm_new_password: ''
+                    });
+
                 })
         }
     }
@@ -114,7 +124,7 @@ class Profile extends React.Component {
         var paymentDomain = `http://payment.${arr[1]}.${arr[2]}/checkout`;
         var self = this;
         return <div>
-            <form className="col-sm-12 form-ui block boxed" onSubmit={this.onSubmit}>
+            <form className="col-sm-12 form-ui block boxed profile-form" onSubmit={this.onSubmit}>
 
                 <h3 className="block-title">Информация пользователя</h3>
                 <ul className="profile-list">
@@ -128,31 +138,32 @@ class Profile extends React.Component {
                 <fieldset className="block-inner">
 
                     <label className="text-warning">Старый пароль</label>
-                    <input type="text" name="old_password"
-                           className="form-control" id="name"
-                           placeholder="Введите старый пароль"
-                           value={this.state.old_password}
-                           onChange={this.onChange}
-                           onClick={this.onClick}
-                    />
+                    <PasswordInput
+							name="old_password"
+							class='form-control input-lg'
+							onChange={this.onChange}
+                            onClick={this.onClick}
+                            value={this.state.old_password}
+                            placeholder="Введите старый пароль"/>
 
                     <label className="text-warning">Новый пароль</label>
-                    <input type="text" name="new_password"
-                           className="form-control" id="name"
-                           placeholder="Введите новый пароль"
-                           value={this.state.new_password}
-                           onChange={this.onChange}
-                           onClick={this.onClick}
-                    />
+                    <PasswordInput
+							name="new_password"
+							class='form-control input-lg'
+							onChange={this.onChange}
+                            onClick={this.onClick}
+                            value={this.state.new_password}
+                            placeholder="Введите новый пароль"/>
 
                     <label className="text-warning">Подтвердите новый пароль</label>
-                    <input type="text" name="confirm_new_password"
-                           className="form-control" id="name"
-                           placeholder="Введите новый пароль повторно"
-                           value={this.state.confirm_new_password}
-                           onChange={this.onChange}
-                           onClick={this.onClick}
-                    />
+                     <PasswordInput
+							name="confirm_new_password"
+							class='form-control input-lg'
+							onChange={this.onChange}
+                            onClick={this.onClick}
+                            value={this.state.confirm_new_password}
+                            placeholder="Введите новый пароль повторно"/>
+
                 </fieldset>
                 <div className="row-footer clearfix">
                     <input type="submit" className="btn btn-warning pull-left btn-submit" value="Сохранить"/>
@@ -173,6 +184,7 @@ class Profile extends React.Component {
 
 
 }
+
 
 
 export default Profile;

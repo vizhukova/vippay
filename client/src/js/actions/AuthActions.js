@@ -42,6 +42,19 @@ class AuthActions {
         })
     }
 
+    out() {
+     return new Promise((resolve,reject) => {
+        var self = this;
+         debugger
+        ApiActions.get('out').then(function(result){
+            self.dispatch(result);
+            resolve();
+        }).catch(function(err){
+            reject(err);
+        })
+    })
+    }
+
 }
 
 export default alt.createActions(AuthActions);

@@ -97,7 +97,7 @@ module.exports = {
     getAllProducts(data) {
         return new Promise(function (resolve, reject) {
 
-                Product.getForPartner(data.client_id).then(function (products) {
+                Product.getForPartner(data).then(function (products) {
                     resolve(products);
                 })
             }).catch(function (err) {

@@ -195,11 +195,11 @@ class Orders extends React.Component {
             thead={[
                 {name: 'Партнер', key: 'login'},
                 {name: 'Дата', key: 'created_at'},
-                {name: 'Продукт', key: 'product.product_link'},
+                {name: 'Продукт', key: 'product_title'},
                 {name: 'Комментарий', key: ''},
                 {name: 'Доставка', key: ''},
                 {name: 'Оплачен', key: 'step'},
-                {name: 'Цена за товары', key: 'product.price'},
+                {name: 'Цена за товары', key: 'product_price'},
                 {name: 'Промо код', key: ''},
                 {name: 'Метод оплаты', key: 'method'}
             ]}

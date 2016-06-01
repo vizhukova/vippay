@@ -81,6 +81,9 @@ var Order = bookshelf.Model.extend({
     },
 
     getByPartner(data){
+
+        var all_statistic;
+
         return new Promise((resolve, reject) => {
 
              knex.select(knex.raw(`
@@ -92,14 +95,39 @@ var Order = bookshelf.Model.extend({
               (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${data.client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_complete_order FROM orders WHERE step = 'complete' AND partner_id = ${data.partner_id}),
               (SELECT SUM(fee_added::NUMERIC) as sum_fee_added from fee WHERE partner_id = ${data.partner_id}),
               (SELECT SUM(fee_payed::NUMERIC) as sum_fee_payed from fee WHERE partner_id = ${data.partner_id}),
-              (SELECT count(orders.id) as count_complete_order_partners_secondary FROM orders, referers WHERE orders.partner_id = referers.user_id AND orders.step ='complete' AND referers.referer_id = ${data.partner_id}),
-              (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate * (orders.product -> 0 ->> 'fee_secondary') :: NUMERIC / 100)::NUMERIC, ${data.client_id}, (orders.product->0->>'currency_id')::INTEGER))
-                AS sum_complete_order_secondary
-                FROM orders, referers
-                WHERE orders.partner_id = referers.user_id AND referers.referer_id = ${data.partner_id} AND orders.step ='complete')
+              (SELECT count(orders.id) as count_complete_order_partners_secondary FROM orders, referers WHERE orders.partner_id = referers.user_id AND orders.step ='complete' AND referers.referer_id = ${data.partner_id})
               `))
-                .then((res) => {
-                    resolve(res);
+                .then((data) => {
+
+                    all_statistic = data;
+
+                    return knex.raw(`
+                    SELECT users.*,
+                      (SELECT COUNT(orders.id) FROM orders WHERE orders.partner_id = users.id AND orders.step = 'pending') AS  count_pending_order,
+                      (SELECT COUNT(orders.id) FROM orders WHERE orders.partner_id = users.id AND orders.step = 'complete') AS count_complete_order,
+                      (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, 1, (orders.product->0->>'currency_id')::INTEGER) ) FROM orders
+                        WHERE orders.partner_id = users.id AND orders.step = 'pending'
+                      ) AS  sum_pending_order,
+                      (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, 1, (orders.product->0->>'currency_id')::INTEGER) ) FROM orders
+                        WHERE orders.partner_id = users.id AND orders.step = 'complete'
+                      ) AS sum_complete_order,
+                      (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, 1, (orders.product->0->>'currency_id')::INTEGER) ) FROM orders
+                        WHERE orders.partner_id = users.id AND orders.step = 'complete'
+                      ) AS sum_complete_order,
+                      (SELECT SUM(fee_added::NUMERIC) as sum_fee_added from fee WHERE partner_id = users.id)
+                    FROM users
+                    LEFT JOIN referers ON (referers.user_id = users.id)
+                    WHERE referers.referer_id = 6
+                    `)
+
+                })
+                 .then((data) => {
+
+                     var obj = all_statistic[0];
+                     obj.partners_secondary = data.rows;
+
+                    resolve(obj);
+
                 }).catch((err) => {
                     reject(err);
                 })

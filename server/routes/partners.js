@@ -96,13 +96,17 @@ router.post('/partner/login', function (req, res, next) {
 /**
  * Получение продуктов, доступных для просмотра клиенту
  */
-router.get(`/partner/products`, function (req, res, next) {
+router.get(`/partner/:category_id/products`, function (req, res, next) {
     var productsArr = [];
     var partner;
 
     PartnerController.getById(req.user.id).then((p) => {
             partner = p;
-            return PartnerController.getAllProducts({partner_id: req.user.id, client_id: req.clientObj.id});
+            return PartnerController.getAllProducts({
+                partner_id: req.user.id,
+                category_id: +req.params.category_id,
+                client_id: req.clientObj.id
+            });
 
         }).then(function (products) {
                     products.map((p) => {
@@ -111,15 +115,17 @@ router.get(`/partner/products`, function (req, res, next) {
 
                     productsArr =   products;
 
-                    return UserController.getPartnerLink({user_id: req.clientObj.id, active: true});
+        //            return UserController.getPartnerLink({user_id: req.clientObj.id, active: true});
+        //
+        //}).then((links) => {
+        //    links.map((p) => {
+        //        p.ref_link = `/redirect/link/${partner.login}/${p.key}`
+        //    });
+        //
+        //    var union = productsArr.concat(links);
+        //    res.send(union);
 
-        }).then((links) => {
-            links.map((p) => {
-                p.ref_link = `/redirect/link/${partner.login}/${p.key}`
-            });
-
-            var union = productsArr.concat(links);
-            res.send(union);
+            res.send(productsArr);
         })
         .catch(function (err) {
             next(err);
@@ -207,13 +213,6 @@ router.put('/partner/individual_fee', function (req, res, next) {
         }).catch(function (err) {
         next(err);
     });
-
-
-});
-
-
-router.get('/partner/links', function(req, res){
-
 
 
 });

@@ -8,7 +8,9 @@ class SettingsStore {
         this.clients = [];
         this.current_client = {};
         this.partner = {};
-        this.statistic = {};
+        this.statistic = {
+            partners_secondary: []
+        };
 
         this.bindListeners({
             onGet: SettingsActions.GET,

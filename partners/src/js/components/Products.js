@@ -79,7 +79,7 @@ class Products extends React.Component {
 
     componentDidMount() {
         ProductsStore.listen(this.update);
-        ProductsActions.getProducts();
+        ProductsActions.getProducts(this.props.params.id);
     }
 
     componentWillUnmount() {
