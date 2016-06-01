@@ -106,7 +106,7 @@ router.get(`/partner/products`, function (req, res, next) {
 
         }).then(function (products) {
                     products.map((p) => {
-                        p.ref_link = `/redirect/product/${partner.login}/${p.id}`
+                        p.ref_link = `http://${req.clientObj.login}.${config.get('domain')}/redirect/product/${partner.login}/${p.id}`
                     });
 
                     productsArr =   products;

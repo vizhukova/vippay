@@ -61,7 +61,7 @@ class ProductItem extends React.Component {
                     ? <a href="" onClick={this.onClick}>{`${(this.state.isCommentCut > 0 ? 'Скрыть' : 'Подробнее')}`}</a>
                     : ''}
             </td>
-            <td><a href={this.props.item.ref_link}>Ссылка</a></td>
+            <td><a href={this.props.item.ref_link}>{this.props.item.ref_link}</a></td>
         </tr>
     }
 }
