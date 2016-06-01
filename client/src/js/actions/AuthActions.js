@@ -45,7 +45,6 @@ class AuthActions {
     out() {
      return new Promise((resolve,reject) => {
         var self = this;
-         debugger
         ApiActions.get('out').then(function(result){
             self.dispatch(result);
             resolve();

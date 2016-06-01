@@ -64,7 +64,6 @@ class Profile extends React.Component {
                         text: 'Пароль установлен.'
                     }, true);
 
-                    debugger
                     this.setState({
                         old_password: '',
                         new_password: '',

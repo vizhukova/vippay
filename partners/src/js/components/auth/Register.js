@@ -32,7 +32,6 @@ class Register extends React.Component {
 			errors: {},
 			referer: getSearch().ref
 		};
-		debugger;
     }
 
 	componentDidMount() {

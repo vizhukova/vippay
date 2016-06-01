@@ -39,24 +39,58 @@ var Fee = bookshelf.Model.extend({
     },
 
     put(obj) {
-        return knex('fee')
-            .update(obj)
-            .where('client_id', '=', obj.client_id)
-            .andWhere('partner_id', '=', obj.partner_id)
-            .returning('*')
+        return knex.raw(`
+        SELECT convert(${obj.fee_added}, ${obj.client_id}, users.basic_currency, 2) AS fee_added,
+        convert(${obj.fee_payed}, ${obj.client_id}, users.basic_currency, 2) AS fee_payed
+        FROM users
+        WHERE users.id = ${obj.client_id}
+        `).then((data) => {
+
+            var fees = data.rows[0];
+
+            return knex('fee')
+                .update({
+                    client_id: obj.client_id,
+                    fee_added: fees.fee_added,
+                    fee_payed: fees.fee_payed,
+                    partner_id: obj.partner_id
+                })
+                .where('client_id', '=', obj.client_id)
+                .andWhere('partner_id', '=', obj.partner_id)
+                .returning('*')
+
+        })
     },
 
     get(client_id) {
+
         return new Promise((resolve, reject) => {
-            knex('fee')
-            .select('*')
-            .where('client_id', '=', client_id)
-            .then((res) => {
-                resolve(replaceFee(res));
+
+            knex.raw(`
+             SELECT convert(fee.fee_added, ${client_id}, 2, users.basic_currency) AS fee_added,
+            convert(fee.fee_payed, ${client_id}, 2, users.basic_currency) AS fee_payed,
+            client_id, partner_id
+            FROM users, fee
+            WHERE users.id = ${client_id} AND fee.client_id = users.id
+            `).then((res) => {
+                resolve(replaceFee(res.rows));
             }).catch((err) => {
                 reject(err);
             })
+
         })
+
+
+        //return new Promise((resolve, reject) => {
+        //    return knex('fee')
+        //    .select('*')
+        //    .where('client_id', '=', client_id)
+        //    .then((res) => {
+        //        resolve(replaceFee(res));
+        //    }).catch((err) => {
+        //        reject(err);
+        //    })
+        //})
     }
 
 });

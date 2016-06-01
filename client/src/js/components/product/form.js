@@ -313,7 +313,6 @@ class AddItems extends React.Component {
     }
 
     onDel(data) {
-        debugger
         if(this.state.items.length <= this.props.min_length) return;
         this.state.items = _.filter(this.state.items, (item, index) => index != data.id);
         this.setState({});

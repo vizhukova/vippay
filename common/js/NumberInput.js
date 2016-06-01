@@ -21,7 +21,6 @@ class NumberInput extends React.Component {
 
     componentDidMount() {
 
-        debugger
         this.setState({
             value: ! isNaN(parseFloat(this.props.value)) ?  this.props.value : this.state.value,
             toFixed: this.props.toFixed || 0,
@@ -32,7 +31,6 @@ class NumberInput extends React.Component {
 
     componentWillReceiveProps(props) {
 
-        debugger
         this.setState({
             value: ! isNaN(parseFloat(props.value)) ? props.value : this.state.value,
             toFixed: props.toFixed || 0,
