@@ -166,7 +166,7 @@ router.get('/partnerlinks', getTariff, checkTrialTariff, checkBaseTariff, functi
             res.send(partnerLinks)
         }).catch(function (err) {
             next(err);
-    });
+        });
 });
 
 router.get('/partnerlinks/:id', getTariff, checkTrialTariff, checkBaseTariff, function (req, res, next) {

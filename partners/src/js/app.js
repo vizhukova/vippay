@@ -13,6 +13,7 @@ import Home from './components/Home';
 import Links from './components/Links';
 import Categories from './components/category/Category';
 import Products from './components/Products';
+import PartnerLinks from './components/PartnerLinks';
 import Profile from './components/Profile';
 import SecondaryPartners from './components/SecondaryPartners';
 
@@ -23,6 +24,7 @@ import SecondaryPartners from './components/SecondaryPartners';
                 <IndexRoute component={Home} />
                 <Route path="/categories" component={Categories} />
                 <Route path="/category/:id/products" component={Products} />
+                <Route path="/partner_links" component={PartnerLinks} />
                 <Route path="/links" component={Links} />
                 <Route path="/profile" component={Profile} />
                 <Route path="/secondary_partners" component={SecondaryPartners} />

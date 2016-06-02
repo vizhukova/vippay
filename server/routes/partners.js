@@ -217,5 +217,14 @@ router.put('/partner/individual_fee', function (req, res, next) {
 
 });
 
+router.get('/partner/partnerlinks', function (req, res, next) {
+    UserController.getPartnerLink({user_id: req.clientObj.id, active: true})
+        .then(function (partnerLinks) {
+            res.send(partnerLinks)
+        }).catch(function (err) {
+            next(err);
+        });
+});
+
 
 module.exports = router;
