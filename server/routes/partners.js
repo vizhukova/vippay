@@ -220,7 +220,13 @@ router.put('/partner/individual_fee', function (req, res, next) {
 router.get('/partner/partnerlinks', function (req, res, next) {
     UserController.getPartnerLink({user_id: req.clientObj.id, active: true})
         .then(function (partnerLinks) {
+
+            partnerLinks.map((p) => {
+                p.ref_link = `http://${req.clientObj.login}.${config.get('domain')}/redirect/link/${req.partnerObj.login}/${p.key}`
+            });
+
             res.send(partnerLinks)
+
         }).catch(function (err) {
             next(err);
         });
