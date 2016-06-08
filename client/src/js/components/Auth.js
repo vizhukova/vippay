@@ -69,6 +69,9 @@ class Auth extends React.Component {
                             {this.state.tab === 'staff' ? <Staff /> : null}
                         </form>
                     </div>
+
+                    <div className="text-center"><a href={`${location.origin}/password/recover`}>Забыли пароль?</a></div>
+
                 </div>
                 </div>
 

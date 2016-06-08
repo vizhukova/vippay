@@ -8,6 +8,9 @@ var morgan = require('morgan');
 var config = require('./config');
 var _ = require('lodash');
 var User = require('./models/Users');
+var email = require('./utils/email');
+var jwt = require('jwt-simple');
+var moment = require('moment');
 
 var app = express();
 var http = require('http').Server(app);
@@ -84,7 +87,102 @@ app.get('/checkout', getTariffData, function(req, res) {
  */
 app.get('/success', function(req, res) {
 
-    res.render('success', {timestamp: timestamp});
+    res.render('success', {timestamp: timestamp, text: 'Оплата прошла успешно'});
+
+});
+
+
+/**
+ * Отрисовка страницы восстановления пароля
+ */
+app.get('/password/recover', function(req, res) {
+
+    res.render('recover', {timestamp: timestamp, designClass: designClass, action: `http://${req.subdomain}.${req.postdomain}/recover`});
+
+});
+
+app.post('/recover', function(req, res) {
+
+    User.getByData({email: req.body.email, active: true}).then((u) => {
+        var user = u[0];
+
+       if(!user) {
+
+           res.render('success', {timestamp: timestamp, text: 'Такого пользователя не найденно'});
+
+       } else {
+
+           var recoverLink = ` http://${req.subdomain}.${req.postdomain}/new_password?link=${jwt.encode({id: user.id, password: user.password, date: moment()}, 'secret')}`;
+
+           email.send(req.body.email, 'Восстановление пароля', `Ссылка на восстановление пароля:${recoverLink}. Она будет активна в течении 24 часов.`);
+
+           res.render('success', {timestamp: timestamp, text: 'Ссылка для восстановления пароля отправлена вам на почту. Она будет активна в течении 24 часов.'});
+
+       }
+
+    });
+
+
+});
+
+app.get('/new_password', function(req, res, next) {
+
+    var data = jwt.decode(req.query.link, 'secret');
+
+     var today = moment();
+    var end_time = moment(data.date).add(1, 'day');
+
+    if(moment.max(today, end_time) == end_time) { //ссылка все еще активна
+
+        User.getByData({id: data.id, password: data.password}).then((u) => {
+
+            var user = u[0];
+
+            if(!user) {
+
+                res.render('success', {timestamp: timestamp, text: 'Ссылка на восстановление пароля уже не активна.'});
+
+            } else {
+
+                res.render('newPassword',  {timestamp: timestamp, designClass: designClass, action: `http://${req.subdomain}.${req.postdomain}${req.originalUrl}`});
+
+            }
+
+
+
+        }).catch((err) => {
+            next(err);
+        })
+
+    } else {
+
+        res.render('success', {timestamp: timestamp, text: 'Ссылка на восстановление пароля уже не активна.'});
+
+    }
+
+});
+
+app.post('/new_password', function(req, res, next) {
+
+    var data = jwt.decode(req.query.link, 'secret');
+
+    if(req.body.confirmPass === req.body.pass) {
+
+        User.set({id: data.id, password: req.body.pass}).then((result) => {
+
+          res.render('success', {timestamp: timestamp, text: 'Новый пароль установлен.'});
+
+        }).catch((err) => {
+
+            next(err);
+
+        })
+
+    } else {
+
+        res.render('success', {timestamp: timestamp, text: 'Пароли не совпадают.'});
+
+    }
 
 });
 
