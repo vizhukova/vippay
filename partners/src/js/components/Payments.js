@@ -1,6 +1,6 @@
 import React from 'react';
-import SettingsAction from'./../../actions/SettingsAction'
-import SettingsStore from'./../../stores/SettingsStore';
+import SettingsAction from'./../actions/SettingsActions'
+import SettingsStore from'./../stores/SettingsStore';
 import PasswordInput from'./../../../../common/js/PasswordInput';
 import Alert from './../../../../common/js/Alert/Alert';
 import AlertActions from './../../../../common/js/Alert/AlertActions';
@@ -133,7 +133,6 @@ class Payment extends React.Component {
 
     componentDidMount() {
         SettingsStore.listen(this.update);
-        SettingsAction.getPayment();
 
     }
 
@@ -169,8 +168,9 @@ class Payment extends React.Component {
 
 
     render() {
+        debugger
         return <div>
-            {this.state.payment.map((item, index) => {
+            {this.state.partner.payment.map((item, index) => {
                 return <PaymentItem payment={item} key={index} id={index}
                                     onChange={this.onChange}
                                     save={this.save}/>

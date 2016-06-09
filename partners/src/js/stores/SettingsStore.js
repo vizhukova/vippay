@@ -7,7 +7,9 @@ class SettingsStore {
     constructor() {
         this.clients = [];
         this.current_client = {};
-        this.partner = {};
+        this.partner = {
+            payment: []
+        };
         this.statistic = {
             partners_secondary: []
         };
@@ -35,6 +37,7 @@ class SettingsStore {
 
     getCurrentPartner(partner) {
         this.partner = partner;
+        this.partner = this.partner || [];
         console.log('partner SettingsStore', this.partner)
     }
 

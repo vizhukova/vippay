@@ -11,7 +11,7 @@ var _ = require('lodash');
 var email = require('../utils/email');
 
 var config = require('./../config');
-var prod_knex = require('knex')(config.get('prod_db'));
+var prod_knex = require('knex')(config.get('db'));
 
 /**
  * Работа с заказами
@@ -144,7 +144,7 @@ module.exports = {
                             console.log('inserted into user/packages', {package: order.package_id, user: order.special_login});
                             resolve();
                         }).catch((err) => {
-                            console.log('error insert user/packages: ', error);
+                            console.log('error insert user/packages: ', err);
                             reject(err);
                         })
                     } else {
