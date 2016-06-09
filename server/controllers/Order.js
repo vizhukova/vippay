@@ -10,6 +10,9 @@ var Promise = require('bluebird');
 var _ = require('lodash');
 var email = require('../utils/email');
 
+var config = require('./../config');
+var prod_knex = require('knex')(config.get('prod_db'));
+
 /**
  * Работа с заказами
  * @type {{get: (function(*=)), edit: (function(*=)), getById: (function(*=)), add: (function(*=)), pay: (function(*=)), cancelPay: (function(*=))}}
@@ -131,11 +134,25 @@ module.exports = {
                 email.send(order.delivery.email, 'Успешная оплата заказа', text);
 
 
-                if(order.special_login) {
+                return new Promise((resolve, reject) => {
+                     if(order.special_login) {
                     /*
-                    отправить запрос на сторонний сайт
-                 */
-                }
+                        отправить запрос на сторонний сайт
+                     */
+                        prod_knex('user/packages')
+                        .insert({package: order.package_id, user: order.special_login}).then(() => {
+                            console.log('inserted into user/packages', {package: order.package_id, user: order.special_login});
+                            resolve();
+                        }).catch((err) => {
+                            console.log('error insert user/packages: ', error);
+                            reject(err);
+                        })
+                    } else {
+                         resolve();
+                     }
+                })
+
+             }).then(() => {
 
                 return Customer.get(order.customer_id);
 

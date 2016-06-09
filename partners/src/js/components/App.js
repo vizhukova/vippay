@@ -116,6 +116,7 @@ class Application extends React.Component {
                                      <li><Link to="/secondary_partners">Партнёры второго уровня</Link></li>
                                   </ul>
                             </li>
+                            <li><Link to="/payments">Платежные данные</Link></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             <li className="dropdown">

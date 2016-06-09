@@ -12,6 +12,7 @@
         queries[t[0]] = t[1];
     });
     var special_login = queries.login;
+    var package_id = queries.package_id;
 
     window.onload = function (e) {
 
@@ -65,7 +66,8 @@
             promo_code: $('[name="promo_code"]')[0].value,
             total: $('#total').html(),
             product: product,
-            special_login: special_login
+            special_login: special_login,
+            package_id: package_id
 
         };
 

@@ -16,6 +16,7 @@ import Products from './components/Products';
 import PartnerLinks from './components/PartnerLinks';
 import Profile from './components/Profile';
 import SecondaryPartners from './components/SecondaryPartners';
+import Payments from './components/Payments';
 
 
     ReactDOM.render((
@@ -28,6 +29,7 @@ import SecondaryPartners from './components/SecondaryPartners';
                 <Route path="/links" component={Links} />
                 <Route path="/profile" component={Profile} />
                 <Route path="/secondary_partners" component={SecondaryPartners} />
+                <Route path="/payments" component={Payments} />
             </Route>
             <Route path="/auth/:id" component={Auth} />
             <Route path="/auth" component={Auth} />

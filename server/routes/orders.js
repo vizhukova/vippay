@@ -101,6 +101,10 @@ router.post('/order', function(req, res, next) {
     var total_price_base_rate;
     var delivery_price_base_rate;
     var special_login = req.body.special_login;
+    var package_id = req.body.package_id;
+
+    console.log('special_login: ', special_login);
+    console.log('package_id: ', package_id);
 
     if(! _.trim(delivery.email).length
         || ! _.trim(delivery.name).length
@@ -205,7 +209,8 @@ router.post('/order', function(req, res, next) {
                             total_price_order_rate: req.body.total,
                             total_price_base_rate: total_price_base_rate,
                             basic_currency_id: user.basic_currency,
-                            special_login: special_login
+                            special_login: special_login,
+                            package_id: package_id
         })
 
     }).then((o) => {
