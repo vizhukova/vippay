@@ -19,7 +19,8 @@ class SettingsStore {
             onGetClients: SettingsActions.GET_CLIENTS,
             getCurrentPartner: SettingsActions.GET_CURRENT_PARTNER,
             getCurrentClient: SettingsActions.GET_CURRENT_CLIENT,
-            getStatistic: SettingsActions.GET_STATISTIC
+            getStatistic: SettingsActions.GET_STATISTIC,
+            oneditPayment: SettingsActions.EDIT_PAYMENT
         });
     }
 
@@ -37,7 +38,7 @@ class SettingsStore {
 
     getCurrentPartner(partner) {
         this.partner = partner;
-        this.partner = this.partner || [];
+        this.partner.payment = this.partner.payment || [];
         console.log('partner SettingsStore', this.partner)
     }
 
@@ -49,6 +50,10 @@ class SettingsStore {
     getStatistic(statistic) {
         this.statistic = statistic;
     }
+    oneditPayment(data) {
+        this.partner.payment = data;
+    }
+
 
 }
 

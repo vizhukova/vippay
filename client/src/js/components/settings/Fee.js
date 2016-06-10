@@ -55,10 +55,10 @@ class Fee extends React.Component {
         return <div className="boxed">
             <form  onSubmit={this.save}>
                 <div className="form-group">
-                    <label>Комиссия:</label>
+                    <label>Комиссия 1:</label>
                     <NumberInput value={this.state.fee} name="fee" onChange={this.onChange} toFixed={2}/>
 
-                    <label>Комиссия приведшему:</label>
+                    <label>Комиссия 2:</label>
                     <NumberInput value={this.state.fee_secondary} name="fee_secondary" onChange={this.onChange} toFixed={2}/>
                 </div>
                 <input type="submit" className="btn btn-primary" value="Сохранить" />

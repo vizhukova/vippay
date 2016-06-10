@@ -60,6 +60,17 @@ class SettingsAction {
             })
         })
     }
+
+   editPayment(data) {
+        var self = this;
+        return new Promise((resolve, reject) => {
+            ApiActions.put(`partner/payments`, data).then(function(result){
+                self.dispatch(result);
+                resolve(result);
+            }).catch(function(err){
+        })
+        })
+    }
 }
 
 export default alt.createActions(SettingsAction);

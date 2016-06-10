@@ -13,49 +13,40 @@ class PaymentItem extends React.Component {
 
     constructor() {
         super();
+        this.paymentSettings = {
+          'card': 'Карта',
+          'yandex': 'Яндекс кошелек'
+        };
         this.state = {
-            isMoreInformation: false,
             payment: {}
         };
         this.onChange = this.onChange.bind(this);
-        this.onClick = this.onClick.bind(this);
+        //this.onClick = this.onClick.bind(this);
         this.save = this.save.bind(this);
         this.hideError = this.hideError.bind(this);
     }
 
 
     componentDidMount() {
-        this.state.payment = this.props.payment;
+        this.state.payment = this.props ? this.props.payment : {};
+        this.setState({});
+    }
+
+    componentWillReceiveProps(props) {
+        this.state.payment = props ? props.payment : {};
         this.setState({});
     }
 
     onChange(e) {
-        if (e.target.name == 'active') {
-            this.state.payment.active = !this.state.payment.active;
-        }
 
-        else if(e.target.name == 'details') {
-            this.props.payment[`details`] = e.target.value;
-        }
-
-        else {
-            this.state.payment.fields[e.target.name] = e.target.value;
-        }
-        this.setState({});
-
-        this.props.onChange({id: this.props.id, payment: this.state.payment});
+        this.state.payment.value = e.target.value;
+        this.props.onChange({id: this.props.id, payment: this.props.payment})
     }
 
     hideError() {
         AlertActions.hide();
     }
 
-    onClick(e) {
-        this.setState({
-            isMoreInformation: !this.state.isMoreInformation
-        });
-        this.hideError();
-    }
 
     save() {
         this.props.save(this.props.id);
@@ -66,48 +57,25 @@ class PaymentItem extends React.Component {
             <div className="block boxed">
                 <div className="block-title">
                     <h3>
-                        { paymentSettings[this.props.payment.name] }
+                        { this.paymentSettings[this.state.payment.name] }
                     </h3>
                 </div>
                 <div className="row block-inner">
                     <div className="col-sm-6">
-                        {Object.keys(this.props.payment.fields).map((item, index) => {
-
-                            return <div className="form-group" key={index}>
-                                <input
-                                    className="field-text" type="text"
-                                    value={this.props.payment.fields[item]}
-                                    placeholder={paymentSettings[item]}
-                                    name={item} onChange={this.onChange}
-                                    onClick={this.hideError}/>
-                            </div>
-
-                        })}
-                        <div className="checkbox">
-                            <label className="text-warning">
-                                <input name="active"
-                                       checked={this.props.payment.active} type="checkbox"
-                                       onChange={this.onChange}
-                                       onClick={this.hideError}/>
-                                Активность</label>
+                        <div className="form-group">
+                            <input
+                                className="field-text" type="text"
+                                value={this.state.payment.value}
+                                placeholder={this.paymentSettings[this.state.payment.name]}
+                                name={this.state.payment.name} onChange={this.onChange}
+                                onClick={this.hideError}/>
                         </div>
-                    </div>
-                    <div className="col-sm-6">
-                        <label>Детали:</label>
-                            <textarea rows="6" name={`details`} onChange={this.onChange}>
-                                { this.props.payment.details || paymentSettings[`${this.props.payment.name}_details`] }
-                            </textarea>
+
                     </div>
                 </div>
                 <div className="row-footer row">
-                    <div className={` more ${this.state.isMoreInformation ? '' : 'hide'}`}>
-                        <pre>{ paymentSettings[`${this.props.payment.name}_more_info`] }</pre>
-                    </div>
-                    <div className="col-sm-6 left">
-                        <button className="btn" onClick={this.onClick}>Подробнее..</button>
-                    </div>
-                    <div className="col-sm-6 right">
-                        <button className="btn" onClick={this.save}>Сохранить</button>
+                    <div className="col-sm-6 pull-right">
+                        <button className="btn pull-right" onClick={this.save}>Сохранить</button>
                     </div>
                 </div>
             </div>
@@ -127,7 +95,7 @@ class Payment extends React.Component {
 
         this.update = this.update.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.onClick = this.onClick.bind(this);
+        //this.onClick = this.onClick.bind(this);
         this.save = this.save.bind(this);
     }
 
@@ -143,21 +111,21 @@ class Payment extends React.Component {
     update(state) {
         this.setState(state);
     }
-
+    //
     onChange(data) {
-        this.state.payment[data.id] = data.payment;
+        this.state.partner.payment[data.id] = data.payment;
         this.setState({});
     }
-
-    onClick(e) {
-        this.setState({
-            isMoreInformation: !this.state.isMoreInformation
-        });
-    }
-
+    //
+    //onClick(e) {
+    //    this.setState({
+    //        isMoreInformation: !this.state.isMoreInformation
+    //    });
+    //}
+    //
     save(id) {
         this.state.savedId = id;
-        SettingsAction.editPayment(this.state.payment).then((res) => {
+        SettingsAction.editPayment(this.state.partner).then((res) => {
             AlertActions.set({
                 type: 'success',
                 title: 'Успех',
@@ -168,9 +136,10 @@ class Payment extends React.Component {
 
 
     render() {
-        debugger
+        console.log(this.state.partner.payment)
+        var payment = this.state.partner.payment || [];
         return <div>
-            {this.state.partner.payment.map((item, index) => {
+            {payment.map((item, index) => {
                 return <PaymentItem payment={item} key={index} id={index}
                                     onChange={this.onChange}
                                     save={this.save}/>

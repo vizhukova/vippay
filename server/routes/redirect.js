@@ -9,7 +9,7 @@ var UserController = require('../controllers/User');
 /**
  * Переход по ссылке продукта, расположеной на странице партнера
  */
-router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, function (req, res, next)
+router.get('/rp/:partner_login/:product_id', getPartnerIdByLogin, function (req, res, next)
 {
     var product;
     var customer;
@@ -63,7 +63,7 @@ router.get('/redirect/product/:partner_login/:product_id', getPartnerIdByLogin, 
 /**
  * Переход по партнерским ссылкам, расположенным на странице партнера
  */
-router.get('/redirect/link/:partner_login/:link', getPartnerIdByLogin, function (req, res, next)
+router.get('/rl/:partner_login/:link', getPartnerIdByLogin, function (req, res, next)
 {
     var product;
     var customer;

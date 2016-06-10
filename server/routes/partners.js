@@ -110,7 +110,7 @@ router.get(`/partner/:category_id/products`, function (req, res, next) {
 
         }).then(function (products) {
                     products.map((p) => {
-                        p.ref_link = `http://${req.clientObj.login}.${config.get('domain')}/redirect/product/${partner.login}/${p.id}`
+                        p.ref_link = `http://${req.clientObj.login}.${config.get('domain')}/rp/${partner.login}/${p.id}`
                     });
 
                     productsArr =   products;
@@ -222,7 +222,7 @@ router.get('/partner/partnerlinks', function (req, res, next) {
         .then(function (partnerLinks) {
 
             partnerLinks.map((p) => {
-                p.ref_link = `http://${req.clientObj.login}.${config.get('domain')}/redirect/link/${req.partnerObj.login}/${p.key}`
+                p.ref_link = `http://${req.clientObj.login}.${config.get('domain')}/rl/${req.partnerObj.login}/${p.key}`
             });
 
             res.send(partnerLinks)
@@ -230,6 +230,16 @@ router.get('/partner/partnerlinks', function (req, res, next) {
         }).catch(function (err) {
             next(err);
         });
+});
+
+router.put('/partner/payments', function (req, res, next) {
+
+    PartnerController.edit(req.body).then((data) => {
+        res.send(JSON.parse(data.payment));
+    }).catch((err) => {
+        res.status(400).send(err);
+    })
+
 });
 
 
