@@ -5,6 +5,7 @@ import PartnersStore from './../stores/PartnersStore';
 import AuthStore from './../stores/AuthStore';
 import List from'./../../../../common/js/List';
 import NumberInput from'./../../../../common/js/NumberInput';
+import ModalActions from'./../../../../common/js/ModalWindow/ModalActions';
 import AlertActions from'./../../../../common/js/Alert/AlertActions';
 import _  from 'lodash';
 
@@ -21,10 +22,17 @@ class PartnerItem extends React.Component {
             value: '',
             clear: false
         };
+
+        this.paymentSettings = {
+            'card': 'Карта',
+            'yandex': 'Яндекс.Кошелек'
+        };
+
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
         this.setActive = this.setActive.bind(this);
         this.setPartnerFee = this.setPartnerFee.bind(this);
+        this.showPayments = this.showPayments.bind(this);
     }
 
     componentDidMount() {
@@ -102,6 +110,25 @@ class PartnerItem extends React.Component {
 
     }
 
+    showPayments() {
+
+        var array = [];
+
+        this.state.partner.payment.map((payment) => {
+            array.push(this.paymentSettings[payment.name] + ' : ' + payment.value);
+        });
+
+        ModalActions.set({
+            data: {
+                title: `Платежные данные ${this.state.partner.login}`,
+                array: array
+
+            },
+            name: 'ArrayOfMessages'
+        })
+
+    }
+
     render() {
         var available = "glyphicon glyphicon-ok-circle btn btn-default btn-action";
         var notAvailable = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
@@ -119,6 +146,9 @@ class PartnerItem extends React.Component {
                 <button type="button"
                         className={this.props.item.active ? available : notAvailable}
                         onClick={this.setActive}/>
+            </td>
+            <td>
+                <button type="button" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.showPayments} />
             </td>
             <td className="col-md-2">
                 <div className="input-group input-group-inline">
@@ -236,6 +266,7 @@ class Partners extends React.Component {
                         {name: 'Электронная почта', key: 'email'},
                         {name: 'ФИО', key: 'name'},
                         {name: 'Активность', key: 'active'},
+                        {name: 'Платежные данные', key: ''},
                         {name: 'Выплатить', key: ''},
                         {name: 'Должен', key: 'fee.fee_added'},
                         {name: 'Выплачено', key: 'fee.fee_payed'},

@@ -4,8 +4,9 @@ import ModalStore from './ModalStore';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import _  from 'lodash';
 
-import Materials from './../../../client/src/js/components/Materials';
-import Message from './../../../client/src/js/components/Message';
+import Materials from './../../../client/src/js/components/modalDirectives/Materials';
+import Message from './../../../client/src/js/components/modalDirectives/Message';
+import ArrayOfMessages from './../../../client/src/js/components/modalDirectives/ArrayOfMessages';
 
 
 /**
@@ -17,7 +18,8 @@ class ModalWindow extends React.Component {
         super();
         this.components = {
             'Materials': Materials,
-            'Message': Message
+            'Message': Message,
+            'ArrayOfMessages': ArrayOfMessages
         }
         this.state = ModalStore.getState();
         this.update = this.update.bind(this);

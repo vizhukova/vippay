@@ -8,9 +8,11 @@ var PartnersClients = require('../models/PartnerClients');
 var Fee = require('../models/Fee');
 var Promise = require('bluebird');
 var _ = require('lodash');
+var moment = require('moment');
 var email = require('../utils/email');
 
 var config = require('./../config');
+// rename db to prod_db
 var prod_knex = require('knex')(config.get('prod_db'));
 
 /**
@@ -131,6 +133,8 @@ module.exports = {
                     })
                 }
 
+                //var a =moment().add(1, 'months').format('YYYY-MM-DD')
+
                 email.send(order.delivery.email, 'Успешная оплата заказа', text);
 
 
@@ -139,17 +143,31 @@ module.exports = {
                     /*
                         отправить запрос на сторонний сайт
                      */
-                        prod_knex('user/packages')
-                        .insert({package: order.package_id, user: order.special_login}).then(() => {
-                            console.log('inserted into user/packages', {package: order.package_id, user: order.special_login});
+                        prod_knex('packages')
+                         .first()
+                         .where({id: order.special_login})
+                         .then((user) => {
+
+                           return prod_knex('user/packages')
+                            .insert({
+                                package: order.package_id,
+                                user: order.special_login,
+                                price: user.price,
+                                'followers-available': user.followers,
+                                expired_at: moment().add(1, 'months').format('YYYY-MM-DD')
+
+                             })
+                        }).then(() => {
+                            console.log('inserted into user/packages', {package: order.package_id, user: order.special_login, price: user.price, 'followers-available': user.followers, expired_at: moment().add(1, 'm').format('YYYY-MM-DD')});
                             resolve();
                         }).catch((err) => {
                             console.log('error insert user/packages: ', err);
                             reject(err);
                         })
+
                     } else {
                          resolve();
-                     }
+                    }
                 })
 
              }).then(() => {
@@ -173,7 +191,7 @@ module.exports = {
             }).then((s) => {
 
                 if (!customer.partner_product_id.partner_id.length) {
-                    resolve([order]);
+                    resolve(order);
                     return;
                 }
 
@@ -338,7 +356,7 @@ module.exports = {
             }).then((s) => {
 
                 if (!customer.partner_product_id.partner_id.length) {
-                    resolve([order]);
+                    resolve(order);
                     return;
                 }
 

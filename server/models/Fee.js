@@ -40,7 +40,7 @@ var Fee = bookshelf.Model.extend({
 
     put(obj) {
         obj.fee_added = obj.fee_added || 0;
-        obj.fee_added = obj.fee_payed || 0;
+        obj.fee_payed = obj.fee_payed || 0;
 
         return knex.raw(`
         SELECT convert(${obj.fee_added}, ${obj.client_id}, users.basic_currency, 2) AS fee_added,

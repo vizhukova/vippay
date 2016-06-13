@@ -159,14 +159,14 @@ router.put('/partner', function (req, res, next) {
     });
 });
 
-router.get('/partner', function (req, res, next) {
-    PartnerController.get(req.clientObj.id)
-        .then(function (partner) {
-            res.send(partner)
-        }).catch(function (err) {
-            next(err);
-    });
-});
+//router.get('/partner', function (req, res, next) {
+//    PartnerController.get(req.clientObj.id)
+//        .then(function (partner) {
+//            res.send(partner)
+//        }).catch(function (err) {
+//            next(err);
+//    });
+//});
 
 router.get('/partner/fee', function (req, res, next) {
     PartnerController.getFee(req.clientObj.id)
