@@ -4,9 +4,9 @@ import ModalStore from './ModalStore';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 import _  from 'lodash';
 
-import Materials from './../../../client/src/js/components/modalDirectives/Materials';
-import Message from './../../../client/src/js/components/modalDirectives/Message';
-import ArrayOfMessages from './../../../client/src/js/components/modalDirectives/ArrayOfMessages';
+import Materials from './../../../client/src/js/components/modalComponents/Materials';
+import Message from './../../../client/src/js/components/modalComponents/Message';
+import ArrayOfMessages from './../../../client/src/js/components/modalComponents/ArrayOfMessages';
 
 
 /**

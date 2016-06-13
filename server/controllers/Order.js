@@ -145,7 +145,7 @@ module.exports = {
                      */
                         prod_knex('packages')
                          .first()
-                         .where({id: order.special_login})
+                         .where({id: order.package_id})
                          .then((user) => {
 
                            return prod_knex('user/packages')
