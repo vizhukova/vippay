@@ -139,15 +139,19 @@ module.exports = {
 
 
                 return new Promise((resolve, reject) => {
+
                      if(order.special_login) {
                     /*
                         отправить запрос на сторонний сайт
                      */
+
+                         var user = {};
                         prod_knex('packages')
                          .first()
                          .where({id: order.package_id})
-                         .then((user) => {
+                         .then((u) => {
 
+                           user = u;
                            return prod_knex('user/packages')
                             .insert({
                                 package: order.package_id,
