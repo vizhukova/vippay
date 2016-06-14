@@ -60,6 +60,9 @@ class OrderItem extends React.Component {
     }
 
     setComplete() {
+
+        if(this.props.item.special_login && this.props.item.step == 'complete') return;
+
         if (this.props.item.step == 'complete')OrdersActions.setComplete({step: 'pending', id: this.props.item.id});
         else OrdersActions.setComplete({step: 'complete', id: this.props.item.id});
     }
@@ -70,6 +73,13 @@ class OrderItem extends React.Component {
         var notComplete = "glyphicon glyphicon-ban-circle btn btn-danger btn-action";
         var delivery = this.props.item.delivery;
         var comment = delivery.comment || '';
+        var activityClass = '';
+
+        if(this.props.item.special_login) {
+            activityClass = this.props.item.step == 'complete'  ? `${complete} disabled` : notComplete;
+        } else {
+            activityClass  = this.props.item.step == 'complete' ? complete : notComplete;
+        }
 
 
         if (comment.length > this.state.commentLength) {
@@ -100,7 +110,7 @@ class OrderItem extends React.Component {
             </td>
             <td>{this.props.item.delivery_price}</td>
             <td>
-                <button type="button" className={` ${this.props.item.step == 'complete' ? complete : notComplete}`}
+                <button type="button" className={` ${activityClass}`}
                         onClick={this.setComplete} />
             </td>
             <td>{`${this.props.item.product_price} ${this.props.item.currency}`}</td>

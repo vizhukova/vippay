@@ -586,15 +586,26 @@ class ProductForm extends React.Component {
                 </fieldset>
 
              <fieldset className="product-form">
-                <label className="text-warning">Комиссия </label>
+                <label className="text-warning">Комиссия 1 </label>
                 <NumberInput type="text" name="fee"
-                       className="form-control input-lg" id="price"
+                       className="form-control input-lg"
                        onChange={this.onChange}
                        onKeyDown={this.onKeyDown}
-                       onClick = {this.onClick} placeholder="Введите комиссию"
+                       onClick = {this.onClick} placeholder="Введите комиссию 1"
                        value={this.state.product.fee}
                        toFixed={2} />
-                </fieldset>
+             </fieldset>
+
+             <fieldset className="product-form">
+                <label className="text-warning">Комиссия 2 </label>
+                <NumberInput type="text" name="fee_secondary"
+                       className="form-control input-lg"
+                       onChange={this.onChange}
+                       onKeyDown={this.onKeyDown}
+                       onClick = {this.onClick} placeholder="Введите комиссию 2"
+                       value={this.state.product.fee_secondary}
+                       toFixed={2} />
+             </fieldset>
 
                  <fieldset className="product-form">
                  <label className="text-warning">Валюта</label>

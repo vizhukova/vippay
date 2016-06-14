@@ -173,7 +173,7 @@ var Partner = bookshelf.Model.extend({
 
 
     getAll: Promise.method(function (client_id) {
-        return knex.select('users.*', 'clients-partners.fee as partner_fee')
+        return knex.select('users.*', 'clients-partners.fee as partner_fee', 'clients-partners.fee_secondary as partner_fee_secondary')
             .from('users')
             .join('clients-partners', 'partner_id', '=', 'users.id')
             .where('client_id', '=', client_id)

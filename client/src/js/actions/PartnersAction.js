@@ -74,6 +74,18 @@ class PartnersAction {
         })
     }
 
+    setPartnerSecondaryFee(obj) {
+        return new Promise((resolve, reject) => {
+            var self = this;
+        ApiActions.put(`partner/individual_secondary_fee`, obj).then(function(data){
+            self.dispatch(data);
+            resolve(data);
+        }).catch(function(err){
+            reject(err);
+        })
+        })
+    }
+
 }
 
 export default alt.createActions(PartnersAction);

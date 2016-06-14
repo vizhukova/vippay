@@ -151,7 +151,7 @@ router.get('/partner/current', function (req, res, next) {
 });
 
 router.put('/partner', function (req, res, next) {
-    PartnerController.edit(_.omit(req.body, ['fee', 'partner_fee']))
+    PartnerController.edit(_.omit(req.body, ['fee', 'partner_fee', 'partner_fee_secondary']))
         .then(function (partner) {
             res.send(partner)
         }).catch(function (err) {
@@ -209,6 +209,26 @@ router.put('/partner/individual_fee', function (req, res, next) {
 
     PartnerClientsController.edit(newObj)
     .then(function (data) {
+        data[0].partner_fee = data[0].fee;
+        res.send(data);
+        }).catch(function (err) {
+        next(err);
+    });
+
+
+});
+
+router.put('/partner/individual_secondary_fee', function (req, res, next) {
+
+    var newObj = {
+        client_id: req.clientObj.id,
+        partner_id: req.body.id,
+        fee_secondary: req.body.partner_fee_secondary
+    };
+
+    PartnerClientsController.edit(newObj)
+    .then(function (data) {
+        data[0].partner_fee_secondary = data[0].fee_secondary;
         res.send(data);
         }).catch(function (err) {
         next(err);

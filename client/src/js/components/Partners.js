@@ -33,6 +33,7 @@ class PartnerItem extends React.Component {
         this.setActive = this.setActive.bind(this);
         this.setPartnerFee = this.setPartnerFee.bind(this);
         this.showPayments = this.showPayments.bind(this);
+        this.setPartnerSecondaryFee = this.setPartnerSecondaryFee.bind(this);
     }
 
     componentDidMount() {
@@ -110,6 +111,19 @@ class PartnerItem extends React.Component {
 
     }
 
+    setPartnerSecondaryFee() {
+
+        PartnersAction.setPartnerSecondaryFee(this.state.partner).then((result) => {
+            AlertActions.set({
+                type: 'success',
+                title: 'Успех',
+                text: 'Установка комиссии прошла успешно'
+            }, true);
+
+        })
+
+    }
+
     showPayments() {
 
         var array = [];
@@ -136,7 +150,8 @@ class PartnerItem extends React.Component {
         var fee = this.props.item.fee || {};
         var fee_added = fee.fee_added || 0;
         var fee_payed = fee.fee_payed || 0;
-        var partner_fee = this.props.item.partner_fee || '';
+        var partner_fee = this.props.item.partner_fee ||this.props.item.fee || '';
+        var fee_secondary = this.props.item.partner_fee_secondary || this.props.item.fee_secondary || '';
 
         return <tr>
             <td>{this.props.item.login}</td>
@@ -157,9 +172,11 @@ class PartnerItem extends React.Component {
                                  value={this.state.value}
                                  toFixed={2}
                                  clear={this.state.clear}/>
-                                <span className="input-group-btn">
-                                    <button className="btn btn-default glyphicon glyphicon-sort" type="button"
-                                            onClick={this.onClick}/>
+                                 <span className="input-group-btn">
+                                    <div className="btn btn-default btn-action" type="button"
+                                         onClick={this.onClick}>
+                                        <i className="glyphicon glyphicon-sort" />
+                                    </div>
                                 </span>
                 </div>
 
@@ -170,13 +187,29 @@ class PartnerItem extends React.Component {
                 <div className="input-group input-group-inline">
                     <NumberInput onChange={this.onChange}
                                  name="partner_fee"
-
                                  toFixed={2}
                                  value={partner_fee}
                                  clear={this.state.clear}/>
                                 <span className="input-group-btn">
                                     <div className="btn btn-default btn-action " type="button"
-                                         onClick={this.setPartnerFee}>Установить
+                                         onClick={this.setPartnerFee}>
+                                        <i className="glyphicon glyphicon-ok" />
+                                    </div>
+                                </span>
+                </div>
+
+            </td>
+            <td className="col-md-2">
+                <div className="input-group input-group-inline">
+                    <NumberInput onChange={this.onChange}
+                                 name="partner_fee_secondary"
+                                 toFixed={2}
+                                 value={fee_secondary}
+                                 clear={this.state.clear}/>
+                                <span className="input-group-btn">
+                                    <div className="btn btn-default btn-action " type="button"
+                                         onClick={this.setPartnerSecondaryFee}>
+                                        <i className="glyphicon glyphicon-ok" />
                                     </div>
                                 </span>
                 </div>
@@ -270,7 +303,8 @@ class Partners extends React.Component {
                         {name: 'Выплатить', key: ''},
                         {name: 'Должен', key: 'fee.fee_added'},
                         {name: 'Выплачено', key: 'fee.fee_payed'},
-                        {name: 'Комиссия', key: ''}
+                        {name: 'Комиссия 1', key: ''},
+                        {name: 'Комиссия 2', key: ''}
                     ]}
             />
         </div>

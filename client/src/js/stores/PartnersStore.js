@@ -14,7 +14,8 @@ class PartnersStore {
             onGetFee: PartnersAction.GET_FEE,
             onSetFee: PartnersAction.SET_FEE,
             onGetPartnerQuery: PartnersAction.GET_PARTNER_QUERY,
-            onEditFeeQuery: PartnersAction.EDIT_FEE_QUERY
+            onEditFeeQuery: PartnersAction.EDIT_FEE_QUERY,
+            onSetPartnerSecondaryFee: PartnersAction.SET_PARTNER_SECONDARY_FEE
         });
     }
 
@@ -36,6 +37,13 @@ class PartnersStore {
     }
 
     onSetFee(fee) {
+        //console.log('SetFee', fee);
+        var index = _.findIndex(this.partners, {id: fee.partner_id});
+        if(index >= 0)this.partners[index].fee = fee;
+
+    }
+
+    onSetPartnerSecondaryFee(fee) {
         //console.log('SetFee', fee);
         var index = _.findIndex(this.partners, {id: fee.partner_id});
         if(index >= 0)this.partners[index].fee = fee;

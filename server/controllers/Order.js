@@ -216,11 +216,15 @@ module.exports = {
                 if (order.product.length === 1) {
                     fee = +order.product[0].fee || 0;
                     feeToAdd = (total * fee) / 100;
+                    feeSecondary = +order.product[0].fee_secondary || 0;
+                    feeToAddSecondary = (total * feeSecondary) / 100;
                 }
 
                 else {
                     fee = p_c[0].fee;
                     feeToAdd = (total * fee) / 100;
+                    feeSecondary =  p_c[0].fee_secondary;
+                    feeToAddSecondary = (total * feeSecondary) / 100;
                 }
 
                 //if(!feeToAdd){
@@ -255,7 +259,8 @@ module.exports = {
                     return Fee.put({
                         client_id: order.client_id,
                         partner_id: partner_id,
-                        fee_added: newFee
+                        fee_added: newFee,
+                        fee_payed: resultFee.fee_payed
                     })
 
                 }
@@ -270,8 +275,10 @@ module.exports = {
 
                 if (referer) {
 
-                    feeSecondary = referer.fee_secondary;
-                    feeToAddSecondary = (total * feeSecondary) / 100;
+                    if(!feeToAddSecondary) {
+                        feeSecondary = referer.fee_secondary;
+                        feeToAddSecondary = (total * feeSecondary) / 100;
+                    }
 
                     return Fee.get(order.client_id);
                 } else {
@@ -306,7 +313,8 @@ module.exports = {
                     return Fee.put({
                         client_id: order.client_id,
                         partner_id: referer.id,
-                        fee_added: newFee
+                        fee_added: newFee,
+                        fee_payed: resultFee.fee_payed
                     })
 
                 }
@@ -381,9 +389,13 @@ module.exports = {
                 if (order.product.length === 1) {
                     fee = +order.product[0].fee || 0;
                     feeToAdd = (total * fee) / 100;
+                    feeSecondary =  +order.product[0].fee_secondary || 0;
+                    feeToAddSecondary = (total * feeSecondary) / 100;
                 } else {
                     fee = p_c[0].fee;
                     feeToAdd = (total * fee) / 100;
+                    feeSecondary =  p_c[0].fee_secondary || 0;
+                    feeToAddSecondary = (total * feeSecondary) / 100;
                 }
 
                 //if (!feeToAdd){
@@ -418,7 +430,8 @@ module.exports = {
                     return Fee.put({
                         client_id: order.client_id,
                         partner_id: partner_id,
-                        fee_added: newFee
+                        fee_added: newFee,
+                        fee_payed: resultFee.fee_payed
                     })
 
                 }
@@ -432,8 +445,10 @@ module.exports = {
                 referer = r;
                 if (referer) {
 
-                    feeSecondary = referer.fee_secondary;
-                    feeToAddSecondary = (total * feeSecondary) / 100;
+                    if(!feeSecondary) {
+                        feeSecondary = referer.fee_secondary;
+                        feeToAddSecondary = (total * feeSecondary) / 100;
+                    }
 
                     return Fee.get(order.client_id);
                 } else {
@@ -468,7 +483,8 @@ module.exports = {
                     return Fee.put({
                         client_id: order.client_id,
                         partner_id: referer.id,
-                        fee_added: newFee
+                        fee_added: newFee,
+                        fee_payed: resultFee.fee_payed
                     })
 
                 }

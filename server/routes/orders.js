@@ -190,7 +190,11 @@ router.post('/order', function(req, res, next) {
 
         }
 
-        product[0].fee_secondary = user.fee_secondary || 0;
+        if( (product.length == 1 && product[0].fee_secondary != 0 && !product[0].fee_secondary) || product.length > 1 ) {
+
+            product[0].fee_secondary = ( p_c && p_c[0] ? p_c[0].fee_secondary : null) || user.fee_secondary || 0;
+
+        }
 
         return OrderController.add({
                             customer_id: customer.id,
