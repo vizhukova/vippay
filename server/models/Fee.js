@@ -63,25 +63,25 @@ var Fee = bookshelf.Model.extend({
                 .returning('*')
 
 
-        }).then((data) => {
-            var fees = data[0];
-
-             return new Promise((resolve, reject) => {
-
-            knex.raw(`
-                 SELECT convert(fee.fee_added, ${fees.client_id}, 2, users.basic_currency) AS fee_added,
-                convert(fee.fee_payed, ${fees.client_id}, 2, users.basic_currency) AS fee_payed,
-                client_id, partner_id
-                FROM users, fee
-                WHERE users.id = ${fees.client_id} AND fee.client_id = users.id AND partner_id = ${fees.partner_id}
-                `).then((res) => {
-                    resolve(replaceFee(res.rows));
-                }).catch((err) => {
-                    reject(err);
-                })
-
-        })
-        })
+        })//.then((data) => {
+        //    var fees = data[0];
+        //
+        //     return new Promise((resolve, reject) => {
+        //
+        //    knex.raw(`
+        //         SELECT convert(fee.fee_added, ${fees.client_id}, 2, users.basic_currency) AS fee_added,
+        //        convert(fee.fee_payed, ${fees.client_id}, 2, users.basic_currency) AS fee_payed,
+        //        client_id, partner_id
+        //        FROM users, fee
+        //        WHERE users.id = ${fees.client_id} AND fee.client_id = users.id AND partner_id = ${fees.partner_id}
+        //        `).then((res) => {
+        //            resolve(replaceFee(res.rows));
+        //        }).catch((err) => {
+        //            reject(err);
+        //        })
+        //
+        //})
+        //})
     },
 
     get(client_id) {

@@ -181,6 +181,7 @@ router.get('/partner/fee', function (req, res, next) {
 
 router.put('/partner/fee', function (req, res, next) {
     var fee = req.body.fee || {};
+    var resultFee;
 
     if(fee.fee_pay) {
         fee.fee_added = fee.fee_added || 0;
@@ -191,8 +192,16 @@ router.put('/partner/fee', function (req, res, next) {
 
         PartnerController.putFee(_.omit(fee, ['fee_pay']))
         .then(function (fee) {
-            res.send(fee[0]);
-            }).catch(function (err) {
+
+            resultFee = fee[0];
+            return PartnerController.getFee(resultFee.client_id);
+
+        }).then((data) => {
+
+            var result = _.findWhere(data, {client_id: resultFee.client_id, partner_id: resultFee.partner_id});
+            res.send(result);
+
+        }).catch(function (err) {
             next(err);
         });
     } else {

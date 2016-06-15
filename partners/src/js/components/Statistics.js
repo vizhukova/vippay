@@ -84,11 +84,11 @@ class Statistics extends React.Component {
                                 </tr>
                                 <tr>
                                     <td>Общая сумма клиентского долга :</td>
-                                    <td>{this.state.statistic.sum_fee_added || '0.00'}</td>
+                                    <td>{this.state.statistic.sum_fee_added ? parseFloat(this.state.statistic.sum_fee_added).toFixed(2) : '0.00'}</td>
                                 </tr>
                                 <tr>
                                     <td>Общая сумма клиентских выплат:</td>
-                                    <td>{this.state.statistic.sum_fee_payed || '0.00'}</td>
+                                    <td>{this.state.statistic.sum_fee_payed ? parseFloat(this.state.statistic.sum_fee_payed).toFixed(2) : '0.00'}</td>
                                 </tr>
                                 <tr>
                                     <td>Количество оплаченных заказов партнеров второго уровня:</td>

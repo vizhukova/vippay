@@ -9,6 +9,7 @@ class PartnersAction {
         ApiActions.get(`partner`).then(function(data){
             self.dispatch(data);
         }).catch(function(err){
+            console.error(err);
         })
     }
 

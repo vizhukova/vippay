@@ -59,11 +59,11 @@ class Statistics extends React.Component {
                                 </tr>
                                 <tr>
                                     <td>Общий долг по партнерам:</td>
-                                    <td>{this.state.statistic.sum_fee_added || 0}</td>
+                                    <td>{this.state.statistic.sum_fee_added ? parseFloat(this.state.statistic.sum_fee_added).toFixed(2) : 0}</td>
                                 </tr>
                                 <tr>
                                     <td>Общая сумма выплат партнерам:</td>
-                                    <td>{this.state.statistic.sum_fee_payed || 0}</td>
+                                    <td>{this.state.statistic.sum_fee_payed ? parseFloat(this.state.statistic.sum_fee_payed).toFixed(2) : 0}</td>
                                 </tr>
                             </tbody>
                         </table>
