@@ -40,9 +40,9 @@ class PartnerItem extends React.Component {
         this.setState({partner: this.props.item});
     }
 
-    componentWillReceiveProps() {
+    componentWillReceiveProps(props) {
         this.state.clear = true;
-        this.setState({});
+        this.setState({partner: props.item});
     }
 
     setActive() {
