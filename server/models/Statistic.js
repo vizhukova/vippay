@@ -91,11 +91,13 @@ var Order = bookshelf.Model.extend({
               (SELECT COUNT(id) as count_start_order from statistics WHERE client_id = ${data.client_id} AND partner_id = ${data.partner_id} AND action = 'start_order'),
               (SELECT COUNT(id) as count_pending_order from statistics WHERE client_id = ${data.client_id} AND partner_id = ${data.partner_id} AND action = 'pending_order'),
               (SELECT COUNT(id) as count_complete_order from statistics WHERE client_id = ${data.client_id} AND partner_id = ${data.partner_id} AND action = 'complete_order'),
-              (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${data.client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_pending_order FROM orders WHERE step = 'pending' AND partner_id = ${data.partner_id}),
+              (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${data.client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_pending_order FROM orders WHERE partner_id = ${data.partner_id}),
               (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${data.client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_complete_order FROM orders WHERE step = 'complete' AND partner_id = ${data.partner_id}),
               (SELECT SUM(converttobasecurrency(fee_added, ${data.client_id}, 2)::NUMERIC) as sum_fee_added from fee WHERE partner_id = ${data.partner_id}),
               (SELECT SUM(converttobasecurrency(fee_payed, ${data.client_id}, 2)::NUMERIC) as sum_fee_payed from fee WHERE partner_id = ${data.partner_id}),
-              (SELECT count(orders.id) as count_complete_order_partners_secondary FROM orders, referers WHERE orders.partner_id = referers.user_id AND orders.step ='complete' AND referers.referer_id = ${data.partner_id})
+              (SELECT count(orders.id) as count_complete_order_partners_secondary FROM orders, referers WHERE orders.partner_id = referers.user_id AND orders.step ='complete' AND referers.referer_id = ${data.partner_id}),
+              (SELECT SUM(converttobasecurrency(orders.total_price_base_rate * (orders.product->0->>'fee_secondary')::NUMERIC / 100, ${data.client_id}, orders.basic_currency_id)::NUMERIC) AS sum_complete_order_partners_secondary FROM orders, referers
+                WHERE referers.referer_id = ${data.partner_id} AND orders.partner_id = referers.user_id AND orders.step = 'complete' AND referers.client_id = ${data.client_id})
               `))
                 .then((result) => {
 

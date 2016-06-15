@@ -28,6 +28,7 @@ module.exports = function(req, res, next){
 
    }).then((b_p) => {
 
+       b_p.rows[0].product.currency_id = client.basic_currency;
        b_p.rows.map((item) => {
            if (!item.product.image || item.product.image.indexOf('http://') == -1) {
                item.product.image = '/public/orders/images/noimage.png';

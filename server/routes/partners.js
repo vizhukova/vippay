@@ -6,6 +6,7 @@ var PartnerClientsController = require('../controllers/PartnerClients');
 var UserController = require('../controllers/User');
 var _ = require('lodash');
 var email = require('../utils/email');
+var payments = require('./../payment_systems/partner_payment_systems');
 
 
 router.post('/partner/register', function (req, res, next) {
@@ -36,7 +37,8 @@ router.post('/partner/register', function (req, res, next) {
         password: req.body.password,
         confirm_pass: req.body.confirm_pass,
         client_id: req.clientObj.id,
-        referer: req.body.referer
+        referer: req.body.referer,
+        payment: payments
 
     }).then((u) => {
 

@@ -87,7 +87,8 @@ var Partner = bookshelf.Model.extend({
             email: partner.email,
             password: partner.password,
             type: 'partner',
-            basic_currency: 1
+            basic_currency: 1,
+            payment: JSON.stringify(partner.payment)
         };
 
         return knex('users').insert(record).returning('*').then((u) => {

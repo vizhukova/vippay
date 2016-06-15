@@ -96,7 +96,7 @@ class Statistics extends React.Component {
                                 </tr>
                                 <tr>
                                     <td>Общая сумма, начисленная за заказы партнеров второго уровня:</td>
-                                    <td>{this.state.statistic.sum_complete_order_secondary ? parseFloat(this.state.statistic.sum_complete_order_secondary).toFixed(2) : '0.00'}</td>
+                                    <td>{this.state.statistic.sum_complete_order_partners_secondary ? parseFloat(this.state.statistic.sum_complete_order_partners_secondary).toFixed(2) : '0.00'}</td>
                                 </tr>
                             </tbody>
                         </table>

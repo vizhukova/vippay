@@ -165,10 +165,11 @@ class PartnerItem extends React.Component {
             <td>
                 <button type="button" className="btn btn-default btn-action glyphicon glyphicon-eye-open" onClick={this.showPayments} />
             </td>
-            <td className="col-md-2">
-                <div className="input-group input-group-inline">
+            <td className="col-md-2" key={Math.random()}>
+                <div className="input-group input-group-inline" key={Math.random()}>
                     <NumberInput onChange={this.onChange}
                                  name="fee_pay"
+                                 key={Math.random()}
                                  value={this.state.value}
                                  toFixed={2}
                                  clear={this.state.clear}/>
