@@ -52,12 +52,12 @@ class Application extends React.Component {
     }
 
     update(state){
-        if(!state.auth){
-            location.hash = 'auth';
-        }
-
         if(state.isOut) {
             location.href = `http://${this.state.auth_domain}/#/auth`;
+        }
+
+        if(!state.auth){
+            location.hash = 'auth';
         }
         _.assign(this.state, state);
         this.setState({});

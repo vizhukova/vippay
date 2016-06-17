@@ -13,6 +13,7 @@ router.use(api_prefix, require('./admin'));
 router.use(api_prefix, require('./payments'));
 router.use(api_prefix, require('./auth'));
 router.use(api_prefix, require('./log'));
+router.use(api_prefix, require('./settings'));
 
 router.use(checkBusinessTariffAccess);
 
@@ -26,7 +27,7 @@ router.use(checkTrialTariff);
 router.use(checkBaseTariff);
 router.use(checkStartTariff);
 
-router.use(api_prefix, require('./settings'));
+router.use(api_prefix, require('./other_settings'));
 router.use(api_prefix, require('./partners_secondary'));
 router.use(api_prefix, require('./products'));
 router.use(api_prefix, require('./categories'));
