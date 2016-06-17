@@ -38,7 +38,7 @@ class Application extends React.Component {
                 SettingsActions.getMessages();
                 return SettingsActions.getBasicCurrency();
 
-            })
+            });
 
         SettingsActions.get();
 
@@ -70,7 +70,7 @@ class Application extends React.Component {
 
     out(e) {
         e.preventDefault();
-        console.log(this.state)
+        console.log(this.state);
         AuthActions.out();
     }
 
@@ -85,7 +85,7 @@ class Application extends React.Component {
                             <span className="icon-bar"/>
                             <span className="icon-bar"/>
                         </button>
-                        <a className="navbar-brand" href="#"><i className="glyphicon glyphicon-home"></i></a>
+                        <a className="navbar-brand" href="#"><i className="glyphicon glyphicon-home" /></a>
                     </div>
 
                     <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -114,7 +114,7 @@ class Application extends React.Component {
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                           <li className="dropdown">
-                              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user"></i>{this.state.user.name}</a>
+                              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i className="glyphicon glyphicon-user" />{this.state.user.name}</a>
                                   <ul className="dropdown-menu">
                                       {this.state.isStaff ? null : <li><Link to="/profile" activeClassName="active">Профиль</Link></li>}
                                     <li>
