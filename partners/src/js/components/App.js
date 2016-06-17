@@ -65,14 +65,15 @@ class Application extends React.Component {
     }
 
     update(state) {
+
+        if(state.isOut) {
+            location.href = `${location.origin}/partners/#/auth`;
+        }
+
         if (!this.state.auth) {
             if (!state.auth) {
                 location.hash = 'auth';
             }
-        }
-
-        if(state.isOut) {
-            location.href = `${location.origin}/partners/#/auth`;
         }
 
         _.assign(this.state, state);
