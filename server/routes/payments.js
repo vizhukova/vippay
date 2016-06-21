@@ -46,7 +46,7 @@ router.get('/payments/data/:order/:method', function (req, res) {
 
         })
     } else if (req.params.method === 'paypal') {
-        Liqpay.getData(req.params.order, req.clientObj.id).then((payment_data) => {
+        Paypal.getData(req.params.order, req.clientObj.id).then((payment_data) => {
 
             res.send(payment_data);
 

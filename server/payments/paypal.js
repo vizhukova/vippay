@@ -17,7 +17,7 @@ const paypal = require('paypal-rest-sdk');
 function createTransaction(order, currency){
     let transaction = {};
 
-    transaction.ammount = {
+    transaction.amount = {
         currency: currency,
         total: order.total_price_order_rate
     };
@@ -35,7 +35,7 @@ function createTransaction(order, currency){
 
     });
 
-    return transaction
+    return [transaction]
 
 }
 
@@ -51,9 +51,9 @@ class PayPal {
 
             CurrencyController.get().then((currency) => {
 
-                cur = _.findWhere(currency, {id: order.basic_currency_id}).name;
-
                 return OrderController.getById(order_id).then(function (order) {
+
+                    cur = _.findWhere(currency, {id: order.basic_currency_id}).name;
 
                     payment_data.intent = 'sale';
 
@@ -62,7 +62,8 @@ class PayPal {
                     };
 
                     payment_data.redirect_urls = {
-                        "return_url": "http://payment.vippay.info/api/payments/paypal/" + order_id
+                        "return_url": "http://payment.vippay.info/api/payments/paypal/" + order_id,
+                        "cancel_url": "http://payment.vippay.info/api/payments/paypal/" + order_id
                     };
 
                     payment_data.transactions = createTransaction(order, cur);
@@ -84,11 +85,11 @@ class PayPal {
                     'client_secret': client_secret
                 });
 
-                paypal.payment.create(create_payment_json, function (error, payment) {
+                paypal.payment.create(payment_data, function (error, payment) {
                     if (error) {
                         console.log(error);
                     } else {
-                        resolve(payment[1].href);
+                        resolve(payment.links[1].href);
                         console.log("Create Payment Response");
                         console.log(payment);
                     }
@@ -145,3 +146,4 @@ class PayPal {
 //     }
 // });
 
+module.exports = PayPal;
