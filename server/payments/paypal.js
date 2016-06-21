@@ -14,6 +14,31 @@ paypal.configure({
 });
 
 
+function createTransaction(order, currency){
+    let transaction = {};
+
+    transaction.ammount = {
+        currency: currency,
+        total: order.total_price_base_rate
+    };
+
+    transaction.item_list = order.product.map((p) => {
+
+        return {
+            name: p.name,
+            item: p.name,
+            price: p.price,
+            currency: currency,
+            quantity: 1
+        }
+
+    });
+
+    return transaction
+
+}
+
+
 class PayPal {
 
     static getData(order_id, user_id) {
@@ -21,8 +46,11 @@ class PayPal {
         return new Promise((resolve, reject) => {
 
             var payment_data = {};
+            var cur;
 
             CurrencyController.get().then((currency) => {
+
+                cur = _.findWhere(currency, {id: order.basic_currency_id}).name;
 
                 return OrderController.getById(order_id).then(function (order) {
 
@@ -33,10 +61,10 @@ class PayPal {
                     };
 
                     payment_data.redirect_urls = {
-                        "return_url": "http://payment.vippay.info/api/payments/paypal/" + order_id,
-                        "cancel_url": "http://cancel.url"
+                        "return_url": "http://payment.vippay.info/api/payments/paypal/" + order_id
                     };
 
+                    payment_data.transaction = createTransaction(order, cur);
 
                     return UserController.getById(user_id);
 
@@ -44,11 +72,26 @@ class PayPal {
 
             }).then((user) => {
 
-                var interkassa = _.findWhere(user.payment, {name: 'interkassa'});
+                var paypal_data = _.findWhere(user.payment, {name: 'paypal'});
 
-                payment_data.ik_co_id = interkassa.fields.id_kassa;
+                let client_id = paypal_data.fields.client_id;
+                let client_secret = paypal_data.fields.client_secret;
 
-                resolve(payment_data);
+                paypal.configure({
+                    'mode': 'sandbox',
+                    'client_id': client_id,
+                    'client_secret': client_secret
+                });
+
+                paypal.payment.create(create_payment_json, function (error, payment) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        resolve(payment[1].href);
+                        console.log("Create Payment Response");
+                        console.log(payment);
+                    }
+                });
 
             }).catch((err) => {
 
@@ -85,8 +128,7 @@ var create_payment_json = {
         "amount": {
             "currency": "USD",
             "total": "1.00"
-        },
-        "description": "This is the payment description."
+        }
     }]
 };
 

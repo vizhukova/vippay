@@ -22,5 +22,13 @@ module.exports = [{
         'private_key': '',
         'public_key': ''
     }
-}];
+}, {
+    name: 'paypal',
+    active: false,
+    fields: {
+        'client_id': '',
+        'client_secret': ''
+    }
+}
+];
 
