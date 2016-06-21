@@ -164,8 +164,6 @@ router.post('/payments/interkassa', (req, res) => {
 
 router.post('/payments/liqpay/:id', (req, res) => {
 
-    console.log(req.params);
-
     var data = req.params.id.split('-');
 
     if(data.length === 3){
@@ -214,7 +212,24 @@ router.post('/payments/liqpay/:id', (req, res) => {
 
 });
 
-router.get('/payments/paypal/:id', (req, res) => {})
+router.get('/payments/paypal/:id', (req, res) => {
+
+    if(req.query.action === 'success'){
+        OrderController.pay(+req.params.id).then(() => {
+            res.send('ok')
+        }).catch((err) => {
+            res.status(500).send('Error');
+        })
+    } else if (req.query.action === 'cancel') {
+        OrderController.cancelPay(+req.params.id).then(() => {
+            res.send('ok')
+        }).catch((err) => {
+            res.status(500).send('Error');
+        })
+    }
+
+
+});
 
 
 module.exports = router;

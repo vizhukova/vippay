@@ -80,7 +80,7 @@ class PayPal {
                 let client_secret = paypal_data.fields.client_secret;
 
                 paypal.configure({
-                    'mode': 'sandbox',
+                    'mode': 'live',
                     'client_id': client_id,
                     'client_secret': client_secret
                 });

@@ -23,7 +23,7 @@ window.onload = function() {
 
                 descriptionContainer.removeClass('hide');
 
-                if(item.name == 'yandex' || item.name == 'interkassa' || item.name == 'liqpay') {
+                if(item.name == 'yandex' || item.name == 'interkassa' || item.name == 'liqpay' || item.name == 'paypal') {
 
                     hidePaymentSettingsItems(item.name);
                 }

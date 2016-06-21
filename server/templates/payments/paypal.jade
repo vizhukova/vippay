@@ -1,3 +1,2 @@
-form#paypal.hide(name='payment', method='get' action='#{payments.paypal.href}' enctype='utf-8')
-    input(name='url', type='hidden', value='')
-    input(type='image', src='https://www.paypalobjects.com/webstatic/en_US/i/buttons/buy-logo-large.png', name='btn_text')
+a#paypal(href='#{payments.paypal.href}')
+    img(src='https://www.paypalobjects.com/webstatic/en_US/i/buttons/buy-logo-large.png')
