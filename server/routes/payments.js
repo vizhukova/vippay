@@ -214,5 +214,7 @@ router.post('/payments/liqpay/:id', (req, res) => {
 
 });
 
+router.get('/payments/paypal/:id', (req, res) => {})
+
 
 module.exports = router;

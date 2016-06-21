@@ -62,8 +62,8 @@ class PayPal {
                     };
 
                     payment_data.redirect_urls = {
-                        "return_url": "http://payment.vippay.info/api/payments/paypal/" + order_id,
-                        "cancel_url": "http://payment.vippay.info/api/payments/paypal/" + order_id
+                        "return_url": "http://payment.vippay.info/api/payments/paypal/" + order_id + "?action=success",
+                        "cancel_url": "http://payment.vippay.info/api/payments/paypal/" + order_id + "?action=cancel"
                     };
 
                     payment_data.transactions = createTransaction(order, cur);
@@ -89,7 +89,7 @@ class PayPal {
                     if (error) {
                         console.log(error);
                     } else {
-                        resolve(payment.links[1].href);
+                        resolve({href: payment.links[1].href});
                         console.log("Create Payment Response");
                         console.log(payment);
                     }
