@@ -29,6 +29,12 @@ module.exports = [{
         'client_id': '',
         'client_secret': ''
     }
-}
-];
+}, {
+    name: 'robokassa',
+    active: false,
+    fields: {
+        'password1': '',
+        'password2': ''
+    }
+}];
 

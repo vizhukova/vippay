@@ -6,6 +6,7 @@ var InterKassa = require('./../payments/interkassa');
 var Yandex = require('./../payments/yandex');
 var Liqpay = require('./../payments/liqpay');
 var Paypal = require('./../payments/paypal');
+var Robokassa = require('./../payments/robokassa');
 
 var OrderController = require('./../controllers/Order');
 var UserController = require('./../controllers/User');
@@ -47,6 +48,16 @@ router.get('/payments/data/:order/:method', function (req, res) {
         })
     } else if (req.params.method === 'paypal') {
         Paypal.getData(req.params.order, req.clientObj.id).then((payment_data) => {
+
+            res.send(payment_data);
+
+        }).catch((err) => {
+
+            res.status(500).send('Something went wrong');
+
+        })
+    } else if (req.params.method === 'robokassa') {
+        Robokassa.getData(req.params.order, req.clientObj.id).then((payment_data) => {
 
             res.send(payment_data);
 
