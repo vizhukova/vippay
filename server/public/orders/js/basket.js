@@ -50,21 +50,21 @@ function setTotal() {
 
 function onClickSubmitButton() {
 
-    ApiActions.put('basket', basketItems).then((res) => {
+    ApiActions.put('basket', basketItems).done((res) => {
 
       location.href = res.redirect;
 
-    }).catch((err) => {
+    }).fail((err) => {
 
     })
 }
 
 function refresh() {
 
-    ApiActions.put('basket', basketItems).then((res) => {
+    ApiActions.put('basket', basketItems).done((res) => {
 
 
-    }).catch((err) => {
+    }).fail((err) => {
 
     })
 
@@ -91,7 +91,7 @@ function onDelete(e) {
 
     e.preventDefault();
     var index = $(e.target).attr('data-index');
-    ApiActions.remove('basket', {id: basketItems[index].id}).then(() => {
+    ApiActions.remove('basket', {id: basketItems[index].id}).done(() => {
 
         location.reload();
 
@@ -129,14 +129,14 @@ function finishPending(e) {
 
     if( data.promo_code.replace(new RegExp(" ",'g'),"").length ) {
 
-            ApiActions.get(`order/promo`, {product_id: prod_id, code: data.promo_code}).then(function(obj){
+            ApiActions.get(`order/promo`, {product_id: prod_id, code: data.promo_code}).done(function(obj){
 
                 showModal();
 
                 data.discount = obj.promo.discount;
                 setPromoMessage(data,  obj.promo_prod);
 
-            }).catch(function(err){
+            }).fail(function(err){
                 setAlert({
                    type: 'error',
                    text: err.responseText,
@@ -188,16 +188,16 @@ function sendOrder(data) {
     var redirect;
      var id = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1);
 
-    ApiActions.post('order', data).then((res) => {
+    ApiActions.post('order', data).done((res) => {
 
         redirect = res.redirect;
         return ApiActions.put('basket/complete', {step: 'complete', id: id});
 
-    }).then((basketData) => {
+    }).done((basketData) => {
 
         location.href = redirect;
 
-    }).catch((err) => {
+    }).fail((err) => {
 
       setAlert({
                type: 'error',
