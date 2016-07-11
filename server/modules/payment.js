@@ -5,6 +5,7 @@ var InterKassa = require('./../payments/interkassa');
 var Yandex = require('./../payments/yandex');
 var LiqPay = require('./../payments/liqpay');
 var Paypal = require('./../payments/paypal');
+var Robokassa = require('./../payments/robokassa');
 
 var _ = require('lodash');
 
@@ -67,6 +68,12 @@ module.exports = function (req, res, next) {
 
         payments.paypal = paypal;
 
+        return Robokassa.getData(+req.params.order_id, +client.id);
+
+    }).then((robokassa) => {
+
+        payments.robokassa = robokassa;
+
         return User.getPayment(client.id);
 
     }).then((p) => {
@@ -80,7 +87,7 @@ module.exports = function (req, res, next) {
         next();
 
     }).catch((err) => {
-
+	console.log('TTTTTTTTTTTTTTTTTTTTTTTTt')
         res.status(404);
         res.render('error', {error: err});
 

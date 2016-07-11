@@ -79,6 +79,8 @@ class PayPal {
                 let client_id = paypal_data.fields.client_id;
                 let client_secret = paypal_data.fields.client_secret;
 
+		if(!paypal_data.active){resolve({href: ''});return}
+
                 paypal.configure({
                     'mode': 'live',
                     'client_id': client_id,
