@@ -90,6 +90,7 @@ class PayPal {
                 paypal.payment.create(payment_data, function (error, payment) {
                     if (error) {
                         console.log(error);
+                        reject(error);
                     } else {
                         resolve({href: payment.links[1].href});
                         console.log("Create Payment Response");

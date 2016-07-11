@@ -211,18 +211,14 @@
 
         hideModal();
         ApiActions.post('order', data).done((res) => {
-            debugger
             location.href = res.redirect;
 
         }).fail((err) => {
-            debugger
             setAlert({
                 title: 'Ошибка',
                 text: 'Проверьте правильность ввода данных',
                 type: 'error'
             })
-        }).complete(() => {
-            debugger
         })
 
     }

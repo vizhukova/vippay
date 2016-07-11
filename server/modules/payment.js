@@ -61,14 +61,15 @@ module.exports = function (req, res, next) {
     }).then((liqpay) => {
 
         payments.liqpay = liqpay;
+        //payments.paypal = {};
 
-        return Paypal.getData(+req.params.order_id, +client.id);
+       Paypal.getData(+req.params.order_id, +client.id).then((paypal, error) => {
+            if (!error) {
+                payments.paypal = paypal;
+            }
+       })
 
-    }).then((paypal) => {
-
-        payments.paypal = paypal;
-
-        return Robokassa.getData(+req.params.order_id, +client.id);
+       return Robokassa.getData(+req.params.order_id, +client.id);
 
     }).then((robokassa) => {
 
@@ -87,7 +88,7 @@ module.exports = function (req, res, next) {
         next();
 
     }).catch((err) => {
-	console.log('TTTTTTTTTTTTTTTTTTTTTTTTt')
+        console.log('TTTTTTTTTTTTTTTTTTTTTTTTt')
         res.status(404);
         res.render('error', {error: err});
 

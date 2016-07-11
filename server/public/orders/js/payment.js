@@ -9,9 +9,12 @@ var descriptionContainer = $('.description');
 
 window.onload = function() {
 
+    /**
+     * paymentSettings - берутся из client.payments и используются только те, у которых active = true
+     */
     paymentSettings.map((item) => {
 
-        if(item.active) {
+        if(item.active && (item.name === 'paypal' ? payments.paypal : true)) { //если имя платежной системы paypal, то мы проверяем наличие данных для формы, если их нет, то не отображаем кнопку
 
             var div = $(`<div class="col-md-3">
                 <h4 class="boxed text-center">
