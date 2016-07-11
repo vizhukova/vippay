@@ -11,7 +11,7 @@ function getDomain(){
 
 /**
 *Отправка запросов на сервер
- */
+*/
 
 class ApiActions{
 

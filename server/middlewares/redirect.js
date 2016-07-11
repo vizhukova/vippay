@@ -34,9 +34,15 @@ module.exports = function(req, res, next){
 
         res.redirect(link);
     }
-
+    /**
+     * It's a kind of magic
+     */
     else if (req.subdomain != 'auth' && !req.user.id && req.xhr) {
-        if(req.url == '/api/admin/login' || req.url == '/api/staff/login' || req.url == '/api/partner/register' || req.url == '/api/partner/login') {
+        if(req.url == '/api/admin/login' ||
+            req.url == '/api/staff/login' ||
+            req.url == '/api/partner/register' ||
+            req.url == '/api/partner/login' ||
+            req.url == '/api/check?role=client') {
             next();
         } else {
             res.status(401).send();
