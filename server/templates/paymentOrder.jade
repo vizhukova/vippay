@@ -2,7 +2,7 @@ doctype html
 html(lang='en')
   head
     meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
-    link(href="/public/orders/app.css?timestamp=#{timestamp}", rel="stylesheet")
+    link(href="/public/client/app.css?timestamp=#{timestamp}", rel="stylesheet")
   body(class=designClass)
       div
                   .panel.panel-default.col-md-10.col-md-offset-1.form-margin
@@ -18,10 +18,14 @@ html(lang='en')
                                   h2 Варианты оплаты:
                               div#container
                       .col-md-3#paymentBlock
-                          include ./payments/interkassa.jade
-                          include ./payments/yandex.jade
-                          include ./payments/liqpay.jade
-                          include ./payments/paypal.jade
+                          if payments.interkassa
+                            include ./payments/interkassa.jade
+                          if payments.yandex
+                            include ./payments/yandex.jade
+                          if payments.liqpay
+                            include ./payments/liqpay.jade
+                          if payments.paypal
+                            include ./payments/paypal.jade
                       .col-md-9.description.hide
                               .col-md-4.text-uppercase
                                   b Описание:

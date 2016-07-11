@@ -74,14 +74,14 @@
         if( data.promo_code.replace(new RegExp(" ",'g'),"").length ) {
             var id = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1);
 
-            ApiActions.get(`order/promo`, {product_id: [id], code: data.promo_code}).then(function(obj){
+            ApiActions.get(`order/promo`, {product_id: [id], code: data.promo_code}).done(function(obj){
 
                 data.discount = obj.promo.discount;
 
                 showModal();
                 setPromoMessage(data);
 
-            }).catch(function(err){
+            }).fail(function(err){
 
                 setAlert({
                    type: 'error',
@@ -210,11 +210,10 @@
     function sendOrder(data) {
 
         hideModal();
-        ApiActions.post('order', data).then((res) => {
-
+        ApiActions.post('order', data).done((res) => {
             location.href = res.redirect;
 
-        }).catch((err) => {
+        }).fail((err) => {
             setAlert({
                 title: 'Ошибка',
                 text: 'Проверьте правильность ввода данных',

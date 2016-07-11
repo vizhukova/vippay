@@ -63,8 +63,8 @@ html(lang='en')
                         input.btn.btn-danger(type='submit', value='Интеркасса')
 
                     form.liqpay(method='POST', action='https://www.liqpay.com/api/checkout')
-                        input(type='hidden', name='data', value='#{liqpay.start.time_12.data}')
-                        input(type='hidden', name='signature', value='#{liqpay.start.time_12.signature}')
+                        input(type='hidden', name='data', value='#{currentTariff.name == tariff ? liqpay[tariff]["time_" + currentTariff.duration].data : liqpay[tariff]["time_" + tariffs[tariff].prices[0].time].data}')
+                        input(type='hidden', name='signature', value='#{currentTariff.name == tariff ? liqpay[tariff]["time_" + currentTariff.duration].signature : liqpay[tariff]["time_" + tariffs[tariff].prices[0].time].signature}')
                         input(type='image', src='//static.liqpay.com/buttons/p1ru.radius.png', name='btn_text')
 
 
