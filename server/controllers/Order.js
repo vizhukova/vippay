@@ -13,7 +13,7 @@ var email = require('../utils/email');
 
 var config = require('./../config');
 // rename db to prod_db
-var prod_knex = require('knex')(config.get('db'));
+var prod_knex = require('knex')(config.get('prod_db'));
 
 /**
  * Работа с заказами

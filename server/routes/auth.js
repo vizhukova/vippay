@@ -31,7 +31,7 @@ router.get('/check', function(req, res){
         })
     }
 
-    console.log(RoboKassa.buildPaymentUrl('login', 'password', 5, 'desc', 55));
+    //console.log(RoboKassa.buildPaymentUrl('login', 'password', 5, 'desc', 55));
 
 });
 

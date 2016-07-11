@@ -87,7 +87,7 @@ module.exports = function (req, res, next) {
         next();
 
     }).catch((err) => {
-
+	console.log('TTTTTTTTTTTTTTTTTTTTTTTTt')
         res.status(404);
         res.render('error', {error: err});
 
