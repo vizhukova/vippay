@@ -27,7 +27,27 @@ var Currency = bookshelf.Model.extend({
 }, {
     get: Promise.method(function () {
         return knex.select().from('currency');
-    })
+    }),
+
+    convertTo(price, client_id, currFrom, currTo) {
+        return new Promise((resolve, reject) => {
+            knex.raw(`SELECT convert(${price}, ${client_id}, ${currFrom}, ${currTo})`).then((data) => {
+                resolve(data.rows[0].convert);
+            }).catch((err) => {
+                reject(err);
+            })
+        });
+    },
+
+    convertToBase(price, client_id, currFrom) {
+         return new Promise((resolve, reject) => {
+            knex.raw(`SELECT convert(${price}, ${client_id}, ${currFrom})`).then((data) => {
+                resolve(data.rows[0].convert);
+            }).catch((err) => {
+                reject(err);
+            })
+        });
+    }
 })
 
 module.exports = Currency;

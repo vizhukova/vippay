@@ -52,5 +52,18 @@ module.exports = {
 
         })
 
+    },
+
+    convertTo(price, client_id, currFrom, currTo) {
+        return new Promise(function (resolve, reject) {
+
+            Currency.convertTo(price,client_id, currFrom, currTo).then(function (model) {
+                resolve(model);
+
+            }).catch(function (err) {
+                reject(err);
+            })
+
+        })
     }
 };

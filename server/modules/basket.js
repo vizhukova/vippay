@@ -28,15 +28,23 @@ module.exports = function(req, res, next){
 
    }).then((b_p) => {
 
-       b_p.rows[0].product.currency_id = client.basic_currency;
-       b_p.rows.map((item) => {
+       req.basketItems = b_p.rows;
+
+       //currency_id в массиве basketItems должно соответсвовать client.basic_currency, по скольку на главной странице валюта заказов берется по 1ому элементу этого массива
+       //а в корзине все товары конвертируются в базовую валюту при выборке, currency_id и price должны соответствовать друг другу
+       return Currency.convertTo(b_p.rows[0].product.price, client.id, b_p.rows[0].product.currency_id, client.basic_currency);
+
+   }).then((data) => {
+
+        req.basketItems[0].product.currency_id = client.basic_currency;
+        req.basketItems[0].product.price = data;
+
+        req.basketItems.map((item) => {
            if (!item.product.image || item.product.image.indexOf('http://') == -1) {
                item.product.image = '/public/orders/images/noimage.png';
                delete item.product.link_download;
            }
        });
-
-       req.basketItems = b_p.rows;
 
        return Users.getBasicCurrency({user_id: client.id});
 
