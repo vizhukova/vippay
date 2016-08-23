@@ -34,10 +34,26 @@ class Auth extends React.Component {
     render() {
 
        var baseClass = 'tab';
+       var clientLogin = (location.host.split('.') || []) [0];
 
         return <div>
             <div className="container">
                 <div className="tab-container col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3 auth-form">
+
+                    <h3 className="auth-header">
+
+                        {this.state.tab === 'login' ?
+                            <div>
+                                <span>Вход партнера в</span>
+                                <span>партнерскую программу {clientLogin}</span>
+                            </div>           :
+                            <div>
+                                <span>Регистрация партнера в</span>
+                                <span>партнерской программе {clientLogin}</span>
+                            </div>
+                        }
+                    </h3>
+
                     <ul className="tabs clearfix">
 
                         <li className={this.state.tab === 'login' ? `${baseClass} active` : baseClass} data-tab="login"

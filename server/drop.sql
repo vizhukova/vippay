@@ -1,1 +1,1 @@
-DROP DATABASE vippay;
+DROP DATABASE inppay;

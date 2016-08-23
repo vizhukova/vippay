@@ -1,1 +1,23 @@
 @import '../../../common/scss/app';
+
+.auth-header {
+    line-height: 37px;
+    position: relative;
+    margin-right: 5px;
+    margin-top: 5px;
+    border-radius: 5px 5px 0 0;
+    padding: 0 16px;
+    min-width: 100px;
+    font-size: 21px;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    color: #aba095;
+
+  &>div {
+    &>span {
+      display: block;
+      text-align: center;
+    }
+  }
+}

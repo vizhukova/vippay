@@ -28,9 +28,9 @@
 
 
 #basket div.basket-picture {
-  background: url("https://pixabay.com/static/uploads/photo/2015/10/22/16/42/icon-1001596_960_720.png") no-repeat no-repeat;
+  background: url("./../images/basket.png") no-repeat no-repeat;
     text-align: center;
-    background-size: 100%;
+    background-size: contain;
     width: 40%;
     height: 50px;
     display: inline-block;
