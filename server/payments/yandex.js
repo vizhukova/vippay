@@ -7,6 +7,11 @@ var CurrencyController = require('../controllers/Currency');
 var Rate = require('./../models/Rate');
 var _ = require('lodash');
 
+var config = require('./../config');
+
+var payment = config.get('payment');
+var info_domain = config.get('info_domain');
+
 /**
  * Оплата через ЯндексДеньги
  */
@@ -36,7 +41,7 @@ class YandexMoney {
                 payment_data['need-fio'] = true;
                 payment_data['need-email'] = true;
                 payment_data.action = 'https://money.yandex.ru/quickpay/confirm.xml';
-                payment_data.successURL = `http://payment.vippay.info/success`;
+                payment_data.successURL = `http://payment.${info_domain}/success`;
 
                 return UserController.getById(user_id);
 
@@ -87,7 +92,7 @@ class YandexMoney {
                 payment_data.action = 'https://money.yandex.ru/quickpay/confirm.xml';
                 payment_data.receiver = _.findWhere(user.payment, {name: 'yandex'}).fields.receiver;
                 payment_data.sum = 2500;
-                payment_data.successURL = `http://payment.vippay.info/success`;
+                payment_data.successURL = `http://payment.${info_domain}/success`;
 
                 resolve(payment_data);
 

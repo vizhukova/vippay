@@ -7,6 +7,11 @@ const UserController = require('../controllers/User');
 const CurrencyController = require('../controllers/Currency');
 const paypal = require('paypal-rest-sdk');
 
+var config = require('./../config');
+
+var payment = config.get('payment');
+var info_domain = config.get('info_domain');
+
 // paypal.configure({
 //     'mode': 'sandbox', //sandbox or live
 //     'client_id': 'AUDoe83NmKxC8byoJA0dn5bgZiyMXP9aJ8VI6kpH8ipEHkpZiDhiOhSWXlR19QfA0pJa-n0TuL231K11',
@@ -62,8 +67,8 @@ class PayPal {
                     };
 
                     payment_data.redirect_urls = {
-                        "return_url": "http://payment.vippay.info/api/payments/paypal/" + order_id + "?action=success",
-                        "cancel_url": "http://payment.vippay.info/api/payments/paypal/" + order_id + "?action=cancel"
+                        "return_url": `http://payment.${info_domain}/api/payments/paypal/${order_id}?action=success`,
+                        "cancel_url": `http://payment.${info_domain}/api/payments/paypal/${order_id}?action=cancel`
                     };
 
                     payment_data.transactions = createTransaction(order, cur);

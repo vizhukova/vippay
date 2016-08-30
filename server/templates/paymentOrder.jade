@@ -37,7 +37,7 @@ html(lang='en')
       input.form-control(type='hidden', name='paymentSettings', value='#{JSON.stringify([paymentSettings])}')
       input.form-control(type='hidden', name='order', value='#{JSON.stringify([order])}')
 
-      script(src="/public/orders/vendor.js?timestamp=#{timestamp}")
+      script(src="/public/client/vendor.js?timestamp=#{timestamp}")
       script(src="/public/ajax.js")
       script(src="/public/orders/js/paymentSettings.js")
       script(src="/public/orders/js/payment.js")

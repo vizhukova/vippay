@@ -9,6 +9,10 @@ var _ = require('lodash');
 var liqpay_module = require('./liqpay_lib');
 var tariffSettings = require('./../modules/tariffSettings');
 
+var config = require('./../config');
+
+var payment = config.get('payment');
+var info_domain = config.get('info_domain');
 
 /**
  * Оплата через Liqpay
@@ -38,10 +42,10 @@ class LiqPay {
                 payment_data.version = 3;
                 payment_data.order_id = order_id;
                 payment_data.action = 'pay';
-                payment_data.currency = 'RUB';
+                payment_data.currency = payment.liqpay.currency;
                 payment_data.description = products_name.join(' + ');
-                payment_data.server_url = 'http://payment.vippay.info/api/payments/liqpay/' + order_id;
-                payment_data.result_url = `http://payment.vippay.info/success`;
+                payment_data.server_url = `http://payment.${info_domain}/api/payments/liqpay/${order_id}`;
+                payment_data.result_url = `http://payment.${info_domain}/success`;
 
                 return UserController.getById(user_id);
 
@@ -84,12 +88,12 @@ class LiqPay {
                 payment_data.version = 3;
                 payment_data.order_id = `${user_id}-${tarrif_name}-${tarrif_duration}-`;
                 payment_data.action = 'pay';
-                payment_data.currency = 'RUB';
+                payment_data.currency = payment.liqpay.currency;
                 payment_data.description = tarrif_name;
-                payment_data.server_url = 'http://payment.vippay.info/api/payments/liqpay/' + `${tarrif_name}-${tarrif_duration}-${user_id}`;
-                payment_data.result_url = `http://payment.vippay.info/success`;
+                payment_data.server_url = `http://payment.${info_domain}/api/payments/liqpay/${tarrif_name}-${tarrif_duration}-${user_id}`;
+                payment_data.result_url = `http://payment.${info_domain}/success`;
                 payment_data.amount = prices.price;
-                payment_data.public_key = 'i71763863612';
+                payment_data.public_key = payment.liqpay.public_key;
 
                 var data = liqpay.data_for_form(payment_data);
                 resolve(data);
