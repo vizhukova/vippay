@@ -3,6 +3,20 @@
   "domain": "vippay.loc",
   "auth_domain": "auth.vippay.loc",
   "designClass": "design1",
+  "info_domain": "vippay.info",
+  "payment": {
+    "interkassa": {
+      "ik_co_id": "57064bad3d1eaf67478b4570",
+      "ik_cur": "UAH"
+    },
+    "liqpay": {
+      "currency": "RUB",
+      "public_key": "i71763863612"
+    },
+    "paypal": {},
+    "robokassa": {},
+    "yandex": {}
+  },
   "db": {
     "client": "postgresql",
     "debug": true,
