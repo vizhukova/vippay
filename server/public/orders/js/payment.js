@@ -16,7 +16,7 @@ window.onload = function() {
 
         if(item.active && (item.name === 'paypal' ? payments.paypal : true)) { //если имя платежной системы paypal, то мы проверяем наличие данных для формы, если их нет, то не отображаем кнопку
 
-            var div = $(`<li class="col-md-3">
+            var div = $(`<li role="presentation">
                    ${ paymentTranslate[item.name] }
             </li>`);
 
