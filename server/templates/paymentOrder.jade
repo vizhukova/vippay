@@ -8,10 +8,9 @@ html(lang='en')
   body(class=designClass)
       div
                   .panel.panel-default.col-md-10.col-md-offset-1.form-margin
-                      .panel-body
+                      div
                           h1.text-danger.title
                               | Оплата заказа
-                      div
                           .content-step.row
                               .order-num.title.col-md-12
                                   h3 Заказ № #{order.id}
@@ -19,19 +18,19 @@ html(lang='en')
                                   h2 Варианты оплаты:
                               .col-md-12
                                   ul#container.nav.nav-pills.col-md-12
-                      .col-md-9.description.hide
-                          .col-md-2.text-uppercase
-                              b Описание:
-                          .col-md-8#description
-                      .col-md-3#paymentBlock
-                          if payments.interkassa
-                            include ./payments/interkassa.jade
-                          if payments.yandex
-                            include ./payments/yandex.jade
-                          if payments.liqpay
-                            include ./payments/liqpay.jade
-                          if payments.paypal
-                            include ./payments/paypal.jade
+                              .col-md-9.description.hide
+                                  .col-md-2.text-uppercase
+                                      b Описание:
+                                  .col-md-8#description
+                              .col-md-4#paymentBlock
+                                  if payments.interkassa
+                                    include ./payments/interkassa.jade
+                                  if payments.yandex
+                                    include ./payments/yandex.jade
+                                  if payments.liqpay
+                                    include ./payments/liqpay.jade
+                                  if payments.paypal
+                                    include ./payments/paypal.jade
 
 
       input.form-control(type='hidden', name='payments', value='#{JSON.stringify([payments])}')
