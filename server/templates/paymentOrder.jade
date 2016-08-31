@@ -18,10 +18,7 @@ html(lang='en')
                                   h2 Варианты оплаты:
                               .col-md-12
                                   ul#container.nav.nav-pills.col-md-12
-                              .col-md-9.description.hide
-                                  .col-md-2.text-uppercase
-                                      b Описание:
-                                  .col-md-8#description
+                              .col-md-9.description.hide#description
                               .col-md-4#paymentBlock
                                   if payments.interkassa
                                     include ./payments/interkassa.jade
