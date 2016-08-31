@@ -55,8 +55,7 @@ module.exports = function(req, res, next){
 
    }).then((currencies) => {
 
-       var currency = _.findWhere(currencies, {id: user.basic_currency});
-       req.currency = currency;
+       req.currency = _.findWhere(currencies, {id: user.basic_currency});
 
        next();
 

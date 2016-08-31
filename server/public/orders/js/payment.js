@@ -16,11 +16,9 @@ window.onload = function() {
 
         if(item.active && (item.name === 'paypal' ? payments.paypal : true)) { //если имя платежной системы paypal, то мы проверяем наличие данных для формы, если их нет, то не отображаем кнопку
 
-            var div = $(`<div class="col-md-3">
-                <h4 class="boxed text-center">
-                    ${ paymentTranslate[item.name] }
-                </h4>
-            </div>`);
+            var div = $(`<li class="col-md-3">
+                   ${ paymentTranslate[item.name] }
+            </li>`);
 
             div.on('click', function(e) {
 
@@ -35,6 +33,10 @@ window.onload = function() {
                     hidePaymentSettingsItems(item.name);
                 }
 
+                $('.nav-pills').removeClass('active');
+
+                $(this).addClass('active');
+
                 var id = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1);
                     ApiActions.put(`order/payments/${id}`, {method: item.name, id: id});
 
@@ -48,7 +50,9 @@ window.onload = function() {
             container.append(div);
         }
 
-    })
+    });
+
+    $('.nav-pills').first().addClass('active');
 
 };
 
