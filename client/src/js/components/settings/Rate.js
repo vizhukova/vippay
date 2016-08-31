@@ -146,59 +146,89 @@ class Rate extends React.Component {
                                         </div>
                             })}
                         </div>
-                        <div className="col-md-6">
-                            {this.state.currencies.map((item, index) => {
 
-                                var array = _.filter(self.state.rate, (i) => i.from == item.id);
 
-                                return <div key={index}>
-                                    <div className="boxed row">
-                                    <div className="col-md-4 text-right">
-                                        <b className="input-label">{`1 ${item.name} = `}</b>
-                                    </div>
-                                    <div className="row">
-                                        {array.map((rate, j) => {
-                                            var currency = _.findWhere(self.state.currencies, {id: rate.to})
-                                            return <div className="col-md-8 pull-right">
-                                                    <div className="col-md-9">
-                                                        <RateItem key={counter++}
-                                                             rate={rate}
-                                                             onChange={self.onChange}
-                                                             onClick={self.onClick}/></div>
-                                                    <div className="input-label col-md-3">{currency.name}</div>
-                                                </div>
-                                        })}
-                                    </div>
-                                </div>
-                               </div>
-                            })
-                            }
+            {this.state.currencies.splice(0, 1).map((item, index) => {
+
+                var array = _.filter(self.state.rate, (i) => i.from == item.id);
+
+                return <div key={index}>
+                    <div className="boxed">
+                        <div className="col-md-4 text-right">
+                            <b className="input-label">{`1 ${item.name} = `}</b>
                         </div>
-                         <div className="col-md-6 boxed">
-                             <h4 className="text-center"><b>Банковский курс</b></h4>
-                             {
-                                 uniqueBankRate.map((rate, index) => {
+                        <div className="row">
+                            {array.map((rate, j) => {
+                                var currency = _.findWhere(self.state.currencies, {id: rate.to})
+                                return <div className="col-md-8 pull-right">
+                                    <div className="col-md-9">
+                                        <RateItem key={counter++}
+                                                  rate={rate}
+                                                  onChange={self.onChange}
+                                                  onClick={self.onClick}/></div>
+                                    <div className="input-label col-md-3">{currency.name}</div>
+                                </div>
+                            })}
+                        </div>
+                    </div>
+                </div>
+            })
+            }
 
+
+                        <div className="col-md-6 boxed">
+                            <h4 className="text-center"><b>Банковский курс</b></h4>
+                            {
+                                uniqueBankRate.map((rate, index) => {
+            
                                     var rates = _.filter(self.state.bankRate, (item) => item.from == rate.from);
                                     var currencyFrom = _.findWhere(self.state.currencies, {id: rate.from}) || {};
-
-                                        return <div className="row form-group" key={index}>
-                                             <div className="col-md-6 text-right">
-                                                <b className="input-label">{`1 ${currencyFrom.name} = `}</b>
-                                            </div>
-                                            <div className="col-md-3">
-                                                {rates.map((r, j) => {
-                                                    var currency = _.findWhere(self.state.currencies, {id: r.to}) || {};
-                                                   return <div key={index*10 + j}>
-                                                               <div className="col-md-6">{r.result}</div>
-                                                               <div className="col-md-6 text-right">{currency.name}</div>
-                                                           </div>
-                                                })}
-                                            </div>
+            
+                                    return <div className="row form-group" key={index}>
+                                        <div className="col-md-6 text-right">
+                                            <b className="input-label">{`1 ${currencyFrom.name} = `}</b>
                                         </div>
+                                        <div className="col-md-3">
+                                            {rates.map((r, j) => {
+                                                var currency = _.findWhere(self.state.currencies, {id: r.to}) || {};
+                                                return <div key={index*10 + j}>
+                                                    <div className="col-md-6">{r.result}</div>
+                                                    <div className="col-md-6 text-right">{currency.name}</div>
+                                                </div>
+                                            })}
+                                        </div>
+                                    </div>
                                 })
-                             }
-                         </div>
+                            }
+                        </div>
+            
+                        {this.state.currencies.splice(1, this.state.currencies.length - 1).map((item, index) => {
+
+                            var array = _.filter(self.state.rate, (i) => i.from == item.id);
+
+                            return <div key={index}>
+                                <div className="boxed">
+                                <div className="col-md-4 text-right">
+                                    <b className="input-label">{`1 ${item.name} = `}</b>
+                                </div>
+                                <div className="row">
+                                    {array.map((rate, j) => {
+                                        var currency = _.findWhere(self.state.currencies, {id: rate.to})
+                                        return <div className="col-md-8 pull-right">
+                                                <div className="col-md-9">
+                                                    <RateItem key={counter++}
+                                                         rate={rate}
+                                                         onChange={self.onChange}
+                                                         onClick={self.onClick}/></div>
+                                                <div className="input-label col-md-3">{currency.name}</div>
+                                            </div>
+                                    })}
+                                </div>
+                            </div>
+                           </div>
+                        })
+                        }
+                         
 
                     <div className="col-md-12">
                         <button className="btn btn-success pull-left" onClick={this.save} tabIndex={Math.pow(res.length, 2)}>Сохранить</button>
