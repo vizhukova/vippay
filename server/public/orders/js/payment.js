@@ -33,7 +33,7 @@ window.onload = function() {
                     hidePaymentSettingsItems(item.name);
                 }
 
-                $('.nav-pills').removeClass('active');
+                $('.nav-pills > li').removeClass('active');
 
                 $(this).addClass('active');
 
