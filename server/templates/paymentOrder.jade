@@ -9,13 +9,12 @@ html(lang='en')
       div
                   .panel.panel-default.col-md-10.col-md-offset-1.form-margin
                       .panel-body
-                          .text-danger.title
+                          h1.text-danger.title
                               | Оплата заказа
                       div
                           .content-step.row
                               .order-num.title.col-md-12
-                                  b ID заказа:
-                                  | #{order.id}
+                                  h3 Заказ № #{order.id}
                               .col-md-12
                                   h2 Варианты оплаты:
                               .col-md-12
@@ -23,7 +22,6 @@ html(lang='en')
                       .col-md-9.description.hide
                           .col-md-2.text-uppercase
                               b Описание:
-                              span
                           .col-md-8#description
                       .col-md-3#paymentBlock
                           if payments.interkassa
