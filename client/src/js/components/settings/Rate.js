@@ -134,7 +134,7 @@ class Rate extends React.Component {
         var res = [];
         var counter = 0;
         var uniqueBankRate = _.unique(self.state.bankRate, 'from');
-        return  <div className="row">
+        return  <div>
 
                         <div className="boxed">
                              <div className="table-head">
@@ -156,7 +156,7 @@ class Rate extends React.Component {
                                     <div className="col-md-4 text-right">
                                         <b className="input-label">{`1 ${item.name} = `}</b>
                                     </div>
-                                    <div>
+                                    <div className="row">
                                         {array.map((rate, j) => {
                                             var currency = _.findWhere(self.state.currencies, {id: rate.to})
                                             return <div className="col-md-8 pull-right">
