@@ -134,7 +134,7 @@ class Rate extends React.Component {
         var res = [];
         var counter = 0;
         var uniqueBankRate = _.unique(self.state.bankRate, 'from');
-        return  <div>
+        return  <div className="row">
 
                         <div className="boxed">
                              <div className="table-head">
@@ -151,7 +151,7 @@ class Rate extends React.Component {
 
                                 var array = _.filter(self.state.rate, (i) => i.from == item.id);
 
-                                return <div>
+                                return <div key={index}>
                                     <div className="boxed row">
                                     <div className="col-md-4 text-right">
                                         <b className="input-label">{`1 ${item.name} = `}</b>
