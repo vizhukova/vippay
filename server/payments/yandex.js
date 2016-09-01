@@ -63,7 +63,15 @@ class YandexMoney {
 
             }).then((data) => {
 
-                payment_data.sum = order.total_price_base_rate * data.result;
+                var product = order.product[0];
+
+                if(product.currency_id !== 4){
+                    payment_data.sum = order.total_price_base_rate * data.result;
+                } else {
+                    payment_data.sum = order.total_price_order_rate * data.result;
+                }
+
+
                 /*order.product.map((p) => payment_data.sum += +p.price);
                 payment_data.sum *= data.result;*/
 
