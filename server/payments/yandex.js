@@ -32,7 +32,7 @@ class YandexMoney {
             OrderController.getById(order_id).then(function (o) {
 
                 order = o;
-                var products_name = order.product.reduce((prev, curr) => `${prev.name}+${curr.name}`)
+                var products_name = order.product.reduce((prev, curr) => `${prev.name}+${curr.name}`);
 
                 payment_data.formcomment = products_name;
                 payment_data.label = order_id;
@@ -100,7 +100,7 @@ class YandexMoney {
                 payment_data['need-fio'] = true;
                 payment_data['need-email'] = true;
                 payment_data.action = 'https://money.yandex.ru/quickpay/confirm.xml';
-                payment_data.receiver = _.findWhere(user.payment, {name: 'yandex'}).fields.receiver;
+                payment_data.receiver = payment.yandex.receiver;
                 payment_data.sum = 2500;
                 payment_data.successURL = `http://payment.${info_domain}/success`;
 

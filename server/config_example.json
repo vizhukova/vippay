@@ -15,7 +15,9 @@
     },
     "paypal": {},
     "robokassa": {},
-    "yandex": {}
+    "yandex": {
+      "receiver": "410012638338487"
+    }
   },
   "db": {
     "client": "postgresql",
