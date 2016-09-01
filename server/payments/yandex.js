@@ -51,7 +51,7 @@ class YandexMoney {
                 
                 var product = order.product[0];
 
-                if(product.currency_id !== 4){
+                if(product.currency_id !== 4 && order.basic_currency_id !== 4){
                     return Rate.getResult({
                         client_id: order.client_id,
                         from: order.basic_currency_id,
