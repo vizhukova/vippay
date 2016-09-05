@@ -13,9 +13,9 @@ class Basket extends React.Component {
     }
 
     render(){
-        var css = <a href="http://cdn.vippay.info/basket.css">http://cdn.vippay.info/basket.css</a>;
+        var css = <a href="http://cdn.inpay.info/basket.css">http://cdn.inpay.info/basket.css</a>;
 
-        var js = <a href="http://cdn.vippay.info/basket.js">http://cdn.vippay.info/basket.js</a>;
+        var js = <a href="http://cdn.inpay.info/basket.js">http://cdn.inpay.info/basket.js</a>;
 
         var html = `<div id="basket" data-domain="${this.state.domain}"></div>`;
 
