@@ -20,8 +20,10 @@ router.post('/staff/login', function (req, res, next) {
             res.cookie('token', token, {maxAge: 9000000000, domain: `.${config.get('domain')}`});
             res.send({user: staff[0], redirect: `http://${req.hostname}`});
         } else {
-            if(! err.constraint) err.constraint = 'check_data_staff';
-                next(err);
+
+            let error = new Error('Проверьте правильность введённых данных');
+            next(error);
+
         }
     }).catch((err) => {
         if(! err.constraint) err.constraint = 'check_data_staff';
