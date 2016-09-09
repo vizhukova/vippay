@@ -33,12 +33,12 @@
 }
 
 .btn {
-  @include button-color(#82D85B);
+  @include button-color(#8CC578);
   @include button-size();
 }
 
 .btn-default{
-  @include button-color(#82D85B);
+  @include button-color(#8CC578);
   @include button-size();
 }
 

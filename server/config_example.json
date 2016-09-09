@@ -2,9 +2,9 @@
   "port": 3050,
   "domain": "vippay.loc",
   "auth_domain": "auth.vippay.loc",
-  "designClass": "design1",
-  "info_domain": "vippay.info",
-  "email": "",
+  "designClass": "design2",
+  "trialPeriod": 5,
+  "email": "INPAY",
   "payment": {
     "interkassa": {
       "ik_co_id": "57064bad3d1eaf67478b4570",
@@ -16,18 +16,31 @@
     },
     "paypal": {},
     "robokassa": {},
-    "yandex": {
-      "receiver": "410012638338487"
-    }
+    "yandex": {}
   },
   "db": {
     "client": "postgresql",
     "debug": true,
     "connection": {
-      "host"     : "192.168.1.48",
-      "user"     : "vippay",
-      "password" : "25801379",
-      "database" : "vippay",
+      "host"     : "localhost",
+      "user"     : "inpay",
+      "password" : "2580",
+      "database" : "inpay",
+      "charset"  : "utf8"
+    },
+    "migrations": {
+      "tableName": "knex_migrations"
+    }
+  },
+
+  "prod_db": {
+    "client": "postgresql",
+    "debug": true,
+    "connection": {
+      "host"     : "localhost",
+      "user"     : "inpay",
+      "password" : "2580",
+      "database" : "inpay",
       "charset"  : "utf8"
     },
     "migrations": {
