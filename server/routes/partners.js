@@ -5,9 +5,9 @@ var PartnerController = require('../controllers/Partner');
 var PartnerClientsController = require('../controllers/PartnerClients');
 var UserController = require('../controllers/User');
 var _ = require('lodash');
-var email = require('../utils/email');
+// var email = require('../utils/email');
 var payments = require('./../payment_systems/partner_payment_systems');
-
+var sendJadeLetter = require('./../modules/sentJadeLetter');
 
 router.post('/partner/register', function (req, res, next) {
 
@@ -45,7 +45,8 @@ router.post('/partner/register', function (req, res, next) {
         partner = u;
 
         var link = `http://${req.clientObj.login}.${req.postdomain}/${partner.modelData.login}`;
-        email.send(partner.modelData.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${link}`);
+        sendJadeLetter.registration(partner.modelData.name, partner.modelData.email, link);
+        // email.send(partner.modelData.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${link}`);
 
         return PartnerController.setFee({
             client_id: client_id,

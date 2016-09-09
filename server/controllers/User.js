@@ -5,7 +5,7 @@ var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 var _ = require('lodash');
 var moment = require('moment');
-
+var trialPeriod = require('../config').get('trialPeriod');
 
 /**
  * Работа с пользователями
@@ -28,7 +28,7 @@ module.exports = {
                 }
                 var token = jwt.encode({id: model.id, role: 'client'}, 'secret');
 
-                var time = moment().add(3, 'day');
+                var time = moment().add(trialPeriod, 'day');
 
                 return Messages.add({
                     user_id: model.attributes.id,

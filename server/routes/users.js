@@ -6,12 +6,15 @@ var PartnerController = require('../controllers/Partner');
 var RateController = require('../controllers/Rate');
 var config = require('../config');
 var payments = require('../payment_systems/payment_systems');
-var email = require('../utils/email');
+// var email = require('../utils/email');
 var _ = require('lodash');
 var passport = require('passport');
 var getTariff = require('./../middlewares/tariffs/getTariff');
 var checkTrialTariff = require('./../middlewares/tariffs/checkTrialTariff');
 var checkBaseTariff = require('./../middlewares/tariffs/checkBaseTariff');
+var sendJadeLetter = require('./../modules/sentJadeLetter');
+
+var jade = require('jade');
 
 router.post('/client/register', function (req, res, next) {
     Object.keys(req.body).map((k) => {
@@ -39,7 +42,8 @@ router.post('/client/register', function (req, res, next) {
     }).then(function (userObj) {
 
         user = userObj;
-        email.send(userObj.modelData.email, 'Успешная регистрация', `Спасибо за регистрацию. Ссылка на ваш аккаунт: ${user.domain}`);
+
+        sendJadeLetter.registration(userObj.modelData.name, userObj.modelData.email, userObj.domain);
         return RateController.setDefault(userObj.modelData.id)
 
     }).then((rate) => {
@@ -137,7 +141,9 @@ router.put('/user/password', (req, res, next) => {
         .then(function (data) {
 
             var user = data[0];
-            email.send(user.email, 'Успешная установка нового пароля', `Ваш новый пароль: ${user.password}`);
+
+            sendJadeLetter.setNewPassword(user.name, user.email, user.password);
+            // email.send(user.email, 'Успешная установка нового пароля', `Ваш новый пароль: ${user.password}`);
             res.send(data)
 
         }).catch(function (err) {

@@ -3,6 +3,7 @@ var _ = require('lodash');
 var moment = require('moment');
 var Users = require('./../models/Users');
 var email = require('./../utils/email');
+var trialPeriod = require('../config').get('trialPeriod');
 
 var currencies;
 var convertResult;
@@ -30,7 +31,7 @@ module.exports = function () {
             if(! user.tariff_name) {
 
                 var registered_day = moment(user.created_at);
-                var isEnded = registered_day.diff(moment(), 'days') == -3;
+                var isEnded = registered_day.diff(moment(), 'days') == -1 * (trialPeriod);
 
                 if(isEnded) {
                     endOfTrialTariff.push(user);

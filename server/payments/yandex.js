@@ -10,7 +10,7 @@ var _ = require('lodash');
 var config = require('./../config');
 
 var payment = config.get('payment');
-var info_domain = config.get('info_domain');
+var info_domain = config.get('domain');
 
 /**
  * Оплата через ЯндексДеньги

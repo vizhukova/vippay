@@ -12,7 +12,7 @@ var FeeController = require('../controllers/Fee');
 var UserController = require('../controllers/User');
 var StaffController = require('../controllers/Staff');
 var AclController = require('../controllers/Acl');
-
+var sendJadeLetter = require('./../modules/sentJadeLetter');
 
 //var checkTrialTariff = require('./../middlewares/tariffs/checkTrialTariff');
 //var checkBaseTariff = require('./../middlewares/tariffs/checkBaseTariff');
@@ -256,9 +256,11 @@ router.post('/staff', function(req, res, next) {
         })
     }).then((routes) => {
         var domain = `http://${req.subdomain}.${req.postdomain}`;
-        email.send(staff.email, 'Данные для входа', `Ссылка для входа на сайт: ${domain}.
-                                                                Ваш логин: ${staff.login}.
-                                                                Ваш пароль: ${staff.password}`);
+
+        sendJadeLetter.staffRegister(staff.login, domain, staff.password, staff.email);
+        // email.send(staff.email, 'Данные для входа', `Ссылка для входа на сайт: ${domain}.
+        //                                                         Ваш логин: ${staff.login}.
+        //                                                         Ваш пароль: ${staff.password}`);
         res.send(staff);
     }).catch((err) => {
         if(err.code == 23502) err.constraint = 'check_this_data';
@@ -295,9 +297,10 @@ router.put('/staff/:id', function(req, res, next) {
 
     }).then((r) => {
          var domain = `http://${req.subdomain}.${req.postdomain}`;
-         email.send(staff.email, 'Данные для входа', `Ссылка для входа на сайт: ${domain}.
-                                                                Ваш логин: ${staff.login}.
-                                                                Ваш пароль: ${staff.password}`);
+         sendJadeLetter.staffRegister(staff.login, domain, staff.password, staff.email);
+         // email.send(staff.email, 'Данные для входа', `Ссылка для входа на сайт: ${domain}.
+         //                                                        Ваш логин: ${staff.login}.
+         //                                                        Ваш пароль: ${staff.password}`);
         res.send(staff[0]);
     }).catch((err) => {
         if(err.code == 23502) err.constraint = 'check_this_data';

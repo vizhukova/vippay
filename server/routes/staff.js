@@ -21,7 +21,7 @@ router.post('/staff/login', function (req, res, next) {
             res.send({user: staff[0], redirect: `http://${req.hostname}`});
         } else {
 
-            let error = new Error('Проверьте правильность введённых данных');
+            var error = new Error('Проверьте правильность введённых данных');
             next(error);
 
         }

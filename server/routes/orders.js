@@ -8,9 +8,10 @@ var UserController = require('../controllers/User');
 var PartnerClientsController = require('../controllers/PartnerClients');
 var PartnerController = require('../controllers/Partner');
 var convert = require('./../modules/convert');
-var email = require('../utils/email');
+// var email = require('../utils/email');
 var Promise = require('bluebird');
 var _ = require('lodash');
+var sendJadeLetter = require('./../modules/sentJadeLetter');
 
 router.get('/orders', function(req, res, next) {
 
@@ -233,15 +234,16 @@ router.post('/order', function(req, res, next) {
     }).then((s) => {
 
         var redirect;
+        var linkToPay = `http://${req.clientObj.login}.${req.postdomain}/order/payment/${order.id}`;
 
-         email.send(delivery.email, 'Заказ оформлен', `Ваш заказ №${order.id} успешно оформлен. Ссылка на оплату:
-         http://${req.clientObj.login}.${req.postdomain}/order/payment/${order.id}`);
+        sendJadeLetter.pendingOrder(delivery.email, order.id, linkToPay);
 
         if(order.total_price_order_rate == 0)  {
 
             redirect = 'http://img.ezinearticles.com/blog/payed-invoice.jpg';
 
-            email.send(delivery.email, 'Заказ оплачен', `Ваш заказ №${order.id} успешно оплачен.`);
+            sendJadeLetter.payedOrder(delivery.email, order.id);
+            // email.send(delivery.email, 'Заказ оплачен', `Ваш заказ №${order.id} успешно оплачен.`);
 
         }
         else {

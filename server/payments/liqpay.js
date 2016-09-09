@@ -12,7 +12,7 @@ var tariffSettings = require('./../modules/tariffSettings');
 var config = require('./../config');
 
 var payment = config.get('payment');
-var info_domain = config.get('info_domain');
+var info_domain = config.get('domain');
 
 /**
  * Оплата через Liqpay

@@ -107,7 +107,7 @@ class SettingsStore {
         var end_tariff;
 
         if(tariff.tariff_date) end_tariff = moment(tariff.tariff_date).add(tariff.tariff_duration, 'months');
-        else end_tariff = moment(tariff.created_at).add(3, 'days');
+        else end_tariff = moment(tariff.created_at).add(5, 'days');
         this.isActiveTariff = moment.min(today, end_tariff) == today && tariff.tariff_payed;
         //console.log('SettingStore isActiveTariff', this.isActiveTariff)
     }

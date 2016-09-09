@@ -9,15 +9,16 @@ var transporter = nodemailer.createTransport(sendmailTransport({}));
  * @type {{send: (function(*=, *=, *=))}}
  */
 
-let email = config.get('email');
+var email = config.get('email');
 
 module.exports = {
-    send(to, subject, text){
+    send(to, subject, html, alternatives){
         transporter.sendMail({
             from: email,
             to: to,
             subject: subject,
-            text: text
+            html: html,
+            alternatives: alternatives
         }, function(err, info){
             console.log(err);
             console.log(info);

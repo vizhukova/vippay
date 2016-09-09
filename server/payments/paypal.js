@@ -10,7 +10,7 @@ const paypal = require('paypal-rest-sdk');
 var config = require('./../config');
 
 var payment = config.get('payment');
-var info_domain = config.get('info_domain');
+var info_domain = config.get('domain');
 
 // paypal.configure({
 //     'mode': 'sandbox', //sandbox or live
