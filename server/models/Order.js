@@ -5,8 +5,14 @@ var knex = require('../knex_connection');
 var _ = require('lodash');
 
 function replacePrice(orders) {
-    orders.map((order) => {
-        order.product.price = +parseFloat(order.product.price)
+     orders.map((order) => {
+        order.product.price = +parseFloat(order.product.price);
+        order.product_price_order_rate = +parseFloat(order.product_price_order_rate);
+        order.product_price_base_rate = +parseFloat(order.product_price_base_rate);
+        order.total_price_order_rate = +parseFloat(order.total_price_order_rate);
+        order.total_price_base_rate = +parseFloat(order.total_price_base_rate);
+        order.delivery_price_order_rate = +parseFloat(order.delivery_price_order_rate);
+        order.delivery_price_base_rate = +parseFloat(order.delivery_price_base_rate);
     });
     return orders;
 }

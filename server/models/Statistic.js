@@ -53,7 +53,7 @@ var Order = bookshelf.Model.extend({
               (SELECT COUNT(id) as count_start_order from statistics WHERE client_id = ${client_id} AND action = 'start_order'),
               (SELECT COUNT(id) as count_pending_order from statistics WHERE client_id = ${client_id} AND action = 'pending_order'),
               (SELECT COUNT(id) as count_complete_order from statistics WHERE client_id = ${client_id} AND action = 'complete_order'),
-              (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_pending_order FROM orders WHERE step = 'pending' AND client_id = ${client_id}),
+              (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_pending_order FROM orders WHERE client_id = ${client_id}),
               (SELECT SUM( convertToBaseCurrency((orders.total_price_order_rate)::NUMERIC, ${client_id}, (orders.product->0->>'currency_id')::INTEGER) ) AS sum_complete_order FROM orders WHERE step = 'complete' AND client_id = ${client_id}),
               (SELECT SUM(converttobasecurrency(fee_added, ${client_id}, 2)::NUMERIC) as sum_fee_added from fee WHERE client_id = ${client_id}),
               (SELECT SUM(converttobasecurrency(fee_payed, ${client_id}, 2)::NUMERIC) as sum_fee_payed from fee WHERE client_id = ${client_id})

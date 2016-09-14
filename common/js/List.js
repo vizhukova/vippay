@@ -52,6 +52,7 @@ class List extends React.Component {
     }
 
     sort(e) {
+
         var key = e.target.dataset.name;
         if (!key) return;
         var sortBy = e.target.dataset.name.split('.');
