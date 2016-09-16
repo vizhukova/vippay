@@ -23,7 +23,7 @@ module.exports = {
                 from: email,
                 to: to,
                 subject: subject,
-                text: alternatives,
+                text: alternatives[0],
                 alternatives: alternatives
             }, function(err, info){
                 console.log(err);
