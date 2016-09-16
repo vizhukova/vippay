@@ -12,16 +12,39 @@ var transporter = nodemailer.createTransport(sendmailTransport({}));
 var email = config.get('email');
 
 module.exports = {
+
     send(to, subject, html, alternatives){
-        transporter.sendMail({
-            from: email,
-            to: to,
-            subject: subject,
-            html: html,
-            alternatives: alternatives
-        }, function(err, info){
-            console.log(err);
-            console.log(info);
-        });
+
+        var index = to.indexOf('@gmail');
+
+        if(index !== -1) {
+
+            transporter.sendMail({
+                from: email,
+                to: to,
+                subject: subject,
+                text: alternatives,
+                alternatives: alternatives
+            }, function(err, info){
+                console.log(err);
+                console.log(info);
+            });
+
+        } else {
+
+             transporter.sendMail({
+                from: email,
+                to: to,
+                subject: subject,
+                html: html,
+                alternatives: alternatives
+            }, function(err, info){
+                console.log(err);
+                console.log(info);
+            });
+
+        }
+
     }
+
 };
