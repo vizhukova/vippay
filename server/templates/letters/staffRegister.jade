@@ -1,5 +1,6 @@
 html
   head
+    meta(http-equiv='Content-Type', content='text/html')
     style.
       .content, .header {
       padding: 0 40px;
@@ -45,9 +46,9 @@ html
     p.header INPAY
     .content
       h4 Данные для входа на сайт #{domain} для сотрудника:
-      p Ссылка для входа на сайт: ${userUrl}.
-      p Ваш логин: ${userLogin}.
-      p Ваш логин: ${userPassword}.
+      p Ссылка для входа на сайт: #{userUrl}.
+      p Ваш логин: #{userLogin}.
+      p Ваш логин: #{userPassword}.
     .sign
       p С уважением,
       p команда INPAY
